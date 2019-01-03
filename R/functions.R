@@ -1254,12 +1254,12 @@ read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', st
 }
 
 
-#' A Function
+#' a function gsubing stuff related to srhoads jl desktop comp path
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gsub_NSRHOADS()
 gsub_NSRHOADS <- function(x) x %>% gsub("[^_|[:alnum:]]", "", .) %>% gsub("NSRHOADSGitHubdatafilesunzip|srhoads", "", ., ignore.case=T, perl=T)
 
 
@@ -4890,7 +4890,7 @@ tokdtmfunc <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' cvglmnet()
 cvglmnet <- function(x = dtm_all, y = d$y, 
                      family = 'binomial', alpha = 0,
                      type.measure = "auc", nfolds = 5,
