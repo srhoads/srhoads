@@ -10,5 +10,5 @@ recode_race2(vec, recode_list = race_list, extra = NULL)
 This function allows you to
 }
 \examples{
-()
+recode_race2()
 }

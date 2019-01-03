@@ -11,5 +11,5 @@ cvglmnet(x = dtm_all, y = d$y, family = "binomial", alpha = 0,
 This function allows you to
 }
 \examples{
-()
+cvglmnet()
 }

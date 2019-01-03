@@ -7,9 +7,14 @@
 recode_race_j(vec, recode_list = race_list, extra = c("nothing",
   "multirace", "NA"))
 }
+\arguments{
+\item{recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
+
+\item{extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
+}
 \description{
 This function allows you to
 }
 \examples{
-()
+recode_race_j()
 }

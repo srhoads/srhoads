@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gsub_NSRHOADS}
 \alias{gsub_NSRHOADS}
-\title{A Function}
+\title{a function gsubing stuff related to srhoads jl desktop comp path}
 \usage{
 gsub_NSRHOADS(x)
 }
@@ -10,5 +10,5 @@ gsub_NSRHOADS(x)
 This function allows you to
 }
 \examples{
-()
+gsub_NSRHOADS()
 }

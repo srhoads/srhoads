@@ -2828,9 +2828,11 @@ recode_gender_j <- function(vec,
 #' A Function
 #'
 #' This function allows you to 
+#' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
+#' @param extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @export
 #' @examples
-#' ()
+#' recode_gender2()
 recode_gender2 <- function(vec, 
                            recode_list = gender_list, 
                            extra = NULL) {
@@ -2844,9 +2846,11 @@ recode_gender2 <- function(vec,
 #' A Function
 #'
 #' This function allows you to 
+#' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
+#' @param extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @export
 #' @examples
-#' ()
+#' recode_race_j()
 recode_race_j <- function(vec, 
                           recode_list = race_list, 
                           extra = c("nothing", "multirace", "NA")) {
@@ -2903,7 +2907,7 @@ recode_race_j <- function(vec,
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' recode_race2()
 recode_race2 <- function(vec, 
                          recode_list = race_list, 
                          extra = NULL) {
