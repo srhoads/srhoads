@@ -1,0 +1,10 @@
+Package: srhoads
+Title: Contains functions for srhoads's daily life
+Version: 0.0.0.9000
+Authors@R: person("samantha", "rhoads", email = "skr2150@columbia.edu", role = c("aut", "cre"))
+Description: This package is a goodie bag filled with nuggets of facilitated-laziness on the part of S. Rhoads. She uses these home-baked functions to cut corners and take a little less time to do her thing.
+Depends: R (>= 3.4.4)
+License: I can't say it's licensed :/ 
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
