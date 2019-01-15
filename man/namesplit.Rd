@@ -4,7 +4,7 @@
 \alias{namesplit}
 \title{A Function}
 \usage{
-namesplit(df)
+namesplit(df, dfincase)
 }
 \description{
 This function allows you to
