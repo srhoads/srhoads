@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{try_read_csv}
 \alias{try_read_csv}
-\title{A Function}
+\title{A function to a read csv file}
 \usage{
 try_read_csv(file)
 }
@@ -10,5 +10,5 @@ try_read_csv(file)
 This function allows you to
 }
 \examples{
-()
+try_read_csv()
 }

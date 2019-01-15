@@ -11,5 +11,5 @@ read_ydrive_clean_write(filenames, csv = F, xlsx = F, xls = F,
 This function allows you to
 }
 \examples{
-()
+read_ydrive_clean_write()
 }

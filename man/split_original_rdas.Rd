@@ -12,5 +12,5 @@ split_original_rdas(filelist = NULL, inpath = NULL, pattern = NULL,
 This function allows you to
 }
 \examples{
-()
+split_original_rdas()
 }

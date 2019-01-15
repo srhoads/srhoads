@@ -10,5 +10,5 @@ try_unzip(zipfile)
 This function allows you to
 }
 \examples{
-()
+try_unzip()
 }

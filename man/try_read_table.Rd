@@ -10,5 +10,5 @@ try_read_table(f)
 This function allows you to
 }
 \examples{
-()
+try_read_table()
 }

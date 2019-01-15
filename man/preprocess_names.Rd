@@ -10,5 +10,5 @@ preprocess_names(x, extent = c("minimal", "thorough"))
 This function allows you to
 }
 \examples{
-()
+preprocess_names()
 }

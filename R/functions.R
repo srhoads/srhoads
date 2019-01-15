@@ -855,6 +855,9 @@ dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'),
 
 
 
+types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS', 'WORKFORCE')
+
+
 
 
 
@@ -862,7 +865,38 @@ dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'),
 # functions.R
 
 
-#' A Function
+
+#' A function to paste a vector in a regex way with '|' partial
+#'
+#' This function allows you to paste a vector in a regex way with '|' partial
+#' @export
+#' @examples
+#' paste_regex_partial()
+paste_regex_partial <- function(v, collapse='|') paste0(v, collapse=collapse)
+
+
+#' A function to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
+#'
+#' This function allows you to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
+#' @export
+#' @examples
+#' paste_regex_exact()
+paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=collapse)
+
+
+#' A function to paste a vector in a regex way with '|' options for exact or partial
+#'
+#' This function allows you to paste a vector in a regex way with '|' options for exact or partial
+#' @export
+#' @examples
+#' paste_regex()
+paste_regex <- function(v, collapse='|', exact=F){
+  if(exact) paste_regex_exact(v)
+  else paste_regex_partial(v)
+}
+
+
+#' A function to paste a vector in a regex way with '|'
 #'
 #' This function allows you to 
 #' @export
@@ -878,7 +912,7 @@ drop_repeat_cols <- function(d, fromall=F, fromlast=F, fromfirst=F){
   df
 }
 
-#' A Function
+#' A function to ask if it's a character or factor logical
 #'
 #' This function allows you to
 #' @export
@@ -964,7 +998,7 @@ gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' not_all_na()
 not_all_na <- function(x) any(!is.na(x))
 
 `%>%` <- magrittr::`%>%` 
@@ -976,7 +1010,7 @@ not_all_na <- function(x) any(!is.na(x))
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' list_files()
 list_files <- function(p, pattern=NULL, recursive=T, full.names=T) list.files(p, pattern=pattern, recursive=recursive, full.names=full.names)
 
 
@@ -985,7 +1019,7 @@ list_files <- function(p, pattern=NULL, recursive=T, full.names=T) list.files(p,
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' pkg()
 ## load and/or install package first!
 pkg <- function (package1, ...) {
   packages <- c(package1, ...)
@@ -1007,16 +1041,16 @@ pkg <- function (package1, ...) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_data_frame()
 try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), error=function(e) x)
 
 
-#' A Function
+#' A function just like read_excel but better!
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' readexcel()
 readexcel <- function(file, bindsheets=F){
   sheets <- readxl::excel_sheets(file)
   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
@@ -1027,21 +1061,21 @@ readexcel <- function(file, bindsheets=F){
   d
 }
 
-#' A Function
+#' A function to read excel file
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_excel()
 try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets), error=function(e) NULL)
 
 
-#' A Function
+#' A function to read excel files
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_excels()
 read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
   d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1049,12 +1083,12 @@ read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
   d
 }
 
-#' A Function
+#' A function to a read csv file
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_csv()
 try_read_csv <- function(file){
   d <- tryCatch(read.csv(file), error=function(e) file)
   if(is.character(d)) d <- tryCatch(readr::read_csv(file), error=function(e) NULL)
@@ -1062,12 +1096,12 @@ try_read_csv <- function(file){
 }
 
 
-#' A Function
+#' A function to read csv files
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_csvs()
 read_csvs <- function(filelist, bindrows=F, simplif=T){
   d <- lapply(filelist, function(x) try_read_csv(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1080,7 +1114,7 @@ read_csvs <- function(filelist, bindrows=F, simplif=T){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_rda()
 try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) NULL)
 
 #' A Function
@@ -1088,7 +1122,7 @@ try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) 
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_feather()
 try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), error=function(e) NULL)
 
 #' A Function
@@ -1096,7 +1130,7 @@ try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), er
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_table()
 try_read_table <- function(f) tryCatch(data.frame(readr::read_table(f), stringsAsFactors = F), error=function(e) NULL)
 
 #' A Function
@@ -1104,7 +1138,7 @@ try_read_table <- function(f) tryCatch(data.frame(readr::read_table(f), stringsA
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_delim()
 try_read_delim <- function(f, delim=';') tryCatch(data.frame(readr::read_delim(f, trim_ws = T, delim=delim), stringsAsFactors = F), error=function(e) NULL)
 
 
@@ -1113,7 +1147,7 @@ try_read_delim <- function(f, delim=';') tryCatch(data.frame(readr::read_delim(f
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_dat()
 read_dat <- function(f) {
   ddelim <- try_read_delim(f)
   dtable <- try_read_table(f)
@@ -1128,7 +1162,7 @@ read_dat <- function(f) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_dat()
 try_read_dat <- function(f) tryCatch(read_dat(f), error=function(e) NULL)
 
 
@@ -1137,7 +1171,7 @@ try_read_dat <- function(f) tryCatch(read_dat(f), error=function(e) NULL)
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_dats()
 read_dats <- function(flist, bind=F){
   d <- lapply(flist, try_read_dat)
   if(bind) d <- dplyr::bind_rows(d)
@@ -1150,7 +1184,7 @@ read_dats <- function(flist, bind=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_file()
 read_file <- function(file, bindsheets=F){
   d <- try_read_rda(file)
   if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets)
@@ -1167,7 +1201,7 @@ read_file <- function(file, bindsheets=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_read_file()
 try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=function(e) NULL)
 
 
@@ -1176,7 +1210,7 @@ try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=fu
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_files()
 read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
   d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1190,7 +1224,7 @@ read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_df_all()
 read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
   x <- read_files(filenames)
   # names(x) <- gsub_NSRHOADS(gsub("[^_|[:alnum:]]", "", filenames))
@@ -1203,7 +1237,7 @@ read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_dfs_process()
 read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1){
   mylist <- filelist
   print(paste0("# of files: ", length(filelist)))
@@ -1232,7 +1266,7 @@ read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_dfs_process_by1()
 read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', startdoc=1){
   mylist <- filelist
   print(paste0("# of files: ", length(filelist)))
@@ -1268,7 +1302,7 @@ gsub_NSRHOADS <- function(x) x %>% gsub("[^_|[:alnum:]]", "", .) %>% gsub("NSRHO
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_ydrive_write()
 read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/") {
   if(xls|xlsx){
     filenames <- readxl::excel_sheets(filenames)
@@ -1293,7 +1327,7 @@ read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, 
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_ydrive_clean_write()
 read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/") {
   if(xls|xlsx){
     filenames <- readxl::excel_sheets(filenames)
@@ -1321,7 +1355,7 @@ read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xl
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' write_ydrive_originals()
 write_ydrive_originals <- function(fl, outpath="AA/data/"){ # input = list of file names
   read_ydrive_write(csvfl <- fl[grep("csv$", fl, ignore.case=T)], csv=T)
   read_ydrive_write(xlsfl <- fl[grep("xls$", fl, ignore.case=T)], xls=T)
@@ -1349,7 +1383,7 @@ unzip_dir <- function(zipfile, outdir="unzip"){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_unzip()
 try_unzip <- function(zipfile){
   tryCatch(unzip_dir(zipfile), error = function(e) zipfile)
 }
@@ -1361,7 +1395,7 @@ try_unzip <- function(zipfile){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' drop_empty()
 drop_empty  <-  function(x_list) x_list[unlist(lapply(x_list, length) != 0)] 
 
 #' A Function
@@ -1369,7 +1403,7 @@ drop_empty  <-  function(x_list) x_list[unlist(lapply(x_list, length) != 0)]
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' trimspace()
 trimspace <- function(vec){
   vec %>% 
     gsub("     |   |  ", " ", .) %>%
@@ -1383,7 +1417,7 @@ trimspace <- function(vec){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' remove_precomma()
 remove_precomma <- function(vec, trim=T){
   vec %>% gsub(".*,", "", .)
   if(trim) vec %<>% trimspace()
@@ -1394,7 +1428,7 @@ remove_precomma <- function(vec, trim=T){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' list_names()
 list_names <- function(mylist, unique = F){
   mylist <- tryCatch(dplyr::combine(dplyr::combine(mylist)), 
                      error = function(e) {
@@ -1418,7 +1452,7 @@ list_names <- function(mylist, unique = F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' split_original_rdas()
 split_original_rdas <- function(filelist = NULL,
                                 inpath = NULL,
                                 pattern = NULL,
@@ -1458,7 +1492,7 @@ split_original_rdas <- function(filelist = NULL,
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' reduce_name_bytes()
 reduce_name_bytes <- function(x){
   names(x) <- substr(names(x), start = 1, stop = 93)
   if (is.list(x) & ! is.data.frame(x)) 
@@ -1471,7 +1505,7 @@ reduce_name_bytes <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' select_not_race_gender_cols()
 select_not_race_gender_cols <- function(mylist) {
   nrg <- purrr::map(mylist,
                     ~dplyr::select(.x, #dplyr::matches('name|x'), dplyr::contains(dplyr::everything()),
@@ -1486,7 +1520,7 @@ select_not_race_gender_cols <- function(mylist) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' select_nrg_cols_list()
 select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
   output <- match.arg(output)
   mylist <- purrr::map(mylist, ~dplyr::select(.x, 
@@ -1504,7 +1538,7 @@ select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' select_nrg_cols_df()
 select_nrg_cols_df <- function(df, output = c("df", "names")) {
   output <- match.arg(output)
   df <- dplyr::select(df, dplyr::matches('name|gender|gendr|gndr|gnder|sex|race|ethnic'),-dplyr::matches(minuscontainsregex))
@@ -1520,7 +1554,7 @@ select_nrg_cols_df <- function(df, output = c("df", "names")) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' select_nrg_cols()
 select_nrg_cols <- function(x, type = c("list", "df"), output = NULL) {
   type <- match.arg(type)
   if(type == "list")
@@ -1621,7 +1655,7 @@ select_gender_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewna
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gender_seq_names()
 gender_seq_names <- function(x){
   names(x) <- gsub("[^[:alpha:]]", "", names(x), perl = T)
   names(x) <- gsub("^", "gender", names(x), perl = T)
@@ -1935,7 +1969,7 @@ list_to_df <- function(mylist) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' list_to_df_anomalies()
 list_to_df_anomalies <- function(mylist) {
   mylist <- try_combine_compact(mylist)
   # nrgdf <- plyr::ldply(mylist)
@@ -1965,7 +1999,7 @@ list_to_df_anomalies <- function(mylist) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_names_other()
 preprocess_names_other <- function(x) {
   names(x) %<>% 
     gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal|force", "REMOVE",. , perl = T) %>%
@@ -2028,7 +2062,7 @@ preprocess_names_name <- function(x) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_names_gender()
 preprocess_names_gender <- function(x) {
   names(x) %<>% 
     gsub(turntogenderstrregex, "gender", ., perl = T) %>%
@@ -2043,7 +2077,7 @@ preprocess_names_gender <- function(x) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_names_thorough()
 preprocess_names_thorough <- function(x) {
   x <- plyr::compact(x)
   
@@ -2107,7 +2141,7 @@ preprocess_names_minimal <- function(x) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' combine_compact()
 combine_compact <- function(x){
   x <- plyr::compact(x)
   x <- dplyr::combine(x)
@@ -2120,7 +2154,7 @@ combine_compact <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_combine()
 try_combine <- function(x){
   x <- tryCatch(dplyr::combine(dplyr::combine(x)), 
                 error = function(e) {
@@ -2139,7 +2173,7 @@ try_combine <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_compact()
 try_compact <- function(x){
   x <- tryCatch(plyr::compact(plyr::compact(x)), 
                 error = function(e) {
@@ -2158,7 +2192,7 @@ try_compact <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' try_combine_compact()
 try_combine_compact <- function(x){
   x <- try_combine(x)
   x <- try_compact(x)
@@ -2173,7 +2207,7 @@ try_combine_compact <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_names()
 preprocess_names <- function(x, extent = c("minimal", "thorough")) {
   extent = match.arg(extent)
   if(extent == "minimal")
@@ -2191,7 +2225,7 @@ preprocess_names <- function(x, extent = c("minimal", "thorough")) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_all_cols()
 preprocess_all_cols <- function(x, extent = "thorough") {
   if(is.list(x)){
     x <- tryCatch(dplyr::combine(x),
@@ -2250,7 +2284,7 @@ preprocess_data_thorough <- function(x, type = c("lod")) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_data()
 preprocess_data <- function(x, type = c("lod"), extent = NULL) {
   type = match.arg(type)
   x <- tryCatch(dplyr::combine(x), 
@@ -2271,7 +2305,7 @@ preprocess_data <- function(x, type = c("lod"), extent = NULL) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gather_firstname()
 gather_firstname <- function(df) {
   tidyr::gather(df, "twastwas", "firstname", dplyr::contains("firstname")) %>% 
     dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
@@ -2282,7 +2316,7 @@ gather_firstname <- function(df) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gather_lastname()
 gather_lastname <- function(df) {
   tidyr::gather(df, "twastwas", "lastname", dplyr::contains("lastname")) %>% 
     dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
@@ -2293,7 +2327,7 @@ gather_lastname <- function(df) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gather_first_last_name()
 gather_first_last_name <- function(df) {
   df <- gather_lastname(df)
   df <- gather_firstname(df) 
@@ -2307,7 +2341,7 @@ gather_first_last_name <- function(df) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' join_firstlastname()
 join_firstlastname <- function(df, firstname, lastname, seq = c("first last", "last,first")) {
   seq <- match.arg(seq)
   fldf <- data.frame(firstname="samantha", lastname="rhoads", name="samantha rhoads", stringsAsFactors = F)
@@ -2342,7 +2376,7 @@ join_firstlastname <- function(df, firstname, lastname, seq = c("first last", "l
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gather_nrg()
 gather_nrg <- function(df) {
   df %>%
     tidyr::gather("twastwas", "name", -dplyr::contains("race"), -dplyr::contains("gender")) %>%
@@ -4018,7 +4052,7 @@ read_rdas <- function(filelist = NULL,
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' read_files_to_feather()
 read_files_to_feather <- function(filelist,
                                   path = "~/",
                                   filename_prefix = "nrg_data"){

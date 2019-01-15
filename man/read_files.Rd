@@ -10,5 +10,5 @@ read_files(filelist, bindsheets = F, bindrows = F, simplif = T)
 This function allows you to
 }
 \examples{
-()
+read_files()
 }

@@ -11,5 +11,5 @@ join_firstlastname(df, firstname, lastname, seq = c("first last",
 This function allows you to
 }
 \examples{
-()
+join_firstlastname()
 }

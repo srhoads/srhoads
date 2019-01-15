@@ -10,5 +10,5 @@ pkg(package1, ...)
 This function allows you to
 }
 \examples{
-()
+pkg()
 }

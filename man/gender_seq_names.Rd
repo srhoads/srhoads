@@ -10,5 +10,5 @@ gender_seq_names(x)
 This function allows you to
 }
 \examples{
-()
+gender_seq_names()
 }

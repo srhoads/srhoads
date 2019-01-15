@@ -10,5 +10,5 @@ list_files(p, pattern = NULL, recursive = T, full.names = T)
 This function allows you to
 }
 \examples{
-()
+list_files()
 }

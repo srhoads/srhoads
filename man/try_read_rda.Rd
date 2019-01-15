@@ -10,5 +10,5 @@ try_read_rda(file)
 This function allows you to
 }
 \examples{
-()
+try_read_rda()
 }

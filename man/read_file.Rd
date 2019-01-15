@@ -10,5 +10,5 @@ read_file(file, bindsheets = F)
 This function allows you to
 }
 \examples{
-()
+read_file()
 }

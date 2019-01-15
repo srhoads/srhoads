@@ -10,5 +10,5 @@ drop_empty(x_list)
 This function allows you to
 }
 \examples{
-()
+drop_empty()
 }

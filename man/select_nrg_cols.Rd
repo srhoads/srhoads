@@ -10,5 +10,5 @@ select_nrg_cols(x, type = c("list", "df"), output = NULL)
 This function allows you to
 }
 \examples{
-()
+select_nrg_cols()
 }

@@ -10,5 +10,5 @@ select_not_race_gender_cols(mylist)
 This function allows you to
 }
 \examples{
-()
+select_not_race_gender_cols()
 }

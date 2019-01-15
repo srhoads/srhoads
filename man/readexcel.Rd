@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{readexcel}
 \alias{readexcel}
-\title{A Function}
+\title{A function just like read_excel but better!}
 \usage{
 readexcel(file, bindsheets = F)
 }
@@ -10,5 +10,5 @@ readexcel(file, bindsheets = F)
 This function allows you to
 }
 \examples{
-()
+readexcel()
 }

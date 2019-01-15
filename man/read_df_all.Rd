@@ -10,5 +10,5 @@ read_df_all(filenames, bindrows = F, bindsheets = F, simplif = T)
 This function allows you to
 }
 \examples{
-()
+read_df_all()
 }

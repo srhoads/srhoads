@@ -10,5 +10,5 @@ not_all_na(x)
 This function allows you to
 }
 \examples{
-()
+not_all_na()
 }

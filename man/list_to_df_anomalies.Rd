@@ -10,5 +10,5 @@ list_to_df_anomalies(mylist)
 This function allows you to
 }
 \examples{
-()
+list_to_df_anomalies()
 }

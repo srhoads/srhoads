@@ -10,5 +10,5 @@ trimspace(vec)
 This function allows you to
 }
 \examples{
-()
+trimspace()
 }

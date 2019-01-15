@@ -10,5 +10,5 @@ select_nrg_cols_df(df, output = c("df", "names"))
 This function allows you to
 }
 \examples{
-()
+select_nrg_cols_df()
 }

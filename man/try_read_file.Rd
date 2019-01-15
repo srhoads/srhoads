@@ -10,5 +10,5 @@ try_read_file(file, bindsheets = F)
 This function allows you to
 }
 \examples{
-()
+try_read_file()
 }

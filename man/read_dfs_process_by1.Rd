@@ -11,5 +11,5 @@ read_dfs_process_by1(filelist, outpath = "AA/data/", prefix = "auto",
 This function allows you to
 }
 \examples{
-()
+read_dfs_process_by1()
 }

@@ -10,5 +10,5 @@ preprocess_data(x, type = c("lod"), extent = NULL)
 This function allows you to
 }
 \examples{
-()
+preprocess_data()
 }

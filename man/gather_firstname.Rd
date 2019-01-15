@@ -10,5 +10,5 @@ gather_firstname(df)
 This function allows you to
 }
 \examples{
-()
+gather_firstname()
 }

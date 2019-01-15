@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{drop_repeat_cols}
 \alias{drop_repeat_cols}
-\title{A Function}
+\title{A function to paste a vector in a regex way with '|'}
 \usage{
 drop_repeat_cols(d, fromall = F, fromlast = F, fromfirst = F)
 }

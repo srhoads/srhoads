@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{is.factorchar}
 \alias{is.factorchar}
-\title{A Function}
+\title{A function to ask if it's a character or factor logical}
 \usage{
 is.factorchar(x)
 }

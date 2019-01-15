@@ -10,5 +10,5 @@ list_names(mylist, unique = F)
 This function allows you to
 }
 \examples{
-()
+list_names()
 }

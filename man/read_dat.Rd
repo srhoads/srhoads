@@ -10,5 +10,5 @@ read_dat(f)
 This function allows you to
 }
 \examples{
-()
+read_dat()
 }

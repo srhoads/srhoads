@@ -10,5 +10,5 @@ combine_compact(x)
 This function allows you to
 }
 \examples{
-()
+combine_compact()
 }

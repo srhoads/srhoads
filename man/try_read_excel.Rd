@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{try_read_excel}
 \alias{try_read_excel}
-\title{A Function}
+\title{A function to read excel file}
 \usage{
 try_read_excel(file, bindsheets = F)
 }
@@ -10,5 +10,5 @@ try_read_excel(file, bindsheets = F)
 This function allows you to
 }
 \examples{
-()
+try_read_excel()
 }

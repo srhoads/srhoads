@@ -10,5 +10,5 @@ try_read_delim(f, delim = ";")
 This function allows you to
 }
 \examples{
-()
+try_read_delim()
 }

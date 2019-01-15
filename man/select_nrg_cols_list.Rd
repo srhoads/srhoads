@@ -14,6 +14,6 @@ This function allows you to
 This function allows you to
 }
 \examples{
-()
+select_nrg_cols_list()
 ()
 }

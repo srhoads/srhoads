@@ -11,5 +11,5 @@ read_files_to_feather(filelist, path = "~/",
 This function allows you to
 }
 \examples{
-()
+read_files_to_feather()
 }

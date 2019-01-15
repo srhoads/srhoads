@@ -10,5 +10,5 @@ gather_nrg(df)
 This function allows you to
 }
 \examples{
-()
+gather_nrg()
 }

@@ -10,5 +10,5 @@ read_dats(flist, bind = F)
 This function allows you to
 }
 \examples{
-()
+read_dats()
 }

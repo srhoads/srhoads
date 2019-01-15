@@ -10,5 +10,5 @@ remove_precomma(vec, trim = T)
 This function allows you to
 }
 \examples{
-()
+remove_precomma()
 }

@@ -10,5 +10,5 @@ reduce_name_bytes(x)
 This function allows you to
 }
 \examples{
-()
+reduce_name_bytes()
 }

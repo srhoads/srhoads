@@ -10,5 +10,5 @@ try_data_frame(x)
 This function allows you to
 }
 \examples{
-()
+try_data_frame()
 }

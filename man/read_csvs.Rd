@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_csvs}
 \alias{read_csvs}
-\title{A Function}
+\title{A function to read csv files}
 \usage{
 read_csvs(filelist, bindrows = F, simplif = T)
 }
@@ -10,5 +10,5 @@ read_csvs(filelist, bindrows = F, simplif = T)
 This function allows you to
 }
 \examples{
-()
+read_csvs()
 }
