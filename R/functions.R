@@ -1874,6 +1874,27 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 
 # ---------------------------------------------------------------------------------
 
+
+#' A read files into list of list function
+#'
+#' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
+#' @export
+#' @examples
+#' data_lol()
+data_lol <- function(pattern='data'){
+  dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
+  data <- lapply(dirs, function(l){
+    files <- list.files(l, recursive=T, full.names=T)
+    l %<>% 
+      list.files(., recursive=T, full.names=T) %>% 
+      read_excels(., bindsheets = T)
+    names(l) <- basename(files)
+    l
+  }) %>% setNames(., basename(dirs))
+}
+
+
+
 #' A Function
 #'
 #' This function allows you to 
@@ -4564,7 +4585,7 @@ regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
   x$firstname <- na_if(x$firstname, "")
   x$lastname <- na_if(x$lastname, "")
   
-  x$firstname <- word(x$firstname, -1, sep=",") %>% trimws()
+  x$firstname <- stringr::word(x$firstname, -1, sep=",") %>% trimws()
   
   
   x %<>% mutate(fLname = ifelse(!is.na(firstname) & !is.na(lastname), paste0(firstname, " ", toupper(lastname)), 
@@ -4701,7 +4722,7 @@ firstname_wmiddle <- function(v){
 #' @export
 #' @examples
 #' ()
-lastname_after_space_when_nocomma <- function(v) ifelse(grepl(" ",v) & !grepl(",",v), word(v,-1), NA)
+lastname_after_space_when_nocomma <- function(v) ifelse(grepl(" ",v) & !grepl(",",v), stringr::word(v,-1), NA)
 
 #' A Function
 #'
@@ -4759,7 +4780,8 @@ lastname_precomma <- function(x){
 #' @export
 #' @examples
 #' ()
-namesplit <- function(df){
+namesplit <- function(df, dfincase){
+  df %<>% setNames(tolower(names(.)))
   df <- dplyr::bind_rows(dfincase, df) %>% dplyr::distinct()
   df %<>% dplyr::mutate(firstname_wmiddle=firstname_wmiddle(name),
                         firstname_nomiddle=firstname_nomiddle(name),
