@@ -1043,7 +1043,7 @@ try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindshee
 #' @examples
 #' ()
 read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_readexcel(x, bindsheets=bindsheets))
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
