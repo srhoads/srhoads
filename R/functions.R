@@ -2566,8 +2566,9 @@ recode_na <- function(x){
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' recode_race_regex()
 recode_race_regex <- function(vec) {
+  vec <- tolower(vec)
   vec %<>% 
     gsub("[^[:alnum:]]", "", ., perl = T) %>%
     gsub(recode_race_getridofstrregex, "", ., perl = T) %>%
@@ -2900,16 +2901,17 @@ recode_gender2 <- function(vec,
 # ---------------------------------------------------------------------------------
 #' A Function
 #'
-#' This function allows you to 
+#' This function allows you to recode race
 #' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @export
 #' @examples
-#' recode_race_j()
+#' recode_race_j(vec, recode_list = race_list, extra = c("nothing", "multirace", "NA"))
 recode_race_j <- function(vec, 
                           recode_list = race_list, 
                           extra = c("nothing", "multirace", "NA")) {
   extra <- match.arg(extra)
+  vec <- tolower(vec)
   recode_list <- race_list
   vec <- gsub("[^[:alnum:]]", "", vec, perl = T)
   recode_key <- lapply(
@@ -2962,7 +2964,7 @@ recode_race_j <- function(vec,
 #' This function allows you to 
 #' @export
 #' @examples
-#' recode_race2()
+#' recode_race2(vec, recode_list = race_list, extra = NULL)
 recode_race2 <- function(vec, 
                          recode_list = race_list, 
                          extra = NULL) {

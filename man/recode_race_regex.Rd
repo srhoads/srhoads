@@ -10,5 +10,5 @@ recode_race_regex(vec)
 This function allows you to
 }
 \examples{
-()
+recode_race_regex()
 }

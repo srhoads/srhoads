@@ -13,8 +13,8 @@ recode_race_j(vec, recode_list = race_list, extra = c("nothing",
 \item{extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
 }
 \description{
-This function allows you to
+This function allows you to recode race
 }
 \examples{
-recode_race_j()
+recode_race_j(vec, recode_list = race_list, extra = c("nothing", "multirace", "NA"))
 }
