@@ -889,7 +889,7 @@ paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=coll
 #' This function allows you to paste a vector in a regex way with '|' options for exact or partial
 #' @export
 #' @examples
-#' paste_regex()
+#' paste_regex(v, collapse='|', exact=F)
 paste_regex <- function(v, collapse='|', exact=F){
   if(exact) paste_regex_exact(v)
   else paste_regex_partial(v)
