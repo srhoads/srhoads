@@ -10,5 +10,5 @@ paste_regex_partial(v, collapse = "|")
 This function allows you to paste a vector in a regex way with '|' partial
 }
 \examples{
-paste_regex_partial()
+paste_regex_partial(v, collapse='|')
 }

@@ -10,5 +10,5 @@ paste_regex_exact(v, collapse = "|")
 This function allows you to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
 }
 \examples{
-paste_regex_exact()
+paste_regex_exact(v, collapse='|')
 }

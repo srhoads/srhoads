@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{paste_regex}
 \alias{paste_regex}
-\title{A function to paste a vector in a regex way with '|' options for exact or partial}
+\title{A function to paste a vector in a regex way with '|' options for exact or partial. Is it working?}
 \usage{
 paste_regex(v, collapse = "|", exact = F)
 }

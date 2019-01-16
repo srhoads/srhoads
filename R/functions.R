@@ -871,7 +871,7 @@ types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS',
 #' This function allows you to paste a vector in a regex way with '|' partial
 #' @export
 #' @examples
-#' paste_regex_partial()
+#' paste_regex_partial(v, collapse='|')
 paste_regex_partial <- function(v, collapse='|') paste0(v, collapse=collapse)
 
 
@@ -880,11 +880,11 @@ paste_regex_partial <- function(v, collapse='|') paste0(v, collapse=collapse)
 #' This function allows you to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
 #' @export
 #' @examples
-#' paste_regex_exact()
+#' paste_regex_exact(v, collapse='|')
 paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=collapse)
 
 
-#' A function to paste a vector in a regex way with '|' options for exact or partial
+#' A function to paste a vector in a regex way with '|' options for exact or partial. Is it working?
 #'
 #' This function allows you to paste a vector in a regex way with '|' options for exact or partial
 #' @export
