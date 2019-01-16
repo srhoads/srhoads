@@ -10,5 +10,5 @@ preprocess_names_minimal(x)
 This function allows you to
 }
 \examples{
-()
+preprocess_names_minimal()
 }

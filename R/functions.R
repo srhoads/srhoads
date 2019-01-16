@@ -901,7 +901,7 @@ paste_regex <- function(v, collapse='|', exact=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' drop_repeat_cols()
+#' drop_repeat_cols(d, fromall=F, fromlast=F, fromfirst=F)
 drop_repeat_cols <- function(d, fromall=F, fromlast=F, fromfirst=F){
   df <- d
   lastd <- duplicated(as.list(d), fromLast=F)
@@ -1103,7 +1103,7 @@ try_read_csv <- function(file){
 #' @examples
 #' read_csvs()
 read_csvs <- function(filelist, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_csv(x, bindsheets=bindsheets))
+  d <- lapply(filelist, function(x) try_read_csv(x))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -2113,7 +2113,7 @@ preprocess_names_thorough <- function(x) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' preprocess_names_minimal()
 preprocess_names_minimal <- function(x) {
   x <- plyr::compact(x)
   names(x) <- iconv(names(x)) %>% 
@@ -2225,7 +2225,7 @@ preprocess_names <- function(x, extent = c("minimal", "thorough")) {
 #' This function allows you to 
 #' @export
 #' @examples
-#' preprocess_all_cols()
+#' preprocess_all_cols(x, extent = "thorough")
 preprocess_all_cols <- function(x, extent = "thorough") {
   if(is.list(x)){
     x <- tryCatch(dplyr::combine(x),
@@ -3072,7 +3072,7 @@ clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extr
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL, extent = NULL)
 prestep_preprocess_all_cols <- function(mylist, subsets = 2, type = NULL, extent = NULL) {
   by <- round(length(mylist) / subsets)
   if(by < 1){
@@ -3133,7 +3133,7 @@ prestep_preprocess_data <- function(mylist, subsets = 2,
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write = FALSE, featherpath = "~/")
 multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subsubsets = 2, write = FALSE, featherpath = "~/") {
   write = match.arg(write)
   by <- round(length(mylist) / subsets)

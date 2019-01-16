@@ -11,5 +11,5 @@ multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2,
 This function allows you to
 }
 \examples{
-()
+multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write = FALSE, featherpath = "~/")
 }

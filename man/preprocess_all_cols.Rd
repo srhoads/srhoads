@@ -10,5 +10,5 @@ preprocess_all_cols(x, extent = "thorough")
 This function allows you to
 }
 \examples{
-preprocess_all_cols()
+preprocess_all_cols(x, extent = "thorough")
 }

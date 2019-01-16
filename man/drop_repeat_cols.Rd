@@ -10,5 +10,5 @@ drop_repeat_cols(d, fromall = F, fromlast = F, fromfirst = F)
 This function allows you to
 }
 \examples{
-drop_repeat_cols()
+drop_repeat_cols(d, fromall=F, fromlast=F, fromfirst=F)
 }
