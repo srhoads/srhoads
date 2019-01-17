@@ -896,6 +896,15 @@ paste_regex <- function(v, collapse='|', exact=F){
   else paste_regex_partial(v)
 }
 
+#' A function to clean dates
+#'
+#' This function allows you to recode a date that's originally in a format like `January 17, 1996 11:00 AM`
+#' @export
+#' @examples
+#' newdate()
+newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
+
+
 
 #' A function to paste a vector in a regex way with '|'
 #'
