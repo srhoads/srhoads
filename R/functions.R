@@ -1,4 +1,4 @@
-
+# git add -A && git commit -m "_"
 # source("global.R")
 library(tidyverse)
 
@@ -679,7 +679,7 @@ recode_na_getridofstrregex <- paste0(
     "development", "description", "departments", "department", "declinto", 
     "declined", "decline", "databases", "database", "creativedesign", "missinlank",
     "corporate", "consulting", "consultants", "consultant", "chosenot", 
-    "choosenotto", "choosenot", "chieffinancialofficer", "centralretail", 
+    "choosenotto", "choosenot", "chieffinancialofficer", "centralretail", "notresponse",
     "businesses", "business", "benefitsadminretail", "behavioralhealth", 
     "bartenders", "bartender", "available", "atthistime", "associates", "none listed",
     "associate", "assistants", "assistant", "applicant", "apersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative$", 
@@ -764,7 +764,7 @@ recode_na_list <- list(
            "sentemail", "service", "sgother", "snav", "staffnurse", "stov", 
            "technical", "thisquestion", "totals", "ukn", "unavail", "undata", 
            "undeclared", "undisclosed", "unknown", "unknowndeclinedtodisclose", 
-           "unknownpersonwasmanuallyentered", "unknwn", "unkown", "unkwn", 
+           "unknownpersonwasmanuallyentered", "unknwn", "unkown", "unkwn", "", 
            "unotknow", "unspec", "unspecified", "usbiweekly", "xx")
 )
 
@@ -904,6 +904,13 @@ paste_regex <- function(v, collapse='|', exact=F){
 #' newdate()
 newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
 
+#' A function to remove characters after a certain character
+#'
+#' This function allows you to remove characters after a certain character of your choosing
+#' @export
+#' @examples
+#' remove_after_char(v, sep=' ')
+remove_after_char <- function(v, sep=' ') gsub(paste0(sep, ".*"),"", v)
 
 
 #' A function to paste a vector in a regex way with '|'
