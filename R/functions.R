@@ -1068,15 +1068,24 @@ try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), err
 #' @export
 #' @examples
 #' readexcel()
-readexcel <- function(file, bindsheets=F){
+readexcel <- function(file, bindsheets=F, skip=0){
   sheets <- readxl::excel_sheets(file)
-  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
+  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')))
   names(d) <- sheets
   d <- try_combine_compact(d)
   d <- drop_empty(d)
   if(bindsheets) d <- dplyr::bind_rows(d)
   d
 }
+# readexcel <- function(file, bindsheets=F){
+#   sheets <- readxl::excel_sheets(file)
+#   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
+#   names(d) <- sheets
+#   d <- try_combine_compact(d)
+#   d <- drop_empty(d)
+#   if(bindsheets) d <- dplyr::bind_rows(d)
+#   d
+# }
 
 #' A function to read excel file
 #'
@@ -1931,18 +1940,36 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 #' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
 #' @export
 #' @examples
-#' data_lol()
-data_lol <- function(pattern='data'){
-  dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
-  data <- lapply(dirs, function(l){
-    files <- list.files(l, recursive=T, full.names=T)
-    l %<>% 
-      list.files(., recursive=T, full.names=T) %>% 
-      read_excels(., bindsheets = T)
-    names(l) <- basename(files)
-    l
-  }) %>% setNames(., basename(dirs))
+#' data_lol(path='data', skip1='APPLICANTS_FAC-STAFF')
+data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF'){
+  dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
+  data <- 
+    lapply(dirs, function(l){
+      files <- list.files(l, recursive=T, full.names=T)
+      l %<>%
+        list.files(., recursive=T, full.names=T) %>%
+        read_excels(., bindsheets = T)
+      names(l) <- basename(files)
+      l
+    }) %>% setNames(., basename(dirs))
+  if(!is.null(skip1)){
+    s1dfname <- select_list(data$data_files, skip1) %>% names()
+    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1)
+    data$data_files[[s1dfname]] <- s1df
+  }
+  data
 }
+# data_lol <- function(pattern='data'){
+#   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
+#   data <- lapply(dirs, function(l){
+#     files <- list.files(l, recursive=T, full.names=T)
+#     l %<>% 
+#       list.files(., recursive=T, full.names=T) %>% 
+#       read_excels(., bindsheets = T)
+#     names(l) <- basename(files)
+#     l
+#   }) %>% setNames(., basename(dirs))
+# }
 
 
 

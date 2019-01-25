@@ -4,7 +4,7 @@
 \alias{readexcel}
 \title{A function just like read_excel but better!}
 \usage{
-readexcel(file, bindsheets = F)
+readexcel(file, bindsheets = F, skip = 0)
 }
 \description{
 This function allows you to
