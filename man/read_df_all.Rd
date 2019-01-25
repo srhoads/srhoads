@@ -4,11 +4,12 @@
 \alias{read_df_all}
 \title{A Function}
 \usage{
-read_df_all(filenames, bindrows = F, bindsheets = F, simplif = T)
+read_df_all(filenames, bindrows = F, bindsheets = F, joinsheets = F,
+  simplif = T)
 }
 \description{
 This function allows you to
 }
 \examples{
-read_df_all()
+read_df_all(filenames, bindrows=F, bindsheets=F, joinsheets=F, simplif=T)
 }
