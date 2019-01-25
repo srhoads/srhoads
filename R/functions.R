@@ -1062,20 +1062,19 @@ pkg <- function (package1, ...) {
 try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), error=function(e) x)
 
 
-#' A function just like read_excel but better! Now has skip argument
+#' A function just like read_excel but better!
 #'
-#' This function allows you to read an xls or xlsx efficiently, even w/ multiple sheets!
+#' This function allows you to 
 #' @export
 #' @examples
-#' readexcel(file, bindsheets=F, joinsheets=F)
-readexcel <- function(file, bindsheets=F, joinsheets=F){
+#' readexcel()
+readexcel <- function(file, bindsheets=F){
   sheets <- readxl::excel_sheets(file)
-  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')))
+  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
   names(d) <- sheets
   d <- try_combine_compact(d)
   d <- drop_empty(d)
   if(bindsheets) d <- dplyr::bind_rows(d)
-  if(joinsheets) d <- plyr::join_all(d, type-'full')
   d
 }
 
@@ -1084,8 +1083,8 @@ readexcel <- function(file, bindsheets=F, joinsheets=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' try_read_excel(file, bindsheets=F, joinsheets=F)
-try_read_excel <- function(file, bindsheets=F, joinsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets, joinsheets=joinsheets), error=function(e) NULL)
+#' try_read_excel()
+try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets), error=function(e) NULL)
 
 
 #' A function to read excel files
@@ -1093,9 +1092,9 @@ try_read_excel <- function(file, bindsheets=F, joinsheets=F) tryCatch(readexcel(
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_excels(filelist, bindsheets=F, joinsheets=F, bindrows=F, simplif=T)
-read_excels <- function(filelist, bindsheets=F, joinsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, joinsheets=joinsheets))
+#' read_excels()
+read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -1197,15 +1196,15 @@ read_dats <- function(flist, bind=F){
 }
 
 
-#' A function to read any file I can think of that's data-relevant
+#' A Function
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_file(file, bindsheets=F, joinsheets=F)
-read_file <- function(file, bindsheets=F, joinsheets=F){
+#' read_file()
+read_file <- function(file, bindsheets=F){
   d <- try_read_rda(file)
-  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets, joinsheets=joinsheets)
+  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets)
   if(is.null(d) | grepl("\\.csv$", file, ignore.case=T)) d <- try_read_csv(file)
   if(is.null(d) | grepl("\\.dat$", file, ignore.case=T)) d <- try_read_dat(file)
   if(is.null(d) | grepl("\\.f$|\\.feather$", file, ignore.case=T)) d <- try_read_feather(file)
@@ -1214,23 +1213,23 @@ read_file <- function(file, bindsheets=F, joinsheets=F){
 }
 
 
-#' A function to try reading any file from the read_file() function...tryCatch specific
+#' A Function
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' try_read_file(file, bindsheets=F, joinsheets=F)
-try_read_file <- function(file, bindsheets=F, joinsheets=F) tryCatch(read_file(file, joinsheets=joinsheets, bindsheets=bindsheets), error=function(e) NULL)
+#' try_read_file()
+try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=function(e) NULL)
 
 
-#' A function to read multiple of any files from read_file()
+#' A Function
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_files(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=T)
-read_files <- function(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets, joinsheets=joinsheets))
+#' read_files()
+read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
+  d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -1242,9 +1241,9 @@ read_files <- function(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_df_all(filenames, bindrows=F, bindsheets=F, joinsheets=F, simplif=T)
-read_df_all <- function(filenames, bindrows=F, bindsheets=F, joinsheets=F, simplif=T) {
-  x <- read_files(filenames, joinsheets=joinsheets, bindsheets=bindsheets)
+#' read_df_all()
+read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
+  x <- read_files(filenames)
   # names(x) <- gsub_NSRHOADS(gsub("[^_|[:alnum:]]", "", filenames))
   x
 }
@@ -1292,7 +1291,7 @@ read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', st
     docnum <- x
     x <- filelist[x]
     ext <- tools::file_ext(x)
-    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T, joinsheets=F) %>% regulars_namesplit()))
+    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()))
     # sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()
     splitfilename <- rev(unlist(strsplit(x, "/")))[1] %>% alnum()
     if(prefix=='auto') prefix <- splitfilename
@@ -1927,41 +1926,23 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 # ---------------------------------------------------------------------------------
 
 
-#' A read files into list of list function; bindsheets or joinsheets or neither...
+#' A read files into list of list function
 #'
 #' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
 #' @export
 #' @examples
-#' data_lol(pattern='data', bindsheets=F, joinsheets=F)
-data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', bindsheets=F, joinsheets=T){
-  dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
-  data <-
-    lapply(dirs, function(l){
-      files <- list.files(l, recursive=T, full.names=T)
-      l %<>%
-        list.files(., recursive=T, full.names=T) %>%
-        read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
-      names(l) <- basename(files)
-      l
-    }) %>% setNames(., basename(dirs))
-  if(!is.null(skip1)){
-    s1dfname <- select_list(data$data_files, skip1) %>% names()
-    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1)
-    data$data_files[[s1dfname]] <- s1df
-  }
-  data
+#' data_lol()
+data_lol <- function(pattern='data'){
+  dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
+  data <- lapply(dirs, function(l){
+    files <- list.files(l, recursive=T, full.names=T)
+    l %<>% 
+      list.files(., recursive=T, full.names=T) %>% 
+      read_excels(., bindsheets = T)
+    names(l) <- basename(files)
+    l
+  }) %>% setNames(., basename(dirs))
 }
-# data_lol <- function(pattern='data', bindsheets=F, joinsheets=F){
-#   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
-#   data <- lapply(dirs, function(l){
-#     files <- list.files(l, recursive=T, full.names=T)
-#     l %<>% 
-#       list.files(., recursive=T, full.names=T) %>% 
-#       read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
-#     names(l) <- basename(files)
-#     l
-#   }) %>% setNames(., basename(dirs))
-# }
 
 
 
