@@ -1084,8 +1084,8 @@ readexcel <- function(file, bindsheets=F, joinsheets=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' try_read_excel()
-try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets), error=function(e) NULL)
+#' try_read_excel(file, bindsheets=F, joinsheets=F)
+try_read_excel <- function(file, bindsheets=F, joinsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets, joinsheets=joinsheets), error=function(e) NULL)
 
 
 #' A function to read excel files
@@ -1093,9 +1093,9 @@ try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindshee
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_excels()
-read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets))
+#' read_excels(filelist, bindsheets=F, joinsheets=F, bindrows=F, simplif=T)
+read_excels <- function(filelist, bindsheets=F, joinsheets=F, bindrows=F, simplif=T){
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, joinsheets=joinsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -1197,15 +1197,15 @@ read_dats <- function(flist, bind=F){
 }
 
 
-#' A Function
+#' A function to read any file I can think of that's data-relevant
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_file()
-read_file <- function(file, bindsheets=F){
+#' read_file(file, bindsheets=F, joinsheets=F)
+read_file <- function(file, bindsheets=F, joinsheets=F){
   d <- try_read_rda(file)
-  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets)
+  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets, joinsheets=joinsheets)
   if(is.null(d) | grepl("\\.csv$", file, ignore.case=T)) d <- try_read_csv(file)
   if(is.null(d) | grepl("\\.dat$", file, ignore.case=T)) d <- try_read_dat(file)
   if(is.null(d) | grepl("\\.f$|\\.feather$", file, ignore.case=T)) d <- try_read_feather(file)
@@ -1214,23 +1214,23 @@ read_file <- function(file, bindsheets=F){
 }
 
 
-#' A Function
+#' A function to try reading any file from the read_file() function...tryCatch specific
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' try_read_file()
-try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=function(e) NULL)
+#' try_read_file(file, bindsheets=F, joinsheets=F)
+try_read_file <- function(file, bindsheets=F, joinsheets=F) tryCatch(read_file(file, joinsheets=joinsheets, bindsheets=bindsheets), error=function(e) NULL)
 
 
-#' A Function
+#' A function to read multiple of any files from read_file()
 #'
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_files()
-read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets))
+#' read_files(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=T)
+read_files <- function(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=T){
+  d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets, joinsheets=joinsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -1242,9 +1242,9 @@ read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
 #' This function allows you to 
 #' @export
 #' @examples
-#' read_df_all()
-read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
-  x <- read_files(filenames)
+#' read_df_all(filenames, bindrows=F, bindsheets=F, joinsheets=F, simplif=T)
+read_df_all <- function(filenames, bindrows=F, bindsheets=F, joinsheets=F, simplif=T) {
+  x <- read_files(filenames, joinsheets=joinsheets, bindsheets=bindsheets)
   # names(x) <- gsub_NSRHOADS(gsub("[^_|[:alnum:]]", "", filenames))
   x
 }
@@ -1292,7 +1292,7 @@ read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', st
     docnum <- x
     x <- filelist[x]
     ext <- tools::file_ext(x)
-    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()))
+    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T, joinsheets=F) %>% regulars_namesplit()))
     # sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()
     splitfilename <- rev(unlist(strsplit(x, "/")))[1] %>% alnum()
     if(prefix=='auto') prefix <- splitfilename
@@ -1932,14 +1932,14 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 #' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
 #' @export
 #' @examples
-#' data_lol()
-data_lol <- function(pattern='data'){
+#' data_lol(pattern='data', bindsheets=F, joinsheets=F)
+data_lol <- function(pattern='data', bindsheets=F, joinsheets=F){
   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
   data <- lapply(dirs, function(l){
     files <- list.files(l, recursive=T, full.names=T)
     l %<>% 
       list.files(., recursive=T, full.names=T) %>% 
-      read_excels(., bindsheets = T)
+      read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
     names(l) <- basename(files)
     l
   }) %>% setNames(., basename(dirs))
