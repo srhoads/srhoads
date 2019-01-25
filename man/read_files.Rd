@@ -2,14 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{read_files}
 \alias{read_files}
-\title{A function to read multiple of any files from read_file()}
+\title{A Function}
 \usage{
-read_files(filelist, bindsheets = F, joinsheets = F, bindrows = F,
-  simplif = T)
+read_files(filelist, bindsheets = F, bindrows = F, simplif = T)
 }
 \description{
 This function allows you to
 }
 \examples{
-read_files(filelist, bindsheets=F,joinsheets=F, bindrows=F, simplif=T)
+read_files()
 }

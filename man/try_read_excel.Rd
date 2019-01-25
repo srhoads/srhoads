@@ -4,11 +4,11 @@
 \alias{try_read_excel}
 \title{A function to read excel file}
 \usage{
-try_read_excel(file, bindsheets = F, joinsheets = F)
+try_read_excel(file, bindsheets = F)
 }
 \description{
 This function allows you to
 }
 \examples{
-try_read_excel(file, bindsheets=F, joinsheets=F)
+try_read_excel()
 }

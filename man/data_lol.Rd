@@ -2,14 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{data_lol}
 \alias{data_lol}
-\title{A read files into list of list function; bindsheets or joinsheets or neither...}
+\title{A read files into list of list function}
 \usage{
-data_lol(path = "data", skip1 = "APPLICANTS_FAC-STAFF",
-  bindsheets = F, joinsheets = T)
+data_lol(pattern = "data")
 }
 \description{
 This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
 }
 \examples{
-data_lol(pattern='data', bindsheets=F, joinsheets=F)
+data_lol()
 }

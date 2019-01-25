@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{read_file}
 \alias{read_file}
-\title{A function to read any file I can think of that's data-relevant}
+\title{A Function}
 \usage{
-read_file(file, bindsheets = F, joinsheets = F)
+read_file(file, bindsheets = F)
 }
 \description{
 This function allows you to
 }
 \examples{
-read_file(file, bindsheets=F, joinsheets=F)
+read_file()
 }

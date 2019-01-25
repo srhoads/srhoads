@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{readexcel}
 \alias{readexcel}
-\title{A function just like read_excel but better! Now has skip argument}
+\title{A function just like read_excel but better!}
 \usage{
-readexcel(file, bindsheets = F, joinsheets = F)
+readexcel(file, bindsheets = F)
 }
 \description{
-This function allows you to read an xls or xlsx efficiently, even w/ multiple sheets!
+This function allows you to
 }
 \examples{
-readexcel(file, bindsheets=F, joinsheets=F)
+readexcel()
 }

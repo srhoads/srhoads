@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{try_read_file}
 \alias{try_read_file}
-\title{A function to try reading any file from the read_file() function...tryCatch specific}
+\title{A Function}
 \usage{
-try_read_file(file, bindsheets = F, joinsheets = F)
+try_read_file(file, bindsheets = F)
 }
 \description{
 This function allows you to
 }
 \examples{
-try_read_file(file, bindsheets=F, joinsheets=F)
+try_read_file()
 }
