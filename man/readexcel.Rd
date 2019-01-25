@@ -4,11 +4,11 @@
 \alias{readexcel}
 \title{A function just like read_excel but better!}
 \usage{
-readexcel(file, bindsheets = F)
+readexcel(file, bindsheets = F, joinsheets = F)
 }
 \description{
-This function allows you to
+This function allows you to read an xls or xlsx efficiently, even w/ multiple sheets!
 }
 \examples{
-readexcel()
+readexcel(file, bindsheets=F, joinsheets=F)
 }

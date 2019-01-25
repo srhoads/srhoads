@@ -1064,17 +1064,18 @@ try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), err
 
 #' A function just like read_excel but better!
 #'
-#' This function allows you to 
+#' This function allows you to read an xls or xlsx efficiently, even w/ multiple sheets!
 #' @export
 #' @examples
-#' readexcel()
-readexcel <- function(file, bindsheets=F){
+#' readexcel(file, bindsheets=F, joinsheets=F)
+readexcel <- function(file, bindsheets=F, joinsheets=F){
   sheets <- readxl::excel_sheets(file)
   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
   names(d) <- sheets
   d <- try_combine_compact(d)
   d <- drop_empty(d)
   if(bindsheets) d <- dplyr::bind_rows(d)
+  if(joinsheets) d <- plyr::join_all(d, type-'full')
   d
 }
 
