@@ -1927,23 +1927,41 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 # ---------------------------------------------------------------------------------
 
 
-#' A read files into list of list function
+#' A read files into list of list function; bindsheets or joinsheets or neither...
 #'
 #' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
 #' @export
 #' @examples
 #' data_lol(pattern='data', bindsheets=F, joinsheets=F)
-data_lol <- function(pattern='data', bindsheets=F, joinsheets=F){
-  dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
-  data <- lapply(dirs, function(l){
-    files <- list.files(l, recursive=T, full.names=T)
-    l %<>% 
-      list.files(., recursive=T, full.names=T) %>% 
-      read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
-    names(l) <- basename(files)
-    l
-  }) %>% setNames(., basename(dirs))
+data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', bindsheets=F, joinsheets=T){
+  dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
+  data <-
+    lapply(dirs, function(l){
+      files <- list.files(l, recursive=T, full.names=T)
+      l %<>%
+        list.files(., recursive=T, full.names=T) %>%
+        read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
+      names(l) <- basename(files)
+      l
+    }) %>% setNames(., basename(dirs))
+  if(!is.null(skip1)){
+    s1dfname <- select_list(data$data_files, skip1) %>% names()
+    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1)
+    data$data_files[[s1dfname]] <- s1df
+  }
+  data
 }
+# data_lol <- function(pattern='data', bindsheets=F, joinsheets=F){
+#   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
+#   data <- lapply(dirs, function(l){
+#     files <- list.files(l, recursive=T, full.names=T)
+#     l %<>% 
+#       list.files(., recursive=T, full.names=T) %>% 
+#       read_excels(., bindsheets=bindsheets, joinsheets=joinsheets)
+#     names(l) <- basename(files)
+#     l
+#   }) %>% setNames(., basename(dirs))
+# }
 
 
 
