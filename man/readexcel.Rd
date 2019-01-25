@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{readexcel}
 \alias{readexcel}
-\title{A function just like read_excel but better!}
+\title{A function just like read_excel but better! Now has skip argument}
 \usage{
 readexcel(file, bindsheets = F, joinsheets = F)
 }

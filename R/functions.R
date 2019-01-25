@@ -1062,7 +1062,7 @@ pkg <- function (package1, ...) {
 try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), error=function(e) x)
 
 
-#' A function just like read_excel but better!
+#' A function just like read_excel but better! Now has skip argument
 #'
 #' This function allows you to read an xls or xlsx efficiently, even w/ multiple sheets!
 #' @export
@@ -1070,7 +1070,7 @@ try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), err
 #' readexcel(file, bindsheets=F, joinsheets=F)
 readexcel <- function(file, bindsheets=F, joinsheets=F){
   sheets <- readxl::excel_sheets(file)
-  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
+  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')))
   names(d) <- sheets
   d <- try_combine_compact(d)
   d <- drop_empty(d)
