@@ -5,7 +5,7 @@
 \title{A Function}
 \usage{
 read_ydrive_clean_write(filenames, csv = F, xlsx = F, xls = F,
-  outpath = "data/original/")
+  outpath = "data/original/", col_types = "text")
 }
 \description{
 This function allows you to

@@ -1068,9 +1068,9 @@ try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), err
 #' @export
 #' @examples
 #' readexcel()
-readexcel <- function(file, bindsheets=F, skip=0){
+readexcel <- function(file, bindsheets=F, skip=0, col_types='text'){
   sheets <- readxl::excel_sheets(file)
-  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')))
+  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')), col_types=col_types)
   names(d) <- sheets
   d <- try_combine_compact(d)
   d <- drop_empty(d)
@@ -1093,7 +1093,7 @@ readexcel <- function(file, bindsheets=F, skip=0){
 #' @export
 #' @examples
 #' try_read_excel()
-try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindsheets=bindsheets), error=function(e) NULL)
+try_read_excel <- function(file, bindsheets=F, col_types='text') tryCatch(readexcel(file, bindsheets=bindsheets, col_types=col_types), error=function(e) NULL)
 
 
 #' A function to read excel files
@@ -1102,8 +1102,8 @@ try_read_excel <- function(file, bindsheets=F) tryCatch(readexcel(file, bindshee
 #' @export
 #' @examples
 #' read_excels()
-read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
-  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets))
+read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text'){
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, col_types=col_types))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
   if(bindrows) d <- dplyr::bind_rows(d)
   d
@@ -1213,7 +1213,7 @@ read_dats <- function(flist, bind=F){
 #' read_file()
 read_file <- function(file, bindsheets=F){
   d <- try_read_rda(file)
-  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets)
+  if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets, col_types=col_types)
   if(is.null(d) | grepl("\\.csv$", file, ignore.case=T)) d <- try_read_csv(file)
   if(is.null(d) | grepl("\\.dat$", file, ignore.case=T)) d <- try_read_dat(file)
   if(is.null(d) | grepl("\\.f$|\\.feather$", file, ignore.case=T)) d <- try_read_feather(file)
@@ -1329,12 +1329,12 @@ gsub_NSRHOADS <- function(x) x %>% gsub("[^_|[:alnum:]]", "", .) %>% gsub("NSRHO
 #' @export
 #' @examples
 #' read_ydrive_write()
-read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/") {
+read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text') {
   if(xls|xlsx){
     filenames <- readxl::excel_sheets(filenames)
     lapply(filenames, function(f) {
       print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      tryCatch(readxl::read_excel(filenames, sheet = f), error=function(e) NULL) %>%
+      tryCatch(readxl::read_excel(filenames, sheet = f, col_types=col_types), error=function(e) NULL) %>%
         save(., file=filename)
     })
   }
@@ -1354,12 +1354,12 @@ read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, 
 #' @export
 #' @examples
 #' read_ydrive_clean_write()
-read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/") {
+read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text') {
   if(xls|xlsx){
     filenames <- readxl::excel_sheets(filenames)
     lapply(filenames, function(f) {
       print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      d <- tryCatch(readxl::read_excel(filenames, sheet = f), error=function(e) NULL)
+      d <- tryCatch(readxl::read_excel(filenames, sheet = f, col_types=col_types), error=function(e) NULL)
       if(is.list(d)) d %<>% try_combine_compact() %>% bind_rows()
       d <- regulars_namesplit(d)
       feather::write_feather(d, filename)
@@ -1941,20 +1941,20 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
 #' @export
 #' @examples
 #' data_lol(path='data', skip1='APPLICANTS_FAC-STAFF')
-data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF'){
+data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', col_types='text'){
   dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
   data <- 
     lapply(dirs, function(l){
       files <- list.files(l, recursive=T, full.names=T)
       l %<>%
         list.files(., recursive=T, full.names=T) %>%
-        read_excels(., bindsheets = T)
+        read_excels(., bindsheets = T, col_types=col_types)
       names(l) <- basename(files)
       l
     }) %>% setNames(., basename(dirs))
   if(!is.null(skip1)){
     s1dfname <- select_list(data$data_files, skip1) %>% names()
-    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1)
+    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1, col_types=col_types)
     data$data_files[[s1dfname]] <- s1df
   }
   data
@@ -3978,7 +3978,7 @@ read_rdas <- function(filelist = NULL,
 #' ()
 read_files_to_rda <- function(filelist,
                               path = "~/",
-                              filename_prefix = "nrg_data"){
+                              filename_prefix = "nrg_data", col_types='text'){
   
   x <- filelist
   
@@ -3992,7 +3992,7 @@ read_files_to_rda <- function(filelist,
                      error = function(e) NULL) 
     
     if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx), 
+      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
                        error = function(e) NULL) 
     }
     
@@ -4115,7 +4115,7 @@ read_files_to_feather <- function(filelist,
                      error = function(e) NULL) 
     
     if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx), 
+      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
                        error = function(e) NULL) 
       data <- dplyr::bind_rows(data) #%>% data.frame()
     }

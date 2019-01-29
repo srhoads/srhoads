@@ -4,7 +4,8 @@
 \alias{read_files_to_rda}
 \title{A Function}
 \usage{
-read_files_to_rda(filelist, path = "~/", filename_prefix = "nrg_data")
+read_files_to_rda(filelist, path = "~/", filename_prefix = "nrg_data",
+  col_types = "text")
 }
 \description{
 This function allows you to
