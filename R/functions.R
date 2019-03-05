@@ -6,8 +6,7 @@
 # devtools::document()
 
 ### --- SHELL ----
-# git add -A && git commit -m "_"
-# git push
+# git add -A && git commit -m "_" /git push
 
 ### --- R ---
 # devtools::install_github('srhoads/srhoads')
