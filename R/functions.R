@@ -4696,7 +4696,7 @@ read_extract_merge <- function(filelist = NULL, inpath = NULL, pattern = NULL,
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5034,7 +5034,393 @@ tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,te
 
 
 
+#' A function that makes sample data frames with name, race, gender type columns
+#'
+#' This function allows you to make sample dataframes!
+#' @export
+#' @examples
+#' dfsampler(which='long', tibble=F)
+dfsampler <- dfincaser <- dfincasef <- function(which='long', tibble=F){
+  if(which=='short') dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
+                                            firstname=c('charlene', 'sandra sunrising'), 
+                                            lastname=c('teters', 'osawa'), 
+                                            gender=c('female', 'female'), 
+                                            race=c('american indian or alaska native', 'american indian or alaska native'), 
+                                            stringsAsFactors = F)
+  if(which=='long') dfincase <- data.frame(gender = c("male", "female", "female", 
+                                                      "female", "female", "female", 
+                                                      "male", "female", "male", 
+                                                      "male", "male", "male", 
+                                                      "female", "female", "female",
+                                                      "female", "female", "female", 
+                                                      "female", "female", "male",
+                                                      "male"), 
+                                           race = c("white", "white", 
+                                                    "native hawaiian or other pacific islander", 
+                                                    "black or african american", 
+                                                    "american indian or alaska native", 
+                                                    "hispanic or latino", 
+                                                    "asian",
+                                                    "black or african american", 
+                                                    "american indian or alaska native", 
+                                                    "white", 
+                                                    "two or more races", "two or more races", 
+                                                    "american indian or alaska native",
+                                                    "american indian or alaska native", 
+                                                    "native hawaiian or other pacific islander",
+                                                    "hispanic or latino", 
+                                                    "hispanic or latino",
+                                                    "white", "white", 
+                                                    "hispanic or latino", 
+                                                    "hispanic or latino",
+                                                    "native hawaiian or other pacific islander"), 
+                                           name = c("jason o'rawe", "samantha karlaina rhoads", "keisha castle-hughes", 
+                                                    "oprah winfrey", "shoni schimmel", "alexandria ocasio-cortez", 
+                                                    "kendrick kang-joh jeong","purdie greenaway, valerie", "silverheels, jay", 
+                                                    "jadrian charles guy", "jordan peele", "keegan-michael key", 
+                                                    "davids, sharice", "deb haaland", "dinah jane hansen",
+                                                    "ochoa, ellen", "sonia sotomayor", "ruth bader ginsburg", 
+                                                    "natalia nikolaevna zakharenko", "kahlo, frida", "diego rivera",
+                                                    "momoa, jason"), stringsAsFactors = F)
+  if(tibble) dfincase <- as.tibble(dfincase)
+  dfincase
+}
 
+
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' trimws_v()
+trimws_v <- function(v, which='both', doublespace=T) if(doublespace) gsub('   |  ', ' ', trimws(v, which=which)) else trimws(v, which=which)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' trimws_()
+trimws_ <- function(v, which='both', doublespace=T) if(doublespace) gsub('   |  ', ' ', trimws(v, which=which)) else trimws(v, which=which)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' trimws_df()
+trimws_df <- function(x, which='both', doublespace=T) mutate_all(x, function(v) trimws_v(v, doublespace=doublespace, which=which))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' na_if_()
+na_if_ <- function(x) x %>% na_if('') %>% na_if('NA') %>% na_if('Unknown') %>% na_if('-') %>% na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
+  na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
+  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('')
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' newdate()
+newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' unique_sep()
+unique_sep <- function(v, sep='; '){
+  splitv <- strsplit(v, sep)
+  uniqv <- lapply(splitv, unique)
+  lapply(uniqv, function(s) paste0(s, collapse=sep)) %>% dplyr::combine() %>% as.character()
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' format_initial()
+format_initial <- function(v, upper=T){
+  v <- gsub("\\s([[:alpha:]])\\s"," \\1. ", v)
+  v <- gsub("^([[:alpha:]])\\s","\\1. ", v)
+  v <- gsub("\\s([[:alpha:]])$"," \\1.", v)
+  v <- gsub("^([[:alpha:]])$","\\1.", v)
+  v <- trimws_(gsub('\\.', '. ', v))
+  if(upper) v <- gsub("\\b(\\w)", "\\U\\1", v, perl = TRUE)
+  trimws_(v)
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' toupper_l1()
+toupper_l1 <- function(v) gsub("\\b(\\w)", "\\U\\1", v, perl = TRUE)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' name_case()
+name_case <- function(v) toupper_l1(tolower(v))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' clean_str()
+clean_str <- function(v){
+  v %>% trimws_() %>% 
+    gsub(',', ', ', .) %>%
+    trimws_() %>%
+    gsub(' \\.$|\\-$|\\_$|\\,$|\\/$', '', .) %>%
+    gsub('^\\.|^\\-|^\\_|^\\,|^\\/', '', .) %>%
+    # gsub(' \\. ', ' ', .) %>%
+    trimws
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' format_pasted_name()
+format_pasted_name <- function(name){
+  name <- trimws_(gsub(' NA|NA ', '', name))
+  name <- clean_str(name)
+  name <- format_initial(name)
+  name <- gsub(' Na ', ' ', name)
+  name <- name_case(name)
+  name <- trimws_(name)
+  name <- unique_sep(name, ' ')
+  name
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' remove_after_char()
+remove_after_char <- function(v, sep=' ') gsub(paste0(sep, ".*"),"", v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' extract_words_w_nums()
+extract_words_w_nums <- function(v) sapply(stringr::str_extract_all(v, '[A-Za-z]*[0-9]+[A-Za-z]*'), paste, collapse=' ')
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' na_if_all_digits()
+na_if_all_digits <- function(v) gsub(paste_regex(c(1:2000), exact=T), NA, v, ignore.case = T)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' join_full()
+join_full <- function(l, type='full') plyr::join_all(l, type=type)
+
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' datatable_()
+datatable_ <- function(d){
+  DT::datatable(d, rownames=F,
+                options = list(pageLength = 5000, 
+                               autoWidth = TRUE,
+                               dom = 'Bfrtip',
+                               autoWidth=T,
+                               columnDefs = list(list(width = '10', targets = 2)),
+                               scrollX = TRUE, 
+                               selection="multiple"))
+  
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' df_to_vec()
+df_to_vec <- function(df) as.character(unlist(df))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ifelse_to_na_exact()
+ifelse_to_na_exact <- function(v, na_vec) ifelse(tolower(v) %in% tolower(na_vec), NA, v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ifelse_to_na_partial()
+ifelse_to_na_partial <- function(v, na_vec) ifelse(grepl(paste_regex(na_vec), v), NA, v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ifelse_to_na()
+ifelse_to_na <- function(v, na_vec, exact=T) if(exact) ifelse_to_na_exact(v, na_vec) else ifelse_to_na_partial(v, na_vec)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' unlist_as_char()
+unlist_as_char <- function(df) as.character(unlist(df))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' sort_df_columns()
+sort_df_columns <- function(df) df %>% dplyr::select(sort(names(.)))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' summary_factor()
+summary_factor <- function(x, maxsum=7) if(is.data.frame(x)) summary(dplyr::mutate_all(x, as.factor), maxsum) else summary(as.factor(x), maxsum)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' paste_regex_partial()
+paste_regex_partial <- function(v, collapse='|') paste0(v, collapse=collapse)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' paste_regex_exact()
+paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=collapse)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' paste_regex()
+paste_regex <- function(v, collapse='|', exact=F){
+  if(exact) paste_regex_exact(v)
+  else paste_regex_partial(v)
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' strip_num_trimws()
+strip_num_trimws <- function(v) trimws_(gsub('[[:digit:]]+', '', v))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' clean_na_sep()
+clean_na_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', trimws_(v), perl=T)) %>% 
+  gsub(' ///|/// |//////', '///', ., perl=T) %>% 
+  trimws_() %>% na_if_()
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' clean_na_sep_comma()
+clean_na_sep_comma <- function(v, sep=', ') trimws_(gsub(', NA|NA, |^, |, $|^, |, $|^\\, |\\, $', '', trimws_(v), perl=T)) %>% 
+  gsub(' , |,  |, , ', ', ', ., perl=T) %>% 
+  trimws_() %>% na_if_()
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' clean_unique_sep()
+clean_unique_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', v, perl=T)) %>% 
+  gsub(' ///|/// |//////', '///', ., perl=T) %>% 
+  unique_sep(., sep=sep) %>% na_if_()
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+unique_sep_strip_num_clean <- function(v, sep='///') clean_unique_sep(unique_sep(strip_num_trimws(v), sep=sep), sep=sep)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' drop_rows_all_na()
+drop_rows_all_na <- function(x, pct=1) x[!rowSums(is.na(x)) >= ncol(x)*pct,]
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' nna()
+nna <- function(x) sum(is.na(x))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' dimnna()
+dimnna <- nnadim <- function(d) paste0("nNA: ", nna(d), "  |  dim: ", paste0(dim(d), collapse=' x '), collapse=' ')
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' nnadimsum()
+nnadimsum <- dimsumnna <- sumdimnna <- dimnnasum <- sumnnadim <- function(d, alpha=F){ 
+  if(alpha) print(summary_factor(d %>% sort_df_columns(), 1)) else print(summary_factor(d, 1))
+  cat(paste0("\n\nnNA: ", nna(d), "\n nrow: ", paste0(dim(d), collapse=' \n ncol: '), collapse=' '))
+}
 
 
 
