@@ -1,7 +1,20 @@
+
+## HOW TO UPDATE LIBRARY:
+# --------------------------------------------
+
+### --- R ---
+# devtools::document()
+
+### --- SHELL ----
 # git add -A && git commit -m "_"
 # git push
 
-# document()
+### --- R ---
+# devtools::install_github('srhoads/srhoads')
+
+# --------------------------------------------
+
+
 # source("global.R")
 library(tidyverse)
 
