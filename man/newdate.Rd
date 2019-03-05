@@ -5,10 +5,15 @@
 \title{A function to clean dates}
 \usage{
 newdate(v)
+
+newdate(v)
 }
 \description{
 This function allows you to recode a date that's originally in a format like `January 17, 1996 11:00 AM`
+
+This function allows you to
 }
 \examples{
+newdate()
 newdate()
 }

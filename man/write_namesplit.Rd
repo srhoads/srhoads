@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{write_namesplit}
 \alias{write_namesplit}
-\title{A Function}
+\title{A function}
 \usage{
 write_namesplit(filelist = NULL, inpath = NULL, pattern = NULL,
   newdir = NULL, extension = "feather", subsets = 2,

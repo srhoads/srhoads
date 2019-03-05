@@ -5,10 +5,15 @@
 \title{A function to paste a vector in a regex way with '|' exact with '^' in front and '$' in back}
 \usage{
 paste_regex_exact(v, collapse = "|")
+
+paste_regex_exact(v, collapse = "|")
 }
 \description{
 This function allows you to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
+
+This function allows you to
 }
 \examples{
 paste_regex_exact(v, collapse='|')
+paste_regex_exact()
 }

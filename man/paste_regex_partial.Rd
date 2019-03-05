@@ -5,10 +5,15 @@
 \title{A function to paste a vector in a regex way with '|' partial}
 \usage{
 paste_regex_partial(v, collapse = "|")
+
+paste_regex_partial(v, collapse = "|")
 }
 \description{
 This function allows you to paste a vector in a regex way with '|' partial
+
+This function allows you to
 }
 \examples{
 paste_regex_partial(v, collapse='|')
+paste_regex_partial()
 }

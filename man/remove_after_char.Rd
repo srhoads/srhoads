@@ -5,10 +5,15 @@
 \title{A function to remove characters after a certain character}
 \usage{
 remove_after_char(v, sep = " ")
+
+remove_after_char(v, sep = " ")
 }
 \description{
 This function allows you to remove characters after a certain character of your choosing
+
+This function allows you to
 }
 \examples{
 remove_after_char(v, sep=' ')
+remove_after_char()
 }
