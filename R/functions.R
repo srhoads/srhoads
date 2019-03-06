@@ -1022,9 +1022,6 @@ dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, str
 gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub(from, to, xx, ignore.case=ignore.case), num=num)
 
 
-
-
-
 #' A Function
 #'
 #' This function allows you to 
@@ -1089,18 +1086,17 @@ pkg <- function (package1, ...) {
 try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), error=function(e) x)
 
 
-#' A function just like read_excel but better!
+#' A function just like read_excel but better bc it does all the sheets!
 #'
 #' This function allows you to 
 #' @export
 #' @examples
 #' readexcel()
-readexcel <- function(file, bindsheets=F, skip=0, col_types='text'){
+readexcel <- function(file, bindsheets=F, skip=0, col_types='text', simplify=T){
   sheets <- readxl::excel_sheets(file)
-  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', '')), col_types=col_types)
+  d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', ''), col_types=col_types))
   names(d) <- sheets
-  d <- try_combine_compact(d)
-  d <- drop_empty(d)
+  if(simplify) d <- drop_empty(try_combine_compact(d))
   if(bindsheets) d <- dplyr::bind_rows(d)
   d
 }

@@ -2,9 +2,10 @@
 % Please edit documentation in R/functions.R
 \name{readexcel}
 \alias{readexcel}
-\title{A function just like read_excel but better!}
+\title{A function just like read_excel but better bc it does all the sheets!}
 \usage{
-readexcel(file, bindsheets = F, skip = 0, col_types = "text")
+readexcel(file, bindsheets = F, skip = 0, col_types = "text",
+  simplify = T)
 }
 \description{
 This function allows you to
