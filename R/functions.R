@@ -6,7 +6,7 @@
 # devtools::document()
 
 ### --- SHELL ----
-# git add -A && git commit -m "_" /git push
+# git add -A && git commit -m "_"; git push
 
 ### --- R ---
 # devtools::install_github('srhoads/srhoads')
@@ -1035,6 +1035,18 @@ not_all_na <- function(x) any(!is.na(x))
 
 `%>%` <- magrittr::`%>%` 
 `%<>%` <- magrittr::`%<>%`
+
+## Loads pipes (`%>%` and `%<>%`) into R env
+#' A Function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' pipes()
+pipes <- function(){
+  `%>%` <<- magrittr::`%>%` 
+  `%<>%` <<- magrittr::`%<>%`
+}
 
 ## same as list.files() except default recursive=T and full.names=T
 #' A Function
