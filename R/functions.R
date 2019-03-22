@@ -5251,7 +5251,7 @@ tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,te
 #' @export
 #' @examples
 #' dfsampler(which='long', tibble=F)
-dfsampler <- dfincaser <- dfincasef <- function(which='long', tibble=F){
+dfsampler <- function(which='long', tibble=F){
   if(which=='short') dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
                                             firstname=c('charlene', 'sandra sunrising'), 
                                             lastname=c('teters', 'osawa'), 
