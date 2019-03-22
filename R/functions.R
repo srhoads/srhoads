@@ -1,4 +1,6 @@
 
+library(gtools)
+mixedsort(k)
 ## HOW TO UPDATE LIBRARY:
 # --------------------------------------------
 
@@ -1044,6 +1046,13 @@ pipes <- function(){
   `%>%` <<- magrittr::`%>%` 
   `%<>%` <<- magrittr::`%<>%`
 }
+
+
+pipe1 <- function() `%>%` <<- magrittr::`%>%` 
+
+pipe2 <- function() `%<>%` <<- magrittr::`%<>%`
+
+
 
 ## same as list.files() except default recursive=T and full.names=T
 #' A Function
