@@ -903,8 +903,6 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
 
-
-
 #' A function to do grep() but pasting a vec instead of just a string
 #'
 #' This function allows you to do grep() but pasting a vec instead of just a string
@@ -943,9 +941,122 @@ gsub_ic <- function(pattern, to, v, exact=F, ignore.case=T) gsub(paste_regex(pat
 #' select_list(list, pattern, exact=F, ignore.case=T)
 select_list <- function(list, pattern, exact=F, ignore.case=T) list[grep_(pattern, names(list), exact=exact, ignore.case=ignore.case)] 
 
-#' A function kinda like `dplyr`'s `select()` but works on lists
+#' A function that brings a desired word to the front of a string
 #'
-#' This function is kinda like `dplyr`'s `select()` but works on selecting stuff from lists
+#' This function brings a desired word to the front of a string (reorders string itself)
+#'
+#' @export
+#' @examples
+#' word_to_front(wrd, v)
+word_to_front <- function(wrd, v) {
+  wrd1 <- paste0(wrd, " ")
+  wrd2 <- paste0(wrd, "$")
+  wrd3 <- paste0(wrd, "-")
+  wrd4 <- paste0(wrd, "_")
+  v <- sub(paste0('^(.*) ', wrd1), paste0(wrd, ' \\1 '), v)
+  v <- sub(paste0('^(.*) ', wrd2), paste0(wrd, ' \\1 '), v)  
+  v <- sub(paste0('^(.*) ', wrd3), paste0(wrd, '-\\1 '), v)
+  v <- sub(paste0('^(.*) ', wrd4), paste0(wrd, ' \\1 '), v)
+  trimws_(v)
+}
+
+
+#' A function that reminds us what some regular expressions are, like and/or
+#'
+#' This is a function
+#'
+#' @export
+#' @examples
+#' regex_info()
+regex_info <- function(){
+  data.frame(
+    type = c(
+      'alpha',
+      'alnum',
+      'and',
+      'or',
+      'escape'
+    ),
+    regex = c(
+      '[[:alpha:]]',
+      '[[:alnum:]]',
+      '.*',
+      '|',
+      '\\'
+    )
+  )
+}
+
+
+
+#' A function that acts like `recode()` but works on a list
+#'
+#' This is a function
+#'
+#' @export
+#' @examples
+#' recode_from_list(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru')))
+recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicable'), 
+                                                   'TRUE' = c('true', 'tru'))){
+  v <- tolower(v) %>% trimws_() %>% gsub('\\&', 'and', .) %>% gsub('\\.|\\(|\\)', '', .) %>% gsub('-', ' ', .) %>% trimws_()
+  v <- gsub("[^ |[:alpha:]]", "", v, perl = T)
+  v <- tolower(v)
+  recode_key <- lapply(names(recode_list), function(x) {
+    to_recode <- recode_list[[x]]
+    setNames(rep(x, length(to_recode)), to_recode)
+  })
+  recode_key <- unlist(recode_key)
+  v <- dplyr::recode(v, !!!recode_key)
+  gsub("^NA$", NA, v, perl = T)
+}
+
+
+#' A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
+#'
+#' This is a function
+#'
+#' @export
+#' @examples
+#' findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
+findme <- function(d=df00.5, g1="", g2="", g3="", g4="", g5=""){
+  (data.frame(grep_all_df(g1, d, ignore.case = T))) %>%
+    grep_all_df(g2, ., ignore.case = T) %>%
+    grep_all_df(g3, ., ignore.case = T) %>%
+    grep_all_df(g4, ., ignore.case = T) %>%
+    grep_all_df(g5, ., ignore.case = T) %>%
+    data.frame(., row.names = NULL)
+}
+
+#' A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
+#'
+#' This is a function
+#'
+#' @export
+#' @examples
+#' findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
+findme <- function(d=df00.5, g1="", g2="", g3="", g4="", g5=""){
+  (data.frame(grep_all_df(g1, d, ignore.case = T))) %>%
+    grep_all_df(g2, ., ignore.case = T) %>%
+    grep_all_df(g3, ., ignore.case = T) %>%
+    grep_all_df(g4, ., ignore.case = T) %>%
+    grep_all_df(g5, ., ignore.case = T) %>%
+    data.frame(., row.names = NULL)
+}
+
+#' A function that rounds up to next highest digit base #, ie, to 100 or 1000 or 1000 etc...
+#'
+#' This is a function
+#'
+#' @export
+#' @examples
+#' roundupc(x)
+roundupc <- function(x) 10^ceiling(log10(x))
+
+
+
+#' A function that gets 5 digit zip codes
+#'
+#' This function extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 #'
 #' @export
 #' @examples
@@ -5140,7 +5251,7 @@ tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,te
 #' @export
 #' @examples
 #' dfsampler(which='long', tibble=F)
-dfsampler <- dfincaser <- dfincasef <- function(which='long', tibble=F){
+dfsampler <- function(which='long', tibble=F){
   if(which=='short') dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
                                             firstname=c('charlene', 'sandra sunrising'), 
                                             lastname=c('teters', 'osawa'), 

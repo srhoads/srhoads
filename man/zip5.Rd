@@ -2,14 +2,14 @@
 % Please edit documentation in R/functions.R
 \name{zip5}
 \alias{zip5}
-\title{A function kinda like `dplyr`'s `select()` but works on lists}
+\title{A function that gets 5 digit zip codes}
 \usage{
 zip5(text.var, trim = !extract, clean = TRUE,
   pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)", replacement = "",
   extract = TRUE, dictionary = getOption("regex.library"), ...)
 }
 \description{
-This function is kinda like `dplyr`'s `select()` but works on selecting stuff from lists
+This function extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 }
 \examples{
 zip5()
