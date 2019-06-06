@@ -10,5 +10,5 @@ select_gender_cols_df(df, output = c("df", "names", "dfnewnames"))
 This function allows you to
 }
 \examples{
-()
+select_gender_cols_df()
 }

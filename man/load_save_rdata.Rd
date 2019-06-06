@@ -12,5 +12,5 @@ load_save_rdata(filelist = NULL, inpath = NULL, pattern = NULL,
 This function allows you to
 }
 \examples{
-()
+load_save_rdata()
 }

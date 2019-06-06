@@ -10,5 +10,5 @@ select_race_cols_list(mylist, output = c("list", "names"))
 This function allows you to
 }
 \examples{
-()
+select_race_cols_list()
 }

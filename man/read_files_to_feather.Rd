@@ -2,7 +2,29 @@
 % Please edit documentation in R/functions.R
 \name{read_files_to_feather}
 \alias{read_files_to_feather}
-\title{A Function}
+\title{#' A Function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' read_rdas()
+read_rdas <- function(filelist = NULL, 
+                      inpath = NULL,
+                      pattern = NULL) {
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", ., perl = T) %>%
+      gsub("__", "_", ., perl = T)
+  }
+  
+  loaded <- lapply(filelist, function (x){
+    x <- load(x)
+    x <- get(x)
+  })
+  loaded
+}
+A Function}
 \usage{
 read_files_to_feather(filelist, path = "~/",
   filename_prefix = "nrg_data")

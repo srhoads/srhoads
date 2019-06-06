@@ -12,5 +12,5 @@ read_rda_merge_write_feathers(filelist = NULL, inpath = NULL,
 This function allows you to
 }
 \examples{
-()
+read_rda_merge_write_feathers()
 }

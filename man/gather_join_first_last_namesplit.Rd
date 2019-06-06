@@ -10,5 +10,5 @@ gather_join_first_last_namesplit(df, seq = c("first last", "last,first"))
 This function allows you to
 }
 \examples{
-()
+gather_join_first_last_namesplit()
 }

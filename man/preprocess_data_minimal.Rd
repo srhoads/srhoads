@@ -10,5 +10,5 @@ preprocess_data_minimal(x, type = c("lod"))
 This function allows you to
 }
 \examples{
-()
+preprocess_data_minimal()
 }

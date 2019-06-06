@@ -11,5 +11,5 @@ read_extract_merge(filelist = NULL, inpath = NULL, pattern = NULL,
 This function allows you to
 }
 \examples{
-()
+read_extract_merge()
 }

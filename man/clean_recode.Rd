@@ -11,5 +11,5 @@ clean_recode(df, scrub = c("once", "double"), extrarace = NULL,
 This function allows you to
 }
 \examples{
-()
+clean_recode()
 }

@@ -10,5 +10,5 @@ regulars_namesplit(x, extra = NULL, extent = "thorough")
 This function allows you to
 }
 \examples{
-()
+regulars_namesplit()
 }

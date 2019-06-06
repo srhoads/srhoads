@@ -13,5 +13,5 @@ write_namesplit(filelist = NULL, inpath = NULL, pattern = NULL,
 This function allows you to
 }
 \examples{
-()
+write_namesplit()
 }

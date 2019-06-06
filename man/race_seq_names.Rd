@@ -10,5 +10,5 @@ race_seq_names(x)
 This function allows you to
 }
 \examples{
-()
+race_seq_names()
 }
