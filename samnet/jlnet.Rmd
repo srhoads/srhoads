@@ -1,0 +1,113 @@
+---
+title: ''
+output: html_document
+---
+
+
+
+
+```{r, echo=F,  message=F, warning=F, fig.height=9.5, fig.width=9.5}
+#, fig.width=25, fig.height=25, echo=F, message=F, warning=F}
+library(ggnet)
+library(GGally)
+library(network)
+library(sna)
+library(ggplot2)
+library(magrittr)
+library(visNetwork)
+
+image <- "https://res.cloudinary.com/campus-job/image/upload/t_student-public-page/v1/profile_pictures/ACWf2ittID_20170205.jpg"
+jl <- "https://www.jdsupra.com/showThumbnail.aspx?img=15626_4721.jpg&size=og"
+jlmap <- "https://www.jacksonlewis.com/sites/all/themes/jacksonlewis/images/LE_Global_Map.png"
+pa <- "https://dailydatanews.com/wp-content/uploads/2017/08/Advertising.jpg"
+image <- "https://www.digitalistmag.com/files/2016/08/Harness-the-Power-of-Predictive-Analytics-for-your-E-commerce-Success.jpg"
+image <- "https://www.jacksonlewis.com/sites/all/themes/jacksonlewis/logo.svg"
+i2 <- "https://www.jacksonlewis.com/sites/default/files/practice/001_Affirmative-Action-Compliance-and-OFCCP-Defense_Final.jpg"
+i3 <- "https://www.jacksonlewis.com/sites/default/files/media/images/blf-badge-2019.png"
+i4 <- "https://www.jacksonlewis.com/sites/default/files/media/images/BTI_Litigation_Powerhouse_2019.png"
+i5 <- "https://media.glassdoor.com/sql/265049/jackson-lewis-squarelogo.png"
+priv <- "https://media.licdn.com/media-proxy/ext?w=400&h=200&f=pj&hash=%2FzhP5yLhynr1iqf9a9ZLJbxwJ%2Fs%3D&ora=1%2CaFBCTXdkRmpGL2lvQUFBPQ%2CxAVta5g-0R69hAxUyB0i672Oo0O1805UC4HTDy_iAmH_ucrUNSG4PJubZuT4-AhVZ31C01F2PPDvH3K6Us_teN-APZ4ozca2bf-wZxMHVhE3i2hI6dw-Nw0bppGlEPn5dDdxwOlIYj2pDLvlaFUAAyY486KDPYA&shareType=article"
+drug <- "https://media.licdn.com/media-proxy/ext?w=400&h=200&f=pj&hash=wDmbws7jN0n4ZLFsJJ7fENP8Nwg%3D&ora=1%2CaFBCTXdkRmpGL2lvQUFBPQ%2CxAVta5g-0R69hAxUyB0i672Oo0O1805UC4HTDy_iAmH_ucrUNSG4PJubZuT4-AhVZ31C01F2PPD8AnW2fcLgeNW3IoAez8KmYMm6YTgKaAsJh2VA6-4yOhYq-562Ag&shareType=article"
+payeq <- "https://media.licdn.com/media-proxy/ext?w=400&h=200&f=pj&hash=O2yieXtlHeF3KL5D7agGbCJ%2FFX0%3D&ora=1%2CaFBCTXdkRmpGL2lvQUFBPQ%2CxAVta5g-0R69hAxUyB0i672Oo0O1805UC4HTDy_iAmH_ucrUNSG4PJubZuT4-AhVZ31C01F2PPDoEXmOR9L5cs6mEo0lzc6me9KLZAsJbiM_hmZBotsrPg&shareType=article"
+jl60 <- "https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/32465861_1680898508658313_8070630298104102912_n.jpg?_nc_cat=105&_nc_ht=scontent-lga3-1.xx&oh=2638610d21a449de252e22b6d6d5bbbb&oe=5D40A071"
+image2 <- "https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/14702454_1126152014132968_6896980941131792512_n.png?_nc_cat=110&_nc_ht=scontent-lga3-1.xx&oh=6dfb788c6f155dc2d78551f34180048a&oe=5D45A053"
+# image3 <-"https://1.cms.s81c.com/sites/default/files/2018-11-21/aberdeen-infographic.jpg"
+# image3 <- "https://media.licdn.com/media-proxy/ext?w=400&h=200&f=pj&hash=RtETVxP85x1I%2F839C6SWPSYLeKw%3D&ora=1%2CaFBCTXdkRmpGL2lvQUFBPQ%2CxAVta5g-0R69hAxUyB0i672Oo0O1805UC4HTDy_iAmH_ucrUNSG4PJubZuT4-AhVZ31C01F2PPDxHW24RdHtb9OwI7Mj18iyS8m3aQlIYwwx&shareType=article"
+immigr <- "https://media.licdn.com/media-proxy/ext?w=400&h=200&f=pj&hash=CPLsVOuFSJCwJREzcYpmfnyGy3A%3D&ora=1%2CaFBCTXdkRmpGL2lvQUFBPQ%2CxAVta5g-0R69hAxUyB0i672Oo0O1805UC4HTDy_iAmH_ucrUNSG4PJubZuT4-AhVZ31C01F2PPD8GXOwQMrgcs6mEoAk2tGwS8K4aQA5YB85iydF_NY&shareType=article"
+# ianaly1 <- "https://image.shutterstock.com/image-vector/flat-design-modern-vector-illustration-450w-564080401.jpg"
+
+
+```
+<!-- ```{r, echo=F,  message=F, warning=F, fig.height=9.5, fig.width=9.5} -->
+<!-- nodes <- data.frame(id = 1:6, -->
+<!--                     shape = c("image", "circularImage", "circularImage", "circularImage", "circularImage", "circularImage"), -->
+<!--                     image = c("https://www.smartdatacollective.com/wp-content/uploads/2018/11/top-7-data-analytics-tools-2019.jpg",  -->
+<!--                               immigr, priv, payeq, drug, jl60), -->
+<!--                     # label = c("Jo & Is", "Sam!!", "Sam!?", "Sam", "Sam!", "Sam..."), -->
+<!--                     size = 150) -->
+<!-- edges <- data.frame(from = c(1,2,3,4,5,6,0,  1,2,3,4,5,6,0, 1,2,3,4,5,6,0, 1,2,3,4,5,6,0, 1,2,3,4,5,6,0, 1,2,3,4,5,6,0, 1,2,3,4,5,6,0), -->
+<!--                     to =   c(0,1,1,1,1,1,1,  2,0,2,0,2,0,0, 0,0,0,0,0,3,0, 0,0,0,0,0,0,0, 0,0,0,5,0,0,0, 0,0,0,0,0,0,0, 0,0,0,0,0,0,0), -->
+<!--                     size = 100, -->
+<!--                     length = 1000) -->
+<!-- visNetwork(nodes, edges, width = "100%") %>% -->
+<!--   visNodes(shapeProperties = list(useBorderWithImage = TRUE)) -->
+
+<!-- ``` -->
+<!-- ```{r, echo=F,  message=F, warning=F, fig.height=9.5, fig.width=9.5} -->
+<!-- nodes <- data.frame(id = 1:6, -->
+<!--                     shape = c("image", "circularImage", "circularImage", "circularImage", "circularImage", "circularImage"), -->
+<!--                     image = c("https://www.smartdatacollective.com/wp-content/uploads/2018/11/top-7-data-analytics-tools-2019.jpg",  -->
+<!--                               immigr, priv, payeq, drug, jl60), -->
+<!--                     # label = c("Jo & Is", "Sam!!", "Sam!?", "Sam", "Sam!", "Sam..."), -->
+<!--                     size = 150) -->
+<!-- edges <- data.frame(from = c(1:6,  1:6,  1:6,  1:6,  1:6,  1:6), -->
+<!--                     to =   c(0,1,1,1,1,1,  rep(0, 6), 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, rev(1:6)), -->
+<!--                     size = 100, -->
+<!--                     length = 1100) -->
+<!-- visNetwork(nodes, edges, width = "100%") %>% -->
+<!--   visNodes(shapeProperties = list(useBorderWithImage = TRUE)) -->
+
+<!-- ``` -->
+
+
+
+
+<!-- ```{r, echo=F,  message=F, warning=F, fig.height=9.5, fig.width=9.5} -->
+<!-- nodes <- data.frame(id = 1:6, -->
+<!--                     shape = c("image", "circularImage", "circularImage", "circularImage", "circularImage", "circularImage"), -->
+<!--                     image = c("https://www.smartdatacollective.com/wp-content/uploads/2018/11/top-7-data-analytics-tools-2019.jpg",  -->
+<!--                               immigr, priv, payeq, drug, jl60), -->
+<!--                     # label = c("Jo & Is", "Sam!!", "Sam!?", "Sam", "Sam!", "Sam..."), -->
+<!--                     size = 150) -->
+<!-- edges <- data.frame(from = c(1:6,  1:6,  1:6,  1:6,  1:6,  1:6), -->
+<!--                     to =   c(0,1,1,1,1,1,  1,0,3,4,5,6, 0,0,0,0,0,0, 0,0,0,0,0,0, 0,0,0,0,0,0, rev(1:6)), -->
+<!--                     size = 100, -->
+<!--                     length = 1100) -->
+<!-- visNetwork(nodes, edges, width = "100%") %>% -->
+<!--   visNodes(shapeProperties = list(useBorderWithImage = TRUE)) -->
+
+<!-- ``` -->
+
+
+
+```{r, echo=F,  message=F, warning=F, fig.height=10.5, fig.width=10.5}
+nodes <- data.frame(id = 1:6,
+                    shape = c("image", "circularImage", "circularImage", "circularImage", "circularImage", "circularImage"),
+                    image = c("https://www.smartdatacollective.com/wp-content/uploads/2018/11/top-7-data-analytics-tools-2019.jpg", 
+                              immigr, priv, payeq, drug, jl60),
+                    # label = c("Jo & Is", "Sam!!", "Sam!?", "Sam", "Sam!", "Sam..."),
+                    size = 180)
+edges <- data.frame(from = c(1:6,  1:6,  1:6),#  1:6),#  1:6),# 1,1,1,1,1,1),
+                    to =   c(0,1,1,1,1,1,  0,0,2,2,2,2, 0,0,0,3,3,3),# 0,0,0,0,4,4),# 0,0,0,0,0,5),# 0,2,3,4,5,6),
+                    size = 200,
+                    length = 1100)
+visNetwork(nodes, edges, width = "100%") %>%
+  visNodes(shapeProperties = list(useBorderWithImage = TRUE))
+
+```
+
+
+
+
+
+

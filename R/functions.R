@@ -5634,6 +5634,103 @@ nnadimsum <- dimsumnna <- sumdimnna <- dimnnasum <- sumnnadim <- function(d, alp
 }
 
 
+# June 6, 2019 (06062019) _ ########################################################################################################################
+
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' returnname()
+returnname <- function(z){
+  mean.x<-mean(z$x)
+  nm <-deparse(substitute(z))
+  return(nm)
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' lsetdiff()
+lsetdiff <- function(l1, l2) l1[!(l1 %in% l2)] # same as identical() i believe
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' lapply2()
+lapply2 <- function(l, fxn) lapply(l, function(ll) lapply(ll, fxn))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' filter_list()
+filter_list <- filter_l <- function(l, is){
+  l_is <- lapply(l, is)
+  l[l_is==T]
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' collapse_obj_tostr()
+collapse_obj_tostr <- function(x) x %>% 
+  lapply(., function(x) x %>% unlist() %>% 
+           capture.output() %>% paste0(., collapse="    \n    "))
+
+#' #' A function
+#' #'
+#' #' This function allows you to 
+#' #' @export
+#' #' @examples
+#' #' df_paste_()
+#' df_paste_ <- function(df){
+#'   vector_paste((substitute(df)))
+#'   df_paste(df)
+#' }
+#' 
+#' #' A function
+#' #'
+#' #' This function allows you to 
+#' #' @export
+#' #' @examples
+#' #' df_paste_2()
+#' df_paste_2 <- function(df){
+#'   vector_paste(c("'____'", substitute(df), "'____'"))
+#'   df_paste(df)
+#' }
+#' 
+#' #' A function
+#' #'
+#' #' This function allows you to 
+#' #' @export
+#' #' @examples
+#' #' df_paste_lod()
+#' df_paste_lod <- function(lod){
+#'   lapply(seq_along(lod), 
+#'          function(y, n, i) {vector_paste(n[[i]]); df_paste(y[[i]])}, 
+#'          y=lod, n=names(lod))
+#' }
+
+########################################################################################################################
+
+
+
+
+
+
+
+
+
+
 
 print("yey u loaded sam's fxns!")
 
