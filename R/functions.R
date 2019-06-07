@@ -5776,6 +5776,13 @@ read_excels <- function(filelist, bindsheets = F, bindrows = F, simplif = F, col
 #' @examples
 #' lapply2()
 lapply2 <- function(l, fxn) lapply(l, function(ll) lapply(ll, fxn))
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' parse_excel_date()
 parse_excel_date <- function(v){
   # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
   v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
