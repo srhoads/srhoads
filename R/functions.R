@@ -5754,6 +5754,68 @@ collapse_obj_tostr <- function(x) x %>%
 #'          function(y, n, i) {vector_paste(n[[i]]); df_paste(y[[i]])}, 
 #'          y=lod, n=names(lod))
 #' }
+#' 
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' read_excels()
+read_excels <- function(filelist, bindsheets = F, bindrows = F, simplif = F, col_types = "text") {
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets = bindsheets, col_types = col_types))
+  if (simplif) d <- try_combine_compact(d) %>% drop_empty()
+  if (bindrows) d <- dplyr::bind_rows(d)
+  d %>% setNames(filelist)
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' lapply2()
+lapply2 <- function(l, fxn) lapply(l, function(ll) lapply(ll, fxn))
+parse_excel_date <- function(v){
+  # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
+  v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' read_excel_somesheets()
+read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types='text', skip=0){
+  if(is.null(fns)) (fns <- list.files(pattern="\\.xlsx", recursive=T, full.names=T))
+  if(is.null(keepshtvec)) keepshtvec <- lapply(fns, function(v) readxl::excel_sheets(v)) %>% unlist() %>% unique()
+  (fnshtlst <- lapply(fns, function(s) readxl::excel_sheets(s)) %>% setNames(fns))
+  (keepshts <- lapply(fnshtlst, function(v) v[(v %in% keepshtvec)==T]))
+  
+  lapply(1:length(keepshts), function(i){
+    f <- names(keepshts[i])
+    shts <- keepshts[[i]]
+    (d <- lapply(shts, function(sht) readxl::read_excel(f, sheet=sht, skip = skip,  na = na, 
+                                                        col_types = col_types)) %>% setNames(shts))
+  }) %>% setNames(fns)
+  
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' depth()
+depth <- function(this,thisdepth=0){
+  if(!is.list(this)){
+    return(thisdepth)
+  }else{
+    return(max(unlist(lapply(this,depth,thisdepth=thisdepth+1))))    
+  }
+}
+
 
 ########################################################################################################################
 

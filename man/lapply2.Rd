@@ -7,13 +7,18 @@
 lapply2(l, fxn)
 
 lapply2(l, fxn)
+
+lapply2(l, fxn)
 }
 \description{
 This function allows you to
 
 This function allows you to
+
+This function allows you to
 }
 \examples{
+lapply2()
 lapply2()
 lapply2()
 }
