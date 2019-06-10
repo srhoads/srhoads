@@ -5885,6 +5885,14 @@ as.date.varioustypes <- function(v){
     ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.))), .)
 }
 
+#' A function to change state names to abbreviations if there are already abbreviation in the vector, so mixed types
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' state.abb_ifelse()
+state.abb_ifelse <- function(statevec) ifelse(is.na(state.abb[match(tolower(state), tolower(state.name))]), state, state.abb[match(tolower(state), tolower(state.name))])
+
 
 ########################################################################################################################
 
