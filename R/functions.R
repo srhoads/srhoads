@@ -5826,10 +5826,67 @@ depth <- function(this,thisdepth=0){
 
 ########################################################################################################################
 
+# JUNE 10, 2019 (06102019)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' lookslike_number()
+lookslike_number <- function(v){
+  v <- gsub("[[:digit:]]", "", v) %>%
+    na_if(., "")
+  ifelse(is.na(v), T, F)
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' str_has_upper()
+str_has_upper <- function(v) grepl('[[:upper:]]', v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' is.upper()
+is.upper <- function(v) grepl('[[:upper:]]', v) & !grepl('[[:lower:]]', v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' is.lower()
+is.lower <- function(v) grepl('[[:lower:]]', v) & !grepl('[[:upper:]]', v)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' is_datetype1()
+is_datetype1 <- function(v) ifelse(is.na(lubridate::parse_date_time(v, orders = c("mdy", "dmy"))), F, T)
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' as.date.varioustypes()
+as.date.varioustypes <- function(v){
+  v %>% unlist() %>% 
+    gsub("\\.", "", .) %>%
+    ifelse(is_datetype1(.), as.character(lubridate::parse_date_time(., orders = c("mdy", "dmy"))), .) %>%
+    ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.))), .)
+}
 
 
-
-
+########################################################################################################################
 
 
 
