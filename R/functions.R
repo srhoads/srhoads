@@ -9,6 +9,18 @@ if(redocument){
   system('git add -A && git commit -m "_"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
+
+docu <- function(fxn=""){
+  cat(eval("
+           #' Samantha Rhoads's function to...
+           #'
+           #' Srhoads wrote this to allow you to...
+           #' @export
+           #' @examples
+           #'"), paste0(fxn, "()"))
+}
+# docu(fxn="")
+
 # --------------------------------------------
 
 
@@ -879,11 +891,36 @@ types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS',
 # functions.R
 
 
+#' A function to do grep() but pasting a vec instead of just a string
+#'
+#' This function allows you to do grep() but pasting a vec instead of just a string
+#'
+#' @export
+#' @examples
+#' grep_(pattern, v, exact=F, ignore.case=F, value=F)
+grep_ <- function(pattern, v, exact=F, ignore.case=F, value=F) grep(paste_regex(pattern, exact=exact), v, ignore.case=ignore.case, value=value)
+
+
+
+
+#' A function to find matching string anywhere in a dataframe
+#'
+#' This function allows you to find matching string anywhere in a dataframe
+#' @export
+#' @examples
+#' grep_all_df_df(pattern, df, exact=F, ignore.case=F, print=F)
 grep_all_df_df <- function(pattern, df, exact=F, ignore.case=F, print=F){
   loc <- lapply(df, function(v) grep_(pattern, v, exact=exact, value = F, ignore.case=ignore.case)) %>% unlist()
   if(print) print(loc)
   df[loc, ]
 }
+
+#' A function to find matching string anywhere in a dataframe
+#'
+#' This function allows you to find matching string anywhere in a dataframe
+#' @export
+#' @examples
+#' grep_all_df_colnames(pattern, df, exact=F, ignore.case=F, print=F)
 grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
   loc <- lapply(df, function(v) grep_(pattern, v, exact=exact, value = T, ignore.case=ignore.case)) %>% drop_empty()
   if(print) print(loc)
@@ -895,20 +932,34 @@ grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
 #' This function allows you to find matching string anywhere in a dataframe
 #' @export
 #' @examples
-#' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F)
-grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
+#' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
+grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){ 
+  df$rownum <- 1:nrow(df)
+  
   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+  
+  else if(cells_only) {
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez, "rownum")))
+  }
+  else if(cells_only_discrete){
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez)))#, "rownum")))
+    # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
+    lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
+             tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
+  }
+  else if(rownums_only){
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% distinct() %>% unlist() %>% as.character()
+  }
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
-
-#' A function to do grep() but pasting a vec instead of just a string
-#'
-#' This function allows you to do grep() but pasting a vec instead of just a string
-#'
-#' @export
-#' @examples
-#' grep_(pattern, v, exact=F, ignore.case=F, value=F)
-grep_ <- function(pattern, v, exact=F, ignore.case=F, value=F) grep(paste_regex(pattern, exact=exact), v, ignore.case=ignore.case, value=value)
+##### OLD VERSION:
+# grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
+#   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+#   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+# }
 
 
 #' A function to do gsub() but pasting a vec instead of just a string
@@ -1025,21 +1076,6 @@ findme <- function(d=df00.5, g1="", g2="", g3="", g4="", g5=""){
     data.frame(., row.names = NULL)
 }
 
-#' A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
-#'
-#' This is a function
-#'
-#' @export
-#' @examples
-#' findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
-findme <- function(d=df00.5, g1="", g2="", g3="", g4="", g5=""){
-  (data.frame(grep_all_df(g1, d, ignore.case = T))) %>%
-    grep_all_df(g2, ., ignore.case = T) %>%
-    grep_all_df(g3, ., ignore.case = T) %>%
-    grep_all_df(g4, ., ignore.case = T) %>%
-    grep_all_df(g5, ., ignore.case = T) %>%
-    data.frame(., row.names = NULL)
-}
 
 #' A function that rounds up to next highest digit base #, ie, to 100 or 1000 or 1000 etc...
 #'
@@ -1259,6 +1295,31 @@ pkg <- function (package1, ...) {
                                  "http://owi.usgs.gov/R/"), dependencies = NA, 
                        type = getOption("pkgType"))
       do.call(library, list(package))
+    }
+  }
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' pkgu()
+## load and/or install package first, plus check for an update & do the update if there is one!
+pkgu <- function (package1, ...) {
+  packages <- c(package1, ...)
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) {
+      do.call(library, list(package))
+      update.packages(package)
+    }
+    else {
+      install.packages(package, 
+                       repos = c("https://cloud.r-project.org", 
+                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
+                       type = getOption("pkgType"))
+      do.call(library, list(package))
+      update.packages(package)
     }
   }
 }
@@ -1817,72 +1878,62 @@ select_name_cols_df <- function(df, output = c("df", "names")) {
   df
 }
 
-#' A Function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_gender_cols_df()
-select_gender_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
-  output <- match.arg(output)
-  exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-  partials <- c("female", "woman", "women", "feminine", "masculine")
-  cols1 <- 
-    dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-  cols2 <- 
-    dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-  cols <- c(cols1, cols2) %>% unique()
-  df <- 
-    dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) #%>% dplyr::distinct()
-  
-  if(length(df) == 0 | ncol(df) == 0){
-    df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-  }
-  
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  if(output == "dfnewnames") {
-    names(df) <- paste0("gender.", 1:ncol(df))
-    df
-  }
-  df
-}
 
-#' A Function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_gender_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-  output <- match.arg(output)
-  exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-  partials <- c("female", "woman", "women", "feminine", "masculine")
-  cols1 <-
-    dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-  cols2 <-
-    dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-  cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-  # df$PLACEFILLER <- NA
-  df <-
-    dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::select(- dplyr::matches("gender"))
-  
-  if(length(df) == 0 | ncol(df) == 0){
-    df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-  }
-  
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  if(output == "dfnewnames") {
-    names(df) <- paste0("gender.", 1:ncol(df))
-    df
-  }
-  df
-}
+# select_gender_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
+#   output <- match.arg(output)
+#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
+#   partials <- c("female", "woman", "women", "feminine", "masculine")
+#   cols1 <- 
+#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
+#   cols2 <- 
+#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
+#   cols <- c(cols1, cols2) %>% unique()
+#   df <- 
+#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) #%>% dplyr::distinct()
+#   
+#   if(length(df) == 0 | ncol(df) == 0){
+#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
+#   }
+#   
+#   if(output == "names")
+#     return(names(df))
+#   if(output == "df")
+#     return(df)
+#   if(output == "dfnewnames") {
+#     names(df) <- paste0("gender.", 1:ncol(df))
+#     df
+#   }
+#   df
+# }
+
+
+# select_gender_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
+#   output <- match.arg(output)
+#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
+#   partials <- c("female", "woman", "women", "feminine", "masculine")
+#   cols1 <-
+#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
+#   cols2 <-
+#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
+#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
+#   # df$PLACEFILLER <- NA
+#   df <-
+#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::select(- dplyr::matches("gender"))
+#   
+#   if(length(df) == 0 | ncol(df) == 0){
+#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
+#   }
+#   
+#   if(output == "names")
+#     return(names(df))
+#   if(output == "df")
+#     return(df)
+#   if(output == "dfnewnames") {
+#     names(df) <- paste0("gender.", 1:ncol(df))
+#     df
+#   }
+#   df
+# }
 
 
 #' A Function
@@ -1964,42 +2015,37 @@ select_race_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
 }
 
 
-#' A Function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_race_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-  output <- match.arg(output)
-  exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander",
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-  partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-                "pacific islander", "indian")
-  cols1 <-
-    dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
-  cols2 <-
-    dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-  cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-  # df$PLACEFILLER <- NA
-  df <-
-    dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")),-dplyr::matches("name")) %>% dplyr::select(- dplyr::matches("race"))
-  
-  if(length(df) == 0 | ncol(df) == 0){
-    df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-  }
-  
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  if(output == "dfnewnames") {
-    names(df) <- paste0("race.", 1:ncol(df))
-    df
-  }
-  df
-}
+# 
+# select_race_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
+#   output <- match.arg(output)
+#   exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
+#               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander",
+#               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
+#   partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
+#                 "pacific islander", "indian")
+#   cols1 <-
+#     dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
+#   cols2 <-
+#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
+#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
+#   # df$PLACEFILLER <- NA
+#   df <-
+#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")),-dplyr::matches("name")) %>% dplyr::select(- dplyr::matches("race"))
+#   
+#   if(length(df) == 0 | ncol(df) == 0){
+#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
+#   }
+#   
+#   if(output == "names")
+#     return(names(df))
+#   if(output == "df")
+#     return(df)
+#   if(output == "dfnewnames") {
+#     names(df) <- paste0("race.", 1:ncol(df))
+#     df
+#   }
+#   df
+# }
 
 
 #' A Function
@@ -5891,12 +5937,166 @@ as.date.varioustypes <- function(v){
 #' @export
 #' @examples
 #' state.abb_ifelse()
-state.abb_ifelse <- function(statevec) ifelse(is.na(state.abb[match(tolower(state), tolower(state.name))]), state, state.abb[match(tolower(state), tolower(state.name))])
+state.abb_ifelse <- function(statevec) ifelse(is.na(state.abb[match(tolower(statevec), tolower(state.name))]), statevec, state.abb[match(tolower(statevec), tolower(state.name))])
+
+docmnt <- function(fxn="srhoads"){
+  cat(eval("
+  #' Samantha Rhoads's function to...
+  #'
+  #' Srhoads wrote this to allow you to...
+  #' @export
+  #' @examples
+  #' ()"), fxn)
+}
+
+docmnt <- function(fxn="srhoads"){
+  cat(eval("
+           #' Samantha Rhoads's function to...
+           #'
+           #' Srhoads wrote this to allow you to...
+           #' @export
+           #' @examples"),
+      "#' ()", fxn)
+}
+########################################################################################################################
+
+
+
+
+
+
+########################################################################################################################
+# June 26, 2019 (06/26/2019) ---------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' summary_factor_2deep()
+summary_factor_2deep <- function (x, maxsum = 7){ 
+  if (depth(x)==1 & is.data.frame(x)) summary(dplyr::mutate_all(x, as.factor), maxsum) 
+  else if (depth(x)==0 & is.vector(x)) summary(as.factor(x), maxsum)
+  else tryCatch(lapply(x, function(xx) summary(lapply(xx, as.factor))), error=function(e) summary(x))
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' char_as_factor()
+char_as_factor <- function(v) if(is.character(v)) as.factor(v) else v
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' sumry_2deep()
+sumry_2deep <- function (x, maxsum = 7){ 
+  if (depth(x)==1 & is.data.frame(x)) summary(dplyr::mutate_if(x, is.factorchar, as.factor), maxsum) 
+  else if (depth(x)==0 & is.vector(x)) summary(char_as_factor(x), maxsum)
+  else tryCatch(lapply(x, function(xx) summary(lapply(xx, char_as_factor))), error=function(e) summary(x))
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' recode_diversitygroup()
+recode_diversitygroup <- function(v){
+  v %>% tolower() %>%
+    recode(., 
+           '1' = "White",
+           '2' = "Black",
+           '3' = "Hispanic",
+           '4' = "Asian",
+           '5' = "American Indian",
+           '6' = "Native Hawaiian/Pacific Islander",
+           '7' = "Two or More Races",
+           'f' = "Female",
+           'm' = "Male")
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' summary_factor()
+summary_factor <- function(x, maxsum=7){
+  tryCatch(summary_factor_2deep(x), error=function(e){
+    if(depth(x)==2){lapply(x, summary_factor_2deep)}
+  })
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' sumry()
+sumry <- function(x, maxsum=7) if (is.data.frame(x)) summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) else summary(if(is.character(x)) as.factor(x) else x, maxsum)
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' read_excel_all()
+read_excel_all <- function(fns){
+  fns <- list.files('original', full.names = T)
+  sheets <- lapply(fns, function(f) readxl::excel_sheets(f)) %>% setNames(fns)
+  lapply(1:length(sheets), function(d) {
+    # dfs <- readxl::read_excel(names(sheets)[d])
+    lapply(sheets[[d]], 
+           function(sheet) readxl::read_excel(names(sheets)[d], 
+                                              sheet, #skip = skip, 
+                                              na = c("NA", "None", "N/A", "-", "")#, 
+                                              # col_types = col_types
+           )) %>%
+      setNames(sheets[[d]]) 
+  }) %>%
+    setNames(names(sheets))
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' clean_money_as_numeric()
+clean_money_as_numeric <- function(v) as.numeric(gsub('[^\\.|[:digit:]]', '', v))
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' not_is.character()
+not_is.character <- function(v) !is.character(v)
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' not_is.factorchar()
+not_is.factorchar <- function(v) !is.character(v) & !is.factor(v)
 
 
 ########################################################################################################################
 
 
+
+
+########################################################################################################################
 
 
 

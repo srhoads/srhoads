@@ -7,18 +7,13 @@
 findme(d = df00.5, g1 = "", g2 = "", g3 = "", g4 = "", g5 = "")
 
 findme(d = df00.5, g1 = "", g2 = "", g3 = "", g4 = "", g5 = "")
-
-findme(d = df00.5, g1 = "", g2 = "", g3 = "", g4 = "", g5 = "")
 }
 \description{
 This is a function
 
 This is a function
-
-This is a function
 }
 \examples{
-findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
 findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
 findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
 }

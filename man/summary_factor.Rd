@@ -7,13 +7,18 @@
 summary_factor(x, maxsum = 7)
 
 summary_factor(x, maxsum = 7)
+
+summary_factor(x, maxsum = 7)
 }
 \description{
 This function allows you to
 
+Srhoads wrote this to allow you to...
+
 This function allows you to
 }
 \examples{
+summary_factor()
 summary_factor()
 summary_factor()
 }
