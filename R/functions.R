@@ -933,28 +933,30 @@ grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
 #' @export
 #' @examples
 #' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
-grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){ 
+grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){
   df$rownum <- 1:nrow(df)
   
-  if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+  if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
   
   else if(cells_only) {
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
     grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez, "rownum")))
   }
   else if(cells_only_discrete){
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
     cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez)))#, "rownum")))
     # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
     lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
-             tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
+             tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)) %>%
+             group_by(value) %>% summarise(rownum = paste0(rownum, collapse=", ")))
   }
   else if(rownums_only){
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
     grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% distinct() %>% unlist() %>% as.character()
   }
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
+
 ##### OLD VERSION:
 # grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
 #   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
@@ -978,7 +980,44 @@ gsub_ <- function(pattern, to, v, exact=F, ignore.case=F) gsub(paste_regex(patte
 #' @export
 #' @examples
 #' gsubic(pattern, to, v, exact=F, ignore.case=T)
-gsub_ic <- function(pattern, to, v, exact=F, ignore.case=T) gsub(paste_regex(pattern, exact=exact), to, v, ignore.case=ignore.case)
+gsub_ic <- function (pattern, replacement, x, ignore.case=T, perl = FALSE, 
+                     fixed = FALSE, useBytes = FALSE, exact=F) {
+  pattern <- paste_regex(pattern, exact=exact)
+  if (!is.character(x)) 
+    x <- as.character(x)
+  .Internal(gsub(as.character(pattern), as.character(replacement), 
+                 x, ignore.case, perl, fixed, useBytes))
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' grep_ic()
+grep_ic <- function (pattern, x, ignore.case = T, perl = FALSE, value = FALSE, 
+                     fixed = FALSE, useBytes = FALSE, invert = FALSE) {
+  if (!is.character(x)) 
+    x <- structure(as.character(x), names = names(x))
+  .Internal(grep(as.character(pattern), x, ignore.case, value, 
+                 perl, fixed, useBytes, invert))
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' grepl_ic()
+grepl_ic <- function (pattern, x, ignore.case = T, perl = FALSE, fixed = FALSE, 
+                      useBytes = FALSE) {
+  if (!is.character(x)) 
+    x <- as.character(x)
+  .Internal(grepl(as.character(pattern), x, ignore.case, FALSE, 
+                  perl, fixed, useBytes, FALSE))
+}
+
 
 
 #' A function kinda like `dplyr`'s `select()` but works on lists
@@ -5412,7 +5451,7 @@ trimws_df <- function(x, which='both', doublespace=T) mutate_all(x, function(v) 
 #' na_if_()
 na_if_ <- function(x) x %>% na_if('') %>% na_if('NA') %>% na_if('Unknown') %>% na_if('-') %>% na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
   na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
-  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('')
+  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>% na_if('character(0)')
 
 #' A function
 #'
@@ -5925,8 +5964,9 @@ is_datetype1 <- function(v) ifelse(is.na(lubridate::parse_date_time(v, orders = 
 #' @examples
 #' as.date.varioustypes()
 as.date.varioustypes <- function(v){
-  v %>% unlist() %>% 
-    gsub("\\.", "", .) %>%
+  v %>% unlist() %>%
+    gsub("\\.", " ", .) %>%
+    trimws_() %>%
     ifelse(is_datetype1(.), as.character(lubridate::parse_date_time(., orders = c("mdy", "dmy"))), .) %>%
     ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.))), .)
 }
@@ -6092,7 +6132,550 @@ not_is.factorchar <- function(v) !is.character(v) & !is.factor(v)
 
 
 ########################################################################################################################
+# 07/02/2019 # July, 2, 2019
 
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' strip_punct()
+strip_punct <- function(v, replacewithspace=T, replacewith=NULL, onlyends=F) {
+  if(replacewithspace) replacement <- " " else replacement <- ""
+  if(!is.null(replacewith)) replacement <- replacewith
+  if(onlyends) v <- gsub('^[[:punct:] ]+|[[:punct:]]+$', replacement, v) else v <- gsub('[[:punct:] ]+', replacement, v)
+  trimws_(v)
+}
+# strip_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_duplicate_punct_separated_by_space()
+remove_duplicate_punct_separated_by_space <- function(v) gsub("([[:punct:]]) \\1", "\\1", v)
+# remove_duplicate_punct_separated_by_space(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_duplicate_punct_separated_by_space_or_not()
+remove_duplicate_punct_separated_by_space_or_not <- function(v) gsub("([[:punct:]]) \\1", "\\1", v) %>% gsub("([[:punct:]])\\1", "\\1", .) %>% trimws_()
+# remove_duplicate_punct_separated_by_space_or_not(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct",  "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_duplicate_punct()
+remove_duplicate_punct <- function(v, nrepeat=6){
+  sum <- 0
+  repeat{
+    sum <- sum + 1
+    v <- remove_duplicate_punct_separated_by_space_or_not(v)
+    if(sum==nrepeat) break
+  }
+  v
+}
+# remove_duplicate_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' add_space_between_punct()
+add_space_between_punct <- function(v) gsub("([[:punct:]])", " \\1 ", v) #"([[:punct:]]+)"
+# add_space_between_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct")) #%>% strsplit(., "[[:punct:]]")
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' add_space_after_punct()
+add_space_after_punct <- function(v) gsub("([[:punct:]])", "\\1 ", v) %>% trimws_() #"([[:punct:]]+)" : use that if u dont wanna make space btwn puncts themselves (ie: '..' not to '. . ')
+# add_space_after_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_duplicate_punct_consec()
+remove_duplicate_punct_consec <- function(v) gsub("([[:punct:]])\\1+", "\\1", v)
+# remove_duplicate_punct_consec(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_space_btwn_identical_punct()
+remove_space_btwn_identical_punct <- function(v) v %>%
+  strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+  lapply(.,function(s) s %>% trimws_() %>% 
+           paste0(., collapse="")) %>%
+  unlist() %>% add_space_after_punct() %>% 
+  trimws_() %>%
+  gsub("([[:punct:]]) \\1", "\\1\\1", .)
+# remove_space_btwn_identical_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_space_btwn_any_punct()
+remove_space_btwn_any_punct <- function(v) v %>%
+  strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+  lapply(.,function(s) s %>% trimws_() %>% 
+           paste0(., collapse="")) %>%
+  unlist() %>% add_space_after_punct() %>% 
+  trimws_() %>%
+  gsub("([[:punct:]]) ([[:punct:]])", "\\1\\2", .)
+# remove_space_btwn_any_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct", "this; .punct"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' trimpunct()
+trimpunct <- function(v, removenegativesymbol=F, beginning=T, end=T){
+  v <- trimws_(v)
+  if(!removenegativesymbol) v <- gsub("^-", "samhasanegativesymbolherenowand", v)
+  if(beginning) v <- gsub('^[[:punct:] ]+', "", v) 
+  if(end) v <- gsub('[[:punct:]]+$', "", v)
+  trimws_(gsub("^samhasanegativesymbolherenowand", "-", v))
+}
+# trimpunct(c("s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' trimpunct_()
+trimpunct_ <- function(v, removenegativesymbol=F, beginning=T, end=T){
+  v %>% trimpunct(removenegativesymbol=removenegativesymbol, beginning=beginning, end=end) %>%
+    remove_duplicate_punct() %>% trimws_()
+}
+# trimpunct_(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+
+# remove_space_btwn_identical_punct <- function(v) v %>%
+#   strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+#   lapply(.,function(s) s %>% trimws_() %>% 
+#            paste0(., collapse="")) %>%
+#   unlist() %>% add_space_after_punct()
+# remove_space_btwn_identical_punct(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' remove_space_btwn_identical_punct()
+remove_space_btwn_identical_punct <- function(v) v %>%
+  gsub("([[:punct:]]) \\1", "\\1\\1", .)
+# remove_space_btwn_identical_punct(c("S;'P / /", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' add_space_btwn_lower_upper_letters()
+add_space_btwn_lower_upper_letters <- function(v) gsub("([a-z])([A-Z])", "\\1 \\2", v)
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' separate_lower_upper_letters()
+separate_lower_upper_letters <- add_space_btwn_lower_upper_letters
+# add_space_btwn_lower_upper_letters(c("AppleBottomJeansAndCats"))
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' sort_str_by_alpha()
+sort_str_by_alpha <- function(v, desc=F){
+  if(!desc) rev <- function(v) v
+  strsplit(v, "; ") %>%
+    lapply(., function(s) rev(sort(s)) %>% 
+             paste0(., collapse="; ")) %>% unlist()
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' sort_str_by_nchar()
+sort_str_by_nchar <- function(v, desc=T){
+  if(!desc) rev <- function(v) v
+  strsplit(v, "; ") %>%
+    lapply(., function(s) s[rev(order(nchar(s), s))] %>% 
+             paste0(., collapse="; ")) %>% unlist()
+}
+
+
+# clean_str_strip_NAs_1 <- function(v, sep=", "){
+#   if(is.null(sep)) return(v)
+#   (sep1 <- gsub(" ", "", sep))
+#   # (v <- gsub(paste0(sep, " "), sep, v))
+#   (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1) %>% gsub("\\|\\|", "|", .) %>% gsub("\\| \\|", "|", .))
+#   v %>% gsub(sep, sep1, .) %>% gsub(getrid, "", .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .)
+# }
+
+
+clean_str_strip_NAs_1 <- function(v, sep=", "){
+  if(is.null(sep)) return(v)
+  # (sep1 <- gsub(" ", "", sep))
+  # (v <- gsub(paste0(sep, " "), sep, v))
+  # (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1) %>% gsub("\\|\\|", "|", .) %>% gsub("\\| \\|", "|", .))
+  # v %>% gsub(sep, sep1, .) %>% gsub(getrid, "", .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .)
+  (v <- gsub(paste0(sep, " "), sep, v) %>% trimws_())
+  (sep1 <- gsub(" ", "", sep))
+  (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1, "|", sep, "NA", sep, "|", " NA$|^NA "))
+  v %>% gsub(sep, sep1, .) %>% gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .) %>% trimws_() %>%
+    gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0("^", sep, "|^", sep1), "", .) %>% trimws_() %>% na_if_()
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' clean_str_strip_NAs()
+clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
+  clean_str_strip_NAs_1(v, sep=sep) %>% clean_str_strip_NAs_1(., sep=sep2) %>% clean_str_strip_NAs_1(., sep=sep3)
+}
+# clean_str_strip_NAs(c("NA; meow; NA", " NA; NA ", " NA,NA", "NA; NA", "NA; NA; NA; NA", "NA,NA,NA,NOPE,NA"), sep=", ", sep2="; ", sep3=";")
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' base_breaks()
+base_breaks <- function(n = 10) function(x) axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, n = n)
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' grepval()
+grepval <- function (pattern, x, ignore.case = FALSE, perl = FALSE, value = T, 
+                     fixed = FALSE, useBytes = FALSE, invert = FALSE) {
+  if (!is.character(x)) 
+    x <- structure(as.character(x), names = names(x))
+  .Internal(grep(as.character(pattern), x, ignore.case, value, 
+                 perl, fixed, useBytes, invert))
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' unite_all()
+unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; "){
+  d <- d %>% unite(., unite_all_column, 1:ncol(.), sep=sep, remove=remove) #%>% #.[[1]] %>% 
+  # clean_str() %>% clean_unique_sep(., "; ") #%>% 
+  if(clean) d <- d %>%
+      mutate(unite_all_column = unite_all_column %>% 
+               clean_str() %>% 
+               clean_unique_sep(., "; ") %>% 
+               clean_unique_sep(., ";") %>% 
+               clean_str_strip_NAs(., ";") %>% 
+               clean_str() %>% 
+               strip_punct(., onlyends=T, replacewithspace=F) %>% 
+               na_if_() %>%
+               gsub(trimws_(sep), paste0(sep, " "), .) %>% 
+               trimws_())
+  d <- d %>% setNames(gsub("^unite_all_column$", newcol, names(.)))
+  if(onlynewcol) d[[newcol]] else d
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' unite_if()
+unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; "){
+  d %>% select_if(fun) %>%
+    unite_all(., clean=clean, remove=remove, newcol=newcol, onlynewcol=onlynewcol) %>% #.[[1]] %>% 
+    cbind(select_if(d, function(v) !fun(v)), .)
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' datatable2()
+datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = list(), ...) {
+  
+  names_x <- names(x)
+  if (is.null(vars)) stop("'vars' must be specified!")
+  pos <- match(vars, names_x)
+  if (any(map_chr(x[, pos], typeof) == "list"))
+    stop("list columns are not supported in datatable2()")
+  
+  pos <- pos[pos <= ncol(x)] + 1
+  rownames(x) <- NULL
+  if (nrow(x) > 0) x <- cbind(' ' = '&oplus;', x)
+  
+  # options
+  opts <- c(
+    opts, 
+    list(
+      columnDefs = list(
+        list(visible = FALSE, targets = c(0, pos)),
+        list(orderable = FALSE, className = 'details-control', targets = 1),
+        list(className = 'dt-left', targets = 1:3),
+        list(className = 'dt-right', targets = 4:ncol(x))
+      )
+    ))
+  
+  datatable(
+    x, 
+    ...,
+    # escape = -2,
+    escape = F,
+    extensions = extensions,
+    caption = caption,
+    options = opts,
+    callback = JS(.callback2(x = x, pos = c(0, pos)))
+  )
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' .callback2()
+.callback2 <- function(x, pos = NULL) {
+  
+  part1 <- "table.column(1).nodes().to$().css({cursor: 'pointer'});"
+  
+  part2 <- .child_row_table2(x, pos = pos)
+  
+  part3 <- 
+    "
+  table.on('click', 'td.details-control', function() {
+  var td = $(this), row = table.row(td.closest('tr'));
+  if (row.child.isShown()) {
+  row.child.hide();
+  td.html('&oplus;');
+  } else {
+  row.child(format(row.data())).show();
+  td.html('&ominus;');
+  }
+  });"
+  
+  paste(part1, part2, part3)
+} 
+
+.child_row_table2 <- function(x, pos = NULL) {
+  
+  names_x <- paste0(names(x), ":")
+  text <- "
+  var format = function(d) {
+  text = '<div><table >' + 
+  "
+  
+  for (i in seq_along(pos)) {
+    text <- paste(text, glue::glue(
+      "'<tr>' +
+      '<td>' + '{names_x[pos[i]]}' + '</td>' +
+      '<td>' + d[{pos[i]}] + '</td>' +
+      '</tr>' + " ))
+  }
+  
+  paste0(text,
+         "'</table></div>'
+         return text;};"
+  )
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' geocode_by_cell()
+geocode_by_cell <- function(v, replacewith=NULL) lapply(v, function(s){
+  if(is.null(replacewith)) replacewith <- s
+  # tryCatch(geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_str_strip_NAs() %>% gsub(",", ", ", .) %>% trimws_(), error=function(e) s)
+  tryCatch(ggmap::geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_unique_sep(., ", ") %>% na_if_(), error=function(e) replacewith)
+}) %>% unlist()
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' collapse_tiered_vec()
+collapse_tiered_vec <- function(v, collapse="; ") lapply(v, function(s) paste0(s, collapse=collapse)) %>% unlist()
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' str_extract_zip()
+str_extract_zip <- function(v, concat=T, collapse="; "){ 
+  vzips <- regmatches(v, gregexpr('[0-9]{5}(-[0-9]{4})?(?!.*[0-9]{5}(-[0-9]{4})?)',v, perl = TRUE))
+  if(concat) collapse_tiered_vec(vzips, collapse=collapse) else vzips
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' extract_word_startswith_dollarsign()
+extract_word_startswith_dollarsign <- function(v) v %>% strsplit(" ") %>% sapply(., function(s) grep("\\$", s, value=T)[1]) %>% dplyr::combine()
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' statetoabb()
+statetoabb <- function (v) {
+  v <- strip_punct(tolower(v), replacewithspace=F)
+  st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
+          "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
+          "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
+          "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", 
+          "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
+          "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
+          "New Mexico", "New York", "North Carolina", "North Dakota", 
+          "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
+          "South Carolina", "South Dakota", "Tennessee", "Texas", 
+          "California", "Vermont", "Virginia", "Washington", "West Virginia", 
+          "Wisconsin", "Wyoming", "District of Columbia") %>% tolower() %>% strip_punct(., replacewithspace=F)
+  ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
+          "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
+          "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
+          "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
+          "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
+          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC")
+  ab[match(v, st)]
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' abbtostate()
+abbtostate <- function (v) {
+  v <- strip_punct(tolower(v), replacewithspace=F)
+  st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
+          "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
+          "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
+          "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", 
+          "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
+          "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
+          "New Mexico", "New York", "North Carolina", "North Dakota", 
+          "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
+          "South Carolina", "South Dakota", "Tennessee", "Texas", 
+          "California", "Vermont", "Virginia", "Washington", "West Virginia", 
+          "Wisconsin", "Wyoming", "District of Columbia")
+  ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
+          "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
+          "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
+          "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
+          "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
+          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC") %>% tolower() %>% strip_punct(., replacewithspace=F)
+  st[match(v, ab)]
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' state2abb_or_abb2state()
+state2abb_or_abb2state <- function(v, abb=F){
+  st1 <- statetoabb(v) %>% abbtostate()
+  st2 <- abbtostate(v)
+  if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' ()
+state2region <- function(v_abbr){
+  (v_abbr <- state2abb_or_abb2state(v_abbr, abb=T))
+  vdf <- tibble(state.abb = tolower(v_abbr))
+  (regdf <- tibble(state.region=as.character(state.region), state.abb= tolower(state.abb)) %>% left_join(vdf, .))
+  regdf$state.region[grepl("vt|dc", regdf$state.abb)] <- "Northeast"
+  regdf$state.region[grepl("pr|gu|nmari", regdf$state.abb)] <- "Other"
+  regdf$state.region
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' str_extract_all_concat()
+str_extract_all_concat <- function(v, pattern, exact=F, collapse="; ", ignore.case=F){
+  pattern <- regex(paste_regex(pattern, exact=exact), ignore.case=ignore.case)
+  stringr::str_extract_all(v, pattern) %>%
+    lapply(., function(s) paste0(s, collapse=collapse)) %>% unlist()
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' str_extract_money()
+str_extract_money <- function(v) v %>% 
+  gsub_ic(" K", "K", .) %>% 
+  gsub_ic(" thousand|thousand", "K", .) %>% 
+  gsub_ic(" M", "M", .) %>% 
+  gsub_ic(" million|million|mill|mil", "M", .) %>% 
+  gsub("K.*| K", "K", .) %>% 
+  gsub("M.*| M", "M", .) %>% 
+  extract_word_startswith_dollarsign() %>% 
+  gsub("K.*| K", "K", .) %>% 
+  gsub("M.*| M", "M", .) %>% 
+  gsub("\\.$", "", .) %>% 
+  na_if("$") %>%
+  # gsub("K", "000", .) %>% 
+  # gsub("M", "000000", .) %>% 
+  gsub("K", "e3", .) %>% 
+  gsub("M", "e6", .) %>% 
+  gsub(",|\\$", "", .) %>% 
+  na_if_() %>% 
+  as.numeric()
 
 
 
