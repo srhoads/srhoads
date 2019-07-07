@@ -958,7 +958,7 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
 }
 
 ##### OLD VERSION:
-# grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
+# _______grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
 #   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
 #   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 # }
