@@ -1782,6 +1782,7 @@ list_names <- function(mylist, unique = F){
 }
 
 
+
 #' A Function
 #'
 #' This function allows you to 
@@ -5449,9 +5450,11 @@ trimws_df <- function(x, which='both', doublespace=T) mutate_all(x, function(v) 
 #' @export
 #' @examples
 #' na_if_()
-na_if_ <- function(x) x %>% na_if('') %>% na_if('NA') %>% na_if('Unknown') %>% na_if('-') %>% na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
+na_if_ <- function(x) x %>% na_if('') %>% na_if('NA') %>% na_if('Unknown') %>% na_if('-') %>% 
+  na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
   na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
-  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>% na_if('character(0)')
+  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>%
+  na_if("character(0)") %>% if(is.vector(.)) tryCatch(gsub("^[[:punct:]]$", NA, .), error=function(e) .) else .
 
 #' A function
 #'
@@ -6677,6 +6680,25 @@ str_extract_money <- function(v) v %>%
   na_if_() %>% 
   as.numeric()
 
+
+
+# July 9, 2019 (07092019) _ ########################################################################################################################
+
+#' Samantha Rhoads's function to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
+#'
+#' Srhoads wrote this to allow you to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
+#' @export
+#' @examples
+#' as_table_paste()
+as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) read.csv(text=pastedstuff, sep=sep, header=header)
+
+#' Samantha Rhoads's function to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter
+#'
+#' Srhoads wrote this to allow you to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter (loosly means you don't need the letter after the capital letter to be lowercase)
+#' @export
+#' @examples
+#' split_before_capital()
+split_before_capital <- function(x, sep=" ", loosly=F) if(!loosly) gsub('([[:lower:]])([[:upper:]])([[:lower:]])', paste0('\\1', sep, '\\2\\3'), x) else gsub('([[:lower:]])([[:upper:]])', paste0('\\1', sep, '\\2'), x)
 
 
 ########################################################################################################################
