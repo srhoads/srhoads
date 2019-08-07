@@ -5788,15 +5788,18 @@ nnadimsum <- dimsumnna <- sumdimnna <- dimnnasum <- sumnnadim <- function(d, alp
 # June 6, 2019 (06062019) _ ########################################################################################################################
 
 
-#' A function
+#' A function to get the name of an object to use for other stuff. Ie: get the names of the object/data and make it a variable in the data. 
 #'
-#' This function allows you to 
+#' This function allows you to get the name of an object to use for other stuff. Ie: get the names of the object/data and make it a variable in the data. 
+#' Idea derived from: https://stackoverflow.com/questions/10520772/in-r-how-to-get-an-objects-name-after-it-is-sent-to-a-function about: In R, how to get an object's name after it is sent to a function?
 #' @export
 #' @examples
-#' returnname()
+#' Using `returnname()` to get name of dataframe, then making a column in the df the name of the dataframe
+#' returnname(mtcars) # returns "mtcars"
+#' returnname(z)
 returnname <- function(z){
-  mean.x<-mean(z$x)
-  nm <-deparse(substitute(z))
+  mean.x <- mean(z$x)
+  nm <- deparse(substitute(z))
   return(nm)
 }
 
