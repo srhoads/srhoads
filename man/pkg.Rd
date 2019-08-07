@@ -2,14 +2,14 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{pkg}
 \alias{pkg}
-\title{A Function}
+\title{A function to load and/or install package first}
 \usage{
 pkg(package1, ...)
 
 pkg(package1, ...)
 }
 \description{
-This function allows you to
+This function allows you to load and/or install package first
 
 This function allows you to
 }

@@ -2,7 +2,28 @@
 % Please edit documentation in R/functions.R
 \name{pkgu}
 \alias{pkgu}
-\title{A function}
+\title{#' A Function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' pkg()
+## load and/or install package first!
+pkg <- function (package1, ...) {
+  packages <- c(package1, ...)
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) 
+      do.call(library, list(package))
+    else {
+      install.packages(package, 
+                       repos = c("https://cloud.r-project.org", 
+                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
+                       type = getOption("pkgType"))
+      do.call(library, list(package))
+    }
+  }
+}
+A function}
 \usage{
 pkgu(package1, ...)
 }
