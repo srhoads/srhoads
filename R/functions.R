@@ -26,7 +26,7 @@ tryCatch({
 redocument=F # redocument=T
 if(redocument){
   devtools::document()
-  system('git add -A && git commit -m "new functions added"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -6823,7 +6823,7 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' @export
 #' @examples
 #' pkg2()
-pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
+pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
@@ -6832,10 +6832,15 @@ pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
   for (package in packages) {
     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0(package, " loaded\n"))}
     else {
-      tryCatch(install.packages_wrapper(package, 
-                                        dependencies=dependencies, githubrepo=githubrepo,
-                                        repos = repos, type = type), 
-               error=function(e) cat(paste0(package, ": can't install\n")))
+      tryCatch({
+        install.packages_wrapper(package, 
+                                 dependencies=dependencies, githubrepo=githubrepo,
+                                 repos = repos, type = type)
+        package <- gsub(".*/", "", package)
+        do.call(library, list(package))
+        cat(paste0("\n", package, ": installed & loaded!\n"))
+      }, 
+      error=function(e) cat(paste0(package, ": can't install\n")))
       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n\n")))
     }
   }
