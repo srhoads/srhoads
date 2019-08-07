@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gather_nrg}
 \alias{gather_nrg}
-\title{A Function}
+\title{A function}
 \usage{
 gather_nrg(df)
 }

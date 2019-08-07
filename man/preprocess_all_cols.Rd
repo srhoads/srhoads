@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{preprocess_all_cols}
 \alias{preprocess_all_cols}
-\title{A Function}
+\title{A function}
 \usage{
 preprocess_all_cols(x, extent = "thorough")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{firstname_postcomma}
 \alias{firstname_postcomma}
-\title{A Function}
+\title{A function}
 \usage{
 firstname_postcomma(x)
 

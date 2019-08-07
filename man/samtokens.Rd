@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{samtokens}
 \alias{samtokens}
-\title{A Function}
+\title{A function}
 \usage{
 samtokens(df, nmin = 2, nmax = 3, xv = "firstname", yv = "gender",
   sample = nrow(df))

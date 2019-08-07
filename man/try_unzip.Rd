@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_unzip}
 \alias{try_unzip}
-\title{A Function}
+\title{A function}
 \usage{
 try_unzip(zipfile)
 

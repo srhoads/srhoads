@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{select_name_race_gender_cols_list}
 \alias{select_name_race_gender_cols_list}
-\title{A Function}
+\title{A function}
 \usage{
 select_name_race_gender_cols_list(mylist, output = c("list", "names"))
 }

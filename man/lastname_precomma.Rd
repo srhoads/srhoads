@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{lastname_precomma}
 \alias{lastname_precomma}
-\title{A Function}
+\title{A function}
 \usage{
 lastname_precomma(x)
 

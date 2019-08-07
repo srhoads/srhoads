@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_feathers}
 \alias{read_feathers}
-\title{A Function}
+\title{A function}
 \usage{
 read_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
   bind = T, recode_extra_na = F)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{lastname_wmiddle}
 \alias{lastname_wmiddle}
-\title{A Function}
+\title{A function}
 \usage{
 lastname_wmiddle(v)
 

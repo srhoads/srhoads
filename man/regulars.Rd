@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{regulars}
 \alias{regulars}
-\title{A Function}
+\title{A function}
 \usage{
 regulars(x, extra = NULL, extent = "thorough")
 }

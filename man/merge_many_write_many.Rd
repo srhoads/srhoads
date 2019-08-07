@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{merge_many_write_many}
 \alias{merge_many_write_many}
-\title{A Function}
+\title{A function}
 \usage{
 merge_many_write_many(filelist = NULL, inpath = NULL, pattern = NULL,
   newdir = NULL, subsets = NULL, by = 1e+06, extra = NULL,

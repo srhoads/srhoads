@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_preprocess_all_cols}
 \alias{multistep_preprocess_all_cols}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2,
   subsubsets = 2, write = FALSE, featherpath = "~/")

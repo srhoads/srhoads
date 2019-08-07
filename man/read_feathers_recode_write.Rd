@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_feathers_recode_write}
 \alias{read_feathers_recode_write}
-\title{A Function}
+\title{A function}
 \usage{
 read_feathers_recode_write(filelist = NULL, inpath = NULL,
   pattern = NULL, outpath = "", newdir = NULL)

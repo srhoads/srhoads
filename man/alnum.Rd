@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{alnum}
 \alias{alnum}
-\title{A Function}
+\title{A function}
 \usage{
 alnum(x)
 

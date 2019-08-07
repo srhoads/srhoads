@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_split_files}
 \alias{multistep_split_files}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_split_files(filelist = NULL, inpath = NULL, pattern = NULL,
   newdir = NULL, subsets = NULL, by = NULL, extra = NULL,

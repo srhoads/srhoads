@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{drop_empty}
 \alias{drop_empty}
-\title{A Function}
+\title{A function}
 \usage{
 drop_empty(x_list)
 

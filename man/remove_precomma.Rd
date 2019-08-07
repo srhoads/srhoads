@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{remove_precomma}
 \alias{remove_precomma}
-\title{A Function}
+\title{A function}
 \usage{
 remove_precomma(vec, trim = T)
 

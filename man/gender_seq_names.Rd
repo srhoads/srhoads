@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gender_seq_names}
 \alias{gender_seq_names}
-\title{A Function}
+\title{A function}
 \usage{
 gender_seq_names(x)
 }

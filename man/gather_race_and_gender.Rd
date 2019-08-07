@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{gather_race_and_gender}
 \alias{gather_race_and_gender}
-\title{A Function}
+\title{A function}
 \usage{
 gather_race_and_gender(df)
 

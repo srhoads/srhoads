@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_clean_recode}
 \alias{multistep_clean_recode}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_clean_recode(df, subsets = 2, scrub = NULL,
   extrarace = NULL, extragender = NULL)

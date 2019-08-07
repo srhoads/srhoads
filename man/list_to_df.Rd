@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{list_to_df}
 \alias{list_to_df}
-\title{A Function}
+\title{A function}
 \usage{
 list_to_df(mylist)
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{gather_lastname}
 \alias{gather_lastname}
-\title{A Function}
+\title{A function}
 \usage{
 gather_lastname(df)
 

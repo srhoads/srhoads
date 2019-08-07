@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_clean_dfs}
 \alias{multistep_clean_dfs}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_clean_dfs(df, subsets = 2)
 }

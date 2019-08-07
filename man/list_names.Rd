@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{list_names}
 \alias{list_names}
-\title{A Function}
+\title{A function}
 \usage{
 list_names(mylist, unique = F)
 

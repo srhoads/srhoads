@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{regulars_anomalies}
 \alias{regulars_anomalies}
-\title{A Function}
+\title{A function}
 \usage{
 regulars_anomalies(x, extra = NULL, extent = "thorough")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{featherdump_anomalies_fun}
 \alias{featherdump_anomalies_fun}
-\title{A Function}
+\title{A function}
 \usage{
 featherdump_anomalies_fun(filelist = NULL, inpath = NULL,
   pattern = "\\\\.", outpath = "~", newdir = NULL, subsets = 2,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{select_not_race_gender_cols}
 \alias{select_not_race_gender_cols}
-\title{A Function}
+\title{A function}
 \usage{
 select_not_race_gender_cols(mylist)
 }

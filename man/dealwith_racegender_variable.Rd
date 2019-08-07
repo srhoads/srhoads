@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{dealwith_racegender_variable}
 \alias{dealwith_racegender_variable}
-\title{A Function}
+\title{A function}
 \usage{
 dealwith_racegender_variable(x)
 

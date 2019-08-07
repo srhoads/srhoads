@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{dtmfunc}
 \alias{dtmfunc}
-\title{A Function}
+\title{A function}
 \usage{
 dtmfunc(df = d, corp = df$x, id = df$id, term_count_min = 2)
 

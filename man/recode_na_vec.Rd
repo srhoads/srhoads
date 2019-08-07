@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_na_vec}
 \alias{recode_na_vec}
-\title{A Function}
+\title{A function}
 \usage{
 recode_na_vec(vec, recode_list = recode_na_list, extra = NULL)
 

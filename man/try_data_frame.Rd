@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_data_frame}
 \alias{try_data_frame}
-\title{A Function}
+\title{A function}
 \usage{
 try_data_frame(x)
 

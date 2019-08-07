@@ -10,5 +10,5 @@ pkg2(package1 = NULL, ..., pipes = T)
 This function allows you to load and/or install package first (holistic)
 }
 \examples{
-pkg()
+pkg2()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{unzip_dir}
 \alias{unzip_dir}
-\title{A Function}
+\title{A function}
 \usage{
 unzip_dir(zipfile, outdir = "unzip")
 

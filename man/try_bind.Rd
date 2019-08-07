@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_bind}
 \alias{try_bind}
-\title{A Function}
+\title{A function}
 \usage{
 try_bind(x)
 

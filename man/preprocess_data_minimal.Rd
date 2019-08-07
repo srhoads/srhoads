@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{preprocess_data_minimal}
 \alias{preprocess_data_minimal}
-\title{A Function}
+\title{A function}
 \usage{
 preprocess_data_minimal(x, type = c("lod"))
 }

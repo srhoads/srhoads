@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{tokdtmfunc}
 \alias{tokdtmfunc}
-\title{A Function}
+\title{A function}
 \usage{
 tokdtmfunc(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
   nmax = 3, term_count_min = 2)

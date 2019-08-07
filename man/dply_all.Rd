@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{dply_all}
 \alias{dply_all}
-\title{A Function}
+\title{A function}
 \usage{
 dply_all(x, fun)
 

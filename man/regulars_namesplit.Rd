@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{regulars_namesplit}
 \alias{regulars_namesplit}
-\title{A Function}
+\title{A function}
 \usage{
 regulars_namesplit(x, extra = NULL, extent = "thorough")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_race_specific}
 \alias{recode_race_specific}
-\title{A Function}
+\title{A function}
 \usage{
 recode_race_specific(vec, extra = NULL)
 

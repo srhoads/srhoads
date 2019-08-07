@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{not_all_na}
 \alias{not_all_na}
-\title{A Function}
+\title{A function}
 \usage{
 not_all_na(x)
 

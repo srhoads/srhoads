@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{combine_compact}
 \alias{combine_compact}
-\title{A Function}
+\title{A function}
 \usage{
 combine_compact(x)
 

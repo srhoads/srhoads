@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{pkgu}
 \alias{pkgu}
-\title{#' A Function
+\title{#' A function
 #'
 #' This function allows you to 
 #' @export

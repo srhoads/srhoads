@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{prestep_preprocess_data}
 \alias{prestep_preprocess_data}
-\title{A Function}
+\title{A function}
 \usage{
 prestep_preprocess_data(mylist, subsets = 2, type = NULL,
   extent = NULL)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{gsub_ply}
 \alias{gsub_ply}
-\title{A Function}
+\title{A function}
 \usage{
 gsub_ply(from, to, x, ignore.case = T, num = T)
 

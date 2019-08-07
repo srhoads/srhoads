@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{list_files}
 \alias{list_files}
-\title{A Function}
+\title{A function}
 \usage{
 list_files(p, pattern = NULL, recursive = T, full.names = T)
 

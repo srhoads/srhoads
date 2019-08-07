@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{preprocess_names_gender}
 \alias{preprocess_names_gender}
-\title{A Function}
+\title{A function}
 \usage{
 preprocess_names_gender(x)
 }

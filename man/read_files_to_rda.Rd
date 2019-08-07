@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_files_to_rda}
 \alias{read_files_to_rda}
-\title{A Function}
+\title{A function}
 \usage{
 read_files_to_rda(filelist, path = "~/", filename_prefix = "nrg_data",
   col_types = "text")

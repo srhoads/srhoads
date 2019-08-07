@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_read_dat}
 \alias{try_read_dat}
-\title{A Function}
+\title{A function}
 \usage{
 try_read_dat(f)
 

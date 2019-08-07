@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{round5}
 \alias{round5}
-\title{A Function}
+\title{A function}
 \usage{
 round5(num)
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{reduce_name_bytes}
 \alias{reduce_name_bytes}
-\title{A Function}
+\title{A function}
 \usage{
 reduce_name_bytes(x)
 

@@ -12,5 +12,5 @@ install.packages_wrapper(package, dependencies = NA, githubrepo = NULL,
 This function allows you to load and/or install package first (wrapper with tryCatch)
 }
 \examples{
-pkg()
+install.packages_wrapper()
 }

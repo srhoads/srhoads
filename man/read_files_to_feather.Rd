@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_files_to_feather}
 \alias{read_files_to_feather}
-\title{#' A Function
+\title{#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -24,7 +24,7 @@ read_rdas <- function(filelist = NULL,
   })
   loaded
 }
-A Function}
+A function}
 \usage{
 read_files_to_feather(filelist, path = "~/",
   filename_prefix = "nrg_data")

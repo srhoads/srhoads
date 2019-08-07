@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{extract_vars}
 \alias{extract_vars}
-\title{A Function}
+\title{A function}
 \usage{
 extract_vars(df, namegenderonly = F, Ng = F, Nr = F, Nrg = F,
   fullnamegenderonly = F, nameraceonly = F, firstnameonly = F,

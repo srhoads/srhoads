@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_dfs_process_by1}
 \alias{read_dfs_process_by1}
-\title{A Function}
+\title{A function}
 \usage{
 read_dfs_process_by1(filelist, outpath = "AA/data/", prefix = "auto",
   startdoc = 1)

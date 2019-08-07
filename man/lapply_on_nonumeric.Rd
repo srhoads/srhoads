@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{lapply_on_nonumeric}
 \alias{lapply_on_nonumeric}
-\title{A Function}
+\title{A function}
 \usage{
 lapply_on_nonumeric(df, fun)
 

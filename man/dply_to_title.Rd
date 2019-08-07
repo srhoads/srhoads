@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{dply_to_title}
 \alias{dply_to_title}
-\title{A Function}
+\title{A function}
 \usage{
 dply_to_title(x, stringsAsFactors = T)
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_rdas}
 \alias{read_rdas}
-\title{A Function}
+\title{A function}
 \usage{
 read_rdas(filelist = NULL, inpath = NULL, pattern = NULL, bind = F,
   recode_extra_na = F)

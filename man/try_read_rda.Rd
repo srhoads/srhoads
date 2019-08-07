@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_read_rda}
 \alias{try_read_rda}
-\title{A Function}
+\title{A function}
 \usage{
 try_read_rda(file)
 

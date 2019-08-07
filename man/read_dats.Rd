@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_dats}
 \alias{read_dats}
-\title{A Function}
+\title{A function}
 \usage{
 read_dats(flist, bind = F)
 

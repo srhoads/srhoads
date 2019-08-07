@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_rda_merge_write_feathers}
 \alias{read_rda_merge_write_feathers}
-\title{A Function}
+\title{A function}
 \usage{
 read_rda_merge_write_feathers(filelist = NULL, inpath = NULL,
   pattern = NULL, newdir = NULL, outpath = "~/",

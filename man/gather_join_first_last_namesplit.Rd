@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gather_join_first_last_namesplit}
 \alias{gather_join_first_last_namesplit}
-\title{A Function}
+\title{A function}
 \usage{
 gather_join_first_last_namesplit(df, seq = c("first last", "last,first"))
 }

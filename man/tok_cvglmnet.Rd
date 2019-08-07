@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{tok_cvglmnet}
 \alias{tok_cvglmnet}
-\title{A Function}
+\title{A function}
 \usage{
 tok_cvglmnet(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
   nmax = 3, term_count_min = 2, family = "binomial", alpha = 0,

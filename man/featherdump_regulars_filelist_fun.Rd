@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{featherdump_regulars_filelist_fun}
 \alias{featherdump_regulars_filelist_fun}
-\title{A Function}
+\title{A function}
 \usage{
 featherdump_regulars_filelist_fun(filelist = NULL, inpath = NULL,
   pattern = NULL, newdir = NULL, subsets = 2, subsubsets = 2,

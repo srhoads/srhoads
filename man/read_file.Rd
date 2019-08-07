@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_file}
 \alias{read_file}
-\title{A Function}
+\title{A function}
 \usage{
 read_file(file, bindsheets = F)
 

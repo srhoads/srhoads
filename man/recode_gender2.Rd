@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_gender2}
 \alias{recode_gender2}
-\title{A Function}
+\title{A function}
 \usage{
 recode_gender2(vec, recode_list = gender_list, extra = NULL)
 

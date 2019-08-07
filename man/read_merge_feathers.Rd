@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{read_merge_feathers}
 \alias{read_merge_feathers}
-\title{A Function}
+\title{A function}
 \usage{
 read_merge_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
   recode_extra_na = F)

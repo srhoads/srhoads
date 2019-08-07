@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{namesplit}
 \alias{namesplit}
-\title{A Function}
+\title{A function}
 \usage{
 namesplit(df, dfincase)
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{ply}
 \alias{ply}
-\title{A Function}
+\title{A function}
 \usage{
 ply(x, fun, num = T)
 

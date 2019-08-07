@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_races_and_genders}
 \alias{recode_races_and_genders}
-\title{A Function}
+\title{A function}
 \usage{
 recode_races_and_genders(df, extragender = NULL, extrarace = NULL,
   extra = NULL)

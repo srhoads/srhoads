@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_dfs_process}
 \alias{read_dfs_process}
-\title{A Function}
+\title{A function}
 \usage{
 read_dfs_process(filelist, by = 10, outpath = "AA/data/",
   prefix = "clean_", startdoc = 1)

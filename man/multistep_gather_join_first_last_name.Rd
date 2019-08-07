@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_gather_join_first_last_name}
 \alias{multistep_gather_join_first_last_name}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_gather_join_first_last_name(df, subsets = 2)
 }

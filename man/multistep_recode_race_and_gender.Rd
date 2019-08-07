@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{multistep_recode_race_and_gender}
 \alias{multistep_recode_race_and_gender}
-\title{A Function}
+\title{A function}
 \usage{
 multistep_recode_race_and_gender(df, subsets = 2)
 }

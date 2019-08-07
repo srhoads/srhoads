@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{lastname_after_space_when_nocomma}
 \alias{lastname_after_space_when_nocomma}
-\title{A Function}
+\title{A function}
 \usage{
 lastname_after_space_when_nocomma(v)
 

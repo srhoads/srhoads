@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{preprocess_data}
 \alias{preprocess_data}
-\title{A Function}
+\title{A function}
 \usage{
 preprocess_data(x, type = c("lod"), extent = NULL)
 }

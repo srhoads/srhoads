@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_recode}
 \alias{clean_recode}
-\title{A Function}
+\title{A function}
 \usage{
 clean_recode(df, scrub = c("once", "double"), extrarace = NULL,
   extragender = NULL)

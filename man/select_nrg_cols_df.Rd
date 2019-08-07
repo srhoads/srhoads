@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{select_nrg_cols_df}
 \alias{select_nrg_cols_df}
-\title{A Function}
+\title{A function}
 \usage{
 select_nrg_cols_df(df, output = c("df", "names"))
 }

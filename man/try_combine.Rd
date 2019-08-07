@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_combine}
 \alias{try_combine}
-\title{A Function}
+\title{A function}
 \usage{
 try_combine(x)
 

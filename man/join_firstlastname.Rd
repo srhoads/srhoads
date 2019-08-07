@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{join_firstlastname}
 \alias{join_firstlastname}
-\title{A Function}
+\title{A function}
 \usage{
 join_firstlastname(df, firstname, lastname, seq = c("first last",
   "last,first"))

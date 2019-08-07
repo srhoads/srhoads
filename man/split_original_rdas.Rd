@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{split_original_rdas}
 \alias{split_original_rdas}
-\title{A Function}
+\title{A function}
 \usage{
 split_original_rdas(filelist = NULL, inpath = NULL, pattern = NULL,
   newdir = NULL, subsets = NULL, outpath = "~/", by, extra = NULL,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_na}
 \alias{recode_na}
-\title{A Function}
+\title{A function}
 \usage{
 recode_na(x)
 

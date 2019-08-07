@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{load_save_rdata}
 \alias{load_save_rdata}
-\title{A Function}
+\title{A function}
 \usage{
 load_save_rdata(filelist = NULL, inpath = NULL, pattern = NULL,
   newdir = NULL, subsets = 2, subsubsets = 2, extra = NULL,

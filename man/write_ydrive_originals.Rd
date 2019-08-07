@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{write_ydrive_originals}
 \alias{write_ydrive_originals}
-\title{A Function}
+\title{A function}
 \usage{
 write_ydrive_originals(fl, outpath = "AA/data/")
 }

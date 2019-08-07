@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{fix_encoding}
 \alias{fix_encoding}
-\title{A Function}
+\title{A function}
 \usage{
 fix_encoding(df, originalEncoding = "latin1")
 

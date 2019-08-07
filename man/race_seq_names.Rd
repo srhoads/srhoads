@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{race_seq_names}
 \alias{race_seq_names}
-\title{A Function}
+\title{A function}
 \usage{
 race_seq_names(x)
 }

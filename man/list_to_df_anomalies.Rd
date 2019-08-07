@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{list_to_df_anomalies}
 \alias{list_to_df_anomalies}
-\title{A Function}
+\title{A function}
 \usage{
 list_to_df_anomalies(mylist)
 }

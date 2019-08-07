@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_compact}
 \alias{try_compact}
-\title{A Function}
+\title{A function}
 \usage{
 try_compact(x)
 

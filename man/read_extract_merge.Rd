@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_extract_merge}
 \alias{read_extract_merge}
-\title{A Function}
+\title{A function}
 \usage{
 read_extract_merge(filelist = NULL, inpath = NULL, pattern = NULL,
   Ng = F, Nr = F, Nrg = F)

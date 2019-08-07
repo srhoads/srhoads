@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{dply_nonnumeric}
 \alias{dply_nonnumeric}
-\title{A Function}
+\title{A function}
 \usage{
 dply_nonnumeric(x, fun)
 

@@ -1,4 +1,24 @@
 
+
+## AUTO INSTALL/IMPORT MAJOR DEPENDENCIES;
+# --------------------------------------------
+tryCatch({
+  if(!require("tidyverse")) install.packages("tidyverse")
+  library(tidyverse)
+  cat("tidyverse dependency imported\n")
+}, error=function(e) print("Couldn't install/import `tidyverse` package")
+)
+
+tryCatch({
+  if(!require("devtools")) install.packages("devtools")
+  library(devtools)
+  cat("devtools dependency imported\n")
+}, error=function(e) print("Couldn't install/import `devtools` package")
+)
+# --------------------------------------------
+
+
+
 ## HOW TO UPDATE LIBRARY:
 # --------------------------------------------
 
@@ -25,7 +45,6 @@ docu <- function(fxn=""){
 
 
 # source("global.R")
-library(tidyverse)
 
 # used to be global.R:
 minuscontainsregex <- paste0(
@@ -1206,7 +1225,7 @@ drop_repeat_cols <- function(d, fromall=F, fromlast=F, fromfirst=F){
 #' is.factorchar()
 is.factorchar <- is.charorfact <- function(x) ifelse(is.character(x) | is.factor(x), T, F)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to
 #' @export
@@ -1215,7 +1234,7 @@ is.factorchar <- is.charorfact <- function(x) ifelse(is.character(x) | is.factor
 dply_all <- function(x, fun) data.frame(lapply(x, fun), stringsAsFactors = F)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1228,7 +1247,7 @@ lapply_on_nonumeric <- function(df, fun) {
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1241,7 +1260,7 @@ dply <- function(df, fun, num=T){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1253,7 +1272,7 @@ ply <- function(x, fun, num=T){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1267,7 +1286,7 @@ dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, str
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1276,7 +1295,7 @@ dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, str
 gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub(from, to, xx, ignore.case=ignore.case), num=num)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1288,7 +1307,7 @@ not_all_na <- function(x) any(!is.na(x))
 `%<>%` <- magrittr::`%<>%`
 
 ## Loads pipes (`%>%` and `%<>%`) into R env
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1307,7 +1326,7 @@ pipe2 <- function() `%<>%` <<- magrittr::`%<>%`
 
 
 ## same as list.files() except default recursive=T and full.names=T
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1316,7 +1335,7 @@ pipe2 <- function() `%<>%` <<- magrittr::`%<>%`
 list_files <- function(p, pattern=NULL, recursive=T, full.names=T) list.files(p, pattern=pattern, recursive=recursive, full.names=full.names)
 
 
-#' #' A Function
+#' #' A function
 #' #'
 #' #' This function allows you to 
 #' #' @export
@@ -1363,7 +1382,7 @@ pkgu <- function (package1, ...) {
   }
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1444,7 +1463,7 @@ read_csvs <- function(filelist, bindrows=F, simplif=T){
   d
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1452,7 +1471,7 @@ read_csvs <- function(filelist, bindrows=F, simplif=T){
 #' try_read_rda()
 try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) NULL)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1460,7 +1479,7 @@ try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) 
 #' try_read_feather()
 try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), error=function(e) NULL)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1468,7 +1487,7 @@ try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), er
 #' try_read_table()
 try_read_table <- function(f) tryCatch(data.frame(readr::read_table(f), stringsAsFactors = F), error=function(e) NULL)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1477,7 +1496,7 @@ try_read_table <- function(f) tryCatch(data.frame(readr::read_table(f), stringsA
 try_read_delim <- function(f, delim=';') tryCatch(data.frame(readr::read_delim(f, trim_ws = T, delim=delim), stringsAsFactors = F), error=function(e) NULL)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1492,7 +1511,7 @@ read_dat <- function(f) {
   d
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1501,7 +1520,7 @@ read_dat <- function(f) {
 try_read_dat <- function(f) tryCatch(read_dat(f), error=function(e) NULL)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1514,7 +1533,7 @@ read_dats <- function(flist, bind=F){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1531,7 +1550,7 @@ read_file <- function(file, bindsheets=F){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1540,7 +1559,7 @@ read_file <- function(file, bindsheets=F){
 try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=function(e) NULL)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1554,7 +1573,7 @@ read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1567,7 +1586,7 @@ read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1596,7 +1615,7 @@ read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1632,7 +1651,7 @@ read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', st
 gsub_NSRHOADS <- function(x) x %>% gsub("[^_|[:alnum:]]", "", .) %>% gsub("NSRHOADSGitHubdatafilesunzip|srhoads", "", ., ignore.case=T, perl=T)
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1657,7 +1676,7 @@ read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, 
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1685,7 +1704,7 @@ read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xl
   }
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1698,7 +1717,7 @@ write_ydrive_originals <- function(fl, outpath="AA/data/"){ # input = list of fi
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1713,7 +1732,7 @@ unzip_dir <- function(zipfile, outdir="unzip"){
   print(output)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1725,7 +1744,7 @@ try_unzip <- function(zipfile){
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1733,7 +1752,7 @@ try_unzip <- function(zipfile){
 #' drop_empty()
 drop_empty  <-  function(x_list) x_list[unlist(lapply(x_list, length) != 0)] 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1747,7 +1766,7 @@ trimspace <- function(vec){
     dplyr::na_if(., "")
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1758,7 +1777,7 @@ remove_precomma <- function(vec, trim=T){
   if(trim) vec %<>% trimspace()
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1783,7 +1802,7 @@ list_names <- function(mylist, unique = F){
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1823,7 +1842,7 @@ split_original_rdas <- function(filelist = NULL,
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1836,7 +1855,7 @@ reduce_name_bytes <- function(x){
   x
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1851,7 +1870,7 @@ select_not_race_gender_cols <- function(mylist) {
   nrg
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1869,7 +1888,7 @@ select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
   mylist
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1885,7 +1904,7 @@ select_nrg_cols_df <- function(df, output = c("df", "names")) {
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1900,7 +1919,7 @@ select_nrg_cols <- function(x, type = c("list", "df"), output = NULL) {
   return(select_nrg_cols_list(x, output = output))
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1976,7 +1995,7 @@ select_name_cols_df <- function(df, output = c("df", "names")) {
 # }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -1991,7 +2010,7 @@ gender_seq_names <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2020,7 +2039,7 @@ select_gender_cols_list <- function(mylist, output = c("list", "names")) {
 } 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2088,7 +2107,7 @@ select_race_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
 # }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2107,7 +2126,7 @@ select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2122,7 +2141,7 @@ race_seq_names <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2154,7 +2173,7 @@ select_race_cols_list <- function(mylist, output = c("list", "names")) {
   mylist
 } 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2174,7 +2193,7 @@ select_name_race_gender_cols_df <- function(df, output = c("df", "names")){
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2196,7 +2215,7 @@ select_name_race_gender_cols_list <- function(mylist, output = c("list", "names"
   mylist
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2211,7 +2230,7 @@ select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = N
   select_name_race_gender_cols_list(dat, output = output)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2268,7 +2287,7 @@ data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', col_types='text'
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2280,7 +2299,7 @@ try_bind <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2303,7 +2322,7 @@ list_to_df <- function(mylist) {
   dplyr::distinct(nrgdf)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2333,7 +2352,7 @@ list_to_df_anomalies <- function(mylist) {
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2349,7 +2368,7 @@ preprocess_names_other <- function(x) {
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2363,7 +2382,7 @@ preprocess_names_race <- function(x) {
 }
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2396,7 +2415,7 @@ preprocess_names_name <- function(x) {
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2411,7 +2430,7 @@ preprocess_names_gender <- function(x) {
 }
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2447,7 +2466,7 @@ preprocess_names_thorough <- function(x) {
   x
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2475,7 +2494,7 @@ preprocess_names_minimal <- function(x) {
   x
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2488,7 +2507,7 @@ combine_compact <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2507,7 +2526,7 @@ try_combine <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2526,7 +2545,7 @@ try_compact <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2541,7 +2560,7 @@ try_combine_compact <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2559,7 +2578,7 @@ preprocess_names <- function(x, extent = c("minimal", "thorough")) {
 
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2579,7 +2598,7 @@ preprocess_all_cols <- function(x, extent = "thorough") {
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2598,7 +2617,7 @@ preprocess_data_minimal <- function(x, type = c("lod")) {
     list_to_df(.) %>% dplyr::distinct()
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2618,7 +2637,7 @@ preprocess_data_thorough <- function(x, type = c("lod")) {
 }
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2639,7 +2658,7 @@ preprocess_data <- function(x, type = c("lod"), extent = NULL) {
 }
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2650,7 +2669,7 @@ gather_firstname <- function(df) {
     dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2661,7 +2680,7 @@ gather_lastname <- function(df) {
     dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2675,7 +2694,7 @@ gather_first_last_name <- function(df) {
 }
 
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2710,7 +2729,7 @@ join_firstlastname <- function(df, firstname, lastname, seq = c("first last", "l
 # ---------------------------------------------------------------------------------
 
 # gather_nrg is usually unusable on HUGE datasets. Use the respective lil fxns below it in that case :)
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2729,7 +2748,7 @@ gather_nrg <- function(df) {
 }
 
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2746,7 +2765,7 @@ dealwith_racegender_variable <- function(x){
   x
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2762,7 +2781,7 @@ gather_name <- function(df) {
     dplyr::distinct() 
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2781,7 +2800,7 @@ gather_name_namesplit <- function(df) {
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2796,7 +2815,7 @@ gather_gender <- function(df) {
     dplyr::distinct() 
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2811,7 +2830,7 @@ gather_race <- function(df) {
     dplyr::distinct() 
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2826,7 +2845,7 @@ gather_race_and_gender <- function(df) {
 }
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2840,7 +2859,7 @@ gather_join_first_last_name <- function(df, seq = c("first last", "last,first"))
   dplyr::distinct(df)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2861,7 +2880,7 @@ recode_na_list <- list(
   "NA" = c("NATOEVERYONE", "malefemalerace", "malefemale", "femalemale")
 )
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2884,7 +2903,7 @@ recode_na_vec <- function(vec,
   vec
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2900,7 +2919,7 @@ recode_na <- function(x){
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2971,7 +2990,7 @@ recode_race_regex <- function(vec) {
   vec
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -2987,7 +3006,7 @@ recode_races_regex <- function(df) {
 
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to recode gender!
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
@@ -3029,7 +3048,7 @@ recode_genders_regex <- function(df) {
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to recode gender!
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
@@ -3080,7 +3099,7 @@ recode_races_and_genders_regex <- function(df, extragender = NULL, extrarace = N
   totaldf
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
@@ -3220,7 +3239,7 @@ recode_gender_j <- function(vec,
   gsub("^NA$", NA, vec, perl = T)
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
@@ -3238,7 +3257,7 @@ recode_gender2 <- function(vec,
   vec
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to recode race
 #' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
@@ -3298,7 +3317,7 @@ recode_race_j <- function(vec,
 }
 # ---------------------------------------------------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3351,7 +3370,7 @@ getridofgenderspecific_regex <- paste0(
 getridofracespecific_regex <- paste0(c("male", "female", "woman", "^man$", "women", 
                                        "regular"), collapse = "|")
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3366,7 +3385,7 @@ recode_gender_specific <- function(vec, extra = NULL) {
   vec
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3385,7 +3404,7 @@ recode_race_specific <- function(vec, extra = NULL) {
 
 
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3408,7 +3427,7 @@ clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extr
 }
 
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3439,7 +3458,7 @@ prestep_preprocess_all_cols <- function(mylist, subsets = 2, type = NULL, extent
 }
 
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3469,7 +3488,7 @@ prestep_preprocess_data <- function(mylist, subsets = 2,
     dplyr::distinct()
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3514,7 +3533,7 @@ multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subs
 
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3538,7 +3557,7 @@ multistep_gather_join_first_last_name <- function(df, subsets = 2) {
     dplyr::distinct()
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3561,7 +3580,7 @@ multistep_gather_race_and_gender <- function(df, subsets = 2) {
     dplyr::distinct()
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3588,7 +3607,7 @@ multistep_clean_dfs <- function(df, subsets = 2) {
     dplyr::distinct()
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3613,7 +3632,7 @@ multistep_recode_race_and_gender <- function(df, subsets = 2) {
     dplyr::distinct()
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3639,7 +3658,7 @@ multistep_clean_recode <- function(df, subsets = 2, scrub = NULL, extrarace = NU
     dplyr::distinct()
 }
 # ---------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3701,7 +3720,7 @@ multistep_split_files <- function(filelist = NULL,
 }
 
 #---------------------------------------------------------------------------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3797,7 +3816,7 @@ regulars <- function (x, extra = NULL, extent = "thorough"){
   x
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3874,7 +3893,7 @@ featherdump_regulars_filelist_fun <- function(filelist = NULL,
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3922,7 +3941,7 @@ load_save_rdata <- function(filelist = NULL,
   })
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -3997,7 +4016,7 @@ featherdump_anomalies_fun <- function(filelist = NULL,
   )
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4076,7 +4095,7 @@ featherdump_anomalies_filelist_fun <- function(filelist = NULL,
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4102,7 +4121,7 @@ load_rdata_files <- function (files){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4129,7 +4148,7 @@ load_feather_files <- function (files){
   
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4177,7 +4196,7 @@ read_merge_write_feathers <- function(filelist = NULL,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4211,7 +4230,7 @@ read_merge_feathers <- function(filelist = NULL,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4238,7 +4257,7 @@ read_feathers <- function(filelist = NULL,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4265,7 +4284,7 @@ read_rdas <- function(filelist = NULL,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4313,7 +4332,7 @@ read_files_to_rda <- function(filelist,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4365,7 +4384,7 @@ read_rda_merge_write_feathers <- function(filelist = NULL,
   
 }
 
-#' #' A Function
+#' #' A function
 #' #'
 #' #' This function allows you to 
 #' #' @export
@@ -4388,7 +4407,7 @@ read_rda_merge_write_feathers <- function(filelist = NULL,
 #'   loaded
 #' }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4441,7 +4460,7 @@ read_files_to_feather <- function(filelist,
   
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4486,7 +4505,7 @@ read_merge_write_feathers <- function(filelist = NULL,
   # data.frame(dir = dir_path, filename = filename)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4561,7 +4580,7 @@ read_feathers_recode_write <- function(filelist = NULL,
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4576,7 +4595,7 @@ fix_encoding <- function(df, originalEncoding = "latin1") {
   return(df)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4588,7 +4607,7 @@ regulars_anomalies <- function(x, extra = NULL, extent = "thorough"){
   all <- dplyr::bind_rows(reg, anom) %>% dplyr::distinct()
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4659,7 +4678,7 @@ featherdump_regulars_anomalies <- function(filelist = NULL,
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4792,7 +4811,7 @@ split_originals <- function(filelist, by=1000, outpath="~/"){
   })
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4891,7 +4910,7 @@ recode_list <- function(gender=T, race=T, na=F){
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4899,7 +4918,7 @@ recode_list <- function(gender=T, race=T, na=F){
 #' alnum_period()
 alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4907,7 +4926,7 @@ alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
 #' alnum()
 alnum <- function(x) gsub("[^[:alnum:]]", "", x)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -4924,7 +4943,7 @@ cleanpath <- function(x){
 
 #--------------------------------------
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5009,7 +5028,7 @@ regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
 
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5085,7 +5104,7 @@ write_namesplit <- function(filelist = NULL,
   )
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5093,7 +5112,7 @@ write_namesplit <- function(filelist = NULL,
 #' round5()
 round5 <- function(num) formatC(num, width = 5, format = "d", flag = "0")
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5102,7 +5121,7 @@ round5 <- function(num) formatC(num, width = 5, format = "d", flag = "0")
 round4 <- function(num) formatC(num, width = 4, format = "d", flag = "0")
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5115,7 +5134,7 @@ lastname_wmiddle <- function(v){
   v
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5128,7 +5147,7 @@ firstname_wmiddle <- function(v){
   v
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5136,7 +5155,7 @@ firstname_wmiddle <- function(v){
 #' lastname_after_space_when_nocomma()
 lastname_after_space_when_nocomma <- function(v) ifelse(grepl(" ",v) & !grepl(",",v), stringr::word(v,-1), NA)
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5150,7 +5169,7 @@ firstname_nomiddle <- function(v){
   v
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5168,7 +5187,7 @@ firstname_postcomma <- function(x){
 }
 
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5186,7 +5205,7 @@ lastname_precomma <- function(x){
   x
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5205,7 +5224,7 @@ namesplit <- function(df, dfincase){
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5219,7 +5238,7 @@ gather_namesplit <- function(df){
   df
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5258,7 +5277,7 @@ gather_namesplit_clean <- function(df){
 }
 
 #--------------------------------------------------------------
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5281,6 +5300,9 @@ samtokens <- function(df, nmin=2,nmax=3,
                     trimws(., which="both") %>%
                     paste0(" ", ., " ")
     ) %>% dplyr::distinct() 
+  
+  tryCatch(if(!require("quanteda")) install.packages("quanteda"), error=function(e) print("Couldn't install/access `quanteda` package"))
+  
   df$x %<>%
     quanteda::tokens(., ngrams=nmin:nmax,
                      what="character",
@@ -5294,13 +5316,16 @@ samtokens <- function(df, nmin=2,nmax=3,
   return(df)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
 #' @examples
 #' dtmfunc()
 dtmfunc <- function(df=d, corp=df$x, id=df$id, term_count_min=2){
+  tryCatch(if(!require("text2vec")) install.packages("text2vec"), error=function(e) print("Couldn't install/access `text2vec` package"))
+  tryCatch(if(!require("devtools")) install.packages('devtools'), error=function(e) print("Couldn't install/access `devtools` package"))
+  tryCatch(if(!require("text2vec")) devtools::install_github('dselivanov/text2vec'), error=function(e) print("Couldn't install/access `text2vec` package"))
   it = text2vec::itoken(as.character(corp),  
                         tokenizer = text2vec::word_tokenizer, 
                         ids = id)
@@ -5311,7 +5336,7 @@ dtmfunc <- function(df=d, corp=df$x, id=df$id, term_count_min=2){
   dtm_all
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5323,7 +5348,7 @@ tokdtmfunc <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term
   list("dtm"=dtm_all, "df"=d)
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -5333,6 +5358,9 @@ cvglmnet <- function(x = dtm_all, y = d$y,
                      family = 'binomial', alpha = 0,
                      type.measure = "auc", nfolds = 5,
                      thresh = 1e-3, maxit = 1e3){
+  
+  tryCatch(if(!require("glmnet")) install.packages("glmnet"), error=function(e) print("Couldn't install/access `glmnet` package"))
+  
   m <- glmnet::cv.glmnet(x=x, y=y, 
                          family=family, alpha=alpha, 
                          type.measure=type.measure,
@@ -5345,7 +5373,7 @@ cvglmnet <- function(x = dtm_all, y = d$y,
   # print(plot(m))
 }
 
-#' A Function
+#' A function
 #'
 #' This function allows you to 
 #' @export
@@ -6692,6 +6720,16 @@ str_extract_money <- function(v) v %>%
 #' as_table_paste()
 as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) read.csv(text=pastedstuff, sep=sep, header=header)
 
+#' Samantha Rhoads's function to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
+#'
+#' Srhoads wrote this to allow you to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' @export
+#' @examples
+#' read_table()
+read_table <- function(pastedstuff, sep="\t", header=T) tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), 
+                                                                 error=function(e) read.table(text=pastedstuff, sep=sep))
+
+
 #' Samantha Rhoads's function to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter
 #'
 #' Srhoads wrote this to allow you to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter (loosly means you don't need the letter after the capital letter to be lowercase)
@@ -6755,16 +6793,24 @@ pkg_tidy <- function (package1="tidyverse", ...) {
 #' This function allows you to load and/or install package first (wrapper with tryCatch)
 #' @export
 #' @examples
-#' pkg()
+#' install.packages_wrapper()
 install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NULL,
                                      repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                                      type = getOption("pkgType")){
-  tryCatch(install.packages(package, repos=repos, dependencies=dependencies, type=type),
-           error=function(e){
-             if ('devtools' %in% rownames(installed.packages())) do.call(library, list(package)) else install.packages("devtools")
-             if(is.null(githubrepo)|!exists("githubrepo")) githubrepo <- "srhoads"
-             tryCatch(devtools::install_github(paste0(githubrepo, "/", package)), error=function(e) paste0(package, " --can't find"))
-           })
+  tryCatch({
+    install.packages(package, repos=repos, dependencies=dependencies, type=type)
+    do.call(library, list(package))
+  },
+  error=function(e){
+    if ('devtools' %in% rownames(installed.packages())) do.call(library, list('devtools')) else install.packages("devtools"); library(devtools)
+    if(is.null(githubrepo)|!exists("githubrepo")) githubrepo <- "srhoads"
+    tryCatch(devtools::install_github(paste0(githubrepo, "/", package)), 
+             error=function(e) {
+               tryCatch(devtools::install_github(package),
+                        error=function(e) cat(paste0("\n", package, " --can't find\n")))
+               
+             })
+  })
 }  
 
 
@@ -6773,18 +6819,74 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' This function allows you to load and/or install package first (holistic)
 #' @export
 #' @examples
-#' pkg()
-pkg2 <- function (package1=NULL, ..., pipes=T) {
+#' pkg2()
+pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
+                  repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
+                  type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
   packages <- unique(c(package1, ...))
   if(pipes) packages <- unique(c(packages, "magrittr"))
   for (package in packages) {
-    if (package %in% rownames(installed.packages())) {do.call(library, list(package)); print(paste0(package, " loaded"))}
+    if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0(package, " loaded\n"))}
     else {
-      tryCatch(install.packages_wrapper(package), error=function(e) paste0(package, " idk"))
-      tryCatch(do.call(library, list(package)), error=function(e) paste0(package, " idk"))
+      tryCatch(install.packages_wrapper(package, 
+                                        dependencies=dependencies, githubrepo=githubrepo,
+                                        repos = repos, type = type), 
+               error=function(e) cat(paste0(package, ": can't install\n")))
+      tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n\n")))
     }
   }
+}
+
+# pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
+#                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
+#                   type = getOption("pkgType")) {
+#   if(is.null(package1)) package1 <- "tidyverse"
+#   packages <- unique(c(package1, ...))
+#   if(pipes) packages <- unique(c(packages, "magrittr"))
+#   for (package in packages) {
+#     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0("\n", package, " loaded (bc u already have it)\n"))}
+#     else {
+#       tryCatch(install.packages_wrapper(package,
+#                                         dependencies=dependencies,
+#                                         githubrepo=githubrepo,
+#                                         repos = repos, type = type),
+#                error=function(e) cat(paste0("\n", package, ": can't install (1st try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package, githubrepo=githubrepo); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (2nd try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package, dependencies=dependencies); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (3rd try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (4th try)\n")))
+#       
+#       tryCatch({devtools::install_github(package); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (5th try)\n")))
+#       
+#       tryCatch({devtools::install_github(package,
+#                                          dependencies=dependencies,
+#                                          githubrepo=githubrepo,
+#                                          repos = repos, type = type); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (6th try)\n")))
+#       
+#       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n")))
+#     }
+#   }
+# }
+
+
+#' A function to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
+#'
+#' This function allows you to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
+#' @export
+#' @examples readr::read_csv("http://samplecsvs.s3.amazonaws.com/Sacramentorealestatetransactions.csv", col_types=col_types('c'))
+#' col_types(type="c") 
+col_types <- function(type="c"){
+  # c = character, i = integer, n = number, d = double, l = logical, f = factor, D = date, T = date time, t = time, ? = guess, or _/- to skip the column
+  if(grepl("text|^c$|character", type, ignore.case=T)) type <- "c"
+  readr::cols(.default = type)
 }
 
 ########################################################################################################################

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{try_read_delim}
 \alias{try_read_delim}
-\title{A Function}
+\title{A function}
 \usage{
 try_read_delim(f, delim = ";")
 

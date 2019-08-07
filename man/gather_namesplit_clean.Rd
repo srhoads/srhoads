@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gather_namesplit_clean}
 \alias{gather_namesplit_clean}
-\title{A Function}
+\title{A function}
 \usage{
 gather_namesplit_clean(df)
 }

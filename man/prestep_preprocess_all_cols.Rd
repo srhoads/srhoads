@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{prestep_preprocess_all_cols}
 \alias{prestep_preprocess_all_cols}
-\title{A Function}
+\title{A function}
 \usage{
 prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL,
   extent = NULL)

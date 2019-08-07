@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{cvglmnet}
 \alias{cvglmnet}
-\title{A Function}
+\title{A function}
 \usage{
 cvglmnet(x = dtm_all, y = d$y, family = "binomial", alpha = 0,
   type.measure = "auc", nfolds = 5, thresh = 0.001, maxit = 1000)

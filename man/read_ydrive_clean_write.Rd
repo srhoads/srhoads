@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{read_ydrive_clean_write}
 \alias{read_ydrive_clean_write}
-\title{A Function}
+\title{A function}
 \usage{
 read_ydrive_clean_write(filenames, csv = F, xlsx = F, xls = F,
   outpath = "data/original/", col_types = "text")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_gender_specific}
 \alias{recode_gender_specific}
-\title{A Function}
+\title{A function}
 \usage{
 recode_gender_specific(vec, extra = NULL)
 

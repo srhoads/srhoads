@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{recode_race_j}
 \alias{recode_race_j}
-\title{A Function}
+\title{A function}
 \usage{
 recode_race_j(vec, recode_list = race_list, extra = c("nothing",
   "multirace", "NA"))
