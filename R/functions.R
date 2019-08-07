@@ -6826,8 +6826,8 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
 #' @examples
-#' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+#' pkg_old(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+pkg_old <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
@@ -6857,8 +6857,8 @@ pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
 #' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
 #' @examples
-#' pkg3(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-pkg3 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+#' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
