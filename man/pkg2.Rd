@@ -6,12 +6,10 @@
 \usage{
 pkg2(package1 = NULL, ..., pipes = T)
 }
-\arguments{
-\item{pipes}{Refers to loading the `magrittr` package to get its pipes (`%<>%`)}
-}
 \description{
-This function allows you to load and/or install package first (holistic)
+This function allows you to load and/or install package first (holistic) 
+`pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 }
 \examples{
-pkg2()
+pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
 }

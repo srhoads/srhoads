@@ -6819,11 +6819,11 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 
 #' A function to load and/or install package first (holistic)
 #'
-#' This function allows you to load and/or install package first (holistic)
-#' @param pipes Refers to loading the `magrittr` package to get its pipes (`%<>%`)
+#' This function allows you to load and/or install package first (holistic) 
+#' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
 #' @examples
-#' pkg2()
+#' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
 pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
