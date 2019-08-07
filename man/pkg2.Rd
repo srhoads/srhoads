@@ -6,6 +6,9 @@
 \usage{
 pkg2(package1 = NULL, ..., pipes = T)
 }
+\arguments{
+\item{pipes}{Refers to loading the `magrittr` package to get its pipes (`%<>%`)}
+}
 \description{
 This function allows you to load and/or install package first (holistic)
 }

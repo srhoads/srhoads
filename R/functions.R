@@ -6820,6 +6820,7 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' A function to load and/or install package first (holistic)
 #'
 #' This function allows you to load and/or install package first (holistic)
+#' @param pipes Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
 #' @examples
 #' pkg2()
