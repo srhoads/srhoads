@@ -6856,8 +6856,8 @@ pkg_old <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NU
 #' This function allows you to load and/or install package first (holistic)!
 #' @export
 #' @examples
-#' pkg4()
-pkg4 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+#' pkg2()
+pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
