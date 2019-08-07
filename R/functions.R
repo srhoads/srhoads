@@ -6880,8 +6880,10 @@ pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
 #' A function to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
 #'
 #' This function allows you to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
+#' c = character, i = integer, n = number, d = double, l = logical, f = factor, D = date, T = date time, t = time, ? = guess, or _/- to skip the column
 #' @export
-#' @examples readr::read_csv("http://samplecsvs.s3.amazonaws.com/Sacramentorealestatetransactions.csv", col_types=col_types('c'))
+#' @examples 
+#' readr::read_csv("http://samplecsvs.s3.amazonaws.com/Sacramentorealestatetransactions.csv", col_types=col_types('c'))
 #' col_types(type="c") 
 col_types <- function(type="c"){
   # c = character, i = integer, n = number, d = double, l = logical, f = factor, D = date, T = date time, t = time, ? = guess, or _/- to skip the column
