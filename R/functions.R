@@ -6854,11 +6854,10 @@ pkg_old <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NU
 #' A function to load and/or install package first (holistic)!
 #'
 #' This function allows you to load and/or install package first (holistic)!
-#' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
 #' @examples
-#' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+#' pkg4()
+pkg4 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
                   type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
@@ -6881,6 +6880,37 @@ pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
   }
 }
 
+
+
+#' A function to load and/or install package first (holistic)!
+#'
+#' This function allows you to load and/or install package first (holistic)!
+#' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
+#' @export
+#' @examples
+#' pkg3(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+pkg3 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+                  repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
+                  type = getOption("pkgType")) {
+  if(is.null(package1)) package1 <- "tidyverse"
+  packages <- unique(c(package1, ...))
+  if(pipes) packages <- unique(c(packages, "magrittr"))
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0(package, " loaded\n"))}
+    else {
+      tryCatch({
+        install.packages_wrapper(package, 
+                                 dependencies=dependencies, githubrepo=githubrepo,
+                                 repos = repos, type = type)
+        package <- gsub(".*/", "", package)
+        do.call(library, list(package))
+        cat(paste0("\n", package, ": installed & loaded!\n"))
+      }, 
+      error=function(e) cat(paste0(package, ": can't install\n")))
+      tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n\n")))
+    }
+  }
+}
 
 # pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
 #                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
