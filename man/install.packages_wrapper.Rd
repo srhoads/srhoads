@@ -12,5 +12,5 @@ install.packages_wrapper(package, dependencies = NA, githubrepo = NULL,
 This function allows you to load and/or install package first (wrapper with tryCatch)
 }
 \examples{
-install.packages_wrapper()
+install.packages_wrapper(package, dependencies = NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
 }
