@@ -6751,104 +6751,104 @@ split_before_capital <- function(x, sep=" ", loosly=F) if(!loosly) gsub('([[:low
 
 
 # August 7, 2019 (08072019) _ ########################################################################################################################
-#' 
-#' #' A function to load and/or install package first
-#' #'
-#' #' This function allows you to load and/or install package first
-#' #' @export
-#' #' @examples
-#' #' pkg()
-#' pkg <- function (package1, ...) {
-#'   packages <- c(package1, ...)
-#'   for (package in packages) {
-#'     if (package %in% rownames(installed.packages())) 
-#'       do.call(library, list(package))
-#'     else {
-#'       install.packages(package, 
-#'                        repos = c("https://cloud.r-project.org", 
-#'                                  "http://owi.usgs.gov/R/"), dependencies = NA, 
-#'                        type = getOption("pkgType"))
-#'       do.call(library, list(package))
-#'     }
-#'   }
-#' }
-#' 
-#' 
-#' #' A function to load and/or install package first (tidyverse included by default)!
-#' #'
-#' #' This function allows you to load and/or install package first (tidyverse included by default)!
-#' #' @export
-#' #' @examples
-#' #' pkg_tidy()
-#' pkg_tidy <- function (package1="tidyverse", ...) {
-#'   packages <- unique(c(c(package1, ...), "magrittr"))
-#'   for (package in packages) {
-#'     if (package %in% rownames(installed.packages())) do.call(library, list(package))
-#'     else {
-#'       install.packages(package, repos = c("https://cloud.r-project.org", 
-#'                                           "http://owi.usgs.gov/R/"), dependencies = NA, 
-#'                        type = getOption("pkgType"))
-#'       do.call(library, list(package))
-#'     }
-#'   }
-#' }
-#' 
-#' 
-#' #' A function to load and/or install package first (wrapper with tryCatch)
-#' #'
-#' #' This function allows you to load and/or install package first (wrapper with tryCatch)
-#' #' @export
-#' #' @examples
-#' #' install.packages_wrapper(package, dependencies = NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-#' install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NULL,
-#'                                      repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
-#'                                      type = getOption("pkgType")){
-#'   tryCatch({
-#'     install.packages(package, repos=repos, dependencies=dependencies, type=type)
-#'     do.call(library, list(package))
-#'   },
-#'   error=function(e){
-#'     if ('devtools' %in% rownames(installed.packages())) do.call(library, list('devtools')) else install.packages("devtools"); library(devtools)
-#'     if(is.null(githubrepo)|!exists("githubrepo")) githubrepo <- "srhoads"
-#'     tryCatch(devtools::install_github(paste0(githubrepo, "/", package)), 
-#'              error=function(e) {
-#'                tryCatch(devtools::install_github(package),
-#'                         error=function(e) cat(paste0("\n", package, " --can't find\n")))
-#'                
-#'              })
-#'   })
-#' }  
-#' 
-#' 
-#' #' A function to load and/or install package first (holistic)
-#' #'
-#' #' This function allows you to load and/or install package first (holistic) 
-#' #' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
-#' #' @export
-#' #' @examples
-#' #' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-#' pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
-#'                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
-#'                   type = getOption("pkgType")) {
-#'   if(is.null(package1)) package1 <- "tidyverse"
-#'   packages <- unique(c(package1, ...))
-#'   if(pipes) packages <- unique(c(packages, "magrittr"))
-#'   for (package in packages) {
-#'     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0(package, " loaded\n"))}
-#'     else {
-#'       tryCatch({
-#'         install.packages_wrapper(package, 
-#'                                  dependencies=dependencies, githubrepo=githubrepo,
-#'                                  repos = repos, type = type)
-#'         package <- gsub(".*/", "", package)
-#'         do.call(library, list(package))
-#'         cat(paste0("\n", package, ": installed & loaded!\n"))
-#'       }, 
-#'       error=function(e) cat(paste0(package, ": can't install\n")))
-#'       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n\n")))
-#'     }
-#'   }
-#' }
+
+#' A function to load and/or install package first
+#'
+#' This function allows you to load and/or install package first
+#' @export
+#' @examples
+#' pkg()
+pkg <- function (package1, ...) {
+  packages <- c(package1, ...)
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) 
+      do.call(library, list(package))
+    else {
+      install.packages(package, 
+                       repos = c("https://cloud.r-project.org", 
+                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
+                       type = getOption("pkgType"))
+      do.call(library, list(package))
+    }
+  }
+}
+
+
+#' A function to load and/or install package first (tidyverse included by default)!
+#'
+#' This function allows you to load and/or install package first (tidyverse included by default)!
+#' @export
+#' @examples
+#' pkg_tidy()
+pkg_tidy <- function (package1="tidyverse", ...) {
+  packages <- unique(c(c(package1, ...), "magrittr"))
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) do.call(library, list(package))
+    else {
+      install.packages(package, repos = c("https://cloud.r-project.org", 
+                                          "http://owi.usgs.gov/R/"), dependencies = NA, 
+                       type = getOption("pkgType"))
+      do.call(library, list(package))
+    }
+  }
+}
+
+
+#' A function to load and/or install package first (wrapper with tryCatch)!
+#'
+#' This function allows you to load and/or install package first (wrapper with tryCatch)!
+#' @export
+#' @examples
+#' install.packages_wrapper(package, dependencies = NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NULL,
+                                     repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
+                                     type = getOption("pkgType")){
+  tryCatch({
+    install.packages(package, repos=repos, dependencies=dependencies, type=type)
+    do.call(library, list(package))
+  },
+  error=function(e){
+    if ('devtools' %in% rownames(installed.packages())) do.call(library, list('devtools')) else install.packages("devtools"); library(devtools)
+    if(is.null(githubrepo)|!exists("githubrepo")) githubrepo <- "srhoads"
+    tryCatch(devtools::install_github(paste0(githubrepo, "/", package)), 
+             error=function(e) {
+               tryCatch(devtools::install_github(package),
+                        error=function(e) cat(paste0("\n", package, " --can't find\n")))
+               
+             })
+  })
+}  
+
+
+#' A function to load and/or install package first (holistic)!
+#'
+#' This function allows you to load and/or install package first (holistic)!
+#' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
+#' @export
+#' @examples
+#' pkg2(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
+                  repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
+                  type = getOption("pkgType")) {
+  if(is.null(package1)) package1 <- "tidyverse"
+  packages <- unique(c(package1, ...))
+  if(pipes) packages <- unique(c(packages, "magrittr"))
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0(package, " loaded\n"))}
+    else {
+      tryCatch({
+        install.packages_wrapper(package, 
+                                 dependencies=dependencies, githubrepo=githubrepo,
+                                 repos = repos, type = type)
+        package <- gsub(".*/", "", package)
+        do.call(library, list(package))
+        cat(paste0("\n", package, ": installed & loaded!\n"))
+      }, 
+      error=function(e) cat(paste0(package, ": can't install\n")))
+      tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n\n")))
+    }
+  }
+}
 
 # pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
 #                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
