@@ -946,13 +946,44 @@ grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
   names(loc)
 }
 
-#' A function to find matching string anywhere in a dataframe
+#' A function to find matching string anywhere in a dataframe!
 #'
-#' This function allows you to find matching string anywhere in a dataframe
+#' This function allows you to find matching string anywhere in a dataframe!
 #' @export
 #' @examples
 #' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
 grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){
+  df$rownum <- 1:nrow(df)
+  
+  if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+  
+  else if(cells_only) {
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez, "rownum")))
+  }
+  else if(cells_only_discrete){
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+    cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez)))#, "rownum")))
+    # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
+    lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
+             tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)) %>%
+             group_by(value) %>% summarise(rownum = paste0(rownum, collapse=", ")))
+  }
+  else if(rownums_only){
+    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% distinct() %>% unlist() %>% as.character()
+  }
+  else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
+}
+
+
+#' A function to find matching string anywhere in a dataframe!
+#'
+#' This function allows you to find matching string anywhere in a dataframe!
+#' @export
+#' @examples
+#' grep_all_df2(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
+grep_all_df2 <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){
   df$rownum <- 1:nrow(df)
   
   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
