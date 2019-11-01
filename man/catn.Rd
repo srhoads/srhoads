@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{catn}
 \alias{catn}
-\title{A function like `cat`, but wrapped in `\n` (line breaks)}
+\title{A function like `cat`, but wrapped in `\\n` (line breaks)}
 \usage{
 catn(x, file = "", sep = " ", fill = FALSE, labels = NULL,
   append = FALSE, collapse = " ")
 }
 \description{
-This function is like `cat` but is wrapped in `\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
+This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
 }
 \examples{
 catn(d) 
