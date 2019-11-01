@@ -2,13 +2,40 @@
 % Please edit documentation in R/functions.R
 \name{parse_excel_date}
 \alias{parse_excel_date}
-\title{A function}
+\title{#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' parse_excel_date()
+parse_excel_date <- function(v){
+  # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
+  v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
+}
+#' A function to parse an excel dates
+#'
+#' This function allows you to parse an excel dates (one of those with 5 digits as a string)
+#' @export
+#' @examples
+#' parse_excel_date()}
 \usage{
 parse_excel_date(v)
 }
 \description{
-This function allows you to
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' parse_excel_date()
+parse_excel_date <- function(v){
+  # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
+  v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
 }
-\examples{
-parse_excel_date()
+#' A function to parse an excel dates
+#'
+#' This function allows you to parse an excel dates (one of those with 5 digits as a string)
+#' @export
+#' @examples
+#' parse_excel_date()
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R, R/functions_generalizable.R
 \name{grep_all_df}
 \alias{grep_all_df}
-\title{A function to find matching string anywhere in a dataframe!}
+\title{A function to find matching string anywhere in a dataframe}
 \usage{
 grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F,
   print = F)
@@ -11,7 +11,7 @@ grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F,
   print = F)
 }
 \description{
-This function allows you to find matching string anywhere in a dataframe!
+This function allows you to find matching string anywhere in a dataframe
 
 This function allows you to find matching string anywhere in a dataframe
 }

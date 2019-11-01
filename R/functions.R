@@ -23,8 +23,8 @@ tryCatch({
 # --------------------------------------------
 
 ### --- R ---
-redocument=F # redocument=T
-if(redocument){
+# redocument=F # redocument=T
+if(redocument <- F){
   devtools::document()
   system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
@@ -946,9 +946,9 @@ grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
   names(loc)
 }
 
-#' A function to find matching string anywhere in a dataframe!
+#' A function to find matching string anywhere in a dataframe
 #'
-#' This function allows you to find matching string anywhere in a dataframe!
+#' This function allows you to find matching string anywhere in a dataframe
 #' @export
 #' @examples
 #' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
@@ -967,42 +967,11 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
     # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
     lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
              tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)) %>%
-             group_by(value) %>% summarise(rownum = paste0(rownum, collapse=", ")))
+             dplyr::group_by(value) %>% dplyr::summarize(rownum = paste0(rownum, collapse=", ")))
   }
   else if(rownums_only){
     colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% distinct() %>% unlist() %>% as.character()
-  }
-  else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-}
-
-
-#' A function to find matching string anywhere in a dataframe!
-#'
-#' This function allows you to find matching string anywhere in a dataframe!
-#' @export
-#' @examples
-#' grep_all_df2(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
-grep_all_df2 <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F){
-  df$rownum <- 1:nrow(df)
-  
-  if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-  
-  else if(cells_only) {
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez, "rownum")))
-  }
-  else if(cells_only_discrete){
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez)))#, "rownum")))
-    # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
-    lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
-             tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)) %>%
-             group_by(value) %>% summarise(rownum = paste0(rownum, collapse=", ")))
-  }
-  else if(rownums_only){
-    colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% distinct() %>% unlist() %>% as.character()
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% dplyr::distinct() %>% unlist() %>% as.character()
   }
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
@@ -1635,7 +1604,7 @@ read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_
     sublist <- mylist[start:end]
     sublist <- lapply(sublist, function(xx) xx %>% read_df_all(.) %>% regulars_namesplit())
     filename <- paste0(outpath, prefix, round5(start), "to", round5(end), ".f")
-    (sublist <- bind_rows(sublist) %>% dplyr::distinct()) %>%
+    (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct()) %>%
       feather::write_feather(., filename)
     # return(nrow(sublist))
     print("")
@@ -1664,7 +1633,7 @@ read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', st
     splitfilename <- rev(unlist(strsplit(x, "/")))[1] %>% alnum()
     if(prefix=='auto') prefix <- splitfilename
     filename <- paste0(outpath, round5(docnum), "_", substr(prefix, start=1, stop=100), ext, "_", nrow(sublist), ".f")
-    (sublist <- bind_rows(sublist) %>% dplyr::distinct())
+    (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct())
     feather::write_feather(sublist, filename)
     print("")
     print(paste0("dim: ", paste0(dim(sublist), collapse=" row "), " col - ", filename))
@@ -1719,7 +1688,7 @@ read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xl
     lapply(filenames, function(f) {
       print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
       d <- tryCatch(readxl::read_excel(filenames, sheet = f, col_types=col_types), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% bind_rows()
+      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
       d <- regulars_namesplit(d)
       feather::write_feather(d, filename)
     })
@@ -1728,7 +1697,7 @@ read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xl
     lapply(filenames, function(f){ 
       print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
       d <- tryCatch(read.csv(f), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% bind_rows()
+      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
       d <- regulars_namesplit(d)
       feather::write_feather(d, filename)
     })
@@ -2735,7 +2704,7 @@ gather_first_last_name <- function(df) {
 join_firstlastname <- function(df, firstname, lastname, seq = c("first last", "last,first")) {
   seq <- match.arg(seq)
   fldf <- data.frame(firstname="samantha", lastname="rhoads", name="samantha rhoads", stringsAsFactors = F)
-  if(is.null(df$firstname) | is.null(df$lastname)) df %<>% bind_rows(., fldf)
+  if(is.null(df$firstname) | is.null(df$lastname)) df %<>% dplyr::bind_rows(., fldf)
   # df$firstname = firstname
   # df$lastname = lastname
   # if(is.null(df$firstname)) df$firstname <- NA
@@ -4757,10 +4726,10 @@ merge_many_write_many <- function(filelist = NULL,
     df %<>% 
       dplyr::select(dplyr::matches("name|gender")) %>% 
       na.omit() %>%
-      mutate(lastname = toupper(lastname),
+      dplyr::mutate(lastname = toupper(lastname),
              gender = as.factor(gender),
              name = paste0(firstname, " ", lastname)) %>%
-      select(name, gender) %>% distinct()
+      select(name, gender) %>% dplyr::distinct()
     print(dfname <- "Ng")
   }
   
@@ -4768,10 +4737,10 @@ merge_many_write_many <- function(filelist = NULL,
     df %<>% 
       dplyr::select(dplyr::matches("name|race")) %>% 
       na.omit() %>%
-      mutate(lastname = toupper(lastname),
+      dplyr::mutate(lastname = toupper(lastname),
              race = as.factor(race),
              name = paste0(firstname, " ", lastname)) %>%
-      select(name, race) %>% distinct()
+      select(name, race) %>% dplyr::distinct()
     print(dfname <- "Nr")
   }
   
@@ -4993,7 +4962,7 @@ regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
   x %<>% drop_empty()
   
   fldf <- data.frame(firstname="samantha", lastname="rhoads", name="samantha rhoads", gender="female", stringsAsFactors = F)
-  x %<>% lapply(., function(xx) bind_rows(data.frame(xx), fldf))
+  x %<>% lapply(., function(xx) dplyr::bind_rows(data.frame(xx), fldf))
   
   # x %<>% drop_empty()
   
@@ -5053,7 +5022,7 @@ regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
   x$firstname <- stringr::word(x$firstname, -1, sep=",") %>% trimws()
   
   
-  x %<>% mutate(fLname = ifelse(!is.na(firstname) & !is.na(lastname), paste0(firstname, " ", toupper(lastname)), 
+  x %<>% dplyr::mutate(fLname = ifelse(!is.na(firstname) & !is.na(lastname), paste0(firstname, " ", toupper(lastname)), 
                                 ifelse(!is.na(firstname) & is.na(lastname), firstname, 
                                        ifelse(is.na(firstname) & !is.na(lastname), toupper(lastname), NA))))
   dplyr::distinct(x) %>% 
@@ -5077,7 +5046,7 @@ read_extract_merge <- function(filelist = NULL, inpath = NULL, pattern = NULL,
   }
   lapply(
     filelist, function (xx) feather::read_feather(xx) %>% extract_vars(., Ng=Ng, Nr=Nr, Nrg=Nrg)
-  ) %>% bind_rows() %>% dplyr::distinct()
+  ) %>% dplyr::bind_rows() %>% dplyr::distinct()
 }
 
 
@@ -5930,15 +5899,38 @@ read_excels <- function(filelist, bindsheets = F, bindrows = F, simplif = F, col
 #' lapply2()
 lapply2 <- function(l, fxn) lapply(l, function(ll) lapply(ll, fxn))
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' parse_excel_date()
+#' #' A function
+#' #'
+#' #' This function allows you to 
+#' #' @export
+#' #' @examples
+#' #' parse_excel_date()
+#' parse_excel_date <- function(v){
+#'   # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
+#'   v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
+#' }
+
+
+#' #' A function to parse an excel dates
+#' #'
+#' #' This function allows you to parse an excel dates (one of those with 5 digits as a string)
+#' #' @export
+#' #' @examples
+#' #' parse_excel_date()
 parse_excel_date <- function(v){
-  # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
-  v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
+  if(!lubridate::is.Date(v)){
+    tryCatch(v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30"),
+             error=function(e){
+               tryCatch(parse_date(v),
+                        error=function(e){
+                          tryCatch(as.date.varioustypes(v),
+                                   error=function(e){
+                                     cat("\nCAN'T PARSE EXCEL DATE... LEAVING AS IS....\n")
+                                     v
+                                   })
+                        })
+             })
+  }
 }
 
 #' A function
@@ -6465,7 +6457,7 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
   d <- d %>% unite(., unite_all_column, 1:ncol(.), sep=sep, remove=remove) #%>% #.[[1]] %>% 
   # clean_str() %>% clean_unique_sep(., "; ") #%>% 
   if(clean) d <- d %>%
-      mutate(unite_all_column = unite_all_column %>% 
+      dplyr::mutate(unite_all_column = unite_all_column %>% 
                clean_str() %>% 
                clean_unique_sep(., "; ") %>% 
                clean_unique_sep(., ";") %>% 
@@ -6935,13 +6927,129 @@ col_types <- function(type="c"){
   readr::cols(.default = type)
 }
 
+
+
+# 09/11/2019 (SEPTEMBER 11, 2019) 09112019 #######################################################################################################################
+
+#' A function to group by a desired variable and summarize it by `n()` (total count/sum)
+#'
+#' This function allows you to group by a desired variable and summarize it by `n()` (total count/sum). Compatible with dataframes & vectors. Uses `matches()` logic.
+#' @export
+#' @examples 
+#' gbsum(d, var=NULL) 
+gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL){
+  if(is.null(var)) var <- names(data.frame(var=d))[1]
+  if(is.data.frame(d)) d %>% dplyr::group_by_at(vars(matches(var))) %>% dplyr::summarize(total=n()) %>% ungroup()
+  else data.frame(var = d) %>% dplyr::group_by(var) %>% dplyr::summarize(total = n()) %>% setNames(gsub("var", var, names(.))) %>% ungroup()
+}
+
+
+# gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL, math=n){
+#   MATH <- function(x) tryCatch(math(x, na.rm=T), error=function(e) math(x))
+#   if(is.null(var)) var <- "SUMMARYVAR"
+#   if(is.data.frame(d)) d %>% ungroup() %>% dplyr::group_by_at(vars(matches(var))) %>% dplyr::summarize(total=n())
+#   else data.frame(var = d) %>% dplyr::group_by(var) %>% dplyr::summarize(total = n()) %>% setNames(gsub("var", var, names(.)))
+# }
+
+########################################################################################################################
+
+# 09122019 #######################################################################################################################
+#' A function to both return and print output at the same time, but not redundantly.
+#'
+#' This function allows you to both return and print output at the same time, but not redundantly. You know when you run a function in R but don't assign the output to anything & it returns what you ran in the console? But not when you assign it to something? Well now you can print/cat & assign, but still get the stuff returned how intend. AND it won't return twice in the console--just one cute lil time. You can choose between `print` or `cat` as your desired output to the console.
+#' @export
+#' @examples 
+#' printurn(stuff, cat=T) 
+printurn <- caturn <- function(stuff, how=c("cat", "print")){
+  how <- match.arg(how)
+  if(how=="cat") tryCatch(cat(stuff, "\n"), error=function(e) print(stuff))
+  if(how=="print") print(stuff)
+  invisible(stuff)
+}
+#' A function like `cat`, but wrapped in `\n` (line breaks)
+#'
+#' This function is like `cat` but is wrapped in `\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
+#' @export
+#' @examples 
+#' catn(d) 
+catn <- function(x, file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE, collapse=" "){
+  cat("\n", paste0(x, collapse = collapse), "\n", 
+      file=file, sep = sep, fill = fill, labels = labels, append = append)
+}
+
+
+########################################################################################################################
+
+# 10232019 #######################################################################################################################
+#' A function to arrange a dataframe by fewest NAs first.
+#'
+#' This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).
+#' @export
+#' @examples 
+#' arrange_by_na(d) 
+arrange_by_na <- function(d){
+  d %>% dplyr::arrange(rowSums(is.na(.)))
+}
 ########################################################################################################################
 
 
+# 11012019 #######################################################################################################################
 
 
 
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' is.POSIX()
+is.POSIX <- function(v) if(any(grepl("POSIX", class(v)))) T else F
 
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' is.Date()
+is.Date <- function(v) if(any(class(v)=="Date")|is.POSIX(v)) T else F
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' is.Date.class()
+is.Date.class <- function(v) if(all(class(v)=="Date")) T else F
+
+
+#' Samantha Rhoads's function to find the closest date
+#'
+#' Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up
+#' @export
+#' @examples
+#' closest()
+closest <- function(x, y, type=NA) {
+  if ((length(x) == 0) | (length(y) == 0)) return(rep(F, length(y)))
+  
+  if (is.na(type)) {
+    found_y <- y[which.min(abs(x - y))]
+    found_y == y
+  } else if (type == 'l') {
+    if (sum(y <= x) == 0) return(rep(F, length(y)))
+    new_y <- y[(y <= x)]
+    found_y <- new_y[which.min(x - new_y)]
+    y == found_y
+  } else if (type == 'r') {
+    if (sum(y >= x) == 0) return(rep(F, length(y)))
+    new_y <- y[(y >= x)]
+    found_y <- new_y[which.min(abs(x - new_y))]
+    y == found_y
+  }
+}
+
+
+
+########################################################################################################################
 
 
 print("yey u loaded sam's fxns!")
