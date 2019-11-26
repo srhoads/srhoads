@@ -6972,8 +6972,8 @@ printurn <- caturn <- function(stuff, how=c("cat", "print")){
 #' @export
 #' @examples 
 #' catn(d) 
-catn <- function(x, file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE, collapse=" "){
-  cat("\n", paste0(x, collapse = collapse), "\n", 
+catn <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE, collapse=" "){
+  cat("\n", paste0(..., collapse = collapse), "\n", 
       file=file, sep = sep, fill = fill, labels = labels, append = append)
 }
 
@@ -7047,9 +7047,61 @@ closest <- function(x, y, type=NA) {
   }
 }
 
+########################################################################################################################
 
+
+# 11052019 #######################################################################################################################
+
+
+
+#' Samantha Rhoads's function to give length and sumry in one go
+#'
+#' Srhoads wrote this to allow you to get the length of the object and sumry of the object in one call (see `sumry()` for details on that type of summary)
+#' @export
+#' @examples
+#' sumrys()
+sumrys <- function(x, n=7){
+  list(dim_or_length = tryCatch(dim(x), error=function(e) length(x)),
+       sumry = sumry(x, n)#,
+       # lapplysumry = lapply(x, function(xx) sumry(xx, n))
+  )
+}
+
+#' Samantha Rhoads's function to return today's date in yyyymmdd format (no punctuation)
+#'
+#' Srhoads wrote this to allow you to return today's date in yyyymmdd format (no punctuation)
+#' @export
+#' @examples
+#' sysdate()
+sysdate <- function() format(Sys.Date(), format="%m%d%Y")
 
 ########################################################################################################################
+
+
+# 11202019 #######################################################################################################################
+
+
+getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
+                               pattern = NULL, all.files = FALSE, full.names = T, 
+                               recursive = T, ignore.case = FALSE, include.dirs = FALSE, 
+                               no.. = FALSE){
+  fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
+  if(desc) {
+    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .) %>% arrange(desc(mtime))
+  } else {
+    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .)  %>% arrange(mtime)
+  }
+  if(verbose){
+    return(fninfo)
+  } else {
+    return(fninfo %>% .$name %>% as.character())
+  }
+}
+
+########################################################################################################################
+
+
+
 
 
 print("yey u loaded sam's fxns!")
