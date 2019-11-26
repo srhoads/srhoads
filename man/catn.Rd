@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{catn}
 \alias{catn}
-\title{A function like `cat`, but wrapped in `\\\n` (line breaks)}
+\title{A function like `cat`, but wrapped in `\\n` (line breaks)}
 \usage{
 catn(..., file = "", sep = " ", fill = FALSE, labels = NULL,
   append = FALSE, collapse = " ")

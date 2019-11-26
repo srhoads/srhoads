@@ -6966,7 +6966,7 @@ printurn <- caturn <- function(stuff, how=c("cat", "print")){
   if(how=="print") print(stuff)
   invisible(stuff)
 }
-#' A function like `cat`, but wrapped in `\\\n` (line breaks)
+#' A function like `cat`, but wrapped in `\\n` (line breaks)
 #'
 #' This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
 #' @export
