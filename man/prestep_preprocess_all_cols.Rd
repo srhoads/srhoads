@@ -4,8 +4,7 @@
 \alias{prestep_preprocess_all_cols}
 \title{A function}
 \usage{
-prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL,
-  extent = NULL)
+prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL, extent = NULL)
 }
 \description{
 This function allows you to

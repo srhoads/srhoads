@@ -1,12 +1,22 @@
+# library(srhoads)
 RFs <- readLines("R/functions.R")
 RFs2 <- RFs %>% stringr::str_extract_all(., ".*::")
 RFs3 <- RFs2 %>% unlist() %>% unique() %>%
-  word(., -1) %>% unique() %>% 
-  gsub("::", "", .) %>% 
+  word(., -1) %>% unique() %>%
+  gsub("::", "", .) %>%
   gsub(".*[[:punct:]]", "", .) %>% unique()
+
+DESCRs <- readLines("DESCRIPTION") %>% setNames(names(.) <- .) %>% as.list()
+STARTLINE <- DESCRs %>% grep("Imports:", .) + 1
+ENDLINE <- DESCRs %>% grep("License:", .) - 1
+(PkgsAlreadyInDESCR <- DESCRs[STARTLINE:ENDLINE] %>% names() %>% gsub("[^[:alnum:]]", "", .))
+
 setdiff(RFs3, tidyverse_packages()) %>%
+  setdiff(., PkgsAlreadyInDESCR) %>%
   paste0(., ",\n") %>%
   catn()
+
+
 # devtools,
 # qdapRegex,
 # readxl,

@@ -4,8 +4,13 @@
 \alias{read_dfs_process}
 \title{A function}
 \usage{
-read_dfs_process(filelist, by = 10, outpath = "AA/data/",
-  prefix = "clean_", startdoc = 1)
+read_dfs_process(
+  filelist,
+  by = 10,
+  outpath = "AA/data/",
+  prefix = "clean_",
+  startdoc = 1
+)
 }
 \description{
 This function allows you to

@@ -4,11 +4,19 @@
 \alias{read_merge_feathers}
 \title{A function}
 \usage{
-read_merge_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
-  recode_extra_na = F)
+read_merge_feathers(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  recode_extra_na = F
+)
 
-read_merge_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
-  recode_extra_na = F)
+read_merge_feathers(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  recode_extra_na = F
+)
 }
 \description{
 This function allows you to

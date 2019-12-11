@@ -4,8 +4,15 @@
 \alias{unite_if}
 \title{Samantha Rhoads's function to...}
 \usage{
-unite_if(d, fun = is.factorchar, clean = T, remove = F,
-  newcol = "unite_all_column", onlynewcol = F, sep = "; ")
+unite_if(
+  d,
+  fun = is.factorchar,
+  clean = T,
+  remove = F,
+  newcol = "unite_all_column",
+  onlynewcol = F,
+  sep = "; "
+)
 }
 \description{
 Srhoads wrote this to allow you to...

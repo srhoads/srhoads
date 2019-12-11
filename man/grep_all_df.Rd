@@ -4,11 +4,9 @@
 \alias{grep_all_df}
 \title{A function to find matching string anywhere in a dataframe}
 \usage{
-grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F,
-  print = F)
+grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F, print = F)
 
-grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F,
-  print = F)
+grep_all_df(pattern, df, colnames = F, exact = F, ignore.case = F, print = F)
 }
 \description{
 This function allows you to find matching string anywhere in a dataframe

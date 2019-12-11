@@ -4,8 +4,14 @@
 \alias{unite_all}
 \title{Samantha Rhoads's function to...}
 \usage{
-unite_all(d, clean = T, remove = F, newcol = "unite_all_column",
-  onlynewcol = F, sep = "; ")
+unite_all(
+  d,
+  clean = T,
+  remove = F,
+  newcol = "unite_all_column",
+  onlynewcol = F,
+  sep = "; "
+)
 }
 \description{
 Srhoads wrote this to allow you to...

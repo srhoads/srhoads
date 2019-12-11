@@ -4,17 +4,21 @@
 \alias{recode_races_and_genders}
 \title{A function}
 \usage{
-recode_races_and_genders(df, extragender = NULL, extrarace = NULL,
-  extra = NULL)
+recode_races_and_genders(
+  df,
+  extragender = NULL,
+  extrarace = NULL,
+  extra = NULL
+)
 
-recode_races_and_genders(df, extragender = NULL, extrarace = NULL,
-  extra = NULL)
+recode_races_and_genders(
+  df,
+  extragender = NULL,
+  extrarace = NULL,
+  extra = NULL
+)
 }
 \arguments{
-\item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
-
-\item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
-
 \item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
 
 \item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}

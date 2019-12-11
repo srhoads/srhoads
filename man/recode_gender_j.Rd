@@ -4,17 +4,19 @@
 \alias{recode_gender_j}
 \title{A Recode Gender Function}
 \usage{
-recode_gender_j(vec, recode_list = gender_list, extra = c("nothing",
-  "other", "NA"))
+recode_gender_j(
+  vec,
+  recode_list = gender_list,
+  extra = c("nothing", "other", "NA")
+)
 
-recode_gender_j(vec, recode_list = gender_list, extra = c("nothing",
-  "other", "NA"))
+recode_gender_j(
+  vec,
+  recode_list = gender_list,
+  extra = c("nothing", "other", "NA")
+)
 }
 \arguments{
-\item{recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
-
-\item{extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
-
 \item{recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
 
 \item{extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}

@@ -4,14 +4,29 @@
 \alias{read_excels}
 \title{A function to read excel files}
 \usage{
-read_excels(filelist, bindsheets = F, bindrows = F, simplif = T,
-  col_types = "text")
+read_excels(
+  filelist,
+  bindsheets = F,
+  bindrows = F,
+  simplif = T,
+  col_types = "text"
+)
 
-read_excels(filelist, bindsheets = F, bindrows = F, simplif = T,
-  col_types = "text")
+read_excels(
+  filelist,
+  bindsheets = F,
+  bindrows = F,
+  simplif = T,
+  col_types = "text"
+)
 
-read_excels(filelist, bindsheets = F, bindrows = F, simplif = T,
-  col_types = "text")
+read_excels(
+  filelist,
+  bindsheets = F,
+  bindrows = F,
+  simplif = T,
+  col_types = "text"
+)
 }
 \description{
 This function allows you to

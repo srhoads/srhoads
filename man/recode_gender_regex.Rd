@@ -12,10 +12,6 @@ recode_gender_regex(vec)
 \item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
 
 \item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
-
-\item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
-
-\item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
 }
 \description{
 This function allows you to recode gender!

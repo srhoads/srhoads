@@ -4,8 +4,7 @@
 \alias{data_lol}
 \title{A read files into list of list function}
 \usage{
-data_lol(path = "data", skip1 = "APPLICANTS_FAC-STAFF",
-  col_types = "text")
+data_lol(path = "data", skip1 = "APPLICANTS_FAC-STAFF", col_types = "text")
 }
 \description{
 This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)

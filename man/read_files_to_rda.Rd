@@ -4,11 +4,19 @@
 \alias{read_files_to_rda}
 \title{A function}
 \usage{
-read_files_to_rda(filelist, path = "~/", filename_prefix = "nrg_data",
-  col_types = "text")
+read_files_to_rda(
+  filelist,
+  path = "~/",
+  filename_prefix = "nrg_data",
+  col_types = "text"
+)
 
-read_files_to_rda(filelist, path = "~/", filename_prefix = "nrg_data",
-  col_types = "text")
+read_files_to_rda(
+  filelist,
+  path = "~/",
+  filename_prefix = "nrg_data",
+  col_types = "text"
+)
 }
 \description{
 This function allows you to

@@ -4,11 +4,9 @@
 \alias{readexcel}
 \title{A function just like read_excel but better bc it does all the sheets!}
 \usage{
-readexcel(file, bindsheets = F, skip = 0, col_types = "text",
-  simplify = T)
+readexcel(file, bindsheets = F, skip = 0, col_types = "text", simplify = T)
 
-readexcel(file, bindsheets = F, skip = 0, col_types = "text",
-  simplify = T)
+readexcel(file, bindsheets = F, skip = 0, col_types = "text", simplify = T)
 }
 \description{
 This function allows you to

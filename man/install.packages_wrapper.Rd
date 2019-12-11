@@ -4,9 +4,13 @@
 \alias{install.packages_wrapper}
 \title{A function to load and/or install package first (wrapper with tryCatch)!}
 \usage{
-install.packages_wrapper(package, dependencies = NA, githubrepo = NULL,
+install.packages_wrapper(
+  package,
+  dependencies = NA,
+  githubrepo = NULL,
   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
-  type = getOption("pkgType"))
+  type = getOption("pkgType")
+)
 }
 \description{
 This function allows you to load and/or install package first (wrapper with tryCatch)!

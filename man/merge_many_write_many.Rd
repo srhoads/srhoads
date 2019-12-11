@@ -4,12 +4,26 @@
 \alias{merge_many_write_many}
 \title{A function}
 \usage{
-merge_many_write_many(filelist = NULL, inpath = NULL, pattern = NULL,
-  newdir = NULL, subsets = NULL, by = 1e+06, extra = NULL,
-  namegenderonly = F, Ng = F, Nr = F, fullnamegenderonly = F,
-  nameraceonly = F, firstnameonly = F, firstnamegenderonly = F,
-  firstnameraceonly = F, recode_extra_na = F, outpath = "~/",
-  filename_prefix = "")
+merge_many_write_many(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  newdir = NULL,
+  subsets = NULL,
+  by = 1e+06,
+  extra = NULL,
+  namegenderonly = F,
+  Ng = F,
+  Nr = F,
+  fullnamegenderonly = F,
+  nameraceonly = F,
+  firstnameonly = F,
+  firstnamegenderonly = F,
+  firstnameraceonly = F,
+  recode_extra_na = F,
+  outpath = "~/",
+  filename_prefix = ""
+)
 }
 \description{
 This function allows you to

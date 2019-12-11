@@ -4,9 +4,15 @@
 \alias{pkg3}
 \title{A function to load and/or install package first (holistic)!}
 \usage{
-pkg3(package1 = NULL, ..., pipes = F, dependencies = NA,
-  githubrepo = NULL, repos = c("https://cloud.r-project.org",
-  "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
+pkg3(
+  package1 = NULL,
+  ...,
+  pipes = F,
+  dependencies = NA,
+  githubrepo = NULL,
+  repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
+  type = getOption("pkgType")
+)
 }
 \description{
 This function allows you to load and/or install package first (holistic)!

@@ -26,8 +26,7 @@ read_rdas <- function(filelist = NULL,
 }
 A function}
 \usage{
-read_files_to_feather(filelist, path = "~/",
-  filename_prefix = "nrg_data")
+read_files_to_feather(filelist, path = "~/", filename_prefix = "nrg_data")
 }
 \description{
 This function allows you to

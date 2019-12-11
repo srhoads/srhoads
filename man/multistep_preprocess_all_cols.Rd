@@ -4,8 +4,14 @@
 \alias{multistep_preprocess_all_cols}
 \title{A function}
 \usage{
-multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2,
-  subsubsets = 2, write = FALSE, featherpath = "~/")
+multistep_preprocess_all_cols(
+  mylist,
+  type = NULL,
+  subsets = 2,
+  subsubsets = 2,
+  write = FALSE,
+  featherpath = "~/"
+)
 }
 \description{
 This function allows you to

@@ -4,8 +4,14 @@
 \alias{read_ydrive_write}
 \title{A function}
 \usage{
-read_ydrive_write(filenames, csv = F, xlsx = F, xls = F,
-  outpath = "data/original/", col_types = "text")
+read_ydrive_write(
+  filenames,
+  csv = F,
+  xlsx = F,
+  xls = F,
+  outpath = "data/original/",
+  col_types = "text"
+)
 }
 \description{
 This function allows you to

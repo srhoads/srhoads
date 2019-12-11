@@ -4,8 +4,7 @@
 \alias{str_extract_all_concat}
 \title{Samantha Rhoads's function to...}
 \usage{
-str_extract_all_concat(v, pattern, exact = F, collapse = "; ",
-  ignore.case = F)
+str_extract_all_concat(v, pattern, exact = F, collapse = "; ", ignore.case = F)
 }
 \description{
 Srhoads wrote this to allow you to...

@@ -4,11 +4,9 @@
 \alias{select_name_race_gender_cols}
 \title{A function}
 \usage{
-select_name_race_gender_cols(dat, type = c("list", "df"),
-  output = NULL)
+select_name_race_gender_cols(dat, type = c("list", "df"), output = NULL)
 
-select_name_race_gender_cols(dat, type = c("list", "df"),
-  output = NULL)
+select_name_race_gender_cols(dat, type = c("list", "df"), output = NULL)
 }
 \description{
 This function allows you to

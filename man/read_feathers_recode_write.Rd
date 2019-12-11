@@ -4,8 +4,13 @@
 \alias{read_feathers_recode_write}
 \title{A function}
 \usage{
-read_feathers_recode_write(filelist = NULL, inpath = NULL,
-  pattern = NULL, outpath = "", newdir = NULL)
+read_feathers_recode_write(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  outpath = "",
+  newdir = NULL
+)
 }
 \description{
 This function allows you to

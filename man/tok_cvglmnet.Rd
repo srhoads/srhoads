@@ -4,13 +4,35 @@
 \alias{tok_cvglmnet}
 \title{A function}
 \usage{
-tok_cvglmnet(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
-  nmax = 3, term_count_min = 2, family = "binomial", alpha = 0,
-  type.measure = "auc", nfolds = 5, thresh = 0.001, maxit = 1000)
+tok_cvglmnet(
+  df = fgsam,
+  xv = "firstname",
+  yv = "gender",
+  nmin = 2,
+  nmax = 3,
+  term_count_min = 2,
+  family = "binomial",
+  alpha = 0,
+  type.measure = "auc",
+  nfolds = 5,
+  thresh = 0.001,
+  maxit = 1000
+)
 
-tok_cvglmnet(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
-  nmax = 3, term_count_min = 2, family = "binomial", alpha = 0,
-  type.measure = "auc", nfolds = 5, thresh = 0.001, maxit = 1000)
+tok_cvglmnet(
+  df = fgsam,
+  xv = "firstname",
+  yv = "gender",
+  nmin = 2,
+  nmax = 3,
+  term_count_min = 2,
+  family = "binomial",
+  alpha = 0,
+  type.measure = "auc",
+  nfolds = 5,
+  thresh = 0.001,
+  maxit = 1000
+)
 }
 \description{
 This function allows you to

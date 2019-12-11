@@ -4,9 +4,17 @@
 \alias{featherdump_regulars_anomalies}
 \title{A function}
 \usage{
-featherdump_regulars_anomalies(filelist = NULL, inpath = NULL,
-  pattern = NULL, newdir = NULL, subsets = 2, subsubsets = 2,
-  extra = NULL, outpath = "~/", filename_prefix = "DEFAULTNAME")
+featherdump_regulars_anomalies(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  newdir = NULL,
+  subsets = 2,
+  subsubsets = 2,
+  extra = NULL,
+  outpath = "~/",
+  filename_prefix = "DEFAULTNAME"
+)
 }
 \description{
 This function allows you to

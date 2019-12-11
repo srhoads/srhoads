@@ -4,11 +4,21 @@
 \alias{read_feathers}
 \title{A function}
 \usage{
-read_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
-  bind = T, recode_extra_na = F)
+read_feathers(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  bind = T,
+  recode_extra_na = F
+)
 
-read_feathers(filelist = NULL, inpath = NULL, pattern = NULL,
-  bind = T, recode_extra_na = F)
+read_feathers(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  bind = T,
+  recode_extra_na = F
+)
 }
 \description{
 This function allows you to

@@ -4,8 +4,12 @@
 \alias{clean_recode}
 \title{A function}
 \usage{
-clean_recode(df, scrub = c("once", "double"), extrarace = NULL,
-  extragender = NULL)
+clean_recode(
+  df,
+  scrub = c("once", "double"),
+  extrarace = NULL,
+  extragender = NULL
+)
 }
 \description{
 This function allows you to

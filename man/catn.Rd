@@ -4,8 +4,15 @@
 \alias{catn}
 \title{A function like `cat`, but wrapped in `\\n` (line breaks)}
 \usage{
-catn(..., file = "", sep = " ", fill = FALSE, labels = NULL,
-  append = FALSE, collapse = " ")
+catn(
+  ...,
+  file = "",
+  sep = " ",
+  fill = FALSE,
+  labels = NULL,
+  append = FALSE,
+  collapse = " "
+)
 }
 \description{
 This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details

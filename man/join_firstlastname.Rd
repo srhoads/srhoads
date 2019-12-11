@@ -4,11 +4,19 @@
 \alias{join_firstlastname}
 \title{A function}
 \usage{
-join_firstlastname(df, firstname, lastname, seq = c("first last",
-  "last,first"))
+join_firstlastname(
+  df,
+  firstname,
+  lastname,
+  seq = c("first last", "last,first")
+)
 
-join_firstlastname(df, firstname, lastname, seq = c("first last",
-  "last,first"))
+join_firstlastname(
+  df,
+  firstname,
+  lastname,
+  seq = c("first last", "last,first")
+)
 }
 \description{
 This function allows you to

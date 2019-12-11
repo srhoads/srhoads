@@ -4,8 +4,16 @@
 \alias{grepval}
 \title{Samantha Rhoads's function to...}
 \usage{
-grepval(pattern, x, ignore.case = FALSE, perl = FALSE, value = T,
-  fixed = FALSE, useBytes = FALSE, invert = FALSE)
+grepval(
+  pattern,
+  x,
+  ignore.case = FALSE,
+  perl = FALSE,
+  value = T,
+  fixed = FALSE,
+  useBytes = FALSE,
+  invert = FALSE
+)
 }
 \description{
 Srhoads wrote this to allow you to...

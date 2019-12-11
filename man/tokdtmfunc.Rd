@@ -4,11 +4,23 @@
 \alias{tokdtmfunc}
 \title{A function}
 \usage{
-tokdtmfunc(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
-  nmax = 3, term_count_min = 2)
+tokdtmfunc(
+  df = fgsam,
+  xv = "firstname",
+  yv = "gender",
+  nmin = 2,
+  nmax = 3,
+  term_count_min = 2
+)
 
-tokdtmfunc(df = fgsam, xv = "firstname", yv = "gender", nmin = 2,
-  nmax = 3, term_count_min = 2)
+tokdtmfunc(
+  df = fgsam,
+  xv = "firstname",
+  yv = "gender",
+  nmin = 2,
+  nmax = 3,
+  term_count_min = 2
+)
 }
 \description{
 This function allows you to

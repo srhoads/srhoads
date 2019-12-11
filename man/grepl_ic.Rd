@@ -4,8 +4,14 @@
 \alias{grepl_ic}
 \title{Samantha Rhoads's function to...}
 \usage{
-grepl_ic(pattern, x, ignore.case = T, perl = FALSE, fixed = FALSE,
-  useBytes = FALSE)
+grepl_ic(
+  pattern,
+  x,
+  ignore.case = T,
+  perl = FALSE,
+  fixed = FALSE,
+  useBytes = FALSE
+)
 }
 \description{
 Srhoads wrote this to allow you to...

@@ -4,11 +4,21 @@
 \alias{read_rdas}
 \title{A function}
 \usage{
-read_rdas(filelist = NULL, inpath = NULL, pattern = NULL, bind = F,
-  recode_extra_na = F)
+read_rdas(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  bind = F,
+  recode_extra_na = F
+)
 
-read_rdas(filelist = NULL, inpath = NULL, pattern = NULL, bind = F,
-  recode_extra_na = F)
+read_rdas(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  bind = F,
+  recode_extra_na = F
+)
 }
 \description{
 This function allows you to

@@ -4,17 +4,17 @@
 \alias{recode_race_or_gender}
 \title{A Recode Race or Gender Function}
 \usage{
-recode_race_or_gender(vec, recode_list = list(`NA` = c("undef", "none",
-  "unknown")))
+recode_race_or_gender(
+  vec,
+  recode_list = list(`NA` = c("undef", "none", "unknown"))
+)
 
-recode_race_or_gender(vec, recode_list = list(`NA` = c("undef", "none",
-  "unknown")))
+recode_race_or_gender(
+  vec,
+  recode_list = list(`NA` = c("undef", "none", "unknown"))
+)
 }
 \arguments{
-\item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
-
-\item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
-
 \item{#recode_list}{List of gender categories and codes Defaults to a built-in comprehensive list.}
 
 \item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}

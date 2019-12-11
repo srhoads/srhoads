@@ -4,8 +4,7 @@
 \alias{prestep_preprocess_data}
 \title{A function}
 \usage{
-prestep_preprocess_data(mylist, subsets = 2, type = NULL,
-  extent = NULL)
+prestep_preprocess_data(mylist, subsets = 2, type = NULL, extent = NULL)
 }
 \description{
 This function allows you to

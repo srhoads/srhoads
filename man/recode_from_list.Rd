@@ -4,11 +4,15 @@
 \alias{recode_from_list}
 \title{A function that acts like `recode()` but works on a list}
 \usage{
-recode_from_list(v, recode_list = list(`NA` = c("na", "not applicable"),
-  `TRUE` = c("true", "tru")))
+recode_from_list(
+  v,
+  recode_list = list(`NA` = c("na", "not applicable"), `TRUE` = c("true", "tru"))
+)
 
-recode_from_list(v, recode_list = list(`NA` = c("na", "not applicable"),
-  `TRUE` = c("true", "tru")))
+recode_from_list(
+  v,
+  recode_list = list(`NA` = c("na", "not applicable"), `TRUE` = c("true", "tru"))
+)
 }
 \description{
 This is a function

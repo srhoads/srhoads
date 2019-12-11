@@ -25,7 +25,7 @@ tryCatch({
 ### --- R ---
 # redocument=F # redocument=T
 if(redocument <- F){
-  devtools::document()
+  devtools::document() # roxygen2::roxygenise(clean = TRUE)
   system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
@@ -959,11 +959,11 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
   
   else if(cells_only) {
     colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez, "rownum")))
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(dplyr::one_of(c(colnamez, "rownum")))
   }
   else if(cells_only_discrete){
     colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(one_of(c(colnamez)))#, "rownum")))
+    cellsdf <- grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% select(dplyr::one_of(c(colnamez)))#, "rownum")))
     # rownames(cellsdf) <- make.unique(as.character(cellsdf$rownum))
     lapply(cellsdf, function(v) grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=T) %>% #paste0(., grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)))
              tibble(value=., rownum=grep_(pattern, v, exact=exact, ignore.case=ignore.case, value=F)) %>%
@@ -971,7 +971,7 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
   }
   else if(rownums_only){
     colnamez <- grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(one_of("rownum")) %>% dplyr::distinct() %>% unlist() %>% as.character()
+    grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print) %>% .$rownum #select(dplyr::one_of("rownum")) %>% dplyr::distinct() %>% unlist() %>% as.character()
   }
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
@@ -6939,7 +6939,7 @@ col_types <- function(type="c"){
 #' gbsum(d, var=NULL) 
 gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL){
   if(is.null(var)) var <- names(data.frame(var=d))[1]
-  if(is.data.frame(d)) d %>% dplyr::group_by_at(vars(matches(var))) %>% dplyr::summarize(total=n()) %>% ungroup()
+  if(is.data.frame(d)) d %>% dplyr::group_by_at(vars(dplyr::matches(var))) %>% dplyr::summarize(total=n()) %>% ungroup()
   else data.frame(var = d) %>% dplyr::group_by(var) %>% dplyr::summarize(total = n()) %>% setNames(gsub("var", var, names(.))) %>% ungroup()
 }
 
@@ -6947,7 +6947,7 @@ gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL){
 # gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL, math=n){
 #   MATH <- function(x) tryCatch(math(x, na.rm=T), error=function(e) math(x))
 #   if(is.null(var)) var <- "SUMMARYVAR"
-#   if(is.data.frame(d)) d %>% ungroup() %>% dplyr::group_by_at(vars(matches(var))) %>% dplyr::summarize(total=n())
+#   if(is.data.frame(d)) d %>% ungroup() %>% dplyr::group_by_at(vars(dplyr::matches(var))) %>% dplyr::summarize(total=n())
 #   else data.frame(var = d) %>% dplyr::group_by(var) %>% dplyr::summarize(total = n()) %>% setNames(gsub("var", var, names(.)))
 # }
 
@@ -7100,8 +7100,204 @@ getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
 
 ########################################################################################################################
 
+# 12102019 #######################################################################################################################
+
+#' Samantha Rhoads's function to check if all of something is NA or NULL
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' is.nanull()
+is.nanull <- function(x){
+  all(is.na(x)) | is.null(x)
+}
 
 
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' excelToDateIf5DigitStr()
+excelToDateIf5DigitStr <- function(v){
+  v %>%
+    {
+      v <- .
+      if(all(unique(nchar(na.omit(gsub("[^[:digit:]]", "", v))))==5)){
+        v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+      }
+      v
+    }
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' excelToDateIf5DigitStrAndManyDigitTime()
+excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"...or... "43467 402791006942"
+  v %>%
+    {
+      v <- .
+      if(
+        all(
+          unique(nchar(na.omit(
+            v %>%
+            word(1) %>%
+            gsub("[^[:digit:]]", "", .)
+          )))==5
+        ) & all(
+          unique(nchar(na.omit(
+            v %>%
+            word(2) %>%
+            gsub("[[:digit:]]", "", .)
+          )))==0
+        )
+      ){
+        v <- word(v, 1)
+        v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+      }
+      v
+    }
+}
+
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' extract_date()
+extract_date <- function(v) {
+  datepat0 <- ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
+  datepat14 <- ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?'
+  
+  datepat1 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
+  datepat2 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?'
+  datepat3 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
+  datepat4 <- ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?'
+  datepat5 <- ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?'
+  datepat6 <- ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
+  
+  datepat7 <- ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
+  datepat8 <- ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?'
+  datepat9 <- ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
+  datepat10 <- ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
+  datepat11 <- ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?'
+  datepat12 <- ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?'
+  datepat13 <- ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
+  # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
+  (patternstr <- paste0('datepat', c(0:7, 9:14)) %>% sapply(get) %>% unlist() %>% paste0(., collapse="|"))
+  
+  v %>% stringr::str_extract_all(., patternstr)
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' fillr()
+fillr <- function(df2, ID='ID'){
+  cat("fillr()\n")
+  df2 <- na_if_(df2)
+  df2[['var']] <- df2[[ID]]
+  df2 %<>% dplyr::group_by(var) %>%
+    na_if_() %>%
+    tidyr::fill(-var) %>%
+    na_if_() %>%
+    tidyr::fill(-var, .direction = 'up') %>%
+    na_if_() %>%
+    dplyr::distinct()
+  # df2 %>% select(-matches('^var$'))
+  df2 <- df2[, -ncol(df2)]
+  print(paste0('fillr: ', ID))
+  df2
+  # dplyr::distinct(df2)
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' DT_NAs_red_background()
+DT_NAs_red_background <- function(DTdatatable){
+  cat("\n", "DT_NAs_red_background()", "\n")
+  # DTdatatable$x$data <- DTdatatable$x$data %>% mutate_all(., function(v) replace_na(v, "<center>-</center>"))
+  NAcodestoRED <- c(NA, "", " ", "  ", "-", "<center>-</center>", "<center> </center>", "<center></center>", "<center>  </center>")
+  DTdatatable %>%
+    formatStyle(names(.$x$data),
+                backgroundColor = styleEqual(
+                  NAcodestoRED,
+                  rep("rgb(255,198,198)", length(NAcodestoRED)))
+    )
+}
+
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' select_vec()
+select_vec <- function(v, pattern, ignore.case=T, everything=F){
+  tv <- tibble::as_tibble(t(tibble::as_tibble(v))) %>% setNames(v)
+  if(everything){
+    tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
+  } else {
+    tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern))) %>% names()
+  }
+  tv
+}
+
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' dt_datatables_pre()
+dt_datatables_pre <- function(df, pageLength=nrow(df)){
+  # cat("dt_datatables_pre()\n")
+  df %>%
+    DT::datatable(.,
+                  # caption=shiny::HTML("<code>formula</code> is encoded as <code>y ~ x</code>, or dependent variable (<code>y</code>) predicted by independent variable (<code>x</code>)"),
+                  escape=F,
+                  rownames=F,
+                  # extensions = "Buttons",
+                  # filter = list(position = 'top', clear = FALSE),
+                  options = list(#search = list(regex = TRUE, caseInsensitive = T),
+                    pageLength = pageLength,
+                    dom = 'BfrtipSR',
+                    autoWidth = TRUE,
+                    # columnDefs = list(list(width = '10%', targets = collapsevars)),
+                    buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
+                    initComplete = DT::JS(
+                      "function(settings, json) {",
+                      "$(this.api().table().body()).css({'font-size': '76%'});",
+                      # "$(this.api().table().buttons()).css({'font-size': '80%'});",
+                      "$(this.api().table().header()).css({'font-size': '76%'});",
+                      "}")),
+                  class = 'cell-border stripe table-hover table-condensed compact'
+    )
+}
+
+
+
+
+########################################################################################################################
+
+#  #######################################################################################################################
+
+########################################################################################################################
 
 
 print("yey u loaded sam's fxns!")

@@ -4,8 +4,13 @@
 \alias{multistep_clean_recode}
 \title{A function}
 \usage{
-multistep_clean_recode(df, subsets = 2, scrub = NULL,
-  extrarace = NULL, extragender = NULL)
+multistep_clean_recode(
+  df,
+  subsets = 2,
+  scrub = NULL,
+  extrarace = NULL,
+  extragender = NULL
+)
 }
 \description{
 This function allows you to

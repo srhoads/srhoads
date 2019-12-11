@@ -4,9 +4,17 @@
 \alias{split_original_rdas}
 \title{A function}
 \usage{
-split_original_rdas(filelist = NULL, inpath = NULL, pattern = NULL,
-  newdir = NULL, subsets = NULL, outpath = "~/", by, extra = NULL,
-  filename_prefix)
+split_original_rdas(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  newdir = NULL,
+  subsets = NULL,
+  outpath = "~/",
+  by,
+  extra = NULL,
+  filename_prefix
+)
 }
 \description{
 This function allows you to

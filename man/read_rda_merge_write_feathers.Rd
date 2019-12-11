@@ -4,9 +4,14 @@
 \alias{read_rda_merge_write_feathers}
 \title{A function}
 \usage{
-read_rda_merge_write_feathers(filelist = NULL, inpath = NULL,
-  pattern = NULL, newdir = NULL, outpath = "~/",
-  filename_prefix = "DEFAULT")
+read_rda_merge_write_feathers(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  newdir = NULL,
+  outpath = "~/",
+  filename_prefix = "DEFAULT"
+)
 }
 \description{
 This function allows you to

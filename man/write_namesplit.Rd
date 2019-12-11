@@ -4,10 +4,18 @@
 \alias{write_namesplit}
 \title{A function}
 \usage{
-write_namesplit(filelist = NULL, inpath = NULL, pattern = NULL,
-  newdir = NULL, extension = "feather", subsets = 2,
-  subsubsets = 2, extra = NULL, outpath = "~/",
-  filename_prefix = "")
+write_namesplit(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  newdir = NULL,
+  extension = "feather",
+  subsets = 2,
+  subsubsets = 2,
+  extra = NULL,
+  outpath = "~/",
+  filename_prefix = ""
+)
 }
 \description{
 This function allows you to

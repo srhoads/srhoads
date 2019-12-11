@@ -4,13 +4,27 @@
 \alias{zipcode5}
 \title{A function that gets 5 digit zip codes}
 \usage{
-zipcode5(text.var, trim = !extract, clean = TRUE,
-  pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)", replacement = "",
-  extract = TRUE, dictionary = getOption("regex.library"), ...)
+zipcode5(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
 
-zipcode5(text.var, trim = !extract, clean = TRUE,
-  pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)", replacement = "",
-  extract = TRUE, dictionary = getOption("regex.library"), ...)
+zipcode5(
+  text.var,
+  trim = !extract,
+  clean = TRUE,
+  pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)",
+  replacement = "",
+  extract = TRUE,
+  dictionary = getOption("regex.library"),
+  ...
+)
 }
 \description{
 This function extracts relevant first 5 digits from zip code when it's formatted like 11111-1111

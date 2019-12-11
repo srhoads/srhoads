@@ -4,8 +4,13 @@
 \alias{read_excel_somesheets}
 \title{A function}
 \usage{
-read_excel_somesheets(fns = NULL, keepshtvec = NULL, na = c("NA",
-  "None", "N/A", "-", ""), col_types = "text", skip = 0)
+read_excel_somesheets(
+  fns = NULL,
+  keepshtvec = NULL,
+  na = c("NA", "None", "N/A", "-", ""),
+  col_types = "text",
+  skip = 0
+)
 }
 \description{
 This function allows you to

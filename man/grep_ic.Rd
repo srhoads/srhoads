@@ -4,8 +4,16 @@
 \alias{grep_ic}
 \title{Samantha Rhoads's function to...}
 \usage{
-grep_ic(pattern, x, ignore.case = T, perl = FALSE, value = FALSE,
-  fixed = FALSE, useBytes = FALSE, invert = FALSE)
+grep_ic(
+  pattern,
+  x,
+  ignore.case = T,
+  perl = FALSE,
+  value = FALSE,
+  fixed = FALSE,
+  useBytes = FALSE,
+  invert = FALSE
+)
 }
 \description{
 Srhoads wrote this to allow you to...

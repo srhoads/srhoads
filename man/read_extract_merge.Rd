@@ -4,8 +4,14 @@
 \alias{read_extract_merge}
 \title{A function}
 \usage{
-read_extract_merge(filelist = NULL, inpath = NULL, pattern = NULL,
-  Ng = F, Nr = F, Nrg = F)
+read_extract_merge(
+  filelist = NULL,
+  inpath = NULL,
+  pattern = NULL,
+  Ng = F,
+  Nr = F,
+  Nrg = F
+)
 }
 \description{
 This function allows you to

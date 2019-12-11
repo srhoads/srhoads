@@ -4,8 +4,12 @@
 \alias{read_dfs_process_by1}
 \title{A function}
 \usage{
-read_dfs_process_by1(filelist, outpath = "AA/data/", prefix = "auto",
-  startdoc = 1)
+read_dfs_process_by1(
+  filelist,
+  outpath = "AA/data/",
+  prefix = "auto",
+  startdoc = 1
+)
 }
 \description{
 This function allows you to

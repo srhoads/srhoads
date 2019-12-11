@@ -4,11 +4,23 @@
 \alias{samtokens}
 \title{A function}
 \usage{
-samtokens(df, nmin = 2, nmax = 3, xv = "firstname", yv = "gender",
-  sample = nrow(df))
+samtokens(
+  df,
+  nmin = 2,
+  nmax = 3,
+  xv = "firstname",
+  yv = "gender",
+  sample = nrow(df)
+)
 
-samtokens(df, nmin = 2, nmax = 3, xv = "firstname", yv = "gender",
-  sample = nrow(df))
+samtokens(
+  df,
+  nmin = 2,
+  nmax = 3,
+  xv = "firstname",
+  yv = "gender",
+  sample = nrow(df)
+)
 }
 \description{
 This function allows you to
