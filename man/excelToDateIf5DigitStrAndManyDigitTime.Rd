@@ -10,5 +10,5 @@ excelToDateIf5DigitStrAndManyDigitTime(v)
 Srhoads wrote this to allow you to...
 }
 \examples{
-excelToDateIf5DigitStrAndManyDigitTime()
+excelToDateIf5DigitStrAndManyDigitTime(v)
 }

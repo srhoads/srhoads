@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{extract_date}
 \alias{extract_date}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to extract the date from a string, but doesn't turn it into a date!}
 \usage{
 extract_date(v)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to extract the date from a string, but doesn't turn it into a date!
 }
 \examples{
 extract_date()

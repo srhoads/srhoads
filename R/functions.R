@@ -6743,7 +6743,7 @@ str_extract_money <- function(v) v %>%
 
 #' Samantha Rhoads's function to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
 #'
-#' Srhoads wrote this to allow you to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
 #' @export
 #' @examples
 #' as_table_paste()
@@ -6751,12 +6751,38 @@ as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) 
 
 #' Samantha Rhoads's function to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
 #'
-#' Srhoads wrote this to allow you to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
 #' @export
 #' @examples
 #' read_table()
 read_table <- function(pastedstuff, sep="\t", header=T) tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), 
                                                                  error=function(e) read.table(text=pastedstuff, sep=sep))
+
+#' Same as read_table, similar to as_table_paste: read data table pasted from clipboard
+#'
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' @export
+#' @examples
+#' read.table_fromClipboard()
+read.table_fromClipboard <- read_table
+
+#' Same as read_table, similar to as_table_paste: read data table pasted from clipboard. Same as read.table_fromClipboard too
+#'
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' @export
+#' @examples
+#' read.csv_fromClipboard()
+read.csv_fromClipboard <- read_table
+
+
+#' Same as read_table, similar to `as_table_paste()`: read data table pasted from clipboard. Same as `read.table_fromClipboard()` and `read.csv_fromClipboard()` too
+#'
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' @export
+#' @examples
+#' paste_table()
+paste_table <- read_table
+
 
 
 #' Samantha Rhoads's function to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter
@@ -7080,7 +7106,12 @@ sysdate <- function() format(Sys.Date(), format="%m%d%Y")
 
 # 11202019 #######################################################################################################################
 
-
+#' Samantha Rhoads's function to return the most recent versions of files based on a given pattern of characters of its name
+#'
+#' Srhoads wrote this to allow you to get the most recent versions of files based on a given pattern of characters of its name
+#' @export
+#' @examples
+#' getMostRecentFiles()
 getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
                                pattern = NULL, all.files = FALSE, full.names = T, 
                                recursive = T, ignore.case = FALSE, include.dirs = FALSE, 
@@ -7112,14 +7143,12 @@ is.nanull <- function(x){
   all(is.na(x)) | is.null(x)
 }
 
-
-
 #' Samantha Rhoads's function to...
 #'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' excelToDateIf5DigitStr()
+#' excelToDateIf5DigitStr(v)
 excelToDateIf5DigitStr <- function(v){
   v %>%
     {
@@ -7137,7 +7166,7 @@ excelToDateIf5DigitStr <- function(v){
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' excelToDateIf5DigitStrAndManyDigitTime()
+#' excelToDateIf5DigitStrAndManyDigitTime(v)
 excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"...or... "43467 402791006942"
   v %>%
     {
@@ -7166,33 +7195,120 @@ excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"..
 
 
 
+# if(EVALME <- F){
+#   "([0-9]{4}|[0-9]{1,2})" -> DATEREGEX
+#   "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
+#   "([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_SLASH
+#   "([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DOT
+#   "([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_NOSEP
+#   
+#   
+#   fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
+#   twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
+#   twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
+#   twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
+#   
+#   extract_eightDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
+#     fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
+#     twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
+#     twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
+#     twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
+#     
+#     lapply(sep, function(sepi){
+#       REGEXPATS <- paste0(fourDigitYr, sepi, twoDigitMonth, sepi, twoDigitDay)
+#       REGEXPATS2 <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
+#       REGEXPATS_1_2 <- paste0(paste0("(", REGEXPATS, ")"), "|", paste0("(", REGEXPATS2, ")"))
+#       stringr::str_extract_all(string, REGEXPATS_1_2)
+#     })
+#     # lapply(sep, function(sepi){
+#     #   REGEXPATS <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
+#     #   stringr::str_extract_all(string, REGEXPATS)
+#     # })
+#   } 
+#   
+#   
+#   # " ?(19|20)([0-9]{2})"
+#   
+#   STR4 <- "20201130 11302020 012020 202001 2020-11-17 11-30-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
+#   string <- STR4
+#     
+#   # "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
+#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", fourDigitYr)
+#   STR2 <- "20200117 01172020 012020 202001 2020-01-17 01-17-2020 01-2020 2020-01 2020/01/17 01/17/2020 01/2020 2020/01 2020.01.17 01.17.2020 01.2020 2020.01"
+#   STR3 <- "20201117 11172020 012020 202001 2020-11-17 11-17-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
+#   stringr::str_extract_all(STR2, fourDigitYr)
+#   stringr::str_extract_all(STR2, twoDigitMonth)
+#   stringr::str_extract_all(STR3, twoDigitMonth)
+#   stringr::str_extract_all(STR3, twoDigitDay)
+#   
+#   # gsub("", DATEREGEX, )
+#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", DATEREGEX)
+# }
+
+
+
+
+
 #' Samantha Rhoads's function to...
 #'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
+#' extract_dateV1(v)
+extract_dateV1 <- function(v) {
+  c(
+    datepat0 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat14 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
+    
+    datepat1 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat2 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
+    datepat3 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat4 = ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat5 = ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat6 = ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
+    
+    datepat7 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat8 = ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
+    datepat9 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat10 = ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat11 = ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat12 = ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat13 = ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
+  )
+  # # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
+  # (patternstr <- paste0('datepat', c(0:7, 9:14)) %>% sapply(get) %>% unlist() %>% paste0(., collapse="|"))
+  # v %>% stringr::str_extract_all(., patternstr)
+  (patternstr <- datepats %>% unlist() %>% paste0(., collapse="|"))
+  v %>% stringr::str_extract_all(., patternstr)
+}
+
+
+#' Samantha Rhoads's function to extract the date from a string, but doesn't turn it into a date!
+#' @export
+#' @examples
 #' extract_date()
 extract_date <- function(v) {
-  datepat0 <- ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
-  datepat14 <- ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?'
-  
-  datepat1 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
-  datepat2 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?'
-  datepat3 <- ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
-  datepat4 <- ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?'
-  datepat5 <- ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?'
-  datepat6 <- ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
-  
-  datepat7 <- ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
-  datepat8 <- ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?'
-  datepat9 <- ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?'
-  datepat10 <- ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?'
-  datepat11 <- ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?'
-  datepat12 <- ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?'
-  datepat13 <- ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
+  datepats <- c(
+    datepat00 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{2,4})?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat0 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat14 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
+    # 
+    datepat1 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat2 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
+    datepat3 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat4 = ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat5 = ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat6 = ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
+    # 
+    datepat7 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    # datepat8 = ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
+    datepat9 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat10 = ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat11 = ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat12 = ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat13 = ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?')
   # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
-  (patternstr <- paste0('datepat', c(0:7, 9:14)) %>% sapply(get) %>% unlist() %>% paste0(., collapse="|"))
-  
+  (patternstr <- datepats %>% unlist() %>% paste0(., collapse="|"))
   v %>% stringr::str_extract_all(., patternstr)
 }
 
@@ -7289,6 +7405,152 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
                   class = 'cell-border stripe table-hover table-condensed compact'
     )
 }
+
+#' Samantha Rhoads's function to generate a random string
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' rand_str()
+rand_str <- function(n=1, length=10, pattern = "[a-zA-Z0-9]") stringi::stri_rand_strings(n = n, length = length, pattern = pattern)
+
+#' Samantha Rhoads's function removes all special characters and spaces
+#'
+#' Srhoads wrote this to allow you to remove all special characters and spaces
+#' @export
+#' @examples
+#' kill_special_space()
+kill_special_space <- function(text) {
+  stringr::str_replace_all(stringr::str_replace_all(text, "[^[:alnum:][:space:]]", ""), " ", "")
+}
+
+
+# January 10, 2020 (20200110) ##########################################################################################################################
+
+#' Samantha Rhoads's function returns R package URLs for a given input package. Great if you need to install old package versions by their zipped/compressed tar.gz URL from cran
+#'
+#' Srhoads wrote this to allow you to get versions of packages. You can return the whole package version URL if desired too, ie: input "devtools" and get "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.0.2.tar.gz" and other versions as a vector
+#' @export
+#' @examples
+#' getPackageVersions()
+getPackageVersions <- function(pkg = "devtools", sortNewToOld=T, getFullURL=T){
+  baseURL <- "https://cran.r-project.org/src/contrib/Archive/"
+  url <- paste0(baseURL, pkg, "/")
+  urlHTML <- read_html(url)
+  
+  urlHTML %>%
+    rvest::html_nodes("td") %>%
+    html_nodes("a")%>%
+    html_text() %>%
+    srhoads::select_vec(pkg) %>% 
+    {if(sortNewToOld) rev(.) else .} %>%
+    {if(getFullURL) paste0(url, .) else .}
+}
+
+
+#' Samantha Rhoads's function to extract a date of 8 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing.
+#'
+#' Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_eightDigitDate(string="I am Sam and I was born on 01-17-1996. Today is 20201001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-17-1996" and "20201001" in it at various places 
+#' @export
+#' @examples
+#' extract_eightDigitDate(string, sep=c("-", "\\.", "/", ""))
+extract_eightDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
+  fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
+  # twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
+  twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
+  twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
+  
+  lapply(sep, function(sepi){
+    REGEXPATS <- paste0(fourDigitYr, sepi, twoDigitMonth, sepi, twoDigitDay)
+    REGEXPATS2 <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
+    REGEXPATS_1_2 <- paste0(paste0("(", REGEXPATS, ")"), "|", paste0("(", REGEXPATS2, ")"))
+    stringr::str_extract_all(string, REGEXPATS_1_2)
+  })
+  # lapply(sep, function(sepi){
+  #   REGEXPATS <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
+  #   stringr::str_extract_all(string, REGEXPATS)
+  # })
+} 
+
+
+#' Samantha Rhoads's function to extract a date of 6 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing. A 6 digit date is like "01-2019" or "202001" or "01/2020" 
+#'
+#' Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_sixDigitDate(string="I am Sam and I was born on 01-1996. Today is 202001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-1996" and "202001" in it at various places 
+#' @export
+#' @examples
+#' extract_sixDigitDate(string, sep=c("-", "\\.", "/", ""))
+extract_sixDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
+  fourDigitYr <- fourDigitYr_1900sOr2000s <- "(\b?(19|20)([0-9]{2}))"
+  twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
+  
+  lapply(sep, function(sepi){
+    REGEXPATS <- paste0(fourDigitYr, sepi, twoDigitMonth)
+    REGEXPATS2 <- paste0(twoDigitMonth, sepi, fourDigitYr)
+    REGEXPATS_1_2 <- paste0(paste0("(", REGEXPATS, ")"), "|", paste0("(", REGEXPATS2, ")"))
+    stringr::str_extract_all(string, REGEXPATS_1_2)
+  })
+} 
+
+#' Samantha Rhoads's function to extract a year of 4 digits. Can be in the 1900s or 2000s only, or can include centuries before that
+#' @export
+#' @examples
+#' extract_fourDigitYear(string, includePre1900s=T)
+extract_fourDigitYear <- function(string, includePre1900s=T){
+  fourDigitYr <- fourDigitYr_1900sOr2000s <- "(\b?(19|20)([0-9]{2}))"
+  if(includePre1900s) fourDigitYr <- "(\b?(1)([0-9]{3}))|(\b?(19|20)([0-9]{2}))"
+  stringr::str_extract_all(string, fourDigitYr)
+} 
+
+###################################################################################################################################################
+
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+###################################################################################################################################################
+
+
+
+
 
 
 
