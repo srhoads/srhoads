@@ -7440,9 +7440,9 @@ getPackageVersions <- function(pkg = "devtools", sortNewToOld=T, getFullURL=T){
   
   urlHTML %>%
     rvest::html_nodes("td") %>%
-    html_nodes("a")%>%
-    html_text() %>%
-    srhoads::select_vec(pkg) %>% 
+    rvest::html_nodes("a")%>%
+    rvest::html_text() %>%
+    select_vec(pkg) %>% 
     {if(sortNewToOld) rev(.) else .} %>%
     {if(getFullURL) paste0(url, .) else .}
 }
