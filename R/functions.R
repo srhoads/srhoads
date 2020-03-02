@@ -26,7 +26,7 @@ tryCatch({
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited; added `grDevices::` dependency tag to fxn with axisTicks in it"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -6431,7 +6431,7 @@ clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
 #' @export
 #' @examples
 #' base_breaks()
-base_breaks <- function(n = 10) function(x) axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, n = n)
+base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, n = n)
 
 #' Samantha Rhoads's function to...
 #'
