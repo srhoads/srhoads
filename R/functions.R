@@ -7135,12 +7135,28 @@ getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
 
 #' Samantha Rhoads's function to check if all of something is NA or NULL
 #'
-#' Srhoads wrote this to allow you to...
+#' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (old version from 20191210)
+#' @export
+#' @examples
+#' is.nanull_V1()
+is.nanull_V1 <- function(x){
+  all(is.na(x)) | is.null(x)
+}
+
+#' Samantha Rhoads's function to check if all of something is NA or NULL
+#'
+#' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (edited 20200226)
 #' @export
 #' @examples
 #' is.nanull()
 is.nanull <- function(x){
-  all(is.na(x)) | is.null(x)
+  tryCatch({
+    all(is.na(x)) | is.null(x)
+  },
+  error=function(e){
+    x <- as.character(x)
+    all(is.na(x)) | is.null(x)
+  })
 }
 
 #' Samantha Rhoads's function to...
@@ -7505,7 +7521,67 @@ extract_fourDigitYear <- function(string, includePre1900s=T){
 
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 03 02, 2020 (20200302) ##########################################################################################################################
+
+
+#' Samantha Rhoads's function to extract or keep or select elements of a VECTOR. Invert means keep everything other than the pattern. Default pattern is everything
+#' @export
+#' @examples
+#' select_matches(x, pat=".*", invert=F, ignore.case=F)
+select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
+  `%>%` <- magrittr::`%>%`
+  if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
+  tv <- tryCatch(tibble::as_tibble(t(tibble::as_tibble(v))) %>% setNames(v), error=function(e) v)
+  tv <- tryCatch({
+    if(everything){
+      if(invert) {
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
+      } else {
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
+      }
+    } else {
+      if(invert) {
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern))) %>% names()
+      } else {
+        tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern))) %>% names()    }
+    }
+    tv
+  }, 
+  error=function(e){
+    if(!is.null(names(tv))){
+      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, names(.)))) %>% names()
+    } else {
+      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, .)))
+    }
+    tv
+  })
+  tv
+}
+
+
+#' Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything
+#' @export
+#' @examples
+#' select_matches(x, pat=".*", invert=F, ignore.case=F)
+select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F){
+  `%>%` <- magrittr::`%>%`
+  if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
+  # if(invert) {yesornot <- function(y) `!`; plusorminus <- function(y) `-`} else {yesornot <- function(y) ``; plusorminus <- function(y) ``}
+  if(is.list(x)&!is.data.frame(x)){
+    x %>% keep(yesornot(grepl(pat, names(.))))
+  } else if(is.data.frame(x)){
+    x %>% dplyr::select(plusorminus(dplyr::matches(pat)))
+  } else if(is.vector(x)){
+    if(!is.null(names(x))){
+      x %>% purrr::keep(yesornot(grepl(pattern, names(.)))) %>% names()
+    } else {
+      x %>% purrr::keep(yesornot(grepl(pattern, .)))
+    } # x %>% select_vec2(., pattern=pat, invert=invert, ignore.case=ignore.case)
+  } else {
+    print("object doesn't match anything for select_matches() to work on")
+    x
+  }
+}
 ###################################################################################################################################################
 
 
