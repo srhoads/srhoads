@@ -2,12 +2,6 @@
 
 ## AUTO INSTALL/IMPORT MAJOR DEPENDENCIES;
 # --------------------------------------------
-tryCatch({
-  if(!require("tidyverse")) install.packages("tidyverse")
-  library(tidyverse)
-  cat("tidyverse dependency imported\n")
-}, error=function(e) print("Couldn't install/import `tidyverse` package")
-)
 
 tryCatch({
   if(!require("devtools")) install.packages("devtools")
@@ -15,6 +9,14 @@ tryCatch({
   cat("devtools dependency imported\n")
 }, error=function(e) print("Couldn't install/import `devtools` package")
 )
+
+tryCatch({
+  if(!require("tidyverse")) install.packages("tidyverse")
+  library(tidyverse)
+  cat("tidyverse dependency imported\n")
+}, error=function(e) print("Couldn't install/import `tidyverse` package")
+)
+
 # --------------------------------------------
 
 
@@ -26,7 +28,7 @@ tryCatch({
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited; added `grDevices::` dependency tag to fxn with axisTicks in it"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 

@@ -15,6 +15,7 @@ Imports:
     quanteda,
     text2vec,
     glmnet,
+    grDevices,
     DT,
     janitor,
     glue,
