@@ -28,7 +28,7 @@ tryCatch({
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited: setdiff_() added and trimws_() edited to include special spaces"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -5467,7 +5467,14 @@ trimws_v <- function(v, which='both', doublespace=T) if(doublespace) gsub('   | 
 #' @export
 #' @examples
 #' trimws_()
-trimws_ <- function(v, which='both', doublespace=T) if(doublespace) gsub('   |  ', ' ', trimws(v, which=which)) else trimws(v, which=which)
+trimws_ <- function(v, which='both', doublespace=T){
+  if(which=="both"){v <- gsub("[[:space:]]$|^[[:space:]]", "", v)}
+  if(which=="left"){v <- gsub("^[[:space:]]", "", v)}
+  if(which=="right"){v <- gsub("[[:space:]]$", "", v)}
+  if(doublespace) {v <- gsub('   |  |[[:space:]][[:space:]]', ' ', v)}
+  v <- trimws(v, which=which)
+  v
+}
 
 #' A function
 #'
@@ -5483,7 +5490,7 @@ trimws_df <- function(x, which='both', doublespace=T) mutate_all(x, function(v) 
 #' @export
 #' @examples
 #' na_if_()
-na_if_ <- function(x) x %>% na_if('') %>% na_if('NA') %>% na_if('Unknown') %>% na_if('-') %>% 
+na_if_ <- function(x, na_if_Unknown=T) x %>% na_if('') %>% na_if('NA') %>% {if(na_if_Unknown) na_if(., 'Unknown') else .} %>% na_if('-') %>% 
   na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
   na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
   na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>%
@@ -7584,6 +7591,22 @@ select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore
     x
   }
 }
+
+#' Samantha Rhoads's function to do `setdiff()` from both sides and print which input the different strings come from
+#' @export
+#' @examples
+#' setdiff_(x, y, printWhichOnly=F)
+setdiff_ <- function(x, y, printWhichOnly=F){
+  xonly <- setdiff(x, y)
+  yonly <- setdiff(y, x)
+  if(printWhichOnly){
+    if(length(xonly>0)) catn("xonly: ", paste0(xonly, collapse="        "))
+    if(length(yonly>0)) catn("yonly: ", paste0(yonly, collapse="        "))
+  }
+  unique(c(xonly, yonly))
+}
+
+
 ###################################################################################################################################################
 
 
