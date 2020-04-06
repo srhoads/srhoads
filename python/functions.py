@@ -6,6 +6,103 @@
 # functions = open('Users/srhoads/GitHub/namegender/functions.py'); exec(functions.read())
 ##******************************************************************************
 
+
+def pkg(module='uszipcode', submodule=None):
+    justModule = module
+    if submodule is not None:
+        module = module + '.' + submodule
+    try: 
+        import importlib 
+        import re
+    except Exception as e:
+        print(e)
+        import os
+        os.system(str('pip install ' + 'importlib'))
+        os.system(str('pip install ' + 're'))
+        import importlib
+    try: # loader = pkgutil.find_loader(module) # mod = loader.load_module(module) # importlib.abc.load_module(module) # importlib.util.module_for_loader(module)
+        mod = importlib.import_module(module)
+        globals().update(mod.__dict__)
+    except Exception as e:
+        print(e)
+        import os
+        try:
+            os.system(str('pip install ' + justModule))
+        except Exception as e:
+            print(e)
+            justModule = re.sub('_', '-', justModule)
+            os.system(str('pip install ' + justModule))
+        mod = importlib.import_module(module)
+        globals().update(mod.__dict__) # except ModuleNotFoundError:#     import os#     mod = importlib.import_module(module)#     globals().update(mod.__dict__)  
+''
+
+def pkg2(module, submodule = None):
+    if submodule is not None:
+        import_str = "from {0} import {1}".format(module,', '.join([submodule]))
+    else:
+        import_str = "import {0}".format(module)
+    try: # https://stackoverflow.com/questions/8718885/import-module-from-string-variable
+        exec(import_str)
+        if submodule is None: submodule = ''
+        print(module,' ', submodule, ' imported!')
+    except Exception as e:
+        print(e)
+        import os
+        try:
+            os.system(str('pip install ' + module))
+        except Exception:
+            import re
+            module = re.sub('_', '-', module)
+            os.system(str('pip install ' + module))
+        exec(import_str)
+        if submodule is None: submodule = ''
+        print(module,' ', submodule, ' imported!')
+    if type(import_str) is not str:
+        return(import_str[0])
+    else:
+        return(import_str)
+''
+
+    
+def pkgs2(MODULES = [
+    ['itertools','combinations'],
+    ]):
+    for ITEM in MODULES:
+        import_str = "from {0} import {1}".format(ITEM[0],', '.join(str(i) for i in ITEM[1:]))
+        try:
+            exec(import_str)
+            print(ITEM[0],' ', ITEM[1:], ' imported!')
+        except Exception as e:
+            print(e)
+            import os
+            try:
+                os.system(str('pip install ' + ITEM[0]))
+            except Exception as e:
+                print(e)
+                import re
+                module = re.sub('_', '-', ITEM[0])
+                os.system(str('pip install ' + ITEM[0]))
+            exec(import_str)
+            print(ITEM[0],' ', ITEM[1:], ' imported!')
+    import_strs = []
+    for ITEM in MODULES:
+        import_str = "from {0} import {1}".format(ITEM[0],', '.join(str(i) for i in ITEM[1:]))
+        import_strs.append(import_str)
+    return import_strs
+''
+def load_pkgs2(MODULES = [
+    ['itertools','combinations'],
+    ]):
+    import_strs = []
+    for ITEM in MODULES:
+        import_str = "from {0} import {1}".format(ITEM[0],', '.join(str(i) for i in ITEM[1:]))
+        exec(import_str)
+        print(ITEM[0],' ', ITEM[1:], ' imported!')
+        import_strs.append(import_str)
+    return import_strs
+''
+
+
 def source_global():
     try: exec(open('global.py').read()); print("Try 1 success")
     except FileNotFoundError: 
@@ -32,6 +129,78 @@ def source(file):
                 
 #================================================================================================================= 
 # IMPORTS!
+# try:
+#     pkgImportStrings = pkgs2(MODULES = [
+#         ['matplotlib', '*'],
+#         ['sklearn', '*'],
+#         ['tpot', '*'],
+#         ['imblearn', '*'],
+#         # ['', '*'],
+#         # ['', '*'],
+#         # ['', '*'],
+#         # ['', '*']
+#         ])
+#     [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+# except Exception as e:
+#     print(e)
+# ''
+
+
+def pipInstall(pkg):
+  import os
+  os.system("pip install " + pkg)
+''
+
+def pipUpgrade(pkg):
+  import os
+  os.system("pip install --upgrade " + pkg)
+''
+
+# pipUpgrade("numpy")
+# pipUpgrade("pandas")
+# pipUpgrade("scipy")
+
+
+try:
+    exec(pkgs2([['matplotlib', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['sklearn', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['tpot', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['imblearn', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+  import feather
+except Exception:
+  import os
+  os.system("pip install feather-format")
+  try:
+    import feather
+  except Exception as e:
+    print(e)
+''
+  
+# try:
+#     exec(pkgs2([['feather_format', '*']])[0])
+# except Exception:
+#     None
+# ''
 
 import matplotlib.pyplot as plt
 from sklearn import model_selection
@@ -889,6 +1058,90 @@ def preprocess(text):
 
 print("below=way f-ing old ugh")
 
+
+
+# try:
+#     pkgImportStrings = pkgs2(MODULES = [
+#     ['numpy', '*'],
+#     ['pandas', '*'],
+#     ['patsy', '*'],
+#     ['re', '*'],
+#     ['time', '*'],
+#     ['pickle', '*'],
+#     ['mglearn', '*'],
+#     # ['xgboost', '*'],
+#     ['scipy', '*'],
+#     ['os', '*'],
+#     ['pickle', '*'],
+#     ])
+#     [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+# except Exception as e:
+#     print(e)
+# ''
+
+try:
+    exec(pkgs2([['numpy', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['pandas', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['patsy', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['re', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['time', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['pickle', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['mglearn', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['scipy', '*']])[0])
+except Exception:
+    None
+''
+
+try:
+    exec(pkgs2([['os', '*']])[0])
+except Exception:
+    None
+''
+
+# try:
+#     exec(pkgs2([['scipy', '*']])[0])
+# except Exception:
+#     None
+# ''
+
+
+
+
 #nrg4 = nrg.sample(3000)
 #nrg4 = nrg
 import numpy as np
@@ -915,7 +1168,6 @@ from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import LatentDirichletAllocation
-from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from scipy.stats import randint as sp_randint
@@ -923,6 +1175,18 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.datasets import load_digits
 from sklearn.ensemble import RandomForestClassifier
+
+try:
+    from xgboost import XGBClassifier
+except Exception as e:
+    # print(e)
+    # os.system("brew install libomp")
+    os.system("pip3 install xgboost")
+    try:
+        from xgboost import XGBClassifier
+    except Exception as e:
+        "xgboost.XGBClassifier not loading correctly, sadly :("
+''
 
 # WRITING FILES
 import pickle
@@ -932,12 +1196,8 @@ import feather
 #feather.write_dataframe(pd.DataFrame(y), "/Users/srhoads/Documents/GitHub/name_race_gender/model/y_gendermodel_97.6%.feather")
 #feather.write_dataframe(pd.DataFrame(nrg_nona['name12_first_space_last']), "/Users/srhoads/Documents/GitHub/name_race_gender/model/corpus_gendermodel_97.6%.feather")          
 # LOADING FILES
-import pickle
-import feather
 # load pickle: model = pickle.load(open('/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.sav', 'rb'))
 # load feather: X = feather.read_dataframe("/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.feather")
-
-
 
 def space_split(s):
     splits = []
@@ -1233,15 +1493,15 @@ def predict_gender(x):
         return "Ambiguous or Androgynous" 
   
 # LOADING FILES
-import pickle
-import feather
+# import pickle
+# import feather
 # load pickle: model = pickle.load(open('/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.sav', 'rb'))
 # load feather: X = feather.read_dataframe("/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.feather")
 
 # WRITING FILES
-import pickle
+# import pickle
 #pickle.dump(model, open('/Users/srhoads/Documents/GitHub/name_race_gender/model/gendermodel_97.6%.sav', 'wb'))
-import feather
+# import feather
 #feather.write_dataframe(pd.DataFrame(X), "/Users/srhoads/Documents/GitHub/name_race_gender/model/X_gendermodel_97.6%.feather")
 #feather.write_dataframe(pd.DataFrame(y), "/Users/srhoads/Documents/GitHub/name_race_gender/model/y_gendermodel_97.6%.feather")
 #feather.write_dataframe(pd.DataFrame(nrg_nona['name12_first_space_last']), "/Users/srhoads/Documents/GitHub/name_race_gender/model/corpus_gendermodel_97.6%.feather")

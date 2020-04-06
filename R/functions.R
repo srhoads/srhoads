@@ -2,21 +2,21 @@
 
 ## AUTO INSTALL/IMPORT MAJOR DEPENDENCIES;
 # --------------------------------------------
-
-tryCatch({
-  if(!require("devtools")) install.packages("devtools")
-  library(devtools)
-  cat("devtools dependency imported\n")
-}, error=function(e) print("Couldn't install/import `devtools` package")
-)
-
-tryCatch({
-  if(!require("tidyverse")) install.packages("tidyverse")
-  library(tidyverse)
-  cat("tidyverse dependency imported\n")
-}, error=function(e) print("Couldn't install/import `tidyverse` package")
-)
-
+if(installIfNeeded <- F){
+  tryCatch({
+    if(!require("devtools")) install.packages("devtools")
+    library(devtools)
+    cat("devtools dependency imported\n")
+  }, error=function(e) print("Couldn't install/import `devtools` package")
+  )
+  
+  tryCatch({
+    if(!require("tidyverse")) install.packages("tidyverse")
+    library(tidyverse)
+    cat("tidyverse dependency imported\n")
+  }, error=function(e) print("Couldn't install/import `tidyverse` package")
+  )
+}
 # --------------------------------------------
 
 
@@ -28,7 +28,7 @@ tryCatch({
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited: setdiff_() added and trimws_() edited to include special spaces"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -7199,23 +7199,48 @@ excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"..
       if(
         all(
           unique(nchar(na.omit(
-            v %>%
-            word(1) %>%
-            gsub("[^[:digit:]]", "", .)
+            v %>% word(1) %>% gsub("[^[:digit:]]", "", .)
           )))==5
         ) & all(
           unique(nchar(na.omit(
-            v %>%
-            word(2) %>%
-            gsub("[[:digit:]]", "", .)
+            v %>% word(2) %>% gsub("[[:digit:]]", "", .)
           )))==0
         )
       ){
         v <- word(v, 1)
         v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+      } else {
+        if(any(grepl("\\.", v))&!is.Date.class(v)){
+          v <- gsub("\\.", " ", v)
+          v <- word(v, 1)
+          v <- tryCatch(lubridate::date(janitor::excel_numeric_to_date(as.numeric(v))), error=function(e) v)
+        }
       }
       v
     }
+  # v %>%
+  #   {
+  #     v <- .
+  #     if(
+  #       all(
+  #         unique(nchar(na.omit(
+  #           v %>%
+  #           word(1) %>%
+  #           gsub("[^[:digit:]]", "", .)
+  #         )))==5
+  #       ) & all(
+  #         unique(nchar(na.omit(
+  #           v %>%
+  #           word(2) %>%
+  #           gsub("[[:digit:]]", "", .)
+  #         )))==0
+  #       )
+  #     ){
+  #       v <- word(v, 1)
+  #       v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+  #     }
+  #     v
+  #   }
 }
 
 
@@ -7544,23 +7569,23 @@ select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
   tv <- tryCatch({
     if(everything){
       if(invert) {
-        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern), ignore.case = ignore.case), dplyr::everything()) %>% names()
       } else {
-        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern), ignore.case = ignore.case), dplyr::everything()) %>% names()
       }
     } else {
       if(invert) {
-        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern))) %>% names()
+        tv <- tv %>% dplyr::select(-dplyr::matches(paste_regex(pattern), ignore.case = ignore.case)) %>% names()
       } else {
-        tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern))) %>% names()    }
+        tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern)), ignore.case = ignore.case) %>% names()    }
     }
     tv
   }, 
   error=function(e){
     if(!is.null(names(tv))){
-      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, names(.)))) %>% names()
+      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, names(.), ignore.case = ignore.case))) %>% names()
     } else {
-      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, .)))
+      tv <- tv %>% purrr::keep(yesornot(grepl(pattern, ., ignore.case = ignore.case)))
     }
     tv
   })
@@ -7573,18 +7598,19 @@ select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
 #' @examples
 #' select_matches(x, pat=".*", invert=F, ignore.case=F)
 select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F){
+  pattern <- pat
   `%>%` <- magrittr::`%>%`
   if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
   # if(invert) {yesornot <- function(y) `!`; plusorminus <- function(y) `-`} else {yesornot <- function(y) ``; plusorminus <- function(y) ``}
   if(is.list(x)&!is.data.frame(x)){
-    x %>% keep(yesornot(grepl(pat, names(.))))
+    x %>% keep(yesornot(grepl(pat, names(.), ignore.case = ignore.case)))
   } else if(is.data.frame(x)){
-    x %>% dplyr::select(plusorminus(dplyr::matches(pat)))
+    x %>% dplyr::select(plusorminus(dplyr::matches(pat, ignore.case = ignore.case)))
   } else if(is.vector(x)){
     if(!is.null(names(x))){
-      x %>% purrr::keep(yesornot(grepl(pattern, names(.)))) %>% names()
+      x %>% purrr::keep(yesornot(grepl(pattern, names(.), ignore.case = ignore.case))) %>% names()
     } else {
-      x %>% purrr::keep(yesornot(grepl(pattern, .)))
+      x %>% purrr::keep(yesornot(grepl(pattern, ., ignore.case = ignore.case)))
     } # x %>% select_vec2(., pattern=pat, invert=invert, ignore.case=ignore.case)
   } else {
     print("object doesn't match anything for select_matches() to work on")
@@ -7610,7 +7636,16 @@ setdiff_ <- function(x, y, printWhichOnly=F){
 ###################################################################################################################################################
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 04 05, 2020 (20200405) ##########################################################################################################################
+
+#' Samantha Rhoads's function to do `setdiff()` from both sides and print which input the different strings come from
+#' @export
+#' @examples
+#' reticulate_correctly(x, y, printWhichOnly=F)
+reticulate_correctly <- function(){
+  reticulate::use_python("/usr/local/bin/python3", required = TRUE)
+  reticulate::repl_python()
+}
 ###################################################################################################################################################
 
 
