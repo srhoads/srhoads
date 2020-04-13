@@ -5,6 +5,17 @@
 ### or full path... ##----------------------------------------------------------
 # functions = open('Users/srhoads/GitHub/namegender/functions.py'); exec(functions.read())
 ##******************************************************************************
+import os 
+
+def pipInstall(pkg):
+  import os
+  os.system("pip3 install " + pkg)
+''
+
+def pipUpgrade(pkg):
+  import os
+  os.system("pip3 install --upgrade " + pkg)
+''
 
 
 def pkg(module='uszipcode', submodule=None):
@@ -129,78 +140,39 @@ def source(file):
                 
 #================================================================================================================= 
 # IMPORTS!
-# try:
-#     pkgImportStrings = pkgs2(MODULES = [
-#         ['matplotlib', '*'],
-#         ['sklearn', '*'],
-#         ['tpot', '*'],
-#         ['imblearn', '*'],
-#         # ['', '*'],
-#         # ['', '*'],
-#         # ['', '*'],
-#         # ['', '*']
-#         ])
-#     [exec(pkgImportString) for pkgImportString in pkgImportStrings]
-# except Exception as e:
-#     print(e)
-# ''
-
-
-def pipInstall(pkg):
-  import os
-  os.system("pip install " + pkg)
-''
-
-def pipUpgrade(pkg):
-  import os
-  os.system("pip install --upgrade " + pkg)
-''
-
-# pipUpgrade("numpy")
-# pipUpgrade("pandas")
-# pipUpgrade("scipy")
-
-
 try:
-    exec(pkgs2([['matplotlib', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['sklearn', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['tpot', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['imblearn', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-  import feather
-except Exception:
-  import os
-  os.system("pip install feather-format")
-  try:
-    import feather
-  except Exception as e:
+    pkgImportStrings = pkgs2(MODULES = [
+        ['matplotlib', '*'],
+        ['sklearn', '*'],
+        ['tpot', '*'],
+        ['imblearn', '*'],
+        # ['', '*'],
+        # ['', '*'],
+        # ['', '*'],
+        # ['', '*']
+        ])
+    [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+except Exception as e:
     print(e)
 ''
-  
+
 # try:
 #     exec(pkgs2([['feather_format', '*']])[0])
 # except Exception:
 #     None
 # ''
+
+try:
+  import feather
+except Exception:
+  import os
+  os.system("pip3 install feather-format")
+  try:
+    import feather
+  except Exception as e:
+    print(e)
+''
+
 
 import matplotlib.pyplot as plt
 from sklearn import model_selection
@@ -1060,84 +1032,25 @@ print("below=way f-ing old ugh")
 
 
 
-# try:
-#     pkgImportStrings = pkgs2(MODULES = [
-#     ['numpy', '*'],
-#     ['pandas', '*'],
-#     ['patsy', '*'],
-#     ['re', '*'],
-#     ['time', '*'],
-#     ['pickle', '*'],
-#     ['mglearn', '*'],
-#     # ['xgboost', '*'],
-#     ['scipy', '*'],
-#     ['os', '*'],
-#     ['pickle', '*'],
-#     ])
-#     [exec(pkgImportString) for pkgImportString in pkgImportStrings]
-# except Exception as e:
-#     print(e)
-# ''
-
 try:
-    exec(pkgs2([['numpy', '*']])[0])
-except Exception:
-    None
+    pkgImportStrings = pkgs2(MODULES = [
+    ['numpy', '*'],
+    ['pandas', '*'],
+    ['patsy', '*'],
+    ['re', '*'],
+    ['time', '*'],
+    ['pickle', '*'],
+    ['mglearn', '*'],
+    # ['xgboost', '*'],
+    ['scipy', '*'],
+    ['os', '*'],
+    ['pickle', '*'],
+    ])
+    [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+except Exception as e:
+    print(e)
 ''
 
-try:
-    exec(pkgs2([['pandas', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['patsy', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['re', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['time', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['pickle', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['mglearn', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['scipy', '*']])[0])
-except Exception:
-    None
-''
-
-try:
-    exec(pkgs2([['os', '*']])[0])
-except Exception:
-    None
-''
-
-# try:
-#     exec(pkgs2([['scipy', '*']])[0])
-# except Exception:
-#     None
-# ''
 
 
 

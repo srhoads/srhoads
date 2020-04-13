@@ -13,8 +13,6 @@ Imports:
     stringi,
     plyr,
     quanteda,
-    text2vec,
-    glmnet,
     grDevices,
     DT,
     janitor,
