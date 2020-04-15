@@ -9,7 +9,6 @@ if(installIfNeeded <- F){
     cat("devtools dependency imported\n")
   }, error=function(e) print("Couldn't install/import `devtools` package")
   )
-  
   tryCatch({
     if(!require("tidyverse")) install.packages("tidyverse")
     library(tidyverse)
@@ -18,9 +17,10 @@ if(installIfNeeded <- F){
   )
 }
 # --------------------------------------------
-
-
-
+if("magrittr" %in% installed.packages()){
+  `%>%` <- magrittr::`%>%`
+  `%<>%` <- magrittr::`%<>%`
+}
 ## HOW TO UPDATE LIBRARY:
 # --------------------------------------------
 
@@ -28,7 +28,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "remove anything with glmnet or text2vec"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "assigned some more functions to their :: packages + assigned pipes globally"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -7127,9 +7127,9 @@ getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
                                no.. = FALSE){
   fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
   if(desc) {
-    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .) %>% arrange(desc(mtime))
+    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .) %>% dplyr::arrange(desc(mtime))
   } else {
-    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .)  %>% arrange(mtime)
+    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .)  %>% dplyr::arrange(mtime)
   }
   if(verbose){
     return(fninfo)
