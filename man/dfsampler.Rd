@@ -75,11 +75,11 @@ tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,te
 }
 A function that makes sample data frames with name, race, gender type columns}
 \usage{
-dfsampler(which = "long", tibble = F)
+dfsampler(which = c("long", "short")[1], tibble = F)
 }
 \description{
 This function allows you to make sample dataframes!
 }
 \examples{
-dfsampler(which='long', tibble=F)
+dfsampler(which=c('long', 'short')[1], tibble=F)
 }

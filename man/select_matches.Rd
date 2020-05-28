@@ -10,5 +10,6 @@ select_matches(x, pat = ".*", invert = F, ignore.case = F)
 Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything
 }
 \examples{
+x <- as.list(iris); select_matches(x, pat="Petal"); v <- iris$Species; select_matches(v, pat="versi")
 select_matches(x, pat=".*", invert=F, ignore.case=F)
 }

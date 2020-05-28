@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "assigned some more functions to their :: packages + assigned pipes globally"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added for comparing lists and flattening them from the top"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -1304,6 +1304,27 @@ gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub
 #' @examples
 #' not_all_na()
 not_all_na <- function(x) any(!is.na(x))
+
+#' A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' not_all_same()
+not_all_same <- function(x){length(unique(x))>1}
+
+#' A function that can filter a dataframe so it includes all duplicates of your variable of choice
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' filter_duplicated()
+filter_duplicated <- function(d, var="id"){
+  vdups <-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) duplicated(v)) %>% .[[var]]
+  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of("id")), function(v) v %in% vdups)
+}
+
+
 
 `%>%` <- magrittr::`%>%` 
 `%<>%` <- magrittr::`%<>%`
@@ -5404,8 +5425,8 @@ samtokens <- function(df, nmin=2,nmax=3,
 #' This function allows you to make sample dataframes!
 #' @export
 #' @examples
-#' dfsampler(which='long', tibble=F)
-dfsampler <- function(which='long', tibble=F){
+#' dfsampler(which=c('long', 'short')[1], tibble=F)
+dfsampler <- function(which=c('long', 'short')[1], tibble=F){
   if(which=='short') dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
                                             firstname=c('charlene', 'sandra sunrising'), 
                                             lastname=c('teters', 'osawa'), 
@@ -7414,13 +7435,20 @@ DT_NAs_red_background <- function(DTdatatable){
 #' @examples
 #' select_vec()
 select_vec <- function(v, pattern, ignore.case=T, everything=F){
-  tv <- tibble::as_tibble(t(tibble::as_tibble(v))) %>% setNames(v)
+  as_tibble <- function(x, ..., .rows = NULL, .name_repair = c("check_unique", "unique", "universal", "minimal"), rownames = pkgconfig::get_config("tibble::rownames", NULL)){
+    suppressWarnings(tibble::as_tibble(x, ..., .rows, .name_repair, rownames))
+  }
+  tv <- as_tibble(t(as_tibble(v))) %>% setNames(v %>% as.character() %>% make.unique(., sep="~FUNKYDISTINCTIVEPATTERN~~MEOW~~920482033243931~~~BDJKSFH~SAMISRHOADSY"))
   if(everything){
     tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern)), dplyr::everything()) %>% names()
   } else {
     tv <- tv %>% dplyr::select(dplyr::matches(paste_regex(pattern))) %>% names()
   }
-  tv
+  tv0 <- tv %>% gsub("~FUNKYDISTINCTIVEPATTERN~~MEOW~~920482033243931~~~BDJKSFH~SAMISRHOADSY.*", "", .)
+  if(is.factor(v)){
+    tv0 <- tv0 %>% factor(., levels=levels(v))
+  }
+  tv0
 }
 
 
@@ -7561,7 +7589,7 @@ extract_fourDigitYear <- function(string, includePre1900s=T){
 #' Samantha Rhoads's function to extract or keep or select elements of a VECTOR. Invert means keep everything other than the pattern. Default pattern is everything
 #' @export
 #' @examples
-#' select_matches(x, pat=".*", invert=F, ignore.case=F)
+#' select_vec2(x, pat=".*", invert=F, ignore.case=F)
 select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
   `%>%` <- magrittr::`%>%`
   if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
@@ -7595,7 +7623,7 @@ select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
 
 #' Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything
 #' @export
-#' @examples
+#' @examples x <- as.list(iris); select_matches(x, pat="Petal"); v <- iris$Species; select_matches(v, pat="versi")
 #' select_matches(x, pat=".*", invert=F, ignore.case=F)
 select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F){
   pattern <- pat
@@ -7603,10 +7631,10 @@ select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore
   if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
   # if(invert) {yesornot <- function(y) `!`; plusorminus <- function(y) `-`} else {yesornot <- function(y) ``; plusorminus <- function(y) ``}
   if(is.list(x)&!is.data.frame(x)){
-    x %>% keep(yesornot(grepl(pat, names(.), ignore.case = ignore.case)))
+    x %>% purrr::keep(yesornot(grepl(pat, names(.), ignore.case = ignore.case)))
   } else if(is.data.frame(x)){
     x %>% dplyr::select(plusorminus(dplyr::matches(pat, ignore.case = ignore.case)))
-  } else if(is.vector(x)){
+  } else if(is.vector(x)|is.factorchar(x)|depth(x)==0){
     if(!is.null(names(x))){
       x %>% purrr::keep(yesornot(grepl(pattern, names(.), ignore.case = ignore.case))) %>% names()
     } else {
@@ -7649,7 +7677,89 @@ reticulate_correctly <- function(){
 ###################################################################################################################################################
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 05 28, 2020 (20200528) ##########################################################################################################################
+
+#' Samantha Rhoads's function to unlist/flatten a list one time, but from the top, instead of the bottom (aka the opposite of `unlist()` or purrr's `flatten()`)
+#' @export
+#' @examples
+#' flatten_list_from_top(L)
+flatten_list_from_top <- function(L){
+  Reduce(f=c, x=L)
+}
+
+#' Samantha Rhoads's function to compare the columns of two lists of dataframes to see their differences based on their `sumry()`s and if the column `sumry()`s are `identical()`
+#' @export
+#' @examples
+#' compare_two_lods(list1 = list(df1 = dfsampler()), list2 =  list(df2 = dfsampler(which="short")), exampleOfColumnName="^name$")
+compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = dfsampler(which="short")), exampleOfColumnName="^name$"){
+  
+  list1 %<>% .[sort(names(.))]
+  list2 %<>% .[sort(names(.))]
+  
+  (BOTHLISTNAMES <- union(names(list1), names(list2)))
+  
+  (MAXLISTLENGTH <- max(length(list1), length(list2)))
+  
+  RETURN0 <- lapply(1:MAXLISTLENGTH, function(i){ # i <- 1
+    dfname_of_interest <- BOTHLISTNAMES[i]
+    # BOTHDATASETS <- list(OLD = list1[[i]], NEW = list2[[i]])
+    # BOTHDATASETS <- list(OLD = list1[[dfname_of_interest]], NEW = list2[[dfname_of_interest]])
+    BOTHDATASETS <- list(OLD = select_matches(list1, pat=paste0("^", dfname_of_interest, "$"), ignore.case = T) %>% flatten_list_from_top(), 
+                         NEW = select_matches(list2, pat=paste0("^", dfname_of_interest, "$"), ignore.case = T) %>% flatten_list_from_top())
+    
+    MAXNROW <- BOTHDATASETS %>% purrr::map_if(is.data.frame, function(d) nrow(d)) %>% unlist() %>% max(., na.rm = T)
+    BOTHDFS <- BOTHDATASETS %>%
+      purrr::map_if(is.data.frame, function(d){
+        headerRow <- grep_all_df(exampleOfColumnName, d[1:min(c(300, nrow(d))), ], rownums_only=T, ignore.case = T) %>% unique()
+        if(length(headerRow)>0){
+          headerRow %<>% .[[1]]
+          headerNames <- d %>% slice(headerRow) %>% unlist() %>% replace_na(., "na") %>% gsub('NA', "na", .) %>% make.unique()
+          d %<>% setNames(make.unique(headerNames)) %>% slice(-(1:headerRow))
+        }
+        d 
+      })
+    BOTHLISTDFNAMES <- BOTHDFS %>% purrr::map(names) %>% unlist() %>% unique()
+    
+    lapply(BOTHLISTDFNAMES, function(ii){ # ii <- "lastname"      #    ii <- "gender"
+      ugh <- list(
+        hcOLD = (
+          BOTHDFS$OLD %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% 
+            # {if(ncol(.)==0) {.[[ii]] <- NA; .} else .} #slice(1:MAXNROW)
+            {if(ncol(.)>0) setNames(., paste0(ii, " (OLD)")) else .}#slice(1:MAXNROW)
+        ),
+        hcNEW = (
+          BOTHDFS$NEW %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% #setNames(paste0(ii, " (NEW)")) %>%
+            {if(ncol(.)>0) setNames(., paste0(ii, " (NEW)")) else .} #slice(1:MAXNROW)
+        )
+      ) %>% dplyr::bind_cols() %>% sumry(., min(nrow(unique(.)), 21))
+      ugh
+    }) 
+    
+  }) %>% 
+     setNames(BOTHLISTNAMES) 
+  
+  RETURN <- tryCatch({
+    RETURN0 %>%
+      {
+        comparedData <- . # comparedData <- RETURN0
+        purrr::map(1:length(RETURN0), function(i){ # i <- 1
+          comparedColNames <- comparedData[[i]] %>% purrr::map(., function(x){  # x <- comparedData[[i]][[4]]
+            new_colnames0 <- colnames(x) %>% gsub(" \\(OLD\\)|\\(NEW\\)", "", .) %>% trimws_() %>% unique() %>% .[[1]]
+            if(ncol(x)>1){
+              cols_identical_or_no <- identical(x[, 1], x[, 2])
+            } else {
+              cols_identical_or_no <- paste0(F, " bc col missing from one of the dfs")
+            }
+            paste0(new_colnames0, " (identical=", cols_identical_or_no, ")")
+          }) %>% unlist()
+          comparedData[[i]] %<>% setNames(comparedColNames)
+          comparedData[[i]]
+        }) %>% setNames(names(comparedData))
+      }
+  }, error = function(e) RETURN0)
+  
+  RETURN
+}
 ###################################################################################################################################################
 
 

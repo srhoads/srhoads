@@ -10,5 +10,5 @@ select_vec2(v, pattern = ".*", ignore.case = T, everything = F, invert = F)
 Samantha Rhoads's function to extract or keep or select elements of a VECTOR. Invert means keep everything other than the pattern. Default pattern is everything
 }
 \examples{
-select_matches(x, pat=".*", invert=F, ignore.case=F)
+select_vec2(x, pat=".*", invert=F, ignore.case=F)
 }
