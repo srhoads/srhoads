@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added for comparing lists and flattening them from the top"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -1321,7 +1321,7 @@ not_all_same <- function(x){length(unique(x))>1}
 #' filter_duplicated()
 filter_duplicated <- function(d, var="id"){
   vdups <-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) duplicated(v)) %>% .[[var]]
-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of("id")), function(v) v %in% vdups)
+  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) v %in% vdups)
 }
 
 
@@ -2046,14 +2046,14 @@ select_gender_cols_list <- function(mylist, output = c("list", "names")) {
   mylist <- tryCatch(dplyr::combine(mylist), 
                      error = function(e) mylist)
   cols1 <- 
-    purrr::map(mylist, ~select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
+    purrr::map(mylist, ~dplyr::select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
     purrr::map(., ~names(.x)) %>% unlist() %>% unique()
   cols2 <- 
     purrr::map(mylist, 
                ~dplyr::select_if(.x, function(xx) {any(xx %in% exacts) | any(grepl(paste0(partials, collapse="|"), xx, ignore.case = T))})) %>% 
     purrr::map(., ~names(.x)) %>% unlist() %>% unique()
   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-  mylist <- purrr::map(mylist, ~select(.x, dplyr::matches(paste0(cols, collapse="|"))))
+  mylist <- purrr::map(mylist, ~dplyr::select(.x, dplyr::matches(paste0(cols, collapse="|"))))
   if(output == "names")
     return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
   if(output == "list")
@@ -5503,7 +5503,7 @@ trimws_ <- function(v, which='both', doublespace=T){
 #' @export
 #' @examples
 #' trimws_df()
-trimws_df <- function(x, which='both', doublespace=T) mutate_all(x, function(v) trimws_v(v, doublespace=doublespace, which=which))
+trimws_df <- function(x, which='both', doublespace=T) dplyr::mutate_all(x, function(v) trimws_v(v, doublespace=doublespace, which=which))
 
 #' A function
 #'
@@ -6009,9 +6009,12 @@ depth <- function(this,thisdepth=0){
 #' @export
 #' @examples
 #' lookslike_number()
-lookslike_number <- function(v){
-  v <- gsub("[[:digit:]]", "", v) %>%
-    na_if(., "")
+lookslike_number <- function(v, include_decimal=F){
+  if(include_decimal){
+    v <- gsub("[\\.|[:digit:]]", "", v) %>% na_if(., "")
+  } else {
+    v <- gsub("[[:digit:]]", "", v) %>% na_if(., "")
+  }
   ifelse(is.na(v), T, F)
 }
 
@@ -6510,7 +6513,41 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
 unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; "){
   d %>% select_if(fun) %>%
     unite_all(., clean=clean, remove=remove, newcol=newcol, onlynewcol=onlynewcol) %>% #.[[1]] %>% 
-    cbind(select_if(d, function(v) !fun(v)), .)
+    cbind(dplyr::select_if(d, function(v) !fun(v)), .)
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' unite_at()
+unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", 
+                      onlynewcol = F, sep = "; ") {
+  d %>% dplyr::select(fun) %>% unite_all(., clean = clean, remove = remove, 
+                                  newcol = newcol, onlynewcol = onlynewcol, sep=sep) %>% cbind(select(d, -fun), .)
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' mutate_listname_to_lod_column(LoD, new_colname_for_listname="LISTNAME")
+mutate_listname_to_lod_column <- function(LoD, new_colname_for_listname="LISTNAME"){
+  namesLoD <- names(LoD)
+  LoD %>%
+    {
+      L <- .
+      L <- map(1:length(L), function(i){ # i <- 1
+        LISTNAME <- names(L)[i]
+        L[[i]][[new_colname_for_listname]] <- LISTNAME
+        L[[i]]
+      })
+      L
+    } %>%
+    setNames(namesLoD)
 }
 
 #' Samantha Rhoads's function to...
@@ -6723,7 +6760,7 @@ state2abb_or_abb2state <- function(v, abb=F){
 state2region <- function(v_abbr){
   (v_abbr <- state2abb_or_abb2state(v_abbr, abb=T))
   vdf <- tibble(state.abb = tolower(v_abbr))
-  (regdf <- tibble(state.region=as.character(state.region), state.abb= tolower(state.abb)) %>% left_join(vdf, .))
+  (regdf <- tibble::tibble(state.region=as.character(state.region), state.abb= tolower(state.abb)) %>% dplyr::left_join(vdf, .))
   regdf$state.region[grepl("vt|dc", regdf$state.abb)] <- "Northeast"
   regdf$state.region[grepl("pr|gu|nmari", regdf$state.abb)] <- "Other"
   regdf$state.region
@@ -7632,6 +7669,32 @@ select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore
   # if(invert) {yesornot <- function(y) `!`; plusorminus <- function(y) `-`} else {yesornot <- function(y) ``; plusorminus <- function(y) ``}
   if(is.list(x)&!is.data.frame(x)){
     x %>% purrr::keep(yesornot(grepl(pat, names(.), ignore.case = ignore.case)))
+  } else if(is.data.frame(x)){
+    x %>% dplyr::select(plusorminus(dplyr::matches(pat, ignore.case = ignore.case)))
+  } else if(is.vector(x)|is.factorchar(x)|depth(x)==0){
+    if(!is.null(names(x))){
+      x %>% purrr::keep(yesornot(grepl(pattern, names(.), ignore.case = ignore.case))) %>% names()
+    } else {
+      x %>% purrr::keep(yesornot(grepl(pattern, ., ignore.case = ignore.case)))
+    } # x %>% select_vec2(., pattern=pat, invert=invert, ignore.case=ignore.case)
+  } else {
+    print("object doesn't match anything for select_matches() to work on")
+    x
+  }
+}
+
+#' Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything
+#' @export
+#' @examples x <- as.list(iris); select_matches(x, pat="Petal"); v <- iris$Species; select_matches(v, pat="versi")
+#' select_matches_everything(x, pat=".*", invert=F, ignore.case=F)
+select_matches_everything <- function (x, pat = ".*", invert = F, ignore.case = F, everything = F) {
+  pattern <- pat
+  `%>%` <- magrittr::`%>%`
+  if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
+  # if(invert) {yesornot <- function(y) `!`; plusorminus <- function(y) `-`} else {yesornot <- function(y) ``; plusorminus <- function(y) ``}
+  if(is.list(x)&!is.data.frame(x)){
+    x2 <- x %>% purrr::keep(yesornot(grepl(pat, names(.), ignore.case = ignore.case)))
+    if(everything){c(x2, x %>% purrr::keep(!yesornot(grepl(pat, names(.), ignore.case = ignore.case))))} else {x2}
   } else if(is.data.frame(x)){
     x %>% dplyr::select(plusorminus(dplyr::matches(pat, ignore.case = ignore.case)))
   } else if(is.vector(x)|is.factorchar(x)|depth(x)==0){

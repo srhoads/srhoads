@@ -4,7 +4,7 @@
 \alias{lookslike_number}
 \title{A function}
 \usage{
-lookslike_number(v)
+lookslike_number(v, include_decimal = F)
 }
 \description{
 This function allows you to
