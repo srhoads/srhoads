@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -7456,7 +7456,7 @@ DT_NAs_red_background <- function(DTdatatable){
   # DTdatatable$x$data <- DTdatatable$x$data %>% mutate_all(., function(v) replace_na(v, "<center>-</center>"))
   NAcodestoRED <- c(NA, "", " ", "  ", "-", "<center>-</center>", "<center> </center>", "<center></center>", "<center>  </center>")
   DTdatatable %>%
-    formatStyle(names(.$x$data),
+    DT::formatStyle(names(.$x$data),
                 backgroundColor = styleEqual(
                   NAcodestoRED,
                   rep("rgb(255,198,198)", length(NAcodestoRED)))
@@ -7519,6 +7519,91 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
                       "}")),
                   class = 'cell-border stripe table-hover table-condensed compact'
     )
+}
+
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' dt_condensed()
+dt_condensed <- function(df, pageLength=nrow(df)){
+    DT::datatable(df,
+                  escape=F,
+                  rownames=F,
+                  options = list(#search = list(regex = TRUE, caseInsensitive = T),
+                    pageLength = pageLength,
+                    dom = 'BfrtiSR',
+                    info=F,
+                    autoWidth = TRUE,
+                    buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
+                    initComplete = DT::JS(
+                      "function(settings, json) {",
+                      "$(this.api().table().body()).css({'font-size': '76%'});",
+                      "$(this.api().table().header()).css({'font-size': '76%'});",
+                      "}")),
+                  class = 'cell-border stripe table-hover table-condensed compact'
+    )
+}
+
+#' Samantha Rhoads's function to...
+#'
+#' Srhoads wrote this to allow you to...
+#' @export
+#' @examples
+#' dt_sumry()
+dt_sumry <- function(dftosumry, pageLength=nrow(df)){
+  dftosumry %>%
+    mutate_if(is.Date.class, function(v) as.character(v))  %>%
+    lapply(., function(v) sumry(v, 20)) %>%
+    paste0("<code>", names(.),"</code>:::  ", ., collapse="NEWLINENEWLINENEWLINE" #collapse="<hr>"
+    ) %>% gsub("c\\(|\\)|\\(|\\`", "", .)  %>% 
+    paste0("<small>", ., "</small>") %>% 
+    gsub(", ", "<br>", .) %>%
+    strsplit(., "NEWLINENEWLINENEWLINE") %>% unlist() %>%
+    tibble(value=.) %>% # HTML() %>% # tibble() %>% 
+    separate(., value, into=c("Variable", "Summary (Count)"), sep=":::") %>%
+    # setNames("Variable Summaries") %>% 
+    DT::datatable(.,  escape=F,
+                  fillContainer = TRUE,
+                  # filter = list(position = 'top', clear = FALSE),
+                  # extensions = c("Scroller", "Buttons", "ColReorder"),
+                  class = 'cell-bordered stripe table-condensed compact',
+                  options = list(#scrollX = TRUE,
+                    # autoWidth=T,
+                    scrollCollapse = T,
+                    search = list(regex = TRUE, caseInsensitive = T),
+                    pageLength = pageLength,
+                    columnDefs = list(list(className = 'dt-left', targets = "_all")),
+                    colReorder = TRUE,
+                    dom = 'BfrtiSR', #dom = 'BfrtilSR',
+                    scrollY = "200vh",
+                    # buttons = I('excel'),
+                    initComplete = DT::JS(
+                      "function(settings, json) {",
+                      "$(this.api().table().body()).css({'font-size': '76%'});",
+                      "$(this.api().table().header()).css({'font-size': '76%'});",
+                      "}")),
+                  # class = 'cell-border stripe table-hover table-condensed compact'
+    ) %>%
+    DT::formatStyle(0, target= 'row', color = 'black', lineHeight='98%', fontSize="95%")
+  # DT::datatable(sumryoutput,
+  #               escape=F,
+  #               rownames=F,
+  #               options = list(#search = list(regex = TRUE, caseInsensitive = T),
+  #                 pageLength = pageLength,
+  #                 dom = 'BfrtiSR',
+  #                 info=F,
+  #                 autoWidth = TRUE,
+  #                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
+  #                 initComplete = DT::JS(
+  #                   "function(settings, json) {",
+  #                   "$(this.api().table().body()).css({'font-size': '76%'});",
+  #                   "$(this.api().table().header()).css({'font-size': '76%'});",
+  #                   "}")),
+  #               class = 'cell-border stripe table-hover table-condensed compact'
+  # )
 }
 
 #' Samantha Rhoads's function to generate a random string
