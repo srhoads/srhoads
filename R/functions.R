@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -7892,7 +7892,11 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
         comparedData <- . # comparedData <- RETURN0
         purrr::map(1:length(RETURN0), function(i){ # i <- 1
           comparedColNames <- comparedData[[i]] %>% purrr::map(., function(x){  # x <- comparedData[[i]][[4]]
-            new_colnames0 <- colnames(x) %>% gsub(" \\(OLD\\)|\\(NEW\\)", "", .) %>% trimws_() %>% unique() %>% .[[1]]
+            if(is.null(colnames(x))){
+              new_colnames0 <- paste0(F, " bc col missing from one of OR BOTH of the dfs")
+            } else {
+              new_colnames0 <- colnames(x) %>% gsub(" \\(OLD\\)|\\(NEW\\)", "", .) %>% trimws_() %>% unique() %>% .[[1]]
+            }
             if(ncol(x)>1){
               cols_identical_or_no <- identical(x[, 1], x[, 2])
             } else {
@@ -7911,7 +7915,37 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
 ###################################################################################################################################################
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 07 30, 2020 (20200730) ##########################################################################################################################
+
+#' Samantha Rhoads's function to visualize hex color codes
+#' @export
+#' @examples
+#' preview_hex_colors(hexs = c("#b41e3b", "#337ab7", "#f37036", "#434447", "#37718e", "#da3051", "#f5f6f8"))
+preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#434447", "#37718e", "#da3051", "#f5f6f8", "#9a2138", "#ffffff", "#333333"), plotly=F){
+  hexs <- rev(unique(hexs))
+  temp <- setNames(rep(1, length(hexs)), hexs)
+
+  if(plotly){
+    P <- plotly::plot_ly(y=hexs, x=temp, type="bar", showlegend=F, size=4, text=hexs, textposition="inside",
+                         marker = list(color = hexs,
+                                       line = list(color = 'rgb(8,48,107)', width = 1.5))) %>% 
+      layout(xaxis=list(showticklabels=F), 
+             yaxis=list(tickwidth=1, tickfont=list(size=18)),
+             margin = list(
+               r = 20, 
+               t = 25, 
+               b = 40, 
+               l = 20,
+               pad=20
+             )) %>% plotly::config(displayModeBar=F, staticPlot=T)
+  } else {
+    par(las=2)
+    par(mar=c(.5,5,.5,0.1))
+    P <- barplot(temp, col=hexs, axisnames=T, horiz=T, border=NA, axes=F, cex.names=1)
+  }
+  P
+}
+
 ###################################################################################################################################################
 
 
