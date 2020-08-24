@@ -7915,6 +7915,112 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
 ###################################################################################################################################################
 
 
+#' Samantha Rhoads's function to compare the columns of two lists of dataframes to see their differences based on their `sumry()`s and if the column `sumry()`s are `identical()`
+#' @export
+#' @examples list1=list(nvc=NursesVC); list2=list(nvc=NursesVC2); exampleOfColumnName="EEID"; print_only_differences=T
+#' compare_two_lods_enhanced(list1 = list(df1 = dfsampler()), list2 =  list(df2 = dfsampler(which="short")), exampleOfColumnName="^name$")
+compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  list(df = dfsampler(which="short")), 
+                                      exampleOfColumnName="^name$", print_only_differences=T){
+  
+  list1 %<>% .[sort(names(.))]
+  list2 %<>% .[sort(names(.))]
+  
+  (BOTHLISTNAMES <- union(names(list1), names(list2)))
+  
+  (MAXLISTLENGTH <- max(length(list1), length(list2)))
+  
+  RETURN0 <- lapply(1:MAXLISTLENGTH, function(i){ # i <- 1
+    dfname_of_interest <- BOTHLISTNAMES[i]
+    # BOTHDATASETS <- list(OLD = list1[[i]], NEW = list2[[i]])
+    # BOTHDATASETS <- list(OLD = list1[[dfname_of_interest]], NEW = list2[[dfname_of_interest]])
+    BOTHDATASETS <- list(OLD = select_matches(list1, pat=paste0("^", dfname_of_interest, "$"), ignore.case = T) %>% flatten_list_from_top(), 
+                         NEW = select_matches(list2, pat=paste0("^", dfname_of_interest, "$"), ignore.case = T) %>% flatten_list_from_top())
+    
+    MAXNROW <- BOTHDATASETS %>% purrr::map_if(is.data.frame, function(d) nrow(d)) %>% unlist() %>% max(., na.rm = T)
+    if(!is.nanull(exampleOfColumnName)){
+      BOTHDFS <- BOTHDATASETS %>%
+        purrr::map_if(is.data.frame, function(d){
+          headerRow <- grep_all_df(exampleOfColumnName, d[1:min(c(300, nrow(d))), ], rownums_only=T, ignore.case = T) %>% unique()
+          if(length(headerRow)>0){
+            headerRow %<>% .[[1]]
+            headerNames <- d %>% slice(headerRow) %>% unlist() %>% replace_na(., "na") %>% gsub('NA', "na", .) %>% make.unique()
+            d %<>% setNames(make.unique(headerNames)) %>% slice(-(1:headerRow))
+          }
+          d 
+        })
+    } else {
+      BOTHDFS <- BOTHDATASETS
+    }
+    BOTHLISTDFNAMES <- BOTHDFS %>% purrr::map(names) %>% unlist() %>% unique()
+    
+    lapply(BOTHLISTDFNAMES, function(ii){ # ii <- "lastname"      #    ii <- "gender"
+      ugh <- list(
+        hcOLD = (
+          BOTHDFS$OLD %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% 
+            # {if(ncol(.)==0) {.[[ii]] <- NA; .} else .} #slice(1:MAXNROW)
+            {if(ncol(.)>0) setNames(., paste0(ii, " (OLD)")) else .}#slice(1:MAXNROW)
+        ),
+        hcNEW = (
+          BOTHDFS$NEW %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% #setNames(paste0(ii, " (NEW)")) %>%
+            {if(ncol(.)>0) setNames(., paste0(ii, " (NEW)")) else .} #slice(1:MAXNROW)
+        )
+      ) %>% dplyr::bind_cols() %>% sumry(., min(nrow(unique(.)), 21))
+      ugh
+    }) 
+    
+  }) %>% 
+    setNames(BOTHLISTNAMES) 
+  
+  RETURN <- tryCatch({
+    RETURN0 %>%
+      {
+        comparedData <- . # comparedData <- RETURN0
+        purrr::map(1:length(RETURN0), function(i){ # i <- 1
+          comparedColNames <- comparedData[[i]] %>% purrr::map(., function(x){  # x <- comparedData[[i]][[4]]
+            if(is.null(colnames(x))){
+              new_colnames0 <- paste0(F, " bc col missing from one of OR BOTH of the dfs")
+            } else {
+              new_colnames0 <- colnames(x) %>% gsub(" \\(OLD\\)|\\(NEW\\)", "", .) %>% trimws_() %>% unique() %>% .[[1]]
+            }
+            if(ncol(x)>1){
+              cols_identical_or_no <- identical(x[, 1], x[, 2])
+            } else {
+              cols_identical_or_no <- paste0(F, " bc col missing from one of the dfs")
+            }
+            paste0(new_colnames0, " (identical=", cols_identical_or_no, ")")
+          }) %>% unlist()
+          comparedData[[i]] %<>% setNames(comparedColNames)
+          comparedData[[i]]
+        }) %>% setNames(names(comparedData))
+      }
+  }, error = function(e) {
+    print(e)
+    RETURN0
+    })
+  
+  if(print_only_differences){
+    RETURN %<>% lapply(., function(l){ # l <- RETURN[[1]]
+      l <- l[grep("identical=FALSE", names(l))]
+      l <- drop_empty(l)
+      if(length(l)==0){
+        l <- "Nothing different between the columns shared by both lists of dataframes"
+      }
+      l
+    })
+  } else {
+    RETURN %<>% lapply(., function(l){ # l <- RETURN[[1]]
+      l <- drop_empty(l)
+      if(length(l)==0){
+        l <- "Nothing different between the columns shared by both lists of dataframes"
+      }
+      l
+    })
+  }
+  
+  RETURN
+}
+###################################################################################################################################################
+
 # 07 30, 2020 (20200730) ##########################################################################################################################
 
 #' Samantha Rhoads's function to visualize hex color codes
