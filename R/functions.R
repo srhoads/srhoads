@@ -8052,7 +8052,7 @@ preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#43444
   P
 }
 
-#' Samantha Rhoads's function to visualize hex color codes
+#' Samantha Rhoads's function to assign column names by skipping the appropriate number of rows in a dataframe before the actual column names. Uses a reference name.
 #' @export
 #' @examples
 #' set_names_skip_rows_until_match(d, example_colname="Employee ID", check_n_rows=100)
@@ -8062,6 +8062,29 @@ set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", ch
     if(length(colnames_rownum)>0) d <- d %>% setNames(as.character(.[colnames_rownum, ])) %>% slice(-(1:colnames_rownum))
   }
   d %>% setNames(make.unique(names(.)))
+}
+
+
+#' Samantha Rhoads's function to unload packages
+#' @export
+#' @examples
+#' unload_pkg(pkgs)
+unload_pkg <- function(pkgs){ # pkgs <- c("srhoads", "ggmap")
+  detach_unload_true <- function(name, pos = 2L, unload = T, character.only = T, force = FALSE) {
+    detach(name, pos = pos, unload = unload, character.only = character.only, force = force)
+  }
+  pkgsstrarg <- paste0("package:", pkgs)
+  if(length(pkgs)==1){
+    while(pkgsstrarg %in% search()){
+      detach(pkgsstrarg, unload = TRUE, character.only = TRUE)
+    }
+  } else {
+    lapply(pkgsstrarg, function(pkgstrarg) {
+      while(pkgstrarg %in% search()){
+        detach(pkgstrarg, unload = TRUE, character.only = TRUE)
+      }
+    })
+  }
 }
 
 ###################################################################################################################################################

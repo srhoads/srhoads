@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{set_names_skip_rows_until_match}
 \alias{set_names_skip_rows_until_match}
-\title{Samantha Rhoads's function to visualize hex color codes}
+\title{Samantha Rhoads's function to assign column names by skipping the appropriate number of rows in a dataframe before the actual column names. Uses a reference name.}
 \usage{
 set_names_skip_rows_until_match(
   d,
@@ -11,7 +11,7 @@ set_names_skip_rows_until_match(
 )
 }
 \description{
-Samantha Rhoads's function to visualize hex color codes
+Samantha Rhoads's function to assign column names by skipping the appropriate number of rows in a dataframe before the actual column names. Uses a reference name.
 }
 \examples{
 set_names_skip_rows_until_match(d, example_colname="Employee ID", check_n_rows=100)
