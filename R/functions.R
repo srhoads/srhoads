@@ -8052,6 +8052,18 @@ preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#43444
   P
 }
 
+#' Samantha Rhoads's function to visualize hex color codes
+#' @export
+#' @examples
+#' set_names_skip_rows_until_match(d, example_colname="Employee ID", check_n_rows=100)
+set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", check_n_rows=100){
+  if(!(example_colname %in% names(d))){
+    colnames_rownum <- grep_all_df(example_colname, d[1:check_n_rows, ], rownums_only=T)[1]
+    if(length(colnames_rownum)>0) d <- d %>% setNames(as.character(.[colnames_rownum, ])) %>% slice(-(1:colnames_rownum))
+  }
+  d %>% setNames(make.unique(names(.)))
+}
+
 ###################################################################################################################################################
 
 
