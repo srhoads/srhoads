@@ -8087,6 +8087,16 @@ unload_pkg <- function(pkgs){ # pkgs <- c("srhoads", "ggmap")
   }
 }
 
+#' Samantha Rhoads's function to convert a windows path to a MAC path (specifically for the Y drive aapdata Volume mount)
+#' @export
+#' @examples
+#' windows2macPath(path)
+windows2macPath <- function(path='Y:\\AA_Secured\\CVS\\2020\\2020 Plan Prep\\Aetna\\PDF Files for Sam\\Narrative Information'){
+  path <- gsub("\\\\", "/", path)
+  path <- gsub("Y\\:|Y\\:\\/", "/Volumes/aapdata/", path)
+  gsub("\\//", "/", path)
+}
+
 ###################################################################################################################################################
 
 
