@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # roxygen2::roxygenise(clean = TRUE)
-  system('git add -A && git commit -m "new functions added/edited"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited ON NEW JL MAC FROM MICHAEL... FIRST TIME USING IT TO PUBLISH srhoads PACKAGE!"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -7071,7 +7071,16 @@ catn <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append 
 }
 
 
-########################################################################################################################
+# 12122020 #######################################################################################################################
+#' A function to literally do nothing... just returns the identical object you fed it
+#'
+#' This function is to literally do nothing
+#' @export
+#' @examples 
+#' donothing(x)
+donothing <- function(x){
+  x
+}
 
 # 10232019 #######################################################################################################################
 #' A function to arrange a dataframe by fewest NAs first.
@@ -7079,9 +7088,10 @@ catn <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append 
 #' This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).
 #' @export
 #' @examples 
-#' arrange_by_na(d) 
-arrange_by_na <- function(d){
-  d %>% dplyr::arrange(rowSums(is.na(.)))
+#' arrange_by_na(d)
+arrange_by_na <- function(d, descending=F){
+  desc <- if(descending) donothing else dplyr::desc
+  d %>% dplyr::arrange(desc(rowSums(is.na(.))))
 }
 ########################################################################################################################
 

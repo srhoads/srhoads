@@ -4,11 +4,11 @@
 \alias{arrange_by_na}
 \title{A function to arrange a dataframe by fewest NAs first.}
 \usage{
-arrange_by_na(d)
+arrange_by_na(d, descending = F)
 }
 \description{
 This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).
 }
 \examples{
-arrange_by_na(d) 
+arrange_by_na(d)
 }
