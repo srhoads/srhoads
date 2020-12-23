@@ -4,7 +4,7 @@
 \alias{arrange_by_na}
 \title{A function to arrange a dataframe by fewest NAs first.}
 \usage{
-arrange_by_na(d, descending = F)
+arrange_by_na(d)
 }
 \description{
 This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).

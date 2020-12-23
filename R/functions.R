@@ -27,7 +27,7 @@ if("magrittr" %in% installed.packages()){
 ### --- R ---
 # redocument=F # redocument=T
 if(redocument <- F){
-  devtools::document() # roxygen2::roxygenise(clean = TRUE)
+  devtools::document() # {roxygen2::roxygenise(clean = TRUE)}
   system('git add -A && git commit -m "new functions added/edited ON NEW JL MAC FROM MICHAEL... FIRST TIME USING IT TO PUBLISH srhoads PACKAGE!"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
@@ -7089,9 +7089,15 @@ donothing <- function(x){
 #' @export
 #' @examples 
 #' arrange_by_na(d)
-arrange_by_na <- function(d, descending=F){
-  desc <- if(descending) donothing else dplyr::desc
-  d %>% dplyr::arrange(desc(rowSums(is.na(.))))
+arrange_by_na <- function (d) { d %>% dplyr::arrange(rowSums(is.na(.)))}
+
+
+#' Function to arrange a dataframe by MOST NAs first (at the top of the dataset/earliest rows).
+#' @export
+#' @examples {D <- data.frame(id=1:5, gender=c("F", "M", NA, "F", NA), race=c(3, 5, NA, 7, NA))}; arrange_by_na_desc(D); 
+#' arrange_by_na_desc(d)
+arrange_by_na_desc <- function(d){
+  d %>% dplyr::arrange(dplyr::desc(rowSums(is.na(.))))
 }
 ########################################################################################################################
 
@@ -8074,6 +8080,25 @@ set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", ch
   d %>% setNames(make.unique(names(.)))
 }
 
+#' Samantha Rhoads's function to assign column names by skipping the appropriate number of rows in a dataframe before the actual column names. Uses a reference name.
+#' @export
+#' @examples
+#' set_names_skip_rows_until_match_loop(d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F)
+set_names_skip_rows_until_match_loop <- function (d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F) {
+  for (PATTERN in patterns){ # {PATTERN = patterns[1]}
+    if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) & (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
+      colnames_rownum <- grep_all_df(PATTERN, d[1:check_n_rows, ], rownums_only = T, exact=exact)[1]
+      dNewNames <- make.unique(as.character(d[colnames_rownum, ])) %>% replace_na(., "NA.0")
+      if ((length(colnames_rownum) > 0)&!is.na(colnames_rownum)) {
+        d <- d %>% setNames(dNewNames) %>% slice(-(1:colnames_rownum))
+        catn("set_names_skip_rows_until_match_loop() names changed to: c(", paste0("'", names(d), "'", collapse=","), ")")
+      } else{
+        cat("\nset_names_skip_rows_until_match_loop() no match for... PATTERN = '", PATTERN, "'", sep="")
+      }
+    }
+  }
+  d %>% setNames(make.unique(names(.)))
+}
 
 #' Samantha Rhoads's function to unload packages
 #' @export
@@ -8105,6 +8130,41 @@ windows2macPath <- function(path='Y:\\AA_Secured\\CVS\\2020\\2020 Plan Prep\\Aet
   path <- gsub("\\\\", "/", path)
   path <- gsub("Y\\:|Y\\:\\/", "/Volumes/aapdata/", path)
   gsub("\\//", "/", path)
+}
+
+
+#' Samantha Rhoads's function to fuzzy-match (agrepl) a string to a dataframe column, returning a dataframe of matches with whichever other variables exist in the input dataframe
+#' @export
+#' @examples
+#' fuzzy_match_rank(s="Data Scientist", strictest_max_distance=0, seqstep=.01, df, dfvartocompare="job", stop_at_n_matches=Inf)
+fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqstep=.01, df, dfvartocompare="job", stop_at_n_matches=Inf){
+  df_copy <- df    # {s="samantha karlaina rhoads"; df=dfsampler(); dfvartocompare="name"; strictest_max_distance=0; seqstep=.01; stop_at_n_matches=5}
+  df_copy[["DFVAR_TO_COMPARE"]] <- df_copy[[dfvartocompare]]
+  
+  INDICATOR_STRINGS <- tolower(trimws(strip_punct(s, replacewith=" "))) %>% c(paste0("^", ., "$"), .)
+  MAX_DISTANCES <- unique(c(strictest_max_distance, seq(0, 1, seqstep)))
+  
+  matched_value <- tibble()
+  
+  for (INDICATOR_STRING in INDICATOR_STRINGS){     # {INDICATOR_STRING = INDICATOR_STRINGS[1]}
+    if(nrow(matched_value)<stop_at_n_matches){
+      # catn("INDICATOR_STRING=", INDICATOR_STRING)
+      for (MAX_DISTANCE in MAX_DISTANCES){         # {MAX_DISTANCE = MAX_DISTANCES[1]}
+        if(nrow(matched_value)<stop_at_n_matches){
+          # catn("MAX_DISTANCE=", MAX_DISTANCE)
+          
+          if(MAX_DISTANCE==0 & grepl("\\^.*\\$", INDICATOR_STRING)){
+            matched_value %<>% bind_rows(., dplyr::filter(df_copy, grepl(INDICATOR_STRING, DFVAR_TO_COMPARE, ignore.case=T)) %>% mutate(similarity = MAX_DISTANCE))
+            df_copy %<>% filter(., !grepl(INDICATOR_STRING, DFVAR_TO_COMPARE, ignore.case=T))
+          } else if(!grepl("\\^.*\\$", INDICATOR_STRING)){
+            matched_value %<>% bind_rows(., dplyr::filter(df_copy, agrepl(INDICATOR_STRING, DFVAR_TO_COMPARE, max.distance = c(all=MAX_DISTANCE))) %>% mutate(similarity = MAX_DISTANCE))
+            df_copy %<>% filter(., !agrepl(INDICATOR_STRING, DFVAR_TO_COMPARE, max.distance = list(all=MAX_DISTANCE)))
+          }
+        }
+      }
+    }
+  }
+  return(arrange(matched_value, similarity, nchar(DFVAR_TO_COMPARE)))
 }
 
 ###################################################################################################################################################
