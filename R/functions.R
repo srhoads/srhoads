@@ -17,10 +17,10 @@ if(installIfNeeded <- F){
   )
 }
 # --------------------------------------------
-if("magrittr" %in% installed.packages()){
-  `%>%` <- magrittr::`%>%`
-  `%<>%` <- magrittr::`%<>%`
-}
+# if("magrittr" %in% installed.packages()){
+#   `%>%` <- magrittr::`%>%`
+#   `%<>%` <- magrittr::`%<>%`
+# }
 ## HOW TO UPDATE LIBRARY:
 # --------------------------------------------
 
@@ -28,7 +28,7 @@ if("magrittr" %in% installed.packages()){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean = TRUE)}
-  system('git add -A && git commit -m "new functions added/edited ON NEW JL MAC FROM MICHAEL... FIRST TIME USING IT TO PUBLISH srhoads PACKAGE!"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited, including fuzzy matching agrepl and set names skip until match loop!"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -1326,8 +1326,8 @@ filter_duplicated <- function(d, var="id"){
 
 
 
-`%>%` <- magrittr::`%>%` 
-`%<>%` <- magrittr::`%<>%`
+# `%>%` <- magrittr::`%>%` 
+# `%<>%` <- magrittr::`%<>%`
 
 ## Loads pipes (`%>%` and `%<>%`) into R env
 #' A function

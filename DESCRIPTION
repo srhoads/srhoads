@@ -18,7 +18,8 @@ Imports:
     janitor,
     glue,
     ggmap,
-    shiny
+    shiny,
+    magrittr
 Depends: R (>= 3.4.4)
 License: I can't say it's licensed :/ 
 Encoding: UTF-8
