@@ -28,7 +28,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean = TRUE)}
-  system('git add -A && git commit -m "new functions added/edited, including fuzzy matching agrepl and set names skip until match loop!"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited; fixed some package structure issues, like making sure objects are actually defined as non-exported fxns"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -3358,41 +3358,44 @@ recode_race2 <- function(vec,
 }
 
 
-race_specific <- mapply(c, 
-                        (race_list_short <- lapply(race_list_short, sort)), 
-                        (extra_race_vals_list <- lapply(
-                          list("american indian or alaska native" = c("americanindianfemale", "americanindianfemale", "nativeamericanfemale", "nativeamericanmale"), 
-                               "asian" = c("asianfemale", "asianmale","femaleasian", "maleasian"), 
-                               "black or african american" = c("blackfemale", "blackmale","femaleblack", "maleblack", "blackman"), 
-                               "hispanic or latino" = c("hispanicfemale", "hispanicmale","femalehispanic", "malehispanic"), 
-                               "native hawaiian or other pacific islander" = c("nativehawaiianorotherpacificislanderfemale","nativehawaiianorotherpacificislandermale", "asianpacificisler"), 
-                               "white" = c("WHITE"), 
-                               "two or more races" = c("bnw", "wbh", "wbhn", "wbn", "nla", "bhn", "ash", "bh","otwos",
-                                                       "aw", "hn", "hw", "anh", "ahw", "aiw", "hb"), 
-                               "NA" = c("tals", "VALUE", "female", "male", "man", "woman", "w", "ww", "wm", "f"))
-                          , sort)), 
-                        SIMPLIFY=FALSE)
+race_specific <- function() {
+  mapply(c, 
+         (race_list_short <- lapply(race_list_short, sort)), 
+         (extra_race_vals_list <- lapply(
+           list("american indian or alaska native" = c("americanindianfemale", "americanindianfemale", "nativeamericanfemale", "nativeamericanmale"), 
+                "asian" = c("asianfemale", "asianmale","femaleasian", "maleasian"), 
+                "black or african american" = c("blackfemale", "blackmale","femaleblack", "maleblack", "blackman"), 
+                "hispanic or latino" = c("hispanicfemale", "hispanicmale","femalehispanic", "malehispanic"), 
+                "native hawaiian or other pacific islander" = c("nativehawaiianorotherpacificislanderfemale","nativehawaiianorotherpacificislandermale", "asianpacificisler"), 
+                "white" = c("WHITE"), 
+                "two or more races" = c("bnw", "wbh", "wbhn", "wbn", "nla", "bhn", "ash", "bh","otwos",
+                                        "aw", "hn", "hw", "anh", "ahw", "aiw", "hb"), 
+                "NA" = c("tals", "VALUE", "female", "male", "man", "woman", "w", "ww", "wm", "f"))
+           , sort)), 
+         SIMPLIFY=FALSE)
+}
 
+gender_specific <- function() {
+  mapply(c, 
+         (gender_list_short <- lapply(gender_list_short, sort)), 
+         (extra_gender_vals_list <- lapply(
+           list("male" = c("MALE", "man", "mannlich", "dude", "guy", "sir", "blackman"), 
+                "female" = c("FEMALE", "woman", "girl", "feminine", "women", "blackwoman"),
+                "NA" = c("tals", "VALUE", "black", "white", "asian","ormoreraces",
+                         "hispanicorlatino", "hispanic or latino","twoormoreraces","2ormoreraces",
+                         "black or african american", "blackorafricanamerican","nativehawaiianorpacificisler",
+                         "native hawaiian or other pacific islander", "nativehawaiianorotherpacificislander",
+                         "american indian or alaska native", "americanindianoralaskanative")), sort)), SIMPLIFY=FALSE)
+}
 
-gender_specific <- mapply(c, 
-                          (gender_list_short <- lapply(gender_list_short, sort)), 
-                          (extra_gender_vals_list <- lapply(
-                            list("male" = c("MALE", "man", "mannlich", "dude", "guy", "sir", "blackman"), 
-                                 "female" = c("FEMALE", "woman", "girl", "feminine", "women", "blackwoman"),
-                                 "NA" = c("tals", "VALUE", "black", "white", "asian","ormoreraces",
-                                          "hispanicorlatino", "hispanic or latino","twoormoreraces","2ormoreraces",
-                                          "black or african american", "blackorafricanamerican","nativehawaiianorpacificisler",
-                                          "native hawaiian or other pacific islander", "nativehawaiianorotherpacificislander",
-                                          "american indian or alaska native", "americanindianoralaskanative")), sort)), SIMPLIFY=FALSE)
-
-getridofgenderspecific_regex <- paste0(
+getridofgenderspecific_regex <- function(){ paste0(
   c(names(race_list_short[-length(race_list_short)]), 
     names(race_list_short[-length(race_list_short)]) %>% gsub(" ", "", ., perl = T), 
     unique(unlist(strsplit(names(race_list_short[-length(race_list_short)]), " ")))),
   collapse = "|"
-)
-getridofracespecific_regex <- paste0(c("male", "female", "woman", "^man$", "women", 
-                                       "regular"), collapse = "|")
+)}
+getridofracespecific_regex <- function() {paste0(c("male", "female", "woman", "^man$", "women", 
+                                       "regular"), collapse = "|")}
 
 #' A function
 #'
@@ -3401,10 +3404,10 @@ getridofracespecific_regex <- paste0(c("male", "female", "woman", "^man$", "wome
 #' @examples
 #' recode_gender_specific()
 recode_gender_specific <- function(vec, extra = NULL) {
-  vec <- recode_gender_j(vec, recode_list = gender_specific, extra = NULL)
+  vec <- recode_gender_j(vec, recode_list = gender_specific(), extra = NULL)
   # vec <- gsub("[^[:alpha:]]", "", vec, perl = T)
-  vec <- gsub(getridofgenderspecific_regex, "", vec, perl = T)
-  vec <- gsub(getridofgenderspecific_regex, "", vec, perl = T)
+  vec <- gsub(getridofgenderspecific_regex(), "", vec, perl = T)
+  vec <- gsub(getridofgenderspecific_regex(), "", vec, perl = T)
   vec <- gsub("^$", NA, vec, perl = T)
   vec
 }
@@ -3416,10 +3419,10 @@ recode_gender_specific <- function(vec, extra = NULL) {
 #' @examples
 #' recode_race_specific()
 recode_race_specific <- function(vec, extra = NULL) {
-  vec <- recode_race_j(vec, recode_list = race_specific, extra = NULL)
+  vec <- recode_race_j(vec, recode_list = race_specific(), extra = NULL)
   # vec <- gsub("[^[:alpha:]]", "", vec, perl = T)
-  vec <- gsub(getridofracespecific_regex, "", vec, perl = T)
-  vec <- gsub(getridofracespecific_regex, "", vec, perl = T)
+  vec <- gsub(getridofracespecific_regex(), "", vec, perl = T)
+  vec <- gsub(getridofracespecific_regex(), "", vec, perl = T)
   vec <- gsub("^$", NA, vec, perl = T)
   vec
 }
