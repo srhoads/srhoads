@@ -73,10 +73,10 @@ def pkg2(module, submodule = None, verbose=False):
         import_str = "import {0}".format(module)
     try: # https://stackoverflow.com/questions/8718885/import-module-from-string-variable
         exec(import_str)
-        if submodule is None: submodule =         if verbose print(module,' ', submodule, ' imported!') else None
+        submodule = '' if submodule is None else submodule
+        print(module,' ', submodule, ' imported!') if verbose else None
     except Exception as e:
-        print(e)
-        import os
+        print(e); import os
         try:
             os.system(str('pip install ' + module))
         except Exception:
@@ -99,13 +99,11 @@ def pkgs2(MODULES = [
             exec(import_str)
             print(ITEM[0],' ', ITEM[1:], ' imported!')
         except Exception as e:
-            print(e)
-            import os
+            print(e); import os
             try:
                 os.system(str('pip install ' + ITEM[0]))
             except Exception as e:
-                print(e)
-                import re
+                print(e); import re
                 module = re.sub('_', '-', ITEM[0])
                 os.system(str('pip install ' + ITEM[0]))
             exec(import_str)
@@ -162,17 +160,15 @@ if IMPORT_MODULES:
             ['imblearn', '*'],
             # ['', '*'],
             # ['', '*'],
-            # ['', '*'],
             # ['', '*']
             ])
         [exec(pkgImportString) for pkgImportString in pkgImportStrings]
     except Exception as e:
         print(e)
     try:
-    import feather
-    except Exception:
-    import os
-    os.system("pip3 install feather-format")
+        import feather
+    except Exception as e:
+        print('WILL INSTALL: feather-format'); import os; os.system("pip3 install feather-format")
     try:
         import feather
     except Exception as e:
@@ -298,9 +294,9 @@ def scores(model, x_test, y_test, cv=10, accuracy=True, auc_cv=True, accuracy_cv
 # head like in R
 #----------------------------------------------------------
 def head(x, n=5):
-    if len(x) < n: return(x[0:len(x)])
-    else: return x[0:n]
-
+    result = x[0:len(x)] if len(x) < n else x[0:n]
+    return(result)
+        
 # list files from dir path like list.files() in r
 #----------------------------------------------------------
 def list_files(path = "data", pattern = ".f"):
@@ -491,7 +487,7 @@ def frs_toxy_testtrain(path=None,filenames=None, x = "name", y = "gender", sampl
     xy = frs_toxy(path=path,filenames=filenames, x = x, y = y, sample = sample, dropna = dropna, both = both, justx = justx, justy = justy)
     return testtrain(xy = xy)
 
-def source(pyfile="functions.py"):
+def source_v1(pyfile="functions.py"):
     sourcedfile = open(pyfile)
     exec(sourcedfile.read())
 
@@ -540,6 +536,94 @@ def getdata(getdf=False, getstring=False, getnestedlist=False, getdict=False, ge
         return "this STRING has some spaces and 10-7 numbers"
     else:
         print("array", "dataframe", "nestedlist", "list", "dict", "string")
+
+
+
+# print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
+
+
+
+# read 1 feather file
+def read_feather(path):
+    from feather import read_dataframe
+    df = read_dataframe(path)
+    return df
+    
+# read 1 csv file
+def read_csv(path):
+    from pandas import read_csv
+    df = read_csv(path)
+    return df
+
+# read multiple feather files
+def read_feathers(filenames):
+    import pandas as pd
+    data = pd.concat([read_feather(file) for file in filenames])
+    print("You get a pandas dataframe with these dimensions!!!", data.shape)
+    return(data)
+
+# read multiple feather files
+def read_csvs(filenames):
+    import pandas as pd
+    data = pd.concat([read_csv(file) for file in filenames])
+    print("You get a pandas dataframe with these dimensions!!!", data.shape)
+    return(data)
+    
+# read feather files from a directory path
+def readfrs_fromdir(dir = "data"):
+    files = list_files(dir)
+    data = readfrs(files)
+    return data
+
+# clean features: lowercase, alpha characters, tokenize, vectorize...
+def clean_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
+    # from re import sub
+    import re
+    import numpy as np
+    features = [] # x = vec or string
+    if isinstance(x, list) or isinstance(x, np.ndarray):
+        for xi in x:
+            features.extend(clean_feature(xi, front=front, end=end))
+    else:
+        x = "".join([ c if (c.isalpha()) else " " for c in x.lower()])
+        features.append(" ".join(split_n(x, n=tokenize_by)))
+    if front:
+        features = ["33333FRONT33333" + feature for feature in features]
+    if fronteach:
+        features = [re.sub("  ", "  33333FRONT33333", str(feature)) for feature in features]          
+    if end:
+        features = [feature + "88888END88888" for feature in features]    
+    if endeach:
+        features = [re.sub("  ", "88888END88888  ", str(feature)) for feature in features]          
+    if firstlastonly:
+        features = [feature.split(" ")[-0] + " " + feature.split(" ")[-1] for feature in features]
+    features = [(re.sub("  33333FRONT3333388888END88888  ", " ", str(feature))) + " " + (re.sub("33333FRONT33333|88888END88888","", " ".join([word for word in feature.split(" ") if any(letter in word for letter in '33333FRONT33333|88888END88888')]))) for feature in features]
+    features = [re.sub("  ", " ", str(feature)) for feature in features]
+    return features
+
+
+# def checkup():
+#     print("working?")
+
+
+#### OTHER PPL'S FXNS FROM THE INTERNET:
+##******************************************************************************# 
+# lemmatizing text--making consistent tenses and word forms like run and running
+def lemmatize_stemming(text):
+    from nltk.stem import WordNetLemmatizer, SnowballStemmer
+    stemmer = nltk.stem.SnowballStemmer()
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+# not my own function--uses it's own thing to remove stopwords
+def preprocess(text):
+    from gensim.utils import simple_preprocess
+    from gensim.parsing.preprocessing import STOPWORDS
+    result = []
+    for token in gensim.utils.simple_preprocess(text):
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+    return result
+
 
 ## IMPORTS + FUNCTIONS FOR IMPORTS
 ##******************************************************************************
@@ -598,253 +682,6 @@ def import_nlp():
 
 
 
-## OTHER PPL'S FXNS FROM THE INTERNET:
-##******************************************************************************# lemmatizing text--making consistent tenses and word forms like run and running
-def lemmatize_stemming(text):
-    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
-
-# not my own function--uses it's own thing to remove stopwords
-def preprocess(text):
-    result = []
-    for token in gensim.utils.simple_preprocess(text):
-        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
-            result.append(lemmatize_stemming(token))
-    return result
-
-
-
-
-# print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
-
-
-
-# flatten a list--like dplyr::combine()
-def flatten(d):
-     v = [[i] if not isinstance(i, list) else flatten(i) for i in d]
-     return [i for b in v for i in b]
-     
-# head like in R
-def head(x, n=5):
-    if len(x) < n:
-        return(x[0:len(x)])
-    else:
-        return x[0:n]
-
-# list files from dir path like list.files() in r
-def list_files(path = "data", pattern = ".f"):
-    from os import listdir
-    from os.path import isfile, join
-    files = [path + "/" + f for f in listdir(path) if isfile(join(path, f))]
-    files = [file for file in files if pattern in file]
-    return files
-
-# read 1 feather file
-def read_feather(path):
-    from feather import read_dataframe
-    df = read_dataframe(path)
-    return df
-    
-# read 1 csv file
-def read_csv(path):
-    from pandas import read_csv
-    df = read_csv(path)
-    return df
-
-# read multiple feather files
-def read_feathers(filenames):
-    import pandas as pd
-    data = pd.concat([read_feather(file) for file in filenames])
-    print("You get a pandas dataframe with these dimensions!!!", data.shape)
-    return(data)
-
-# read multiple feather files
-def read_csvs(filenames):
-    import pandas as pd
-    data = pd.concat([read_csv(file) for file in filenames])
-    print("You get a pandas dataframe with these dimensions!!!", data.shape)
-    return(data)
-    
-# read feather files from a directory path
-def readfrs_fromdir(dir = "data"):
-    files = list_files(dir)
-    data = readfrs(files)
-    return data
-
-# turn a character variable/feature into numeric (ie: gender to binary 0/1)
-def char_to_num(vec):
-    return((vec.astype("category")).cat.codes)
-
-# not really sure... but split by some # of chars?
-def split_n(s, n=2):
-    return [s[idx:idx + n] for idx, val in enumerate(s) if idx%n == 0]
-
-# split n by 2 characters
-def two_split(s):
-    return split_n(s, 2)
-
-# clean features: lowercase, alpha characters, tokenize, vectorize...
-def clean_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
-    # from re import sub
-    import re
-    import numpy as np
-    features = [] # x = vec or string
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature(xi, front=front, end=end))
-    else:
-        x = "".join([ c if (c.isalpha()) else " " for c in x.lower()])
-        features.append(" ".join(split_n(x, n=tokenize_by)))
-    if front:
-        features = ["33333FRONT33333" + feature for feature in features]
-    if fronteach:
-        features = [re.sub("  ", "  33333FRONT33333", str(feature)) for feature in features]          
-    if end:
-        features = [feature + "88888END88888" for feature in features]    
-    if endeach:
-        features = [re.sub("  ", "88888END88888  ", str(feature)) for feature in features]          
-    if firstlastonly:
-        features = [feature.split(" ")[-0] + " " + feature.split(" ")[-1] for feature in features]
-    features = [(re.sub("  33333FRONT3333388888END88888  ", " ", str(feature))) + " " + (re.sub("33333FRONT33333|88888END88888","", " ".join([word for word in feature.split(" ") if any(letter in word for letter in '33333FRONT33333|88888END88888')]))) for feature in features]
-    features = [re.sub("  ", " ", str(feature)) for feature in features]
-    return features
-
-# flatten dataframe values i guess?
-def dflat(x): # x = pd.DataFrame
-    if not isinstance(x, list):
-        return(list(x.values.flatten()))
-    else:
-        return(x)
-
-def unlist(listofvecsofstrings):
-    v = [[i] if not isinstance(i, list) else flatten(i) for i in listofvecsofstrings]
-    return [i for b in v for i in b]
-
-
-# return just a formatted array of features
-def get_my_x(vec=None, df=None, xname = "name",max_features=None,front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, matrix=False, feature_names=False, justfit=False, sample=None, justvectorizer=False):
-    if sample is not None and df is not None:
-        df=df.sample(sample)
-    if df is not None:
-        vec = df[xname]
-    x = dflat(vec)
-    corpus = clean_feature(x, front=front, end=end, firstlastonly=firstlastonly)
-    from sklearn.feature_extraction.text import CountVectorizer
-    vectorizer = CountVectorizer(max_features=max_features)
-    X = vectorizer.fit(corpus)
-    if justfit:
-        return(X)
-    if justvectorizer:
-        return(vectorizer)
-    if feature_names:
-        return(X.get_feature_names())
-    else:
-        result = {
-            'X': X.transform(corpus).toarray(),
-            'transformer': lambda y: X.transform(clean_feature(y, front=front, end=end, firstlastonly=firstlastonly, endeach = endeach, fronteach = fronteach)).toarray()
-        }
-        if matrix:
-            return X.transform(corpus).toarray()
-        else:
-            return result
-
-
-# get x and y variables ready to go, from original dataframe
-def getxy(df, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False, feature_names=False, justfit=False,justvectorizer=False):
-    if sample is not None:
-        df = df.sample(sample)
-    if dropna:
-        df = (df[[x, y]]).dropna()
-    if justfit:
-        return get_my_x(vec=df[x],justfit=True, justvectorizer=justvectorizer)
-    if justx and not justy:
-        return (get_my_x(df[x], feature_names=feature_names, justfit=justfit))["X"]
-    if justy and not justx:
-        return (df[y].astype("category")).cat.codes
-    if justx and justy and not justfit:
-        result = {
-            'x': (get_my_x(df[x], feature_names=feature_names, justfit=justfit))["X"], 
-            'y': (df[y].astype("category")).cat.codes
-        }
-        print("getxy's x & y dict keys are:", result.keys())
-        return result
-    else:
-        result = {
-            'x': (get_my_x(df[x], feature_names=feature_names, justfit=justfit))["X"], 
-            'y': (df[y].astype("category")).cat.codes
-        }
-        print("getxy's x & y dict keys are:", result.keys())
-        return result
-
-# feather path dir or filenames input to get x and y for model
-def frs_toxy(path=None, filenames=None, data=None, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False,feature_names=False, justfit=False):
-    if filenames is not None:
-        data = readfrs(filenames)
-    elif data is not None:
-        data = data
-    else:
-        data = readfrs_fromdir(path)
-    result = getxy(data, x = x, y = y, sample = sample, dropna = dropna, both = both, justx = justx, justy = justy, feature_names=feature_names, justfit=justfit)
-    return result
-
-
-# read feather files and get test-train output
-def frs_toxy_testtrain(path=None,filenames=None, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False):
-    xy = frs_toxy(path=path,filenames=filenames, x = x, y = y, sample = sample, dropna = dropna, both = both, justx = justx, justy = justy)
-    return testtrain(xy = xy)
-
-def source(pyfile="functions.py"):
-    sourcedfile = open(pyfile)
-    exec(sourcedfile.read())
-
-# LDA output printed readably
-def print_lda_output(output):
-      for i in output:
-            print(i, "n\n")
-
-## practice+messy
-
-def testtrain(xy = None, x = None, y = None):
-    from sklearn.model_selection import train_test_split
-    if x is not None and y is not None:
-        x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, stratify = y)
-        result = {
-            'x_train': x_train, 
-            'x_test': x_test, 
-            'y_train': y_train, 
-            'y_test': y_test
-        }
-        print("test-train dict keys:", result.keys())
-        return result
-    else:
-        x_train, x_test, y_train, y_test = train_test_split(xy["x"], xy["y"], random_state=0, stratify = xy["y"])
-        result = {
-            'x_train': x_train, 
-            'x_test': x_test, 
-            'y_train': y_train, 
-            'y_test': y_test
-        }
-        print("test-train dict keys:", result.keys())
-        return result
-
-# def checkup():
-#     print("working?")
-
-
-
-
-##### OTHER PPL'S FXNS FROM THE INTERNET:
-# lemmatizing text--making consistent tenses and word forms like run and running
-def lemmatize_stemming(text):
-    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
-
-# not my own function--uses it's own thing to remove stopwords
-def preprocess(text):
-    result = []
-    for token in gensim.utils.simple_preprocess(text):
-        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
-            result.append(lemmatize_stemming(token))
-    return result
-
 
 # print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
 
@@ -868,8 +705,6 @@ def no_split(s):
     return [s[idx:idx + 25] for idx, val in enumerate(s) if idx%25 == 0]
 def one_split(s):
     return [s[idx:idx + 1] for idx, val in enumerate(s) if idx%1 == 0]
-def two_split(s):
-    return [s[idx:idx + 2] for idx, val in enumerate(s) if idx%2 == 0]
 def three_split(s):
     return [s[idx:idx + 3] for idx, val in enumerate(s) if idx%3 == 0]
 def four_split(s):
@@ -1129,7 +964,7 @@ def get_my_x_1234split(x, front=False, end=False, matrix=True):
 # nrg_nona = nrg4.dropna(subset=["firstname3", "lastname3", "race_binary"])
       
 # xformer = get_my_x_1122split(nrg_nona['name12_first_space_last'], front=True, end=True, matrix = False)
-def predict_race(x):
+def predict_race(x, model, xformer):
     prediction = float(model.predict(xformer(x)))
     if prediction == 0.0:
         return "Minority"
@@ -1142,7 +977,7 @@ def predict_race(x):
 # nrg_nona = nrg4.dropna(subset=["firstname3", "gender_num"])
     
 # xformer = get_my_x_1122split(nrg_nona['name12_first_space_last'], front=True, end=True, matrix = False)
-def predict_gender(x):
+def predict_gender(x, model, xformer):
     prediction = float(model.predict(xformer(x)))
     if prediction == 0.0:
         return "Female"
