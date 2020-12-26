@@ -1,24 +1,44 @@
 ##******************************************************************************
-###### ways of importing py files/reloading them #### import functions.py file to get ur defs (works for reimporting too)
-##----------------------------------------------------------
+######--------ways of importing py files/reloading them #### import functions.py file to get ur defs (works for reimporting too)--------######
 # functions = (open('functions.py').read()); exec(functions.read())
-### or full path... ##----------------------------------------------------------
+###----or full path...----------------------------------------------------------------------
 # functions = open('Users/srhoads/GitHub/namegender/functions.py'); exec(functions.read())
+###----or from raw github url:--------------------------------------------------------------
+# import urllib.request; exec(urllib.request.urlopen('https://raw.githubusercontent.com/srhoads/srhoads/master/python/functions.py').read())
 ##******************************************************************************
-import os 
+try: # Set `IMPORT_MODULES=True` if you want to load a bunch of libraries relevant to the functions in this file... otherwise, it defaults to `IMPORT_MODULES=False`
+    IMPORT_MODULES
+except:
+    IMPORT_MODULES = False
+
+import os # auto-importing os bc it's so ubiquitous
+#---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def pipInstall(pkg):
   import os
   os.system("pip3 install " + pkg)
-''
 
 def pipUpgrade(pkg):
   import os
   os.system("pip3 install --upgrade " + pkg)
-''
 
-
-def pkg(module='uszipcode', submodule=None):
+def pkg(package, via = "pip"):
+    from pip._internal import main
+    from os import system
+    try: return __import__(package)
+    except ImportError: 
+        try:
+            if via == "pip":
+                try:
+                    main(['install', '--user', package]) 
+                except EnvironmentError:
+                    system('python3 -m pip install ' + package + " / y")
+            if via == "conda":
+                system('conda install ' + package)
+        except:
+            print("Sorry kid... can't install this guy")
+            
+def pkg_v1(module='uszipcode', submodule=None):
     justModule = module
     if submodule is not None:
         module = module + '.' + submodule
@@ -44,18 +64,16 @@ def pkg(module='uszipcode', submodule=None):
             justModule = re.sub('_', '-', justModule)
             os.system(str('pip install ' + justModule))
         mod = importlib.import_module(module)
-        globals().update(mod.__dict__) # except ModuleNotFoundError:#     import os#     mod = importlib.import_module(module)#     globals().update(mod.__dict__)  
-''
+        globals().update(mod.__dict__) # except ModuleNotFoundError:#     import os#     mod = importlib.import_module(module)#     globals().update(mod.__dict__)      
 
-def pkg2(module, submodule = None):
+def pkg2(module, submodule = None, verbose=False):
     if submodule is not None:
         import_str = "from {0} import {1}".format(module,', '.join([submodule]))
     else:
         import_str = "import {0}".format(module)
     try: # https://stackoverflow.com/questions/8718885/import-module-from-string-variable
         exec(import_str)
-        if submodule is None: submodule = ''
-        print(module,' ', submodule, ' imported!')
+        if submodule is None: submodule =         if verbose print(module,' ', submodule, ' imported!') else None
     except Exception as e:
         print(e)
         import os
@@ -66,15 +84,12 @@ def pkg2(module, submodule = None):
             module = re.sub('_', '-', module)
             os.system(str('pip install ' + module))
         exec(import_str)
-        if submodule is None: submodule = ''
-        print(module,' ', submodule, ' imported!')
+        if submodule is None: submodule =         print(module,' ', submodule, ' imported!')
     if type(import_str) is not str:
         return(import_str[0])
     else:
         return(import_str)
-''
 
-    
 def pkgs2(MODULES = [
     ['itertools','combinations'],
     ]):
@@ -100,7 +115,7 @@ def pkgs2(MODULES = [
         import_str = "from {0} import {1}".format(ITEM[0],', '.join(str(i) for i in ITEM[1:]))
         import_strs.append(import_str)
     return import_strs
-''
+
 def load_pkgs2(MODULES = [
     ['itertools','combinations'],
     ]):
@@ -111,8 +126,6 @@ def load_pkgs2(MODULES = [
         print(ITEM[0],' ', ITEM[1:], ' imported!')
         import_strs.append(import_str)
     return import_strs
-''
-
 
 def source_global():
     try: exec(open('global.py').read()); print("Try 1 success")
@@ -139,91 +152,98 @@ def source(file):
                         except: print("Can't load file...")
                 
 #================================================================================================================= 
-# IMPORTS!
-try:
-    pkgImportStrings = pkgs2(MODULES = [
-        ['matplotlib', '*'],
-        ['sklearn', '*'],
-        ['tpot', '*'],
-        ['imblearn', '*'],
-        # ['', '*'],
-        # ['', '*'],
-        # ['', '*'],
-        # ['', '*']
-        ])
-    [exec(pkgImportString) for pkgImportString in pkgImportStrings]
-except Exception as e:
-    print(e)
-''
-
-# try:
-#     exec(pkgs2([['feather_format', '*']])[0])
-# except Exception:
-#     None
-# ''
-
-try:
-  import feather
-except Exception:
-  import os
-  os.system("pip3 install feather-format")
-  try:
+if IMPORT_MODULES:
+    # IMPORTS!
+    try:
+        pkgImportStrings = pkgs2(MODULES = [
+            ['matplotlib', '*'],
+            ['sklearn', '*'],
+            ['tpot', '*'],
+            ['imblearn', '*'],
+            # ['', '*'],
+            # ['', '*'],
+            # ['', '*'],
+            # ['', '*']
+            ])
+        [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+    except Exception as e:
+        print(e)
+    try:
     import feather
-  except Exception as e:
-    print(e)
-''
+    except Exception:
+    import os
+    os.system("pip3 install feather-format")
+    try:
+        import feather
+    except Exception as e:
+        print(e)
+    import matplotlib.pyplot as plt
+    from sklearn.ensemble import RandomForestClassifier, ExtraTreesClassifier, AdaBoostClassifier, BaggingClassifier
+    from sklearn.naive_bayes import GaussianNB, MultinomialNB
+    from sklearn.discriminant_analysis import LinearDiscriminantAnalysis, QuadraticDiscriminantAnalysis
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.tree import DecisionTreeClassifier
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.svm import SVC
+    from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 
+    from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, TfidfTransformer
+    from sklearn.metrics import confusion_matrix, accuracy_score
+    from sklearn.feature_selection import VarianceThreshold
+    from sklearn.pipeline import Pipeline
+    from sklearn.linear_model import LinearRegression
+    from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV, RandomizedSearchCV   # from sklearn import model_selection
+    from sklearn.datasets import make_classification, load_digits
+    from sklearn.decomposition import LatentDirichletAllocation
 
-import matplotlib.pyplot as plt
-from sklearn import model_selection
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, BaggingClassifier
-from sklearn.naive_bayes import GaussianNB, MultinomialNB
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.svm import SVC
-from sklearn.multiclass import OneVsRestClassifier
-from tpot import TPOTClassifier
-from imblearn.ensemble import EasyEnsembleClassifier
+    from tpot import TPOTClassifier
+    from imblearn.ensemble import EasyEnsembleClassifier
 
-#=================================================================================================================
-# https://towardsdatascience.com/how-to-customize-jupyterlab-keyboard-shortcuts-72321f73753d
-
-# def pkg(package, via = "pip"):
-#     from pip._internal import main
-#     from os import system
-#     try: return __import__(package)
-#     except ImportError: 
-#         try:
-#             if via == "pip":
-#                 main(['install', '--user', package]) 
-#             if via == "conda":
-#                 system('python3 conda install ' + package)
-#         except:
-#             print("Sorry kid... can't install this guy")
-# pkg("yapf")
-def pkg(package, via = "pip"):
-    from pip._internal import main
-    from os import system
-    try: return __import__(package)
-    except ImportError: 
+    import numpy as np
+    import pandas as pd
+    import patsy as ps
+    import re
+    import time
+    from time import time
+    import pickle
+    import mglearn
+    from scipy.stats import randint as sp_randint
+    try:
+        from xgboost import XGBClassifier
+    except Exception as e:
+        # print(e); os.system("brew install libomp")
+        os.system("pip3 install xgboost")
         try:
-            if via == "pip":
-                try:
-                    main(['install', '--user', package]) 
-                except EnvironmentError:
-#                     system('python3 -m pip install ' + package + " / y")
-                    system('python3 -m pip install ' + package + " / y")
-            if via == "conda":
-                system('conda install ' + package)
-        except:
-            print("Sorry kid... can't install this guy")
-            
-    
-
+            from xgboost import XGBClassifier
+        except Exception as e:
+            "xgboost.XGBClassifier not loading correctly, sadly :("
+    try:
+        pkgImportStrings = pkgs2(MODULES = [
+        ['numpy', '*'],
+        ['pandas', '*'],
+        ['patsy', '*'],
+        ['re', '*'],
+        ['time', '*'],
+        ['pickle', '*'],
+        ['mglearn', '*'],
+        ['scipy', '*'],
+        ['os', '*'],
+        ['pickle', '*'],
+        ])
+        [exec(pkgImportString) for pkgImportString in pkgImportStrings]
+    except Exception as e:
+        print(e)
+    # WRITING FILES #---------------------------------------------------
+    import pickle
+    #pickle.dump(model, open('/Users/srhoads/Documents/GitHub/name_race_gender/model/gendermodel_97.6%.sav', 'wb'))
+    import feather
+    #feather.write_dataframe(pd.DataFrame(X), "/Users/srhoads/Documents/GitHub/name_race_gender/model/X_gendermodel_97.6%.feather")
+    #feather.write_dataframe(pd.DataFrame(y), "/Users/srhoads/Documents/GitHub/name_race_gender/model/y_gendermodel_97.6%.feather")
+    #feather.write_dataframe(pd.DataFrame(nrg_nona['name12_first_space_last']), "/Users/srhoads/Documents/GitHub/name_race_gender/model/corpus_gendermodel_97.6%.feather")          
+    # LOADING FILES #---------------------------------------------------
+    # load pickle: model = pickle.load(open('/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.sav', 'rb'))
+    # load feather: X = feather.read_dataframe("/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.feather")
+    # (nrg4 = nrg.sample(3000)); (nrg4 = nrg)
 
 #=================================================================================================================
 
@@ -249,11 +269,6 @@ def gridbest(gs):
 def gsreports(gs):
     print(gridbest(gs))
     print("\n", report(gs.cv_results_), "\n")
-
-# def dim(x):
-#     import pandas as pd
-#     if isinstance(x, pd.DataFrame): return x.shape
-#     else: return len(x)
 
 def dim(x): return x.shape
 
@@ -336,14 +351,6 @@ def readfrs_writecsvs_encoded(x, pattern = ".f", to_numeric = 'gender'):
         frdata.to_csv(newname)
         print(newname)
 
-
-# # read feather files from a directory path
-# #----------------------------------------------------------
-# def readfrs_fromdir(dir = "data"):
-#     files = list_files(dir)
-#     data = readfrs(files)
-#     return data
-
 # turn a character variable/feature into numeric (ie: gender to binary 0/1)
 #----------------------------------------------------------
 def char_to_num(vec): return((vec.astype("category")).cat.codes)
@@ -377,34 +384,6 @@ def strsplit(x, by = " ", unlist=False):
 def pdd(m):
     import pandas as pd
     return pd.DataFrame(m)
-
-
-# clean features: lowercase, alpha characters, tokenize, vectorize...
-#----------------------------------------------------------
-# def clean_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
-#     import re
-#     import numpy as np
-#     features = [] # x = vec or string
-#     if isinstance(x, list) or isinstance(x, np.ndarray):
-#         for xi in x:
-#             features.extend(clean_feature(xi, front=front, end=end))
-#     else:
-#         x = "".join([ c if (c.isalpha()) else " " for c in x.lower()])
-#         features.append(" ".join(split_n(x, n=tokenize_by)))
-#     if front:
-#         features = ["FRONT011one01" + feature for feature in features]
-#     if fronteach:
-#         features = [re.sub("  ", "  FRONT011one01", str(feature)) for feature in features]          
-#     if end:
-#         features = [feature + "END011one01" for feature in features]    
-#     if endeach:
-#         features = [re.sub("  ", "END011one01  ", str(feature)) for feature in features]          
-#     if firstlastonly:
-#         features = [feature.split(" ")[-0] + " " + feature.split(" ")[-1] for feature in features]
-#     features = [(re.sub("  FRONT011one01END011one01  ", " ", str(feature))) + " " + (re.sub("FRONT011one01|END011one01","", " ".join([word for word in feature.split(" ") if any(letter in word for letter in 'FRONT011one01|END011one01')]))) for feature in features]
-#     features = [re.sub("  ", " ", str(feature)) for feature in features]
-#     return features
-
 
 def clean_tokenize_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
     import re
@@ -635,39 +614,9 @@ def preprocess(text):
 
 
 
+# print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
-
-
-
-
-
-
-# from gensim.corpora.dictionary import Dictionary
-# from gensim.models.ldamodel import LdaModel
-# from gensim.models import Word2Vec
-# from sklearn.feature_extraction.text import CountVectorizer
-# import collections
-# import pandas as pd
-# import matplotlib.pyplot as plt
-
-
-# import sys
-# sys.path.append('/Users/srhoads/GitHub/namegender')
-# from functions_test import *
 
 # flatten a list--like dplyr::combine()
 def flatten(d):
@@ -733,10 +682,6 @@ def split_n(s, n=2):
 def two_split(s):
     return split_n(s, 2)
 
-# # split by n # of characters (like two_split but ambiguous)
-# def tokenize_by_n(s, n=2):
-#     return split_n(s, n)
-
 # clean features: lowercase, alpha characters, tokenize, vectorize...
 def clean_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
     # from re import sub
@@ -776,21 +721,6 @@ def unlist(listofvecsofstrings):
 
 
 # return just a formatted array of features
-# def get_my_x(x, front=False, end=False, firstlastonly=False, matrix=False):
-#     x = dflat(x)
-#     corpus = clean_feature(x, front=front, end=end, firstlastonly=firstlastonly)
-#     from sklearn.feature_extraction.text import CountVectorizer
-#     vectorizer = CountVectorizer()
-#     X = vectorizer.fit(corpus)
-#     result = {
-#         'X': X.transform(corpus).toarray(),
-#         'transformer': lambda y: X.transform(clean_feature(y, front=front, end=end, firstlastonly=firstlastonly)).toarray()
-#     }
-#     if matrix:
-#         return X.transform(corpus).toarray()
-#     else:
-#         return result
-
 def get_my_x(vec=None, df=None, xname = "name",max_features=None,front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, matrix=False, feature_names=False, justfit=False, sample=None, justvectorizer=False):
     if sample is not None and df is not None:
         df=df.sample(sample)
@@ -819,30 +749,6 @@ def get_my_x(vec=None, df=None, xname = "name",max_features=None,front=True, end
 
 
 # get x and y variables ready to go, from original dataframe
-# def getxy(df, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False):
-#     if sample is not None:
-#         df = df.sample(sample)
-#     if dropna:
-#         df = (df[[x, y]]).dropna()
-#     if justx and not justy:
-#         return (get_my_x(df[x]))["X"]
-#     if justy and not justx:
-#         return (df[y].astype("category")).cat.codes
-#     if justx and justy:
-#         result = {
-#             'x': (get_my_x(df[x]))["X"], 
-#             'y': (df[y].astype("category")).cat.codes
-#         }
-#         print("getxy's x & y dict keys are:", result.keys())
-#         return result
-#     else:
-#         result = {
-#             'x': (get_my_x(df[x]))["X"], 
-#             'y': (df[y].astype("category")).cat.codes
-#         }
-#         print("getxy's x & y dict keys are:", result.keys())
-#         return result
-
 def getxy(df, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False, feature_names=False, justfit=False,justvectorizer=False):
     if sample is not None:
         df = df.sample(sample)
@@ -880,21 +786,6 @@ def frs_toxy(path=None, filenames=None, data=None, x = "name", y = "gender", sam
     result = getxy(data, x = x, y = y, sample = sample, dropna = dropna, both = both, justx = justx, justy = justy, feature_names=feature_names, justfit=justfit)
     return result
 
-# test-train split from xy output of frs_toxy
-# def testtrain(xy = None, x = None, y = None):
-#     from sklearn.model_selection import train_test_split
-#     if x is not None and y is not None:
-#         x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, stratify = y)
-#         result = [
-#             x_train, x_test, y_train, y_test
-#         ]
-#         return result
-#     else:
-#         x_train, x_test, y_train, y_test = train_test_split(xy["x"], xy["y"], random_state=0, stratify = xy["y"])
-#         result = [
-#             x_train, x_test, y_train, y_test
-#         ]
-#         return result
 
 # read feather files and get test-train output
 def frs_toxy_testtrain(path=None,filenames=None, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False):
@@ -909,21 +800,6 @@ def source(pyfile="functions.py"):
 def print_lda_output(output):
       for i in output:
             print(i, "n\n")
-# ways of importing py files/reloading them
-
-## import:
-# from functions import *
-
-## reimport/reload:
-# import importlib
-# import functions
-# importlib.reload(functions)
-# from functions import *
-
-## import functions.py file to get ur defs (works for reimporting too)
-# functions = open('functions.py')
-# exec(functions.read())
-
 
 ## practice+messy
 
@@ -970,147 +846,17 @@ def preprocess(text):
     return result
 
 
-
-
-# from gensim.corpora.dictionary import Dictionary
-# from gensim.models.ldamodel import LdaModel
-
-
-# import gensim
-# from gensim.utils import simple_preprocess
-# from gensim.parsing.preprocessing import STOPWORDS
-# from nltk.stem import WordNetLemmatizer, SnowballStemmer
-# from nltk.stem.porter import *
-# import numpy as np
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # print("If u see this message, CONGRATS! You imported the most updated version of the functions file WEE")
 
 
 
 
+#======# print("below=way f-ing old ugh") #========================================================================================================================================================================================================
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-print("below=way f-ing old ugh")
-
-
-
-try:
-    pkgImportStrings = pkgs2(MODULES = [
-    ['numpy', '*'],
-    ['pandas', '*'],
-    ['patsy', '*'],
-    ['re', '*'],
-    ['time', '*'],
-    ['pickle', '*'],
-    ['mglearn', '*'],
-    # ['xgboost', '*'],
-    ['scipy', '*'],
-    ['os', '*'],
-    ['pickle', '*'],
-    ])
-    [exec(pkgImportString) for pkgImportString in pkgImportStrings]
-except Exception as e:
-    print(e)
-''
-
-
-
-
-
-#nrg4 = nrg.sample(3000)
-#nrg4 = nrg
-import numpy as np
-import pandas as pd
-import patsy as ps
-import re
-import time
-from time import time
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.metrics import confusion_matrix
-from sklearn.feature_selection import VarianceThreshold
-import pickle
-import mglearn
-import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.datasets import make_classification
-from sklearn.model_selection import cross_val_score
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from sklearn.decomposition import LatentDirichletAllocation
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from scipy.stats import randint as sp_randint
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import RandomizedSearchCV
-from sklearn.datasets import load_digits
-from sklearn.ensemble import RandomForestClassifier
-
-try:
-    from xgboost import XGBClassifier
-except Exception as e:
-    # print(e)
-    # os.system("brew install libomp")
-    os.system("pip3 install xgboost")
-    try:
-        from xgboost import XGBClassifier
-    except Exception as e:
-        "xgboost.XGBClassifier not loading correctly, sadly :("
-''
-
-# WRITING FILES
-import pickle
-#pickle.dump(model, open('/Users/srhoads/Documents/GitHub/name_race_gender/model/gendermodel_97.6%.sav', 'wb'))
-import feather
-#feather.write_dataframe(pd.DataFrame(X), "/Users/srhoads/Documents/GitHub/name_race_gender/model/X_gendermodel_97.6%.feather")
-#feather.write_dataframe(pd.DataFrame(y), "/Users/srhoads/Documents/GitHub/name_race_gender/model/y_gendermodel_97.6%.feather")
-#feather.write_dataframe(pd.DataFrame(nrg_nona['name12_first_space_last']), "/Users/srhoads/Documents/GitHub/name_race_gender/model/corpus_gendermodel_97.6%.feather")          
-# LOADING FILES
-# load pickle: model = pickle.load(open('/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.sav', 'rb'))
-# load feather: X = feather.read_dataframe("/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.feather")
 
 def space_split(s):
     splits = []
@@ -1404,7 +1150,23 @@ def predict_gender(x):
         return "Male"
     else:
         return "Ambiguous or Androgynous" 
-  
+
+
+
+#===================== DUBIOUS INSTRUCTIONAL STUFF ==============================================================================================================================================
+
+# ways of importing py files/reloading them
+## import:
+# from functions import *
+## reimport/reload:
+# import importlib
+# import functions
+# importlib.reload(functions)
+# from functions import *
+## import functions.py file to get ur defs (works for reimporting too)
+# functions = open('functions.py')
+# exec(functions.read())
+
 # LOADING FILES
 # import pickle
 # import feather
@@ -1419,3 +1181,133 @@ def predict_gender(x):
 #feather.write_dataframe(pd.DataFrame(y), "/Users/srhoads/Documents/GitHub/name_race_gender/model/y_gendermodel_97.6%.feather")
 #feather.write_dataframe(pd.DataFrame(nrg_nona['name12_first_space_last']), "/Users/srhoads/Documents/GitHub/name_race_gender/model/corpus_gendermodel_97.6%.feather")
 
+
+
+
+
+#===================== UNNECESSARY/OLD/MISCELLANEOUS ==============================================================================================================================================
+
+# # split by n # of characters (like two_split but ambiguous)
+# def tokenize_by_n(s, n=2):
+#     return split_n(s, n)
+
+# import gensim
+# from gensim.corpora.dictionary import Dictionary
+# from gensim.models import Word2Vec
+# from gensim.models.ldamodel import LdaModel
+# from gensim.utils import simple_preprocess
+# from gensim.parsing.preprocessing import STOPWORDS
+# import collections
+# from nltk.stem import WordNetLemmatizer, SnowballStemmer
+# from nltk.stem.porter import *
+
+# import sys
+# sys.path.append('/Users/srhoads/GitHub/namegender')
+# from functions_test import *
+
+# try:
+#     exec(pkgs2([['feather_format', '*']])[0])
+# except Exception:
+#     None
+
+# https://towardsdatascience.com/how-to-customize-jupyterlab-keyboard-shortcuts-72321f73753d
+
+# def pkg(package, via = "pip"):
+#     from pip._internal import main
+#     from os import system
+#     try: return __import__(package)
+#     except ImportError: 
+#         try:
+#             if via == "pip":
+#                 main(['install', '--user', package]) 
+#             if via == "conda":
+#                 system('python3 conda install ' + package)
+#         except:
+#             print("Sorry kid... can't install this guy")
+# pkg("yapf")
+
+# def dim(x):
+#     import pandas as pd
+#     if isinstance(x, pd.DataFrame): return x.shape
+#     else: return len(x)
+
+# def getxy(df, x = "name", y = "gender", sample = None, dropna = True, both = True, justx = False, justy = False):
+#     if sample is not None:
+#         df = df.sample(sample)
+#     if dropna:
+#         df = (df[[x, y]]).dropna()
+#     if justx and not justy:
+#         return (get_my_x(df[x]))["X"]
+#     if justy and not justx:
+#         return (df[y].astype("category")).cat.codes
+#     if justx and justy:
+#         result = {
+#             'x': (get_my_x(df[x]))["X"], 
+#             'y': (df[y].astype("category")).cat.codes
+#         }
+#         print("getxy's x & y dict keys are:", result.keys())
+#         return result
+#     else:
+#         result = {
+#             'x': (get_my_x(df[x]))["X"], 
+#             'y': (df[y].astype("category")).cat.codes
+#         }
+#         print("getxy's x & y dict keys are:", result.keys())
+#         return result
+
+# test-train split from xy output of frs_toxy
+# def testtrain(xy = None, x = None, y = None):
+#     from sklearn.model_selection import train_test_split
+#     if x is not None and y is not None:
+#         x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, stratify = y)
+#         result = [
+#             x_train, x_test, y_train, y_test
+#         ]
+#         return result
+#     else:
+#         x_train, x_test, y_train, y_test = train_test_split(xy["x"], xy["y"], random_state=0, stratify = xy["y"])
+#         result = [
+#             x_train, x_test, y_train, y_test
+#         ]
+#         return result
+
+# def get_my_x(x, front=False, end=False, firstlastonly=False, matrix=False):
+#     x = dflat(x)
+#     corpus = clean_feature(x, front=front, end=end, firstlastonly=firstlastonly)
+#     from sklearn.feature_extraction.text import CountVectorizer
+#     vectorizer = CountVectorizer()
+#     X = vectorizer.fit(corpus)
+#     result = {
+#         'X': X.transform(corpus).toarray(),
+#         'transformer': lambda y: X.transform(clean_feature(y, front=front, end=end, firstlastonly=firstlastonly)).toarray()
+#     }
+#     if matrix:
+#         return X.transform(corpus).toarray()
+#     else:
+#         return result
+
+# clean features: lowercase, alpha characters, tokenize, vectorize...
+#----------------------------------------------------------
+# def clean_feature(x, front=True, end=True, firstlastonly=False, endeach = True, fronteach = True, tokenize_by=2):
+#     import re
+#     import numpy as np
+#     features = [] # x = vec or string
+#     if isinstance(x, list) or isinstance(x, np.ndarray):
+#         for xi in x:
+#             features.extend(clean_feature(xi, front=front, end=end))
+#     else:
+#         x = "".join([ c if (c.isalpha()) else " " for c in x.lower()])
+#         features.append(" ".join(split_n(x, n=tokenize_by)))
+#     if front:
+#         features = ["FRONT011one01" + feature for feature in features]
+#     if fronteach:
+#         features = [re.sub("  ", "  FRONT011one01", str(feature)) for feature in features]          
+#     if end:
+#         features = [feature + "END011one01" for feature in features]    
+#     if endeach:
+#         features = [re.sub("  ", "END011one01  ", str(feature)) for feature in features]          
+#     if firstlastonly:
+#         features = [feature.split(" ")[-0] + " " + feature.split(" ")[-1] for feature in features]
+#     features = [(re.sub("  FRONT011one01END011one01  ", " ", str(feature))) + " " + (re.sub("FRONT011one01|END011one01","", " ".join([word for word in feature.split(" ") if any(letter in word for letter in 'FRONT011one01|END011one01')]))) for feature in features]
+#     features = [re.sub("  ", " ", str(feature)) for feature in features]
+#     return features
