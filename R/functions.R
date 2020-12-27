@@ -28,7 +28,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean = TRUE)}
-  system('git add -A && git commit -m "new functions added/edited; fixed some package structure issues, like making sure objects are actually defined as non-exported fxns"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions added/edited: df_get_preferred_column(), try_read_excel_somesheets"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -8170,6 +8170,47 @@ fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqst
   return(arrange(matched_value, similarity, nchar(DFVAR_TO_COMPARE)))
 }
 
+#' Samantha Rhoads's function to get relevant, preferred, desired column from dataframe on a loop
+#' @export
+#' @examples
+#' df_get_preferred_column(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F)
+df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F){
+    newcolname <- c()
+    for (pattern in patterns){ # {pattern = patterns[1]}
+        if (length(newcolname)==0){
+            if(exactEnd){
+                pattern <- paste0(pattern, "$")
+            }
+            if(exactStart){
+                pattern <- paste0("^", pattern)
+            }
+            newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
+        }
+    }
+    if(returnNameOnly){
+        dfdesiredcolumn <- newcolname[[1]]
+    } else {
+        dfdesiredcolumn <- if(length(newcolname)==0){fillmissingwith} else {df[[newcolname[[1]]]]}  #[fillmissingwith]*len(xls) if len(newcolname)==0 else xls[newcolname[0]]
+    }
+    dfdesiredcolumn
+}
+
+
+#' Samantha Rhoads's function to trycatch reading excel data from a file or list of files
+#' @export
+#' @examples
+#' try_read_excel_somesheets(fns = NULL, keepshtvec = NULL, na = c("NA", "None", "N/A", "-", ""), col_types = "text", skip = 0)
+try_read_excel_somesheets <- function (fns = NULL, keepshtvec = NULL, na = c("NA", "None", "N/A", "-", ""), col_types = "text", skip = 0) {
+  if (is.null(fns)) (fns <- list.files(pattern = "\\.xlsx", recursive = T, full.names = T))
+  if (is.null(keepshtvec)) keepshtvec <- lapply(fns, function(v) tryCatch(readxl::excel_sheets(v), error=function(e) 'ERROR')) %>% unlist() %>% unique()
+  (fnshtlst <- lapply(fns, function(s) tryCatch(readxl::excel_sheets(s), error=function(e) paste0("ERROR ", as.character(e)))) %>%  setNames(fns))
+  (keepshts <- lapply(fnshtlst, function(v) v[(v %in% keepshtvec) == T]))
+  lapply(1:length(keepshts), function(i) {
+    f <- names(keepshts[i])
+    shts <- keepshts[[i]]
+    (d <- lapply(shts, function(sht) tryCatch(readxl::read_excel(f, sheet = sht, skip = skip, na = na, col_types = col_types), error=function(e) tibble(ERROR = f))) %>% setNames(shts))
+  }) %>% setNames(fns)
+}
 ###################################################################################################################################################
 
 
