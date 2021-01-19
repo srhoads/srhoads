@@ -6543,7 +6543,7 @@ mutate_listname_to_lod_column <- function(LoD, new_colname_for_listname="LISTNAM
   LoD %>%
     {
       L <- .
-      L <- map(1:length(L), function(i){ # i <- 1
+      L <- purrr::map(1:length(L), function(i){ # i <- 1
         LISTNAME <- names(L)[i]
         L[[i]][[new_colname_for_listname]] <- LISTNAME
         L[[i]]
@@ -7463,6 +7463,24 @@ fillr <- function(df2, ID='ID'){
   # dplyr::distinct(df2)
 }
 
+#' Samantha Rhoads's function fillr2
+#' @export
+#' @examples
+#' fillr2()
+fillr2 <- function(df2, ID='ID'){
+  DATE_COLUMN_NAMES <- df2 %>% select_if(is.Date.class) %>% names()
+  df2 %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), as.character)
+  df2 <- na_if_(df2)
+  df2[['var']] <- df2[[ID]]
+  df2 %<>% dplyr::group_by(var) %>%
+    tidyr::fill(-var) %>%
+    tidyr::fill(-var, .direction = 'up')
+  df2 <- df2[, -ncol(df2)]
+  cat(paste0('fillr3: ', ID))
+  df2 %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
+  df2
+}
+
 
 #' Samantha Rhoads's function to...
 #'
@@ -8210,6 +8228,17 @@ try_read_excel_somesheets <- function (fns = NULL, keepshtvec = NULL, na = c("NA
     shts <- keepshts[[i]]
     (d <- lapply(shts, function(sht) tryCatch(readxl::read_excel(f, sheet = sht, skip = skip, na = na, col_types = col_types), error=function(e) tibble(ERROR = f))) %>% setNames(shts))
   }) %>% setNames(fns)
+}
+
+#' Samantha Rhoads's function to create a column in a dataframe if it doesn't already exist; defaults to all NA values
+#' @export
+#' @examples
+#' mutate_col_if_not_exists(d, var='id')
+mutate_col_if_not_exists <- function(d, var='YOS_Y'){
+  if(is.null(d[[var]])){
+    d[[var]] <- NA
+  }
+  d
 }
 ###################################################################################################################################################
 
