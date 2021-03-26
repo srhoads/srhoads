@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "new functions added/edited: df_get_preferred_column(), try_read_excel_somesheets"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "new functions moved files around"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -5214,9 +5214,9 @@ sysdateMDY <- function() format(Sys.Date(), format="%m%d%Y")
 #' @examples
 #' getMostRecentFiles()
 getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, 
-                               recursive=T, ignore.case=F, include.dirs=F, no..=F, verbose=F){
+                               recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F){
   fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
-  if(verbose){print(fns)}
+  if(printfilenames){print(fns)}
   if(desc) {
     fninfo <- fns %>% file.info() %>% data.frame(name=fns, .) %>% dplyr::arrange(desc(mtime))
   } else {
