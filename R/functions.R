@@ -1,18 +1,15 @@
 
-
 ## AUTO INSTALL/IMPORT MAJOR DEPENDENCIES;
 # --------------------------------------------
 if(installIfNeeded <- F){
   tryCatch({
     if(!require("devtools")) install.packages("devtools")
-    library(devtools)
-    cat("devtools dependency imported\n")
+    library(devtools); cat("devtools dependency imported\n")
   }, error=function(e) print("Couldn't install/import `devtools` package")
   )
   tryCatch({
     if(!require("tidyverse")) install.packages("tidyverse")
-    library(tidyverse)
-    cat("tidyverse dependency imported\n")
+    library(tidyverse); cat("tidyverse dependency imported\n")
   }, error=function(e) print("Couldn't install/import `tidyverse` package")
   )
 }
@@ -21,13 +18,13 @@ if(installIfNeeded <- F){
 #   `%>%` <- magrittr::`%>%`
 #   `%<>%` <- magrittr::`%<>%`
 # }
+
 ## HOW TO UPDATE LIBRARY:
 # --------------------------------------------
-
 ### --- R ---
 # redocument=F # redocument=T
 if(redocument <- F){
-  devtools::document() # {roxygen2::roxygenise(clean = TRUE)}
+  devtools::document() # {roxygen2::roxygenise(clean=T)}
   system('git add -A && git commit -m "new functions added/edited: df_get_preferred_column(), try_read_excel_somesheets"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
@@ -45,62 +42,8 @@ docu <- function(fxn=""){
 
 # --------------------------------------------
 
-
-# source("global.R")
-
-# used to be global.R:
-minuscontainsregex <- paste0(
-  c("julysttojun", "excludesallmega", "yearsingrademean", "basesalary", "totalpay", "alarymean",
-    "levelname", "lvlname", "externalavailability","externalweight", "phcgenderp", "gendertotal",
-    "shfname", "hqname", "employernam", "loyernam", "reqname", "namerejection", "namelevelmgmt", "levelmgmt",
-    "underutilized", "averagegendertenure", "annualsalary", "gendersalary", "numberofmalegender", "sourace", 
-    'actionname', 'usbased', 'pleasehere', 'unkown', "programnam", "nameofsubgroup",
-    "jbuser", "mngr", "college", "company", "source", "county", "genderaverage",
-    "client", "nocolumn", "transferred", "decisionmaker", "nycb", "groupsname",
-    "racemale", "futurenam", "weborad", "raceorlatino", "flowby", "gendercompensation",
-    "visor", "agency", "surveynam", "testistered", "tomet", "movedtodest", "namereviewreviewednotselected",
-    "tocost", "toaap", "rptto", "completingform", "areanam", "vendornam", 
-    "replacement", "paybas", "media", "namehired", "bgname", "reqfilled", 
-    "replaced", "hrgname", "yrrover", "product", "metname", "denotesrequired", 
-    "operior", "class", "costctr", "grename", "aofunc", "costcode", 
-    "unoname", "shouldbenamed", "lynamed", "claimant", "batterynam", "bandname", 
-    "namereqstandard", "categoryname", "patriationpopulation", "factiontype", "reasonforaction", 
-    "obgroup", "foldername", "itemstoselect", "svocp", "cscname", 
-    "facname", "coursename", "funcname", "custname", "nameofgroup", "projectname", 
-    "certifiername", "yrsof", "hrdname", "evpname", "itemstoselectname",
-    "aapcategory", "buname", "projectfocus", "putnafraceandgender", "denotesrequiredraceandgender", 
-    "zounosnick", "alanname", "namemarkedingreeneare", "iracegregory", "hccommname", "foodservicesale", 
-    "ofes", "veteran", "ofeg", "office", "position", "coebat", 
-    "interviewnotes", "faap", "method", "namefrom", "aldname", "team", 
-    "sracens", "fisher", "deparment", "filename", "lename", "refer", 
-    "racecounts", "eesub", "countof", "raceareyou", "diversityinfo", 
-    "school", "loaction", "secretary", "planname", "upervis", "vlookup", 
-    "tradisp", "supv", "supn", "spv", "vietnam", "branch", 
-    "recruiter", "decline", "from", "tracecom", "date", "guess", 
-    "site", "manager", "organization", "certification", "formac", "agent", 
-    "job", "union", "visual", "city", "levelast", "workflow", 
-    "superior", "business", "org", "sector", "aborator", "inc", 
-    "institution", "eceived", "pcname", "andreqid", "egion", "submitter", 
-    "deanname", "stage", "report", "property", "fieldna", 
-    "username", "title", "racesfem", "facility", "sheet", 
-    "rsnname", "provinc", "depart", "super", "reqfor", "feeder", 
-    "loc", "jgname", "country", "orgname", "job", "unknown", 
-    "prefix", "uffix", "genderfemale", "gendermale", "activit", "object", 
-    "division", "dept", "location", "mgr", "groupname", "confirm", 
-    "collab", "employer", "unit", "superv", "function", "count", 
-    "aaplan", "center", "partner", "ofccp", "interviewer", 
-    "plan", "coach", "requisit", "peoplesoft", "reviewer",
-    "namelinked", "racedta", "statu", "yearname", 
-    "seekey", "divstaff", "customer", "tier", "cluster", "longname", 
-    "nonexempt", "nameorid", "parameter", "racesmale", "aldta", "namename", 
-    "racefem", "posting", "hrbpname", "event", "owner", "prnn", 
-    "eigenderpress", "reportsto", "recruitingworkflow", "hmname", "sup", 
-    "gradena", "displayname", "status", "step", "yeargender", "state"), 
-  collapse = "|")
-
 # ---------------------------------------------------------------------------------
-
-gender_list_short <- list(
+gender_list_short <- {list(
   "female" = c("femlale", "females", "frau", "weiblich", "she", "fem", "fema","femaleidentif","feman","femino","wmn",
                "femalenotto", "femalke", "femaleiprefernottodisclose", "femal", "felame", "femalechoosenotto","wman",
                "female", "shef", "her", "femaile", "feamle", "femalle", "sfemalev", "femalef", "ffemale", 
@@ -112,39 +55,27 @@ gender_list_short <- list(
              "mmale", "maleale","make", "man", "boy", "malemale", "maleundisclosed", "maleidentif","maleau","isazamale","tegamale",
              "malequeer fluid", "malequeerfluid", "gayman", "transmale", "maleiamtransftm", "transedftm", "ftm"),
   "NA" = c("NATOEVERYONE", "malefemalerace", "malefemale", "femalemale")
-)
+)}
 
-
-gender_list <- mapply(c, 
-                      (gender_list_short <- lapply(gender_list_short, sort)), 
-                      (extra_gender_vals_list <- lapply(
-                        list("female" = c("0", "00", "000", "2", "02", "002", "two", "gal", "g", "fe", 'f'), 
-                             "male" = c("mm", "1", "01", "001", "one", "mae","he", "mal", "m", "m", "mj"), 
-                             "NA" = c("idk", "l", "n","a", "a", "a", "a", "a", "binary", "ito", "NA", "google", "ed",
-                                      "preferrednotto", "careerbuilder", "simplyhired", "linkedin", "torespond", "monster", "indeedcom", "indeed", "fulltime", "screened", "nr","ng",
-                                      "not", "interviewdate", "notcollected", "notthisquestion", "ss","cd", "cm", "ni", "n", "i", "b", "malefemale", "femalemale",
-                                      "candidatetakethesteps", "uknown", "report", "notto", "notsupplied", "notselected", "notgiven", "notentered", "noinformation", "noident", "no", "followstepstocompleteeeoinformation", "donot", "column", "ud", "to", "or", "key", 
-                                      "ai", "active", "hire", "aa", "mf", "t", "o", "iidentifyasqueerandprefertheytheirpronouns", "nonbinary", "nonconforming", "queer", "na", "to", "blanj", "ua",
-                                      "mixed", "server", "un", "tw", "to", "sv", "ndg", "r","cr", "c", "dept", "el", "it", "mc", "wr", "s", "hours", "ftpt", "ar", "cs", "e", "j",
-                                      "p", "i", "d", "race", "br", "desc", "gmus", "queertrans", "trans", "transed", "transedqueerly", "name", "namelf", #"white", "asian",
-                                      # "whitenothispanicorlatino", "ormoreracesnothispanicorlatino", "ormoreraces", "nativehawaiianorotherpacificislandernothispanicorlatino", "blackorafricanamericannothispanicorlatino",# "americanindianoralaskanativenothispanicorlatino", "asiannothispanicorlatino","latino","amind", # "caucasian", "black", "asianpacificislander", "asianother", "asianindian", "twoormore", "whiteunitedstatesofamerica","hispanicother", "hispaniclatino", "pacificisland",# "nativehawaiianorpacificisler", "orlatino", "orpacificisl", "ormoreraces","asion", "african", "hispanic", "black", "ormore","twoormore",# "americanindianoralaskanative", "americanindianalaskannative", "twoormoreraces", "blackorafricanamerican","hispanicorlatino", "nativehawaiianorotherpacificislander", # "whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica", "twoormoreracesallpersonswhoidentifywithmorethanoneoftheaboveraces",# "nativehawaiianorotherpacificislanderapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorotherpacificislands", "blackorafricanamericanapersonhavingoriginsinanyoftheblackracialgroupsofafrica","pacificisl",# "asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",# "americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainstribalaffiliationorcommunityattachment",
-                                      "no", "ns", "q", "o", "blank", "8", "9", "10", "11", "g", "l", "w", "p", "h", "0", " ", "u", "x", "null", "unk"))
-                        , sort)), 
-                      SIMPLIFY=FALSE)
-
-
-
-
-
-
-
-
-
-
-
+gender_list <- {mapply(c, 
+                       (gender_list_short <- lapply(gender_list_short, sort)), 
+                       (extra_gender_vals_list <- lapply(
+                         list("female" = c("0", "00", "000", "2", "02", "002", "two", "gal", "g", "fe", 'f'), 
+                              "male" = c("mm", "1", "01", "001", "one", "mae","he", "mal", "m", "m", "mj"), 
+                              "NA" = c("idk", "l", "n","a", "a", "a", "a", "a", "binary", "ito", "NA", "google", "ed",
+                                       "preferrednotto", "careerbuilder", "simplyhired", "linkedin", "torespond", "monster", "indeedcom", "indeed", "fulltime", "screened", "nr","ng",
+                                       "not", "interviewdate", "notcollected", "notthisquestion", "ss","cd", "cm", "ni", "n", "i", "b", "malefemale", "femalemale",
+                                       "candidatetakethesteps", "uknown", "report", "notto", "notsupplied", "notselected", "notgiven", "notentered", "noinformation", "noident", "no", "followstepstocompleteeeoinformation", "donot", "column", "ud", "to", "or", "key", 
+                                       "ai", "active", "hire", "aa", "mf", "t", "o", "iidentifyasqueerandprefertheytheirpronouns", "nonbinary", "nonconforming", "queer", "na", "to", "blanj", "ua",
+                                       "mixed", "server", "un", "tw", "to", "sv", "ndg", "r","cr", "c", "dept", "el", "it", "mc", "wr", "s", "hours", "ftpt", "ar", "cs", "e", "j",
+                                       "p", "i", "d", "race", "br", "desc", "gmus", "queertrans", "trans", "transed", "transedqueerly", "name", "namelf", #"white", "asian",
+                                       # "whitenothispanicorlatino", "ormoreracesnothispanicorlatino", "ormoreraces", "nativehawaiianorotherpacificislandernothispanicorlatino", "blackorafricanamericannothispanicorlatino",# "americanindianoralaskanativenothispanicorlatino", "asiannothispanicorlatino","latino","amind", # "caucasian", "black", "asianpacificislander", "asianother", "asianindian", "twoormore", "whiteunitedstatesofamerica","hispanicother", "hispaniclatino", "pacificisland",# "nativehawaiianorpacificisler", "orlatino", "orpacificisl", "ormoreraces","asion", "african", "hispanic", "black", "ormore","twoormore",# "americanindianoralaskanative", "americanindianalaskannative", "twoormoreraces", "blackorafricanamerican","hispanicorlatino", "nativehawaiianorotherpacificislander", # "whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica", "twoormoreracesallpersonswhoidentifywithmorethanoneoftheaboveraces",# "nativehawaiianorotherpacificislanderapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorotherpacificislands", "blackorafricanamericanapersonhavingoriginsinanyoftheblackracialgroupsofafrica","pacificisl",# "asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",# "americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainstribalaffiliationorcommunityattachment",
+                                       "no", "ns", "q", "o", "blank", "8", "9", "10", "11", "g", "l", "w", "p", "h", "0", " ", "u", "x", "null", "unk"))
+                         , sort)), 
+                       SIMPLIFY=FALSE)}
 
 #vim nano emacs
-race_list_short <- list(
+race_list_short <- {list(
   "american indian or alaska native" = c("american indian or alaska native", 
                                          "aamericanindianoralaskanative", "aian", "aina", "aindian", "nativeamericanamericanindianalaskanative",
                                          "aioan", "aioran", "alakan", "alaska", "alaskanative", "alaskannative", "nativeamericanalasknative",
@@ -588,47 +519,44 @@ race_list_short <- list(
                           "whitetwoormoreraceswhitenativeamerican", "whitetwoormores", "nativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamericanwhite",
                           "nativehawaiianorotherpacificislanderblackorafricanamericanwhite"),
   "NA" = c("NATOEVERYONE", "notspecified", "memberofvisibleminoritycanada")
-)
+)}
+
+race_list <- {mapply(c, 
+                     (race_list_short <- lapply(race_list_short, sort)), 
+                     (extra_race_vals_list <- lapply(
+                       list("american indian or alaska native" = c("ai", "nata", "5", "05", "005", "five", "an", "ami"), 
+                            "asian" = c("in", "4", "04", "004", "four", "as"), 
+                            "black or african american" = c("b", "2", "02", "002", "two"), 
+                            "hispanic or latino" = c("h", "3", "03", "003", "three", "hi", "hp"), 
+                            "native hawaiian or other pacific islander" = c("6", "06", "006", "six", "n", "p"), 
+                            "white" = c("w", "wi", "ww", "1", "01", "001", "one"), 
+                            "two or more races" = c("m", "bnw", "wbh", "wbhn", "wbn", "nla", "bhn", "ash", "nb", "bh", "mul", "7", "07", "007",
+                                                    "otwos","ah","bipw","pw","hiw","apw","bhiw","bhw","bn","etwo","ltwo","twoa","taltwo","qaltwo",
+                                                    "seven", "t", "two", "aw", "hn", "hw", "anh", "ahw", "aiw", "wn", "wna", "hb", "abiw", "ab","ahp"), 
+                            "NA" = c("tals", "VALUE","NA", 
+                                     "nr","ng",
+                                     "na", "na", "EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER","ho", "qal", "dti", "fax", "perfer", "ofcolor", "isclose","nolatino", "oth", "preferrednot","icurrentlyworkatforest", "nmin", 
+                                     "mm","min", "ielectnot", "frxcom","onlinejobsite", "abal", "thomas","smith", "notdeclaringunitedkingdom", "bragray","poc", "canvisibleminority", "remove", 
+                                     "nfalt", "missingor", "single", "ni", "aeorai", "visual", "sbentivegna", "does", "dn", "sb", "nd", "bkorkuch", "sgps", "didindentify", "noinformation", "declinded", "refe", "sg", "employermt", "dnr", "leftblank", 
+                                     "iama", "osed", "uknown", "anchoice", "unnown", "apprentice", "gbrnotdeclared", "electrician", "lack", "followstepscompleteeeoinformation", "notinformation", "cannoneofthecategoriesapply", 
+                                     "report", "missingblank", "br", "tmr", "undefined", "respond", "needhrreview", "say", "prefer", "observationneeded", "ielect", "multiples", "thispanicquestion",
+                                     "aiisclose", "true", "expatriates", "iisclose", "notsupplied", "notselected", "choose", "william", "s", "answeredyeshispaniclatinoquestion","unotknow",
+                                     "to", "do", "nonpoc", "state", "nonhispanic", "id", "furnish", "twas", "answer", "g", "aa", "refed", "yes", "un", "ukn", "ud", "u", "c", "y", "to", "sv", "r", "ndr", "or", "did",
+                                     "avisual", "not", "non", "entify", "not", "nanonnon", "ola", "oim", "oca", "gyr", "s", "diversity", "nothispanicorlanito", "mothispanic", "welder", "hire", "un", "oai", 
+                                     "eeob", "e", "empty", "none", "orm", "desc", "gender", "gmna", "minority", "no", "ns", "other", "q", "o", "blank", "8", "9", "10", "11", "0", "u", "a", "x", "z", "na", "null", "unk", "answer", 
+                                     "d", "o", "nralien", "tr", "ax", "dw", "dx", "i", "ad", "iw", "nspec", "ow", "bi", "biw", "unknowen", "f","ed","monstercom",
+                                     "didnotdisclose", "unknownphone", "notdelcared", "didnotwishtoanswer", "iamnothispaniclatinoa", "nothispaniclatino", "nothispaniclatino"))
+                       , sort)), 
+                     SIMPLIFY=FALSE)}
 
 
+partials <- {c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
+               "pacific islander", "indian", "female", "woman", "women", "feminine", "masculine", "white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
+               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
+               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races", 
+               "female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine", "mannlich")}
 
-
-race_list <- mapply(c, 
-                    (race_list_short <- lapply(race_list_short, sort)), 
-                    (extra_race_vals_list <- lapply(
-                      list("american indian or alaska native" = c("ai", "nata", "5", "05", "005", "five", "an", "ami"), 
-                           "asian" = c("in", "4", "04", "004", "four", "as"), 
-                           "black or african american" = c("b", "2", "02", "002", "two"), 
-                           "hispanic or latino" = c("h", "3", "03", "003", "three", "hi", "hp"), 
-                           "native hawaiian or other pacific islander" = c("6", "06", "006", "six", "n", "p"), 
-                           "white" = c("w", "wi", "ww", "1", "01", "001", "one"), 
-                           "two or more races" = c("m", "bnw", "wbh", "wbhn", "wbn", "nla", "bhn", "ash", "nb", "bh", "mul", "7", "07", "007",
-                                                   "otwos","ah","bipw","pw","hiw","apw","bhiw","bhw","bn","etwo","ltwo","twoa","taltwo","qaltwo",
-                                                   "seven", "t", "two", "aw", "hn", "hw", "anh", "ahw", "aiw", "wn", "wna", "hb", "abiw", "ab","ahp"), 
-                           "NA" = c("tals", "VALUE","NA", 
-                                    "nr","ng",
-                                    "na", "na", "EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER","ho", "qal", "dti", "fax", "perfer", "ofcolor", "isclose","nolatino", "oth", "preferrednot","icurrentlyworkatforest", "nmin", 
-                                    "mm","min", "ielectnot", "frxcom","onlinejobsite", "abal", "thomas","smith", "notdeclaringunitedkingdom", "bragray","poc", "canvisibleminority", "remove", 
-                                    "nfalt", "missingor", "single", "ni", "aeorai", "visual", "sbentivegna", "does", "dn", "sb", "nd", "bkorkuch", "sgps", "didindentify", "noinformation", "declinded", "refe", "sg", "employermt", "dnr", "leftblank", 
-                                    "iama", "osed", "uknown", "anchoice", "unnown", "apprentice", "gbrnotdeclared", "electrician", "lack", "followstepscompleteeeoinformation", "notinformation", "cannoneofthecategoriesapply", 
-                                    "report", "missingblank", "br", "tmr", "undefined", "respond", "needhrreview", "say", "prefer", "observationneeded", "ielect", "multiples", "thispanicquestion",
-                                    "aiisclose", "true", "expatriates", "iisclose", "notsupplied", "notselected", "choose", "william", "s", "answeredyeshispaniclatinoquestion","unotknow",
-                                    "to", "do", "nonpoc", "state", "nonhispanic", "id", "furnish", "twas", "answer", "g", "aa", "refed", "yes", "un", "ukn", "ud", "u", "c", "y", "to", "sv", "r", "ndr", "or", "did",
-                                    "avisual", "not", "non", "entify", "not", "nanonnon", "ola", "oim", "oca", "gyr", "s", "diversity", "nothispanicorlanito", "mothispanic", "welder", "hire", "un", "oai", 
-                                    "eeob", "e", "empty", "none", "orm", "desc", "gender", "gmna", "minority", "no", "ns", "other", "q", "o", "blank", "8", "9", "10", "11", "0", "u", "a", "x", "z", "na", "null", "unk", "answer", 
-                                    "d", "o", "nralien", "tr", "ax", "dw", "dx", "i", "ad", "iw", "nspec", "ow", "bi", "biw", "unknowen", "f","ed","monstercom",
-                                    "didnotdisclose", "unknownphone", "notdelcared", "didnotwishtoanswer", "iamnothispaniclatinoa", "nothispaniclatino", "nothispaniclatino"))
-                      , sort)), 
-                    SIMPLIFY=FALSE)
-
-
-partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-              "pacific islander", "indian", "female", "woman", "women", "feminine", "masculine", "white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races", 
-              "female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine", "mannlich")
-
-preprocess_names_other_getridofstrregex <- paste0(
+preprocess_names_other_getridofstrregex <- {paste0(
   c("macro", "staffmark", "stafffmark","information", "informatio", "informati", "informat", "informa", "inform", "infor", "info",
     "ofor", "ofor", "worker", "fake", "reportingformat", "public", "describe", "description", "desc", "discription", "renglish", "english", "other",
     "accurate", "ofor", "eem", "eeo", "forms", "form", "applicant", "legal", "employee", "paygapanalysis", "lastfirst", "selfidentification", "taleo", "detail",
@@ -643,10 +571,10 @@ preprocess_names_other_getridofstrregex <- paste0(
     "associate", "fsu", "value", "emp", "adminentered", "reported", "selfentered", "essee", "final", "sterms", "ofindividual", "rtiption", "codemf",
     "same", "identification", "affiliations", "affiliation", "ination", "used", "translation", "deccription", "definition", "ination", "dentification", "norhispanicorlat", "nisorlat", "nispnc",
     "category", "voluntaryselfid", "codeaap", "morf", "haassoc", "asofnov", "further", "ming", "cd$", "^hrm", "^loy", "^lfull"), 
-  collapse = "|")
+  collapse = "|")}
 
 
-turntoracestrregex <- paste0(
+turntoracestrregex <- {paste0(
   c("raceethnicity", "raceethn$", "nativehawaiianotherpacificislander", 
     "xethnicity", "ethnicgroup", "ethnicity", "ethnicit", "ethnici", 
     "ethnic", "ethni", "ethno", "ethn", "eth$", "racecodes", "racecode", 
@@ -666,267 +594,124 @@ turntoracestrregex <- paste0(
     "nativeamerican", "hispanic", "raceming", "furtherinforace", 
     "crace", "prace", "srace", "racekey", "lrace", "races$", "rcename", 
     "raceid$"), 
-  collapse="|")
+  collapse="|")}
+
+turntogenderstrregex <- {paste0(c("female", "male$", "^male", "adpgender", "genderer$", "gendercodes", 
+                                  "gendercode", "gendery$", "genderx$", "gnder", "gndr", "gender", 
+                                  "sex", "hpigenderr", "^sgender", "^xgender", "psgender", "^lgender", 
+                                  "gendermf", "gendereeo", "genderr$", "genderhr", "aagender", 
+                                  "algender", "genderkey", "genderid", "apgender", "submissiongenderternal", 
+                                  "gendercategory", "eegender", "eeogender", "argender", "^cgender", 
+                                  "pmgender", "mmaleffemale", "^fgender", "^mgender", "hpigender", 
+                                  "genderfield", "gendername", "genders$", "^pgender", "$pgender", 
+                                  "clmntgender", "^epgender", "emgender", "revisedgender", "negender", 
+                                  "genderming", "furthergender", "fieldgender", "genderaap", "genderand", 
+                                  "andgender", "fgender", "gendercd", "mgender", "^egender", "gendergendergender", 
+                                  "gendergender", "namegender"), collapse="|")}
 
 
-turntogenderstrregex <- paste0(c("female", "male$", "^male", "adpgender", "genderer$", "gendercodes", 
-                                 "gendercode", "gendery$", "genderx$", "gnder", "gndr", "gender", 
-                                 "sex", "hpigenderr", "^sgender", "^xgender", "psgender", "^lgender", 
-                                 "gendermf", "gendereeo", "genderr$", "genderhr", "aagender", 
-                                 "algender", "genderkey", "genderid", "apgender", "submissiongenderternal", 
-                                 "gendercategory", "eegender", "eeogender", "argender", "^cgender", 
-                                 "pmgender", "mmaleffemale", "^fgender", "^mgender", "hpigender", 
-                                 "genderfield", "gendername", "genders$", "^pgender", "$pgender", 
-                                 "clmntgender", "^epgender", "emgender", "revisedgender", "negender", 
-                                 "genderming", "furthergender", "fieldgender", "genderaap", "genderand", 
-                                 "andgender", "fgender", "gendercd", "mgender", "^egender", "gendergendergender", 
-                                 "gendergender", "namegender"), collapse="|")
+recode_race_getridofstrregex <- {paste0(c("yes", "wish", "us", "unitedstatesofamerica", "to", "sgp","state",
+                                          "self", "selected", "region", "raceethnicity", "race", "other", 
+                                          "othe", "oth$", "origins", "origin", "only", "ofany", "obsolete", 
+                                          "notofhispanic$", "notlatino$", "nothisporlatino", "nothispnc$", 
+                                          "nothispanicorlatino", "nothispanicorl$", "nothispanicor$", "nothispanicoflatino", 
+                                          "nothispaniclatinononhispanic$", "nothispaniclatino", "nothispanichispanic$", 
+                                          "nothispanichis$", "nothispaniceorlatino", "nothispanic$", "nothislatino$", 
+                                          "nothislat$", "nothis$", "norhispanic$", "norhislatino$", "norhis$", 
+                                          "noofhispanic$", "nonwhite", "nonhispanicorlatino", "nonhispanicor$", 
+                                          "nonhispaniclatino", "nonhispanichispanic$", "nonhispanichis$", 
+                                          "nonhispanic$", "nonhislat$", "nonhis$", "nonexempttoexempt", 
+                                          "nofhispanic$", "nispnlatino$", "nisplatino", "nisplat$", "nispanicorlatino", 
+                                          "nispanic$", "nispanc$", "nislatino$", "nislatin$", "nislat$", 
+                                          # "males", "male", 
+                                          "lessthan", "ï", "hours", "heritage", "half", 
+                                          "gender", "gb", "furnish", 
+                                          # "females", "female", 
+                                          "ethnicity", 
+                                          "ethnic", "eorlatino", "dta", "donottoself", "donotto", "cmty", 
+                                          "apersonhavingorigins", "alls", "^nhispanic$", "^dstate"), 
+                                        collapse="|")}
 
-
-recode_na_getridofstrregex <- paste0(
-  c("wishto", "vicepresidents", "vicepresident", "unspecified", 
-    "unreported", "unkown", "unknwon", "unknown", "unitedstatesofamerica", 
-    "united states of america", "undisclosed", "undeclared", "undata", 
-    "unallocated", "transporter", "tostate", "toself", "toanswer", "iidentif$",
-    "thisquestion", "thisinformation", "thisinfo", "testtest", "technologyl", 
-    "technology", "sysco", "supportworkers", "strategy", "specify", 
-    "specialist", "socialwork", "shouldbe", "seniorassociate", "selected", 
-    "security", "sdeclinetov", "rmation", "respiratory", "researchers", 
-    "researcher", "research", "requisition", "rehabilitation", "rathernot", 
-    "questions", "providisinfo", "provided", "provide", "programs", "sidentifv",
-    "program", "professofafricanastudies", "products", "productive", 
-    "production", "product", "priorworker", "presidents", "president", 
-    "presented", "prefernot", "phonescreen", "phoneinterview", "pharmacy", 
-    "personwasmanuallentered", "parttime", "orlatino", "officeservices", 
-    "notspecified", "notself", "notrmation$", "notofhispanicorigin", 
-    "notinsap", "notidentified", "nothispnc$", "nothispanicorlatino", "nothispanicc$","nothispanicnlatino",
-    "nothispanicorlatin$", "nothispanicorlat$", "nothispanicorla$", "nonhispanicorlatio$",
-    "nothispanicorl$", "nothispanicorhispanic", "nothispanicorhispan$", 
-    "nothispanicorhispa$", "nothispanicorhisp$", "nothispanicorhis$", 
-    "nothispaniclatino$", "nothispaniclatin$", "nothispaniclat$", 
-    "nothispanicl$", "nothispanic$", "nothisorlat$", "notentered", 
-    "notanswer", "norhispanicorlat$", "nonhispanicorhispanic$", "nonhispanicorhispan$", 
-    "nonhispanicorhispa$", "nonhispanicorhisp$", "noidentif$", "noapplication", 
-    "nisporlat$", "newjob", "neverinterviewed", "never", "morequalifiedcandidates", 
-    "medical", "marketing", "managersap", "managers", "manager", 
-    "management", "laboratory", "jobfairs", "jobfair", "irespond", 
-    "iprefernot", "iprefer", "interviews", "interviewing", "interviewer", 
-    "interviewee", "interviewed", "interview", "international", "internal", 
-    "inanyofthealpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineisls", 
-    "inanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineisls$", 
-    "inactive", "ielectnotto", "idontanswer", "idonottoprovidethisinformation", 
-    "idonottoanswer", "idonot", "identify", "identified", "identification", 
-    "ichoosenot", "ichoose", "hiring", "generalmanagement", "function", 
-    "fulltime", "extendedprofile", "employing", "employer", "employees", 
-    "employeename", "employee", "employed", "email", "eeob", "dtoidentif$", 
-    "donottoanswer", "donotselectthisoptionifoutoour$", "donotselectthisoptionifouour", 
-    "doesnot", "distributiongraph", "disclosed", "disclose", "directors", 
-    "directorof", "director", "diiweekly", "diibiweekly", "didnot", 
-    "development", "description", "departments", "department", "declinto", 
-    "declined", "decline", "databases", "database", "creativedesign", "missinlank",
-    "corporate", "consulting", "consultants", "consultant", "chosenot", 
-    "choosenotto", "choosenot", "chieffinancialofficer", "centralretail", "notresponse",
-    "businesses", "business", "benefitsadminretail", "behavioralhealth", 
-    "bartenders", "bartender", "available", "atthistime", "associates", "none listed",
-    "associate", "assistants", "assistant", "applicant", "apersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative$", 
-    "apersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnam$", 
-    "apersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica$", "applicationreceivedtoolate",
-    "answer$", "anonymized", "advancedpractice", "administrative", "^stoidentifv","^tospecif$","newspapermagazinead",
-    "accounting", "â", "^toidentif$", "^stov$", "^specif$", "^snav$", "universityjobposting","craigslist","monstercom","universitjobposting",
-    "^self$", "^oput$", "^nottom$", "^notto$", "^nottmation", "^nothis$", "notrpted","information", "followstepscompleteeeoinfo","technologl","newspapermagazinead",
-    "^noidentif$", "^noident>\\", "^iself$", "^identif$", "^id$", "donotidentif$","noidentidentif$","simplhired","$rnotdeclared","^hourl$","applicationreceivedolate","temporaroncall",
-    "^fillin$", "^donot$", "^answer$", "^answer", "semimonthly", "wwwindeedcom", "careerfair", "internet", "cidatetakesteps", 
-    "morequalifiedcidate", "technolog$", "monthly","identif$",
-    "followstepscompleteeeoinfo", "followstepstocompleteeeoinfo", "notclassified", "ziprecruiter", "lackseducationrequiredfortheposition", "pharmadiversit$", "americanjobexchange"),
-  collapse = "|")
-
-
-
-recode_na_list <- list(
-  "NA" = c(" ", ",", "active", "admin", "agency", "aliennonresident", 
-           "american", "anonymized", "answe", "answer1", "answeredhispaniclatinoquestion", 
-           "arbpayroll", "blackafricanamerican", "brazilmonthly", "candidateeeo", 
-           "centralislipny", "choosenotrodisclose", "choosenottodisclose", 
-           "choosenottoidentify", "chosenottodisclose", "chosenottoselfidentify", 
-           "claimingdisabilitystat", "clericalunitclerk", "cocreatepayroll", 
-           "coders", "comalepanyjobboard", "dateofinterview", "declin", "notnoresponse",
-           "decline", "declined", "declinedtoanswer", "declinedtoselfidentify", 
-           "declinedtostate", "declineselfidentification", "declinetoanswer", 
-           "declinetodisclose", "declinetoid", "declinetoidentify", "declinetoselfidentify", 
-           "declinetostate", "declintoself", "demoapplication", "deputyprojectmanager", 
-           "description", "didnotanswer", "didnotdisclose", "didnotintvwell", 
-           "didnotrespond", "didnotselfid", "didnotspecify", "didnotwishtoanswer", 
-           "didntid", "directsourcedlinkedin", "doesindentify", "doesnot", 
-           "doesnotwishtoidentify", "doesnotwishtoprovide", "doesnt", "donotidentify", 
-           "donotselectthisoptionifyoutoyour", "donotselectthisoptionifyouyour", 
-           "donotwishto", "donotwishtoanswer", "duplicate", "eeo", "eeob", 
-           "eeoc", "emailedsurvey", "ethnicorigin", "eval", "EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER", 
-           "executive", "external", "fax", "firstname", "fisbiweeklyhourly", 
-           "fissemimonthly", "flsaid", "ft", "ftpt", "fulltime", "functiontesttechnician", 
-           "gender", "grp", "ichoosenotoselfidentify", "ichoosenotprovideinformation", 
-           "ichoosenotselfidentify", "ichoosenottodisclose", "ichoosenottodisclosethisinformation", 
-           "ichoosenottoidentify", "ichoosenottoprovideinformation", "ichoosenottoprovidemy", 
-           "ichoosenottorespond", "ichoosenottoselfid", "ichoosenottoselfidenitfy", 
-           "ichoosenottoselfidentify", "ichoosenottoselfidentifyatthistime", 
-           "ideclinetoanswer", "ideclinetorespond", "ideclinetoselfidentify", 
-           "identifiedasunknown", "idonottoanswer", "idonottoprovidethisinformation", 
-           "idonottoself", "idonotwishtofurnishthisinformation", "idonotwishtoprovidethisinfo", 
-           "idonotwishtoprovidethisinformation", "idonotwishtoselfidentify", 
-           "idonotwishtoselfidentifyatthistime", "idont", "idonttoanswer", 
-           "idontwishtoanswer", "ielectnotto", "ielectnottoselfidentify", 
-           "ignore", "incomplete", "internal", "interviewcancelled", "interviewdate", 
-           "iprefernotanswer", "iprefernottoanswer", "iprefernottodisclose", 
-           "jonesboroar", "lacksrequiredqualifications", "lastname", "management", 
-           "materialcontrolattendant", "miami", "missing", "missingor", 
-           "more", "morequalifiedcandidates", "mtgbankingdivisionadmin", 
-           "mtspayrollus", "multiple", "nainquire", "nameofindividualcompletingform", 
-           "nanon", "nanonnotapplicablenon", "ncsd", "newyorkny", "nhispanic", 
-           "nnotspecified", "noanswer", "noanswerseeinperson", "noanswerselected", 
-           "noapplicablecode", "noapplication", "nodatacollected", "nodisclosure", 
-           "noentify", "noid", "noident", "noidentified", "noidentify", 
-           "noinfo", "noinformation", "nondisclosed", "nondisclosure", "none", 
-           "nonegiven", "nonelisted", "noneprovided", "nonespecified", "nonreported", 
-           "nonresalien", "nonresidentalien", "noreponse", "noresponse", 
-           "norinfo", "nortspecify", "noselection", "noselfid", "notappearinginhrm", 
-           "notapplicable", "notapplicablenon", "notassigned", "notavailable", 
-           "notcaptured", "notcollected", "notcompleted", "notdeclared", 
-           "notdefinedinsap", "notdesignatedinsap", "notdisabledofccp", 
-           "notdisclosed", "notentered", "notgiven", "nothispanic", "notidentified", 
-           "notindicated", "notinformation", "notinsap", "notknown", "notlisted", 
-           "notlistedinsap", "notprovided", "notrecorded", "notreported", 
-           "notreporting", "notreturned", "notself", "notspec", "notspecif", 
-           "notspecified", "notspecifiedinactive", "notspecify", "notspecnotspecified", 
-           "notthisquestion", "null", "nurse", "nursesaide", "nursing", 
-           "nyitbeijing", "nyitnanjing", "nyitvancouver", "octagmktng", 
-           "oldwestburyny", "optedout", "optout", "oput", "orderly", "other", 
-           "parttime", "personal banker", "phonescreeen", "prefernotsay", 
-           "prefernottoanswer", "prefernottodisclose", "prefernottosay", 
-           "prefernottospecify", "prefers", "prefersnottoanswer", "professional", 
-           "professionals", "professor", "provide", "providisinfo", "providisinformation", 
-           "pt", "ptft", "racialcategory", "railcartechnician", "rathernot", 
-           "referral", "referralsource", "refetodisclose", "refused", "rehire", 
-           "reloagent", "requisitionfilledresumenotreviewed", "requisitionsid", 
-           "rmation", "sales", "salesworkers", "sandiego", "sanjose", "sdeclinetov", 
-           "sentemail", "service", "sgother", "snav", "staffnurse", "stov", 
-           "technical", "thisquestion", "totals", "ukn", "unavail", "undata", 
-           "undeclared", "undisclosed", "unknown", "unknowndeclinedtodisclose", 
-           "unknownpersonwasmanuallyentered", "unknwn", "unkown", "unkwn", "", 
-           "unotknow", "unspec", "unspecified", "usbiweekly", "xx")
-)
-
-
-
-
-recode_race_getridofstrregex <- paste0(c("yes", "wish", "us", "unitedstatesofamerica", "to", "sgp","state",
-                                         "self", "selected", "region", "raceethnicity", "race", "other", 
-                                         "othe", "oth$", "origins", "origin", "only", "ofany", "obsolete", 
-                                         "notofhispanic$", "notlatino$", "nothisporlatino", "nothispnc$", 
-                                         "nothispanicorlatino", "nothispanicorl$", "nothispanicor$", "nothispanicoflatino", 
-                                         "nothispaniclatinononhispanic$", "nothispaniclatino", "nothispanichispanic$", 
-                                         "nothispanichis$", "nothispaniceorlatino", "nothispanic$", "nothislatino$", 
-                                         "nothislat$", "nothis$", "norhispanic$", "norhislatino$", "norhis$", 
-                                         "noofhispanic$", "nonwhite", "nonhispanicorlatino", "nonhispanicor$", 
-                                         "nonhispaniclatino", "nonhispanichispanic$", "nonhispanichis$", 
-                                         "nonhispanic$", "nonhislat$", "nonhis$", "nonexempttoexempt", 
-                                         "nofhispanic$", "nispnlatino$", "nisplatino", "nisplat$", "nispanicorlatino", 
-                                         "nispanic$", "nispanc$", "nislatino$", "nislatin$", "nislat$", 
-                                         # "males", "male", 
-                                         "lessthan", "ï", "hours", "heritage", "half", 
-                                         "gender", "gb", "furnish", 
-                                         # "females", "female", 
-                                         "ethnicity", 
-                                         "ethnic", "eorlatino", "dta", "donottoself", "donotto", "cmty", 
-                                         "apersonhavingorigins", "alls", "^nhispanic$", "^dstate"), 
-                                       collapse="|")
-
-
-
-recode_gender_getridofstrregex <- paste0(c("gender", "sexis", "earnings", "sex", "tospecife", "lessthan", "over", "other", 
-                                           "inanyofthealpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineisls",
-                                           "noselfid", "assume", "senior", "junior", "applicantselected","other", "non","unotknow","y","ukn",
-                                           "apersonhavingiginsinanyoftheiginalpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineislsthailvietnam",
-                                           "and", "selected", "tonot", "self", "professionals", "professional", "toidentif$",
-                                           # "afircanamerican", "africanamerican", "hispanic", "africanamerican", "amerindalas", #"ornotorlatino", "notorlatino", "ormoreraces",# "white", "black", "non", "hisanic", "asian", "nativeamerican", # "hisanic",
-                                           "ethnicity", "ethnicit", "ethnici", "ethnic", "ethni", "ethn", "eth", "donotselectthisoptionifyouyour", "apersonhavingiginsinanyoftheiginalpeoplesofeuropemiddleeastnthafrica"
+recode_gender_getridofstrregex <- {paste0(c("gender", "sexis", "earnings", "sex", "tospecife", "lessthan", "over", "other", 
+                                            "inanyofthealpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineisls",
+                                            "noselfid", "assume", "senior", "junior", "applicantselected","other", "non","unotknow","y","ukn",
+                                            "apersonhavingiginsinanyoftheiginalpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineislsthailvietnam",
+                                            "and", "selected", "tonot", "self", "professionals", "professional", "toidentif$",
+                                            # "afircanamerican", "africanamerican", "hispanic", "africanamerican", "amerindalas", #"ornotorlatino", "notorlatino", "ormoreraces",# "white", "black", "non", "hisanic", "asian", "nativeamerican", # "hisanic",
+                                            "ethnicity", "ethnicit", "ethnici", "ethnic", "ethni", "ethn", "eth", "donotselectthisoptionifyouyour", "apersonhavingiginsinanyoftheiginalpeoplesofeuropemiddleeastnthafrica"
 ), 
-collapse="|")
+collapse="|")}
+
+
+dfsample <- {data.frame(gender = c("male", "female", "female", 
+                                   "female", "female", "female", 
+                                   "male", "female", "male", 
+                                   "male", "male", "male", 
+                                   "female", "female", "female",
+                                   "female", "female", "female", 
+                                   "female", "female", "male",
+                                   "male"), 
+                        race = c("white", "white", 
+                                 "native hawaiian or other pacific islander", 
+                                 "black or african american", 
+                                 "american indian or alaska native", 
+                                 "hispanic or latino", 
+                                 "asian",
+                                 "black or african american", 
+                                 "american indian or alaska native", 
+                                 "white", 
+                                 "two or more races", "two or more races", 
+                                 "american indian or alaska native",
+                                 "american indian or alaska native", 
+                                 "native hawaiian or other pacific islander",
+                                 "hispanic or latino", 
+                                 "hispanic or latino",
+                                 "white", "white", 
+                                 "hispanic or latino", 
+                                 "hispanic or latino",
+                                 "native hawaiian or other pacific islander"), 
+                        name = c("jason o'rawe", "samantha karlaina rhoads", "keisha castle-hughes", 
+                                 "oprah winfrey", "shoni schimmel", "alexandria ocasio-cortez", 
+                                 "kendrick kang-joh jeong","purdie greenaway, valerie", "silverheels, jay", 
+                                 "jadrian charles guy", "jordan peele", "keegan-michael key", 
+                                 "davids, sharice", "deb haaland", "dinah jane hansen",
+                                 "ochoa, ellen", "sonia sotomayor", "ruth bader ginsburg", 
+                                 "natalia nikolaevna zakharenko", "kahlo, frida", "diego rivera",
+                                 "momoa, jason"), stringsAsFactors = F)}
+
+dfincase <- {data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
+                        firstname=c('charlene', 'sandra sunrising'), 
+                        lastname=c('teters', 'osawa'), 
+                        gender=c('female', 'female'), 
+                        race=c('american indian or alaska native', 'american indian or alaska native'), 
+                        stringsAsFactors = F)}
 
 
 
 
-dfsample <- data.frame(gender = c("male", "female", "female", 
-                                  "female", "female", "female", 
-                                  "male", "female", "male", 
-                                  "male", "male", "male", 
-                                  "female", "female", "female",
-                                  "female", "female", "female", 
-                                  "female", "female", "male",
-                                  "male"), 
-                       race = c("white", "white", 
-                                "native hawaiian or other pacific islander", 
-                                "black or african american", 
-                                "american indian or alaska native", 
-                                "hispanic or latino", 
-                                "asian",
-                                "black or african american", 
-                                "american indian or alaska native", 
-                                "white", 
-                                "two or more races", "two or more races", 
-                                "american indian or alaska native",
-                                "american indian or alaska native", 
-                                "native hawaiian or other pacific islander",
-                                "hispanic or latino", 
-                                "hispanic or latino",
-                                "white", "white", 
-                                "hispanic or latino", 
-                                "hispanic or latino",
-                                "native hawaiian or other pacific islander"), 
-                       name = c("jason o'rawe", "samantha karlaina rhoads", "keisha castle-hughes", 
-                                "oprah winfrey", "shoni schimmel", "alexandria ocasio-cortez", 
-                                "kendrick kang-joh jeong","purdie greenaway, valerie", "silverheels, jay", 
-                                "jadrian charles guy", "jordan peele", "keegan-michael key", 
-                                "davids, sharice", "deb haaland", "dinah jane hansen",
-                                "ochoa, ellen", "sonia sotomayor", "ruth bader ginsburg", 
-                                "natalia nikolaevna zakharenko", "kahlo, frida", "diego rivera",
-                                "momoa, jason"), stringsAsFactors = F)
+### functions.R #================================================================================================================================
 
+#' A function
+#' @export
+#' @examples
+#' not_all_na(x)
+not_all_na <- function(x){ any(!is.na(x)) }
 
-dfincase <- data.frame(name=c('charlene teters', 'sandra sunrising osawa'), 
-                       firstname=c('charlene', 'sandra sunrising'), 
-                       lastname=c('teters', 'osawa'), 
-                       gender=c('female', 'female'), 
-                       race=c('american indian or alaska native', 'american indian or alaska native'), 
-                       stringsAsFactors = F)
-
-
-
-
-
-types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS', 'WORKFORCE')
-
-
-
-
-
-
-# functions.R
+#' A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
+#' @export
+#' @examples
+#' not_all_same()
+not_all_same <- function(x){length(unique(x))>1}
 
 
 #' A function to do grep() but pasting a vec instead of just a string
-#'
-#' This function allows you to do grep() but pasting a vec instead of just a string
-#'
 #' @export
 #' @examples
 #' grep_(pattern, v, exact=F, ignore.case=F, value=F)
 grep_ <- function(pattern, v, exact=F, ignore.case=F, value=F) grep(paste_regex(pattern, exact=exact), v, ignore.case=ignore.case, value=value)
 
 
-
-
 #' A function to find matching string anywhere in a dataframe
-#'
-#' This function allows you to find matching string anywhere in a dataframe
 #' @export
 #' @examples
 #' grep_all_df_df(pattern, df, exact=F, ignore.case=F, print=F)
@@ -937,8 +722,6 @@ grep_all_df_df <- function(pattern, df, exact=F, ignore.case=F, print=F){
 }
 
 #' A function to find matching string anywhere in a dataframe
-#'
-#' This function allows you to find matching string anywhere in a dataframe
 #' @export
 #' @examples
 #' grep_all_df_colnames(pattern, df, exact=F, ignore.case=F, print=F)
@@ -949,8 +732,6 @@ grep_all_df_colnames <- function(pattern, df, exact=F, ignore.case=F, print=F){
 }
 
 #' A function to find matching string anywhere in a dataframe
-#'
-#' This function allows you to find matching string anywhere in a dataframe
 #' @export
 #' @examples
 #' grep_all_df(pattern, df, colnames=F, exact=F, ignore.case=F, print=F, cells_only=F, cells_only_discrete=F, rownums_only=F)
@@ -978,82 +759,52 @@ grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F
   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
 }
 
-##### OLD VERSION:
-# _______grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
-#   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
-#   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-# }
-
 
 #' A function to do gsub() but pasting a vec instead of just a string
-#'
-#' This function allows you to do gsub() but pasting a vec instead of just a string
-#'
 #' @export
 #' @examples
 #' gsub_(pattern, to, v, exact=F, ignore.case=F)
 gsub_ <- function(pattern, to, v, exact=F, ignore.case=F) gsub(paste_regex(pattern, exact=exact), to, v, ignore.case=ignore.case)
 
 #' A function to do gsub() but ignoring case as default & pasting a vec instead of just a string
-#'
-#' This function allows you to do gsub() but ignoring case as default & pasting a vec instead of just a string
-#'
 #' @export
 #' @examples
 #' gsubic(pattern, to, v, exact=F, ignore.case=T)
-gsub_ic <- function (pattern, replacement, x, ignore.case=T, perl = FALSE, 
-                     fixed = FALSE, useBytes = FALSE, exact=F) {
+gsub_ic <- function (pattern, replacement, x, ignore.case=T, perl=F, 
+                     fixed=F, useBytes=F, exact=F) {
   pattern <- paste_regex(pattern, exact=exact)
-  if (!is.character(x)) 
-    x <- as.character(x)
-  .Internal(gsub(as.character(pattern), as.character(replacement), 
-                 x, ignore.case, perl, fixed, useBytes))
+  if (!is.character(x)){ x <- as.character(x) }
+  .Internal(gsub(as.character(pattern), as.character(replacement), x, ignore.case, perl, fixed, useBytes))
 }
 
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
+#' Samantha Rhoads's function to grep() but ignoring case as default & pasting a vec instead of just a string
 #' @export
 #' @examples
 #' grep_ic()
-grep_ic <- function (pattern, x, ignore.case = T, perl = FALSE, value = FALSE, 
-                     fixed = FALSE, useBytes = FALSE, invert = FALSE) {
-  if (!is.character(x)) 
-    x <- structure(as.character(x), names = names(x))
-  .Internal(grep(as.character(pattern), x, ignore.case, value, 
-                 perl, fixed, useBytes, invert))
+grep_ic <- function (pattern, x, ignore.case = T, perl=F, value=F, fixed=F, useBytes=F, invert=F) {
+  if (!is.character(x)){ x <- structure(as.character(x), names = names(x)) }
+  .Internal(grep(as.character(pattern), x, ignore.case, value, perl, fixed, useBytes, invert))
 }
 
 
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
+#' Samantha Rhoads's function to grepl() but ignoring case as default & pasting a vec instead of just a string
 #' @export
 #' @examples
 #' grepl_ic()
-grepl_ic <- function (pattern, x, ignore.case = T, perl = FALSE, fixed = FALSE, 
-                      useBytes = FALSE) {
-  if (!is.character(x)) 
-    x <- as.character(x)
-  .Internal(grepl(as.character(pattern), x, ignore.case, FALSE, 
-                  perl, fixed, useBytes, FALSE))
+grepl_ic <- function (pattern, x, ignore.case=T, perl=FALSE, fixed=FALSE, useBytes=FALSE) {
+  if (!is.character(x)){ x <- as.character(x) }
+  .Internal(grepl(pattern=as.character(pattern), x=x, ignore.case=ignore.case, perl=perl, fixed=fixed, useBytes=useBytes))
 }
 
 
-
-#' A function kinda like `dplyr`'s `select()` but works on lists
-#'
-#' This function is kinda like `dplyr`'s `select()` but works on selecting stuff from lists
-#'
+#' A function kinda like `dplyr`'s `select()` but works on selecting stuff from lists
 #' @export
 #' @examples
 #' select_list(list, pattern, exact=F, ignore.case=T)
 select_list <- function(list, pattern, exact=F, ignore.case=T) list[grep_(pattern, names(list), exact=exact, ignore.case=ignore.case)] 
 
-#' A function that brings a desired word to the front of a string
-#'
+
 #' This function brings a desired word to the front of a string (reorders string itself)
-#'
 #' @export
 #' @examples
 #' word_to_front(wrd, v)
@@ -1071,9 +822,6 @@ word_to_front <- function(wrd, v) {
 
 
 #' A function that reminds us what some regular expressions are, like and/or
-#'
-#' This is a function
-#'
 #' @export
 #' @examples
 #' regex_info()
@@ -1082,31 +830,42 @@ regex_info <- function(){
     type = c(
       'alpha',
       'alnum',
+      'digit',
+      'uppercase / lowercase',
       'and',
       'or',
-      'escape'
+      'escape',
+      'repl w/ self'
     ),
     regex = c(
-      '[[:alpha:]]',
+      '[[:alpha:]]|[[:a-zA-Z:]]',
       '[[:alnum:]]',
+      '[[:digit:]]|\\d|[[:0-9:]]',
+      '[[:upper:]] / [[:lower:]]',
       '.*',
       '|',
-      '\\'
+      '\\',
+      'pattern="asdg(text)2a93", replacement="\\1"...returns "text"'
     )
   )
 }
 
 
+#' A function that can filter a dataframe so it includes all duplicates of your variable of choice
+#' @export
+#' @examples
+#' filter_duplicated()
+filter_duplicated <- function(d, var="id"){
+  vdups <-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) duplicated(v)) %>% .[[var]]
+  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) v %in% vdups)
+}
+
 
 #' A function that acts like `recode()` but works on a list
-#'
-#' This is a function
-#'
 #' @export
 #' @examples
 #' recode_from_list(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru')))
-recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicable'), 
-                                                   'TRUE' = c('true', 'tru'))){
+recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru'))){
   v <- tolower(v) %>% trimws_() %>% gsub('\\&', 'and', .) %>% gsub('\\.|\\(|\\)', '', .) %>% gsub('-', ' ', .) %>% trimws_()
   v <- gsub("[^ |[:alpha:]]", "", v, perl = T)
   v <- tolower(v)
@@ -1121,9 +880,6 @@ recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicabl
 
 
 #' A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
-#'
-#' This is a function
-#'
 #' @export
 #' @examples
 #' findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")
@@ -1138,69 +894,54 @@ findme <- function(d=df00.5, g1="", g2="", g3="", g4="", g5=""){
 
 
 #' A function that rounds up to next highest digit base #, ie, to 100 or 1000 or 1000 etc...
-#'
-#' This is a function
-#'
 #' @export
 #' @examples
 #' roundupc(x)
-roundupc <- function(x) 10^ceiling(log10(x))
+roundupc <- function(x) { 10^ceiling(log10(x)) }
 
 
-
-#' A function that gets 5 digit zip codes
-#'
-#' This function extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
-#'
+#' A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 #' @export
 #' @examples
 #' zipcode5()
 zipcode5 <- qdapRegex::rm_(pattern="(?<!\\d)\\d{5}(?!\\d)", extract=TRUE)
 
 #' A function to paste a vector in a regex way with '|' partial
-#'
-#' This function allows you to paste a vector in a regex way with '|' partial
 #' @export
 #' @examples
 #' paste_regex_partial(v, collapse='|')
-paste_regex_partial <- function(v, collapse='|') paste0(v, collapse=collapse)
+paste_regex_partial <- function(v, collapse='|') { paste0(v, collapse=collapse) }
 
 
 #' A function to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
-#'
-#' This function allows you to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
 #' @export
 #' @examples
 #' paste_regex_exact(v, collapse='|')
-paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=collapse)
+paste_regex_exact <- function(v, collapse='|') { paste0('^', v, '$', collapse=collapse) }
 
 
 #' A function to paste a vector in a regex way with '|' options for exact or partial. Is it working?
-#'
-#' This function allows you to paste a vector in a regex way with '|' options for exact or partial
 #' @export
 #' @examples
 #' paste_regex(v, collapse='|', exact=F)
 paste_regex <- function(v, collapse='|', exact=F){
-  if(exact) paste_regex_exact(v)
-  else paste_regex_partial(v)
+  if(exact) { paste_regex_exact(v) }
+  else { paste_regex_partial(v) }
 }
 
-#' A function to clean dates
-#'
-#' This function allows you to recode a date that's originally in a format like `January 17, 1996 11:00 AM`
+
+#' A function to clean dates: recode a date that's originally in a format like `January 17, 1996 11:00 AM`
 #' @export
 #' @examples
 #' newdate()
-newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
+newdate <- function(v){ lubridate::mdy_hm(v) %>% lubridate::date()}
 
-#' A function to remove characters after a certain character
-#'
+
 #' This function allows you to remove characters after a certain character of your choosing
 #' @export
 #' @examples
 #' remove_after_char(v, sep=' ')
-remove_after_char <- function(v, sep=' ') gsub(paste0(sep, ".*"),"", v)
+remove_after_char <- function(v, sep=' '){ gsub(paste0(sep, ".*"),"", v)}
 
 
 #' A function to paste a vector in a regex way with '|'
@@ -1220,25 +961,19 @@ drop_repeat_cols <- function(d, fromall=F, fromlast=F, fromfirst=F){
 }
 
 #' A function to ask if it's a character or factor logical
-#'
-#' This function allows you to
 #' @export
 #' @examples
-#' is.factorchar()
-is.factorchar <- is.charorfact <- function(x) ifelse(is.character(x) | is.factor(x), T, F)
+#' is.factorchar(x)
+is.factorchar <- is.charorfact <- function(x){ ifelse(is.character(x) | is.factor(x), T, F) }
 
-#' A function
-#'
-#' This function allows you to
+
+#' This function allows you to apply a function to a whole dataframe (inferior to purrr::map_if(is.dataframe, fun) tho!)
 #' @export
 #' @examples
 #' dply_all()
-dply_all <- function(x, fun) data.frame(lapply(x, fun), stringsAsFactors = F)
+dply_all <- function(x, fun){ data.frame(lapply(x, fun), stringsAsFactors = F)}
 
-
-#' A function
-#'
-#' This function allows you to 
+#' A function lapply stuff to just non-numeric columns in a df
 #' @export
 #' @examples
 #' lapply_on_nonumeric()
@@ -1248,23 +983,22 @@ lapply_on_nonumeric <- function(df, fun) {
   })
 }
 
-
-#' A function
-#'
-#' This function allows you to 
+#' A function to apply stuff to just non-numeric columns in a df
 #' @export
 #' @examples
 #' dply_nonnumeric()
 dply_nonnumeric <- function(x, fun) data.frame(lapply_on_nonumeric(x, fun), stringsAsFactors = F)
+
+#' A function to apply stuff to all columns in a df, specific to numeric or non-numeric type?
+#' @export
+#' @examples
+#' dply()
 dply <- function(df, fun, num=T){
   if(num) df <- dply_all(df, fun=fun); df
   if(!num) df <- dply_nonnumeric(df, fun=fun); df
 }
 
-
-#' A function
-#'
-#' This function allows you to 
+#' A function to operate dplyr?
 #' @export
 #' @examples
 #' ply()
@@ -1275,11 +1009,9 @@ ply <- function(x, fun, num=T){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' dply_to_title()
+#' dply_to_title(x, stringsAsFactors=T)
 dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, stringsAsFactors=T) {
   if(is.data.frame(x)|is.list(x)) x <- lapply(x, function(xx){
     if(is.character(xx)|is.factor(xx)) xx <- stringr::str_to_title(xx); xx
@@ -1289,50 +1021,16 @@ dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, str
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' gsub_ply()
+#' gsub_ply(from, to, x, ignore.case=T, num=T)
 gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub(from, to, xx, ignore.case=ignore.case), num=num)
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' not_all_na()
-not_all_na <- function(x) any(!is.na(x))
-
-#' A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' not_all_same()
-not_all_same <- function(x){length(unique(x))>1}
-
-#' A function that can filter a dataframe so it includes all duplicates of your variable of choice
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' filter_duplicated()
-filter_duplicated <- function(d, var="id"){
-  vdups <-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) duplicated(v)) %>% .[[var]]
-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) v %in% vdups)
-}
-
 
 
 # `%>%` <- magrittr::`%>%` 
 # `%<>%` <- magrittr::`%<>%`
 
 ## Loads pipes (`%>%` and `%<>%`) into R env
-#' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' pipes()
@@ -1341,85 +1039,27 @@ pipes <- function(){
   `%<>%` <<- magrittr::`%<>%`
 }
 
-
 pipe1 <- function() `%>%` <<- magrittr::`%>%` 
-
 pipe2 <- function() `%<>%` <<- magrittr::`%<>%`
 
-
-
-## same as list.files() except default recursive=T and full.names=T
-#' A function
-#'
-#' This function allows you to 
+#' same as list.files() except default recursive=T and full.names=T
 #' @export
 #' @examples
-#' list_files()
+#' list_files(p, pattern=NULL, recursive=T, full.names=T)
 list_files <- function(p, pattern=NULL, recursive=T, full.names=T) list.files(p, pattern=pattern, recursive=recursive, full.names=full.names)
 
 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' pkg()
-#' ## load and/or install package first!
-#' pkg <- function (package1, ...) {
-#'   packages <- c(package1, ...)
-#'   for (package in packages) {
-#'     if (package %in% rownames(installed.packages())) 
-#'       do.call(library, list(package))
-#'     else {
-#'       install.packages(package, 
-#'                        repos = c("https://cloud.r-project.org", 
-#'                                  "http://owi.usgs.gov/R/"), dependencies = NA, 
-#'                        type = getOption("pkgType"))
-#'       do.call(library, list(package))
-#'     }
-#'   }
-#' }
-
-#' A function
-#'
 #' This function allows you to 
 #' @export
 #' @examples
-#' pkgu()
-## load and/or install package first, plus check for an update & do the update if there is one!
-pkgu <- function (package1, ...) {
-  packages <- c(package1, ...)
-  for (package in packages) {
-    if (package %in% rownames(installed.packages())) {
-      do.call(library, list(package))
-      update.packages(package)
-    }
-    else {
-      install.packages(package, 
-                       repos = c("https://cloud.r-project.org", 
-                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
-                       type = getOption("pkgType"))
-      do.call(library, list(package))
-      update.packages(package)
-    }
-  }
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' try_data_frame()
+#' try_data_frame(x)
 try_data_frame <- function(x) tryCatch(data.frame(x., stringsAsFactors = F), error=function(e) x)
 
 
 #' A function just like read_excel but better bc it does all the sheets!
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' readexcel()
+#' readexcel(file, bindsheets=F, skip=0, col_types='text', simplify=T)
 readexcel <- function(file, bindsheets=F, skip=0, col_types='text', simplify=T){
   sheets <- readxl::excel_sheets(file)
   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet, skip=skip, na = c('NA', 'None', 'N/A', '-', ''), col_types=col_types))
@@ -1428,31 +1068,18 @@ readexcel <- function(file, bindsheets=F, skip=0, col_types='text', simplify=T){
   if(bindsheets) d <- dplyr::bind_rows(d)
   d
 }
-# readexcel <- function(file, bindsheets=F){
-#   sheets <- readxl::excel_sheets(file)
-#   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
-#   names(d) <- sheets
-#   d <- try_combine_compact(d)
-#   d <- drop_empty(d)
-#   if(bindsheets) d <- dplyr::bind_rows(d)
-#   d
-# }
 
-#' A function to read excel file
-#'
-#' This function allows you to 
+#' A function to tryCatch read excel file
 #' @export
 #' @examples
-#' try_read_excel()
+#' try_read_excel(file, bindsheets=F, col_types='text')
 try_read_excel <- function(file, bindsheets=F, col_types='text') tryCatch(readexcel(file, bindsheets=bindsheets, col_types=col_types), error=function(e) NULL)
 
 
 #' A function to read excel files
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_excels()
+#' read_excels(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text')
 read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text'){
   d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, col_types=col_types))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1460,12 +1087,10 @@ read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T, col_types
   d
 }
 
-#' A function to a read csv file
-#'
-#' This function allows you to 
+#' A function to a tryCatch read csv file
 #' @export
 #' @examples
-#' try_read_csv()
+#' try_read_csv(file)
 try_read_csv <- function(file){
   d <- tryCatch(read.csv(file), error=function(e) file)
   if(is.character(d)) d <- tryCatch(readr::read_csv(file), error=function(e) NULL)
@@ -1474,11 +1099,9 @@ try_read_csv <- function(file){
 
 
 #' A function to read csv files
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_csvs()
+#' read_csvs(filelist, bindrows=F, simplif=T)
 read_csvs <- function(filelist, bindrows=F, simplif=T){
   d <- lapply(filelist, function(x) try_read_csv(x))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1487,44 +1110,34 @@ read_csvs <- function(filelist, bindrows=F, simplif=T){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_rda()
+#' try_read_rda(file)
 try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) NULL)
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_feather()
+#' try_read_feather(file)
 try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), error=function(e) NULL)
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_table()
+#' try_read_table(f)
 try_read_table <- function(f) tryCatch(data.frame(readr::read_table(f), stringsAsFactors = F), error=function(e) NULL)
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_delim()
+#' try_read_delim(f, delim=';')
 try_read_delim <- function(f, delim=';') tryCatch(data.frame(readr::read_delim(f, trim_ws = T, delim=delim), stringsAsFactors = F), error=function(e) NULL)
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_dat()
+#' read_dat(f)
 read_dat <- function(f) {
   ddelim <- try_read_delim(f)
   dtable <- try_read_table(f)
@@ -1535,20 +1148,16 @@ read_dat <- function(f) {
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_dat()
+#' try_read_dat(f)
 try_read_dat <- function(f) tryCatch(read_dat(f), error=function(e) NULL)
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_dats()
+#' read_dats(flist, bind=F)
 read_dats <- function(flist, bind=F){
   d <- lapply(flist, try_read_dat)
   if(bind) d <- dplyr::bind_rows(d)
@@ -1557,11 +1166,9 @@ read_dats <- function(flist, bind=F){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_file()
+#' read_file(file, bindsheets=F)
 read_file <- function(file, bindsheets=F){
   d <- try_read_rda(file)
   if(is.null(d) | grepl("\\.xls$|\\.xlsx$", file, ignore.case=T)) d <- try_read_excel(file, bindsheets=bindsheets, col_types=col_types)
@@ -1574,20 +1181,16 @@ read_file <- function(file, bindsheets=F){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_read_file()
+#' try_read_file(file, bindsheets=F)
 try_read_file <- function(file, bindsheets=F) tryCatch(read_file(file), error=function(e) NULL)
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_files()
+#' read_files(filelist, bindsheets=F, bindrows=F, simplif=T)
 read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
   d <- lapply(filelist, function(x) try_read_file(x, bindsheets=bindsheets))
   if(simplif) d <- try_combine_compact(d) %>% drop_empty()
@@ -1597,11 +1200,9 @@ read_files <- function(filelist, bindsheets=F, bindrows=F, simplif=T){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_df_all()
+#' read_df_all(filenames, bindrows=F, bindsheets=F, simplif=T)
 read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
   x <- read_files(filenames)
   # names(x) <- gsub_NSRHOADS(gsub("[^_|[:alnum:]]", "", filenames))
@@ -1610,11 +1211,9 @@ read_df_all <- function(filenames, bindrows=F, bindsheets=F, simplif=T) {
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_dfs_process()
+#' read_dfs_process(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1)
 read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1){
   mylist <- filelist
   print(paste0("# of files: ", length(filelist)))
@@ -1638,48 +1237,17 @@ read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_
 }
 
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_dfs_process_by1()
-read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', startdoc=1){
-  mylist <- filelist
-  print(paste0("# of files: ", length(filelist)))
-  lapply(startdoc:length(filelist), function(x){
-    docnum <- x
-    x <- filelist[x]
-    ext <- tools::file_ext(x)
-    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()))
-    # sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()
-    splitfilename <- rev(unlist(strsplit(x, "/")))[1] %>% alnum()
-    if(prefix=='auto') prefix <- splitfilename
-    filename <- paste0(outpath, round5(docnum), "_", substr(prefix, start=1, stop=100), ext, "_", nrow(sublist), ".f")
-    (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct())
-    feather::write_feather(sublist, filename)
-    print("")
-    print(paste0("dim: ", paste0(dim(sublist), collapse=" row "), " col - ", filename))
-    print(sample_n(filter(sublist, !is.na(fLname)), 3))
-  })# %>% print(system.time())
-}
-
-
 #' a function gsubing stuff related to srhoads jl desktop comp path
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' gsub_NSRHOADS()
+#' gsub_NSRHOADS(x)
 gsub_NSRHOADS <- function(x) x %>% gsub("[^_|[:alnum:]]", "", .) %>% gsub("NSRHOADSGitHubdatafilesunzip|srhoads", "", ., ignore.case=T, perl=T)
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' read_ydrive_write()
+#' read_ydrive_write(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text')
 read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text') {
   if(xls|xlsx){
     filenames <- readxl::excel_sheets(filenames)
@@ -1699,53 +1267,10 @@ read_ydrive_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, 
 }
 
 
-#' A function
-#'
-#' This function allows you to 
+#' A function to unzip a folder/directory
 #' @export
 #' @examples
-#' read_ydrive_clean_write()
-read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text') {
-  if(xls|xlsx){
-    filenames <- readxl::excel_sheets(filenames)
-    lapply(filenames, function(f) {
-      print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      d <- tryCatch(readxl::read_excel(filenames, sheet = f, col_types=col_types), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
-      d <- regulars_namesplit(d)
-      feather::write_feather(d, filename)
-    })
-  }
-  if(csv) {
-    lapply(filenames, function(f){ 
-      print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      d <- tryCatch(read.csv(f), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
-      d <- regulars_namesplit(d)
-      feather::write_feather(d, filename)
-    })
-  }
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' write_ydrive_originals()
-write_ydrive_originals <- function(fl, outpath="AA/data/"){ # input = list of file names
-  read_ydrive_write(csvfl <- fl[grep("csv$", fl, ignore.case=T)], csv=T)
-  read_ydrive_write(xlsfl <- fl[grep("xls$", fl, ignore.case=T)], xls=T)
-  read_ydrive_write(xlsxfl <- fl[grep("xlsx$", fl, ignore.case=T)], xlsx=T)
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' unzip_dir()
+#' unzip_dir(zipfile, outdir="unzip")
 unzip_dir <- function(zipfile, outdir="unzip"){
   output <- gsub("\\.zip$", "", zipfile)
   output <- gsub("original", outdir, output)
@@ -1755,25 +1280,21 @@ unzip_dir <- function(zipfile, outdir="unzip"){
   print(output)
 }
 
-#' A function
-#'
-#' This function allows you to 
+#' A function to tryCatch unzip_doir
 #' @export
 #' @examples
-#' try_unzip()
+#' try_unzip(zipfile)
 try_unzip <- function(zipfile){
   tryCatch(unzip_dir(zipfile), error = function(e) zipfile)
 }
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 
-#' A function
-#'
-#' This function allows you to 
+#' A function to drop empty (NULL) items from a list
 #' @export
 #' @examples
-#' drop_empty()
-drop_empty  <-  function(x_list) x_list[unlist(lapply(x_list, length) != 0)] 
+#' drop_empty(x_list)
+drop_empty <- function(x_list) { x_list[unlist(lapply(x_list, length) != 0)] }
 
 #' A function
 #'
@@ -1826,8 +1347,6 @@ list_names <- function(mylist, unique = F){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' split_original_rdas()
@@ -1839,9 +1358,8 @@ split_original_rdas <- function(filelist = NULL,
                                 outpath = "~/",
                                 by,
                                 extra = NULL,
-                                filename_prefix) {
-  print(filename_prefix)
-  print(by)
+                                filename_prefix, verbose=F) {
+  if(verbose){ print(filename_prefix); print(by) }
   
   if(is.null(filelist)) filelist <- list.files(inpath, pattern, full.names=T)
   
@@ -1866,8 +1384,6 @@ split_original_rdas <- function(filelist = NULL,
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' reduce_name_bytes()
@@ -1878,149 +1394,20 @@ reduce_name_bytes <- function(x){
   x
 }
 
-#' A function
-#'
-#' This function allows you to 
+
+#' A RECURSIVE function!!
 #' @export
 #' @examples
-#' select_not_race_gender_cols()
-select_not_race_gender_cols <- function(mylist) {
-  nrg <- purrr::map(mylist,
-                    ~dplyr::select(.x, #dplyr::matches('name|x'), dplyr::contains(dplyr::everything()),
-                                   -dplyr::matches('gender|race|date|time')
-                                   #dplyr::matches(minuscontainsregex)
-                    ))
-  nrg
+#' race_seq_names()
+race_seq_names <- function(x){
+  names(x) <- stringr::str_replace_all(names(x), "[^[:alpha:]]", "")
+  names(x) <- stringr::str_replace_all(names(x), "^", "race")
+  if (is.list(x) & ! is.data.frame(x)) 
+    x <- lapply(X = x, FUN = race_seq_names)
+  x
 }
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_nrg_cols_list()
-select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  mylist <- purrr::map(mylist, ~dplyr::select(.x, 
-                                              dplyr::matches('name|gender|gendr|gndr|gnder|sex|race|ethnic'),
-                                              -dplyr::matches(minuscontainsregex)))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_nrg_cols_df()
-select_nrg_cols_df <- function(df, output = c("df", "names")) {
-  output <- match.arg(output)
-  df <- dplyr::select(df, dplyr::matches('name|gender|gendr|gndr|gnder|sex|race|ethnic'),-dplyr::matches(minuscontainsregex))
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  df
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_nrg_cols()
-select_nrg_cols <- function(x, type = c("list", "df"), output = NULL) {
-  type <- match.arg(type)
-  if(type == "list")
-    return(select_nrg_cols_list(x, output = output))
-  if(type == "df")
-    return(select_nrg_cols_df(x, output = output))
-  return(select_nrg_cols_list(x, output = output))
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_name_cols_df()
-select_name_cols_df <- function(df, output = c("df", "names")) {
-  output <- match.arg(output)
-  df <- dplyr::select(df, 
-                      dplyr::matches('name'),
-                      -dplyr::matches(minuscontainsregex))
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  df
-}
-
-
-# select_gender_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-#   partials <- c("female", "woman", "women", "feminine", "masculine")
-#   cols1 <- 
-#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-#   cols2 <- 
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2) %>% unique()
-#   df <- 
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) #%>% dplyr::distinct()
-#   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
-#   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("gender.", 1:ncol(df))
-#     df
-#   }
-#   df
-# }
-
-
-# select_gender_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-#   partials <- c("female", "woman", "women", "feminine", "masculine")
-#   cols1 <-
-#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-#   cols2 <-
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-#   # df$PLACEFILLER <- NA
-#   df <-
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::select(- dplyr::matches("gender"))
-#   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
-#   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("gender.", 1:ncol(df))
-#     df
-#   }
-#   df
-# }
-
-
-#' A function
-#'
-#' This function allows you to 
+#' A RECURSIVE function
 #' @export
 #' @examples
 #' gender_seq_names()
@@ -2034,285 +1421,6 @@ gender_seq_names <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_gender_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-  partials <- c("female", "woman", "women", "feminine", "masculine")
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  cols1 <- 
-    purrr::map(mylist, ~dplyr::select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols2 <- 
-    purrr::map(mylist, 
-               ~dplyr::select_if(.x, function(xx) {any(xx %in% exacts) | any(grepl(paste0(partials, collapse="|"), xx, ignore.case = T))})) %>% 
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-  mylist <- purrr::map(mylist, ~dplyr::select(.x, dplyr::matches(paste0(cols, collapse="|"))))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-} 
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_race_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
-  output <- match.arg(output)
-  exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-  partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-                "pacific islander", "indian")
-  cols1 <- 
-    dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
-  cols2 <- 
-    dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-  cols <- c(cols1, cols2) %>% unique()
-  df <- 
-    dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")), -dplyr::matches("name")) #%>% dplyr::distinct()
-  
-  if(length(df) == 0 | ncol(df) == 0)df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-  
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  if(output == "dfnewnames") {
-    names(df) <- paste0("race.", 1:ncol(df))
-    df
-  }
-  df
-}
-
-
-# 
-# select_race_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-#               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander",
-#               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-#   partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-#                 "pacific islander", "indian")
-#   cols1 <-
-#     dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
-#   cols2 <-
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-#   # df$PLACEFILLER <- NA
-#   df <-
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")),-dplyr::matches("name")) %>% dplyr::select(- dplyr::matches("race"))
-#   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
-#   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("race.", 1:ncol(df))
-#     df
-#   }
-#   df
-# }
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_nrg_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  mylist <- purrr::map(mylist, ~dplyr::select(.x, 
-                                              dplyr::matches('name|gender|gendr|gndr|gnder|sex|race|ethnic'),
-                                              -dplyr::matches(minuscontainsregex)))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' race_seq_names()
-race_seq_names <- function(x){
-  names(x) <- stringr::str_replace_all(names(x), "[^[:alpha:]]", "")
-  names(x) <- stringr::str_replace_all(names(x), "^", "race")
-  if (is.list(x) & ! is.data.frame(x)) 
-    x <- lapply(X = x, FUN = race_seq_names)
-  x
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_race_cols_list()
-select_race_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-  partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-                "pacific islander", "indian")
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  cols1 <- 
-    purrr::map(mylist, ~select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols2 <- 
-    purrr::map(mylist, 
-               ~dplyr::select_if(.x, function(xx) {any(xx %in% exacts) | any(grepl(paste0(partials, collapse="|"), xx, ignore.case = T))})) %>% 
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols <- c(cols1, cols2) %>% unique()
-  mylist <- purrr::map(mylist, ~select(.x, dplyr::matches(paste0(cols, collapse="|")),
-                                       -dplyr::matches("name")))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-} 
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols_df <- function(df, output = c("df", "names")){
-  output <- match.arg(output)
-  cnrg <- select_nrg_cols_df(df, output = "names")
-  cr <- select_race_cols_df(df, output = "names")
-  cg <- select_gender_cols_df(df, output = "names")
-  cols <- c(cnrg, cr, cg) %>% unique()
-  df <- dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::distinct()
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  df
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols_list <- function(mylist, output = c("list", "names")){
-  output <- match.arg(output)
-  cnrg <- select_nrg_cols_list(mylist, output = "names")
-  cr <- select_race_cols_list(mylist, output = "names")
-  cg <- select_gender_cols_list(mylist, output = "names")
-  cols <- c(cnrg, cr, cg) %>% unique()
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  mylist <- purrr::map(mylist, ~select(.x, dplyr::matches(paste0(cols, collapse="|"))))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = NULL){
-  type <- match.arg(output)
-  if(type == "list")
-    return(select_name_race_gender_cols_list(dat, output = output))
-  if(type == "df")
-    return(select_name_race_gender_cols_df(dat, output = output))
-  select_name_race_gender_cols_list(dat, output = output)
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = NULL){
-  type <- match.arg(type)
-  if(type == "list")
-    return(select_name_race_gender_cols_list(dat, output = output))
-  if(type == "df")
-    return(select_name_race_gender_cols_df(dat, output = output))
-  select_name_race_gender_cols_list(dat, output = output)
-}
-
-
-# ---------------------------------------------------------------------------------
-
-
-#' A read files into list of list function
-#'
-#' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
-#' @export
-#' @examples
-#' data_lol(path='data', skip1='APPLICANTS_FAC-STAFF')
-data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', col_types='text'){
-  dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
-  data <- 
-    lapply(dirs, function(l){
-      files <- list.files(l, recursive=T, full.names=T)
-      l %<>%
-        list.files(., recursive=T, full.names=T) %>%
-        read_excels(., bindsheets = T, col_types=col_types)
-      names(l) <- basename(files)
-      l
-    }) %>% setNames(., basename(dirs))
-  if(!is.null(skip1)){
-    s1dfname <- select_list(data$data_files, skip1) %>% names()
-    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1, col_types=col_types)
-    data$data_files[[s1dfname]] <- s1df
-  }
-  data
-}
-# data_lol <- function(pattern='data'){
-#   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
-#   data <- lapply(dirs, function(l){
-#     files <- list.files(l, recursive=T, full.names=T)
-#     l %<>% 
-#       list.files(., recursive=T, full.names=T) %>% 
-#       read_excels(., bindsheets = T)
-#     names(l) <- basename(files)
-#     l
-#   }) %>% setNames(., basename(dirs))
-# }
-
-
-
-#' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' try_bind()
@@ -2323,8 +1431,6 @@ try_bind <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' list_to_df()
@@ -2345,181 +1451,8 @@ list_to_df <- function(mylist) {
   dplyr::distinct(nrgdf)
 }
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' list_to_df_anomalies()
-list_to_df_anomalies <- function(mylist) {
-  mylist <- try_combine_compact(mylist)
-  # nrgdf <- plyr::ldply(mylist)
-  nrgdf <- try_bind(mylist)
-  nrgdf <- data.frame(lapply(nrgdf, function (x) {
-    x <- stringi::stri_enc_toutf8(x)
-    x <- as.character(x)
-    x <- iconv(x)
-    x <- tolower(x)
-    x %<>%
-      gsub("[^_|,| |-|\\-|'|\\.|[:space:]|[:alnum:]]", "", ., perl = T) %>%
-      gsub("\\.|\\_", " ", ., perl = T) %>%
-      gsub("_$|$_", "", ., perl = T) %>%
-      gsub("  ", " ", ., perl = T)
-    x <- trimws(x, which = "both")
-    x <- dplyr::na_if(x, "NA")
-    x <- dplyr::na_if(x, "")
-    x
-  }), stringsAsFactors = F)
-  dplyr::distinct(nrgdf)
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 #' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_other()
-preprocess_names_other <- function(x) {
-  names(x) %<>% 
-    gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal|force", "REMOVE",. , perl = T) %>%
-    gsub(preprocess_names_other_getridofstrregex, "", ., perl = T)
-  names(x)
-}
-
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_race()
-preprocess_names_race <- function(x) {
-  names(x) %<>% 
-    gsub(turntoracestrregex, "race", ., perl = T) %>% 
-    gsub("raceracerace|racerace|racename|namerace", "race", ., perl = T)
-  names(x)
-}
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_name()
-preprocess_names_name <- function(x) {
-  names(x) %<>% 
-    gsub("names$|names$|namelfmi|firstnamelastmi|lastnamefirstmi|lastnamesuffixfirstmi|firstlastname|lastnamefirstmi|lastfirstname", "name", ., perl = T) %>%
-    
-    gsub("firstfirst|middlemiddle|middle|^mid|mid$|frist|frst|1st|andfirst|firstand|firest", "first", ., perl = T) %>%
-    gsub("lastmi$|lastmid$|^milast|lastlast|lastmi|blast", "last", ., perl = T) %>%
-    
-    gsub("person$|nameort|nameorlastname|firstlast|lastfirst|firstnamelast|lastnamefirst|namefull|^urname|namedle|^yoname|initials", "name", ., perl = T) %>%
-    gsub("namemiddleinitial|namemi$|namedle|lastnameorfirstname|nameof$|lastnameorfirstname|^eename|^sname|^alname|namescreen", "name", ., perl = T) %>%
-    gsub("lfmname|^urname|^urname|nameofor$", "name", ., perl = T) %>%
-    gsub("firstmi$|frstname|nickname|candfirstname|^miname|^mname|firstnamea$|firstnamemi$|firstname|firstnam|midname|^mname|^mname", "firstname", ., perl = T) %>%  
-    gsub("namelast|candlastname|lastnameb$|lastmi$|^alastname|^slastname|^slastname", "lastname", ., perl = T) %>%  
-    gsub("lastname|fulllastname|^slastname|surname|latename|^astname|^llastname|lastnameort|^hlastname|lname", "lastname", ., perl = T) %>%
-    gsub("firstnamelastmi|firstinitial|lastinitial|lastnamefirstmi|lastnamesuffixfirstmi|firstlastname|lastnamefirstmi|lastfirstname|namemiddleinitial|firstmid|mifirst|firstmi|midfirst", "name", ., perl = T) %>%
-    gsub("namemiddle|nameort$|nameorlastname|firstlast|lastfirst|firstnamelast|lastnamefirst|namemi$|lastnamefirst|firstmiddlelast|firstandlast|lastorfirst|firstorlast|lastandfirst", "name", ., perl = T) %>%
-    gsub("firstname|namefirst|fistname|fullfirstname|lfirstname|fristname|namemid$|firstname|irstname|^ffirstname|nickname|middleinitial|^miname|fname", "firstname", ., perl = T) %>%  
-    gsub("middleinitial|firstnamemi|^miname|^miname|^fname|^mname|forename|firstnameafirstname|^sfirstname|namemi$", "firstname", ., perl = T) %>%  
-    gsub("lastname|namelast|^lname|^lname|fulllastname|^slastname|surname|latename|^astname|^llastname|lastinitial|lastname|lastnam|^llastname", "lastname", ., perl = T) %>%
-    
-    gsub("firstnamefirstnamefirstname|firstnamefirstname", "firstname", ., perl = T) %>%
-    gsub("lastnamelastnamelastname|lastnamelastname", "lastname", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  names(x)
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_gender()
-preprocess_names_gender <- function(x) {
-  names(x) %<>% 
-    gsub(turntogenderstrregex, "gender", ., perl = T) %>%
-    gsub("racesex|ethgender|ethsex|genderrace|sexrace|genderethnicity|gendereth|sexeth|racgender|raceender|genderace", "racegender", ., perl = T) %>%
-    gsub("gendergendergender|gendergender|gendername|namegender", "gender", ., perl = T)
-  names(x)
-}
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_thorough()
-preprocess_names_thorough <- function(x) {
-  x <- plyr::compact(x)
-  
-  names(x) <- iconv(names(x)) %>% 
-    stringi::stri_enc_toutf8() %>%
-    as.character() %>%
-    trimws(., which = "both") %>%
-    tolower() %>% 
-    gsub("[^[:alpha:]]", "", ., perl = T) %>% 
-    gsub("\\.", "", ., perl = T) 
-  # %>% gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal|force", "REMOVE", ., perl = T)
-  
-  names(x) <- preprocess_names_race(x)
-  names(x) <- preprocess_names_gender(x)
-  names(x) <- preprocess_names_other(x)
-  names(x) <- preprocess_names_name(x)
-  
-  names(x) %<>% 
-    gsub("gendergendergender|gendergender", "gender", ., perl = T) %>%
-    gsub("raceracerace|racerace", "race", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  
-  
-  names(x) <- make.names(names = names(x), unique = TRUE)
-  names(x) <- as.character(names(x))
-  if (is.list(x) & ! is.data.frame(x)) 
-    x <- lapply(X = x, FUN = preprocess_names_thorough)
-  x
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_minimal()
-preprocess_names_minimal <- function(x) {
-  x <- plyr::compact(x)
-  names(x) <- iconv(names(x)) %>% 
-    stringi::stri_enc_toutf8() %>%
-    as.character() %>%
-    trimws(., which = "both") %>%
-    tolower() %>% 
-    gsub("[^[:alpha:]]", "", ., perl = T) %>% 
-    gsub("\\.", "", ., perl = T) 
-  # %>% gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal", "REMOVE", ., perl = T)
-  names(x) <- preprocess_names_race(x)
-  names(x) <- preprocess_names_gender(x)
-  names(x) <- preprocess_names_name(x)
-  names(x) %<>% gsub("gendergendergender|gendergender", "gender", ., perl = T) %>%
-    gsub("raceracerace|racerace", "race", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  names(x) <- make.names(names = names(x), unique = TRUE)
-  names(x) <- as.character(names(x))
-  if (is.list(x) & ! is.data.frame(x)) x <- lapply(X = x, FUN = preprocess_names_minimal)
-  x
-}
-
-#' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' combine_compact()
@@ -2531,8 +1464,6 @@ combine_compact <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' try_combine()
@@ -2550,11 +1481,9 @@ try_combine <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_compact()
+#' try_compact(x)
 try_compact <- function(x){
   x <- tryCatch(plyr::compact(plyr::compact(x)), 
                 error = function(e) {
@@ -2569,11 +1498,9 @@ try_compact <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' try_combine_compact()
+#' try_combine_compact(x)
 try_combine_compact <- function(x){
   x <- try_combine(x)
   x <- try_compact(x)
@@ -2582,134 +1509,30 @@ try_combine_compact <- function(x){
   x
 }
 
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names()
-preprocess_names <- function(x, extent = c("minimal", "thorough")) {
-  extent = match.arg(extent)
-  if(extent == "minimal")
-    return(preprocess_names_minimal(x))
-  if(extent == "thorough")
-    return(preprocess_names_thorough(x))
-  preprocess_names_thorough(x)
-}
-
-
 # ---------------------------------------------------------------------------------
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' preprocess_all_cols(x, extent = "thorough")
-preprocess_all_cols <- function(x, extent = "thorough") {
-  if(is.list(x)){
-    x <- tryCatch(dplyr::combine(x),
-                  error = function(e) x)
-  }
-  preprocess_names(x, extent = "thorough") %>%
-    select_not_race_gender_cols() %>%
-    list_to_df_anomalies() %>%
-    dplyr::distinct()
-}
-
-# ---------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data_minimal()
-preprocess_data_minimal <- function(x, type = c("lod")) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names(x, extent = "minimal") %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  preprocess_names_minimal(x#, extent = "minimal"
-                           ) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.) %>% dplyr::distinct()
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data_thorough()
-preprocess_data_thorough <- function(x, type = c("lod")) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names_thorough(x) %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  preprocess_names_thorough(x) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.) %>% dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data()
-preprocess_data <- function(x, type = c("lod"), extent = NULL) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names(x, extent = extent) %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  
-  preprocess_names(x, extent = extent) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.)# %>% dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' gather_firstname()
+#' gather_firstname(df)
 gather_firstname <- function(df) {
-  tidyr::gather(df, "twastwas", "firstname", dplyr::contains("firstname")) %>% 
-    dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
+  tidyr::gather(df, "twastwas", "firstname", dplyr::matches("firstname")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas")) %>% dplyr::distinct() 
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' gather_lastname()
+#' gather_lastname(df)
 gather_lastname <- function(df) {
-  tidyr::gather(df, "twastwas", "lastname", dplyr::contains("lastname")) %>% 
-    dplyr::select(-dplyr::contains("twastwas")) %>% dplyr::distinct() 
+  tidyr::gather(df, "twastwas", "lastname", dplyr::matches("lastname")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas")) %>% dplyr::distinct() 
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' gather_first_last_name()
+#' gather_first_last_name(df)
 gather_first_last_name <- function(df) {
   df <- gather_lastname(df)
   df <- gather_firstname(df) 
@@ -2773,8 +1596,6 @@ gather_nrg <- function(df) {
 
 # ---------------------------------------------------------------------------------
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' dealwith_racegender_variable()
@@ -2797,8 +1618,8 @@ dealwith_racegender_variable <- function(x){
 #' gather_name()
 gather_name <- function(df) {
   df %>%
-    tidyr::gather("twastwas", "name", dplyr::contains("name")) %>% 
-    dplyr::select(-dplyr::contains("twastwas")) %>% 
+    tidyr::gather("twastwas", "name", dplyr::matches("name")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas")) %>% 
     # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>%
     lapply(stringi::stri_enc_toutf8) %>% 
     data.frame(., stringsAsFactors = F) %>%  
@@ -2814,8 +1635,8 @@ gather_name <- function(df) {
 gather_name_namesplit <- function(df) {
   names(df) %<>% gsub("lastname", "ln_orig", .) %>% gsub("firstname", "fn_orig", .)
   df %<>%
-    tidyr::gather("twastwas", "name", dplyr::contains("name")) %>% 
-    dplyr::select(-dplyr::contains("twastwas")) %>% 
+    tidyr::gather("twastwas", "name", dplyr::matches("name")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas")) %>% 
     # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>%
     lapply(stringi::stri_enc_toutf8) %>% 
     data.frame(., stringsAsFactors = F) %>% 
@@ -2832,8 +1653,8 @@ gather_name_namesplit <- function(df) {
 #' gather_gender()
 gather_gender <- function(df) {
   df %>%
-    tidyr::gather("twastwas", "gender", dplyr::contains("gender")) %>% 
-    dplyr::select(-dplyr::contains("twastwas"), -dplyr::one_of(".id")) %>%
+    tidyr::gather("twastwas", "gender", dplyr::matches("gender")) %>% 
+    dplyr::select(-dplyr::matches("twastwas"), -dplyr::one_of(".id")) %>%
     lapply(stringi::stri_enc_toutf8) %>% 
     data.frame(., stringsAsFactors = F) %>% 
     dplyr::distinct() 
@@ -2847,8 +1668,8 @@ gather_gender <- function(df) {
 #' gather_race()
 gather_race <- function(df) {
   df %>%
-    tidyr::gather("twastwas", "race", dplyr::contains("race")) %>% 
-    dplyr::select(-dplyr::contains("twastwas"), -dplyr::one_of(".id")) %>%
+    tidyr::gather("twastwas", "race", dplyr::matches("race")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas"), -dplyr::one_of(".id")) %>%
     lapply(stringi::stri_enc_toutf8) %>% 
     data.frame(., stringsAsFactors = F) %>% 
     dplyr::distinct() 
@@ -2861,10 +1682,10 @@ gather_race <- function(df) {
 #' @examples
 #' gather_race_and_gender()
 gather_race_and_gender <- function(df) {
-  df <- tidyr::gather(df, "twastwas", "gender", dplyr::contains("gender")) %>% 
-    dplyr::select(-dplyr::contains("twastwas"), -dplyr::one_of(".id"))
-  df <- tidyr::gather(df, "twastwas", "race", dplyr::contains("race")) %>% 
-    dplyr::select(-dplyr::contains("twastwas"), -dplyr::one_of(".id"))
+  df <- tidyr::gather(df, "twastwas", "gender", dplyr::matches("gender")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas"), -dplyr::one_of(".id"))
+  df <- tidyr::gather(df, "twastwas", "race", dplyr::matches("race")) %>% 
+    dplyr::select(-dplyr::one_of("twastwas"), -dplyr::one_of(".id"))
   # dplyr::distinct(df)
 }
 # ---------------------------------------------------------------------------------
@@ -2905,14 +1726,12 @@ recode_na_list <- list(
 )
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' recode_na_vec()
 recode_na_vec <- function(vec, 
                           recode_list = recode_na_list, 
-                          extra = NULL) {
+                          extra = NULL, recode_na_getridofstrregex=NULL) {
   recode_key <- lapply(
     names(recode_list), 
     function(x) {
@@ -2923,16 +1742,14 @@ recode_na_vec <- function(vec,
   vec <- dplyr::recode(vec, !!!recode_key)
   vec <- gsub("^NA$", NA, vec, perl = T)
   vec <- gsub("[[:digit:]]", "", vec, perl = T)
-  vec <- gsub(recode_na_getridofstrregex, "", vec, perl = T)
+  if(!is.null(recode_na_getridofstrregex)){vec <- gsub(recode_na_getridofstrregex, "", vec, perl = T)}
   vec
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' recode_na()
+#' recode_na(x)
 recode_na <- function(x){
   if(is.data.frame(x) | is.list(x)) x %<>% lapply(., recode_na_vec) %>% data.frame(., stringsAsFactors=F)
   else x %<>% recode_na_vec(x)
@@ -2944,8 +1761,6 @@ recode_na <- function(x){
 # ---------------------------------------------------------------------------------
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' recode_race_regex()
@@ -3015,8 +1830,6 @@ recode_race_regex <- function(vec) {
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' recode_races_regex()
@@ -3030,9 +1843,7 @@ recode_races_regex <- function(df) {
 
 # ---------------------------------------------------------------------------------
 
-#' A function
-#'
-#' This function allows you to recode gender!
+#' A function to recode gender!
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3055,8 +1866,7 @@ recode_gender_regex <- function(vec) {
   vec
 }
 
-#'
-#'
+
 #' This function allows you to recode gender!
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
@@ -3072,9 +1882,7 @@ recode_genders_regex <- function(df) {
   df
 }
 
-#' A function
-#'
-#' This function allows you to recode gender!
+#' This function allows you to recode race and gender!
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3124,8 +1932,6 @@ recode_races_and_genders_regex <- function(df, extragender = NULL, extrarace = N
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3160,9 +1966,8 @@ recode_races_and_genders <- function(df, extragender = NULL, extrarace = NULL, e
 # ---------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------
+
 #' A clean_dfs Function
-#'
-#' This function allows you to 
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3195,8 +2000,6 @@ clean_dfs <- function(df) {
 
 # ---------------------------------------------------------------------------------
 #' A Recode Race or Gender Function
-#'
-#' This function allows you to recode 
 #' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3218,9 +2021,7 @@ recode_race_or_gender <- function(vec, recode_list = list("NA" = c("undef", "non
   vec
 }
 # ---------------------------------------------------------------------------------
-#' A Recode Gender Function
-#'
-#' This function allows you to recode gender!
+#' A Recode Gender Function: allows you to recode gender!
 #' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
 #' @keywords cats
@@ -3395,11 +2196,9 @@ getridofgenderspecific_regex <- function(){ paste0(
   collapse = "|"
 )}
 getridofracespecific_regex <- function() {paste0(c("male", "female", "woman", "^man$", "women", 
-                                       "regular"), collapse = "|")}
+                                                   "regular"), collapse = "|")}
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' recode_gender_specific()
@@ -3413,8 +2212,6 @@ recode_gender_specific <- function(vec, extra = NULL) {
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' recode_race_specific()
@@ -3432,8 +2229,6 @@ recode_race_specific <- function(vec, extra = NULL) {
 
 # ---------------------------------------------------------------------------------
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' clean_recode()
@@ -3455,8 +2250,6 @@ clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extr
 
 # ---------------------------------------------------------------------------------
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL, extent = NULL)
@@ -3517,12 +2310,10 @@ prestep_preprocess_data <- function(mylist, subsets = 2,
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write = FALSE, featherpath = "~/")
-multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subsubsets = 2, write = FALSE, featherpath = "~/") {
+#' multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/")
+multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/") {
   write = match.arg(write)
   by <- round(length(mylist) / subsets)
   if(by < 1) by <- 2
@@ -3553,7 +2344,7 @@ multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subs
                                        subsets = subsets, 
                                        # subsubsets = subsubsets,
                                        type = type
-                                       )
+           )
          }
   ) %>% 
     dplyr::bind_rows() %>% 
@@ -4413,32 +3204,9 @@ read_rda_merge_write_feathers <- function(filelist = NULL,
   
 }
 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' read_rdas()
-#' read_rdas <- function(filelist = NULL, 
-#'                       inpath = NULL,
-#'                       pattern = NULL) {
-#'   if(is.null(filelist)){
-#'     files <- list.files(inpath, pattern)
-#'     filelist <- paste0(inpath, "/", files) %>%
-#'       gsub("\\/\\/", "\\/", ., perl = T) %>%
-#'       gsub("__", "_", ., perl = T)
-#'   }
-#'   
-#'   loaded <- lapply(filelist, function (x){
-#'     x <- load(x)
-#'     x <- get(x)
-#'   })
-#'   loaded
-#' }
+
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' read_files_to_feather()
@@ -4489,129 +3257,8 @@ read_files_to_feather <- function(filelist,
   
 }
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-read_merge_write_feathers <- function(filelist = NULL, 
-                                      inpath = NULL,
-                                      pattern = NULL,
-                                      newdir = NULL,
-                                      outpath = "~/",
-                                      filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", .) %>%
-    gsub("__", "_", .) %>%
-    gsub("^_|_$", "", .) %>%
-    gsub("^\\_|\\_$|^_|\\<_", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
-}
 
 #' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-read_feathers_recode_write <- function(filelist = NULL, 
-                                       inpath = NULL,
-                                       pattern = NULL,
-                                       outpath = "",
-                                       newdir = NULL) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  if (is.null(newdir)){
-    loaded <- lapply(filelist, function (file) {
-      print("old:")
-      print(dim(x1 <- feather::read_feather(file)))
-      x <- clean_dfs(x1)
-      x <- recode_races_and_genders(x)
-      x <- dplyr::distinct(x)
-      
-      if(!is.null(x$name) & !is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, # !is.na(name), 
-                           !is.na(race) | !is.na(gender))
-      }
-      if(!is.null(x$name) & !is.null(x$gender) & is.null(x$race)){
-        x <- dplyr::filter(x,  # !is.na(name), 
-                           !is.na(gender))
-      }
-      if(!is.null(x$name) & is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x,  # !is.na(name), 
-                           !is.na(race))
-      }
-      x2 <- x
-      print(dim(feather::write_feather(x, file)))
-    }) 
-  } 
-  if (!is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-    loaded <- lapply(filelist, function (file) {
-      print("old:")
-      print(dim(x1 <- feather::read_feather(file)))
-      x <- clean_dfs(x1)
-      x <- recode_races_and_genders(x)
-      x <- dplyr::distinct(x)
-      
-      if(!is.null(x$name) & !is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(race) | !is.na(gender))
-      }
-      if(!is.null(x$name) & !is.null(x$gender) & is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(gender))
-      }
-      if(!is.null(x$name) & is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(race))
-      }
-      
-      filename <- gsub("[^[:alnum:]]", "", file)
-      print(dim(feather::write_feather(x, paste0(dir_path,  "/",filename, ".f") %>%
-                                         gsub("\\/\\/", "/", .))))
-    })
-    # print(data.frame("originalrows" = nrow(x1), 
-    #                  "newrows" = nrow(x)))
-  }
-}
-
-
-#' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' fix_encoding()
@@ -4624,82 +3271,6 @@ fix_encoding <- function(df, originalEncoding = "latin1") {
   return(df)
 }
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-regulars_anomalies <- function(x, extra = NULL, extent = "thorough"){
-  reg <- data.frame(regulars(x, extra = extra), stringsAsFactors = F)
-  anom <- data.frame(anomalies(x), stringsAsFactors = F)
-  all <- dplyr::bind_rows(reg, anom) %>% dplyr::distinct()
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-featherdump_regulars_anomalies <- function(filelist = NULL,
-                                           inpath = NULL,
-                                           pattern = NULL,
-                                           newdir = NULL,
-                                           subsets = 2, subsubsets = 2,
-                                           extra = NULL,
-                                           outpath = "~/",
-                                           filename_prefix = "DEFAULTNAME") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                                   gsub("\\/\\/", "\\/", .) %>%
-                                   gsub("__", "_", .))
-  
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                                    gsub("\\/\\/", "\\/", .) %>%
-                                    gsub("__", "_", .))
-  lapply(filelist, function (xx) {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f), error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
-    mylist <- f
-    by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 2
-    if(by > length(mylist)) by <- length(mylist)
-    lapply(seq(1, (length(mylist)), by), function (x) {
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      time <- system.time(snippet <- regulars_anomalies(mylist[start:end], extra = extra))
-      filename <- paste0(dir_path, "/", filename_prefix,  "_", 
-                         gsub("[^[:alnum:]]", "", xx),  "_", 
-                         round4(start), "to", round4(end), ".f") %>% 
-        gsub("\\/\\/", "\\/",. ) %>% 
-        gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
-        gsub("^\\_|\\_$|^_", "", .)
-      feather::write_feather(snippet, filename)
-      print(paste0(dim(snippet), " -- ", filename))
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
-  }
-  )
-}
-
-
-
-
-
 
 
 
@@ -4708,198 +3279,6 @@ featherdump_regulars_anomalies <- function(filelist = NULL,
 
 
 #' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-merge_many_write_many <- function(filelist = NULL,
-                                  inpath = NULL,
-                                  pattern = NULL,
-                                  newdir = NULL,
-                                  subsets = NULL,
-                                  by = 1000000,
-                                  extra = NULL,
-                                  namegenderonly = F,
-                                  Ng = F,
-                                  Nr = F,
-                                  fullnamegenderonly = F,
-                                  nameraceonly = F,
-                                  firstnameonly = F,
-                                  firstnamegenderonly=F,
-                                  firstnameraceonly=F,
-                                  recode_extra_na = F,
-                                  outpath = "~/",
-                                  filename_prefix = "") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                                   gsub("\\/\\/", "\\/", .) %>%
-                                   gsub("__", "_", .))
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                                    gsub("\\/\\/", "\\/", .) %>%
-                                    gsub("__", "_", .))
-  df <- read_merge_feathers(filelist = filelist, inpath = inpath, pattern = pattern)
-  dfname <- "nrg"
-  
-  if(Ng) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      na.omit() %>%
-      dplyr::mutate(lastname = toupper(lastname),
-             gender = as.factor(gender),
-             name = paste0(firstname, " ", lastname)) %>%
-      select(name, gender) %>% dplyr::distinct()
-    print(dfname <- "Ng")
-  }
-  
-  if(Nr) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      na.omit() %>%
-      dplyr::mutate(lastname = toupper(lastname),
-             race = as.factor(race),
-             name = paste0(firstname, " ", lastname)) %>%
-      select(name, race) %>% dplyr::distinct()
-    print(dfname <- "Nr")
-  }
-  
-  if(firstnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|gender")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-    print(dfname <- "fng")
-  }
-  if(firstnameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|race")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-    print(dfname <- "fnr")
-  }
-  if(namegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(gender)) %>%
-      dplyr::distinct()
-    print(dfname <- "ng")
-  }
-  if(fullnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("^name$|gender")) %>% 
-      dplyr::filter(!is.na(name), !is.na(gender)) %>%
-      dplyr::distinct()
-    print(dfname <- "fullnameg")
-  }
-  if(nameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(race) ) %>%
-      dplyr::distinct()
-    print(dfname <- "nr")
-  }
-  if(recode_extra_na) df %<>% recode_races_and_genders(., extra = "NA")
-  if(!is.null(subsets)) by <- round(nrow(df) / subsets)
-  if(by < 1) by <- 1000000
-  if(by > nrow(df)) by <- nrow(df)
-  lapply(seq(1, (nrow(df)), by), function (x) {
-    start <- x
-    end <- x + (by - 1)
-    diff <- end - nrow(df)
-    end <- ifelse(diff <= 0, end, end - diff)
-    time <- system.time(snippet <- df[start:end, ])
-    filename <- cleanpath(paste0(dir_path, "/", filename_prefix, 
-                                 "_", alnum(dfname), "_", 
-                                 round4(start), "-", round4(end), ".f"))
-    feather::write_feather(snippet, filename)
-    print(paste0(dim(snippet), " -- ", filename))
-    print(time)
-    # data.frame(dir = dir_path, filename = filename)
-  }
-  )
-}
-
-split_originals <- function(filelist, by=1000, outpath="~/"){
-  mylist <- read_rdas(filelist) %>% tryCatch_combine_compact()
-  lapply(seq(1, (length(mylist)), by), function(x){
-    start <- x
-    end <- x + (by - 1)
-    diff <- end - length(mylist)
-    end <- ifelse(diff <= 0, end, end - diff)
-    fname <-paste0(outpath, "csv_", start, "to", end, ".rda")
-    data <- mylist[start:end]
-    save(data, file=fname)
-    paste0("length: ", length(data), " | ", fname)
-  })
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-extract_vars <- function(df,
-                         namegenderonly = F,
-                         Ng = F,
-                         Nr = F,
-                         Nrg=F,
-                         fullnamegenderonly = F,
-                         nameraceonly = F,
-                         firstnameonly = F,
-                         firstnamegenderonly=F,
-                         firstnameraceonly=F,
-                         recode_extra_na = F) {
-  if(Nrg) df %<>% dplyr::select(name=fLname, dplyr::matches("race|gender")) %>% filter(!is.na("name"), !is.na("race")|!is.na("gender")) %>% dplyr::distinct() 
-  if(Ng) df %<>% dplyr::select(name=fLname, dplyr::matches("gender")) %>% na.omit() %>% dplyr::distinct() 
-  if(Nr) df %<>% dplyr::select(name=fLname, dplyr::matches("race")) %>% na.omit() %>% dplyr::distinct() 
-  
-  if(firstnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|gender")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-  }
-  if(firstnameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|race")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-  }
-  if(namegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(gender)) %>%
-      dplyr::distinct()
-  }
-  if(fullnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("^name$|gender")) %>% 
-      dplyr::filter(!is.na(name), !is.na(gender)) %>%
-      dplyr::distinct()
-  }
-  if(nameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(race) ) %>%
-      dplyr::distinct()
-  }
-  if(recode_extra_na) df %<>% recode_races_and_genders(., extra = "NA")
-  
-  dplyr::distinct(df)
-}
-
-
-#' A function
-#'
-#' This function allows you to... 
 #' @export
 #' @examples
 #' combine.lists()
@@ -4921,19 +3300,6 @@ combine.lists <- function(list1, list2){
   new.list
 } # end of combine.lists
 
-
-#' A function
-#'
-#' This function allows you to... 
-#' @export
-#' @examples
-#' recode_list()
-recode_list <- function(gender=T, race=T, na=F){
-  recodelist <- list("NA" = c("N/A"))
-  if(gender) recodelist <- combine.lists(gender_list_short, recodelist)
-  if(race) recodelist <- c(recodelist, race_list_short)
-  recodelist
-}
 
 
 
@@ -4973,177 +3339,12 @@ cleanpath <- function(x){
 #--------------------------------------
 
 #' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' regulars_namesplit()
-regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
-  if(is.data.frame(x) | !is.list(x)) x %<>% list()
-  trycomb <- try_combine(x)
-  trycomp <- try_compact(x)
-  if(is.list(trycomp)) x <- try_compact(x)
-  if(is.list(trycomb)) x <- try_combine(x)
-  
-  x %<>% drop_empty()
-  
-  fldf <- data.frame(firstname="samantha", lastname="rhoads", name="samantha rhoads", gender="female", stringsAsFactors = F)
-  x %<>% lapply(., function(xx) dplyr::bind_rows(data.frame(xx), fldf))
-  
-  # x %<>% drop_empty()
-  
-  x %<>% preprocess_data(., extent = "thorough") %>% dplyr::distinct()
-  x %<>% dealwith_racegender_variable() %>% dplyr::distinct()
-  
-  x %<>% tryCatch(., error = function(e) dfincase)
-  if(is.null(x) | length(x) == 0) x <- dfincase
-  if(is.null(x$name)|is.null(x$gender)|is.null(x$race)) x %<>% dplyr::bind_rows(., dfincase) %>% filter(!is.na(race)|!is.na(gender))
-  
-  x %<>% gather_race_and_gender() %>% dplyr::distinct()
-  x %<>% recode_races_and_genders() #extrarace = extra, extragender = extra) 
-  x %<>% dplyr::distinct()
-  
-  x %<>% gather_join_first_last_namesplit(.) %>% dplyr::distinct()
-  
-  x %<>% recode_na() %>% dplyr::distinct() %>% clean_recode(., scrub = "once") %>% dplyr::distinct()
-  #-------
-  x %<>% dplyr::mutate(gender_r = race,
-                       race_g = gender) %>% dplyr::distinct()
-  
-  x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
-  
-  x %<>% dplyr::mutate(gender = recode_gender_specific(gender),#, extra = extra),
-                       race = recode_race_specific(race))#, extra = extra)) 
-  x %<>% dplyr::distinct()
-  #-------
-  x %<>%
-    recode_races_and_genders() %>%
-    recode_races_and_genders(., extrarace = extra, extragender = extra) %>%
-    dplyr::select_if(not_all_na)  %>%
-    dplyr::distinct() %>% 
-    data.frame(., stringsAsFactors = F)
-  
-  x$name %<>% 
-    # gsub("   |  ", " ", .) %>%
-    # trimws(., which="both") %>%
-    gsub("^,|,$|^ ,|, $|'$", "", .)
-  
-  x %<>% namesplit()
-  
-  names(x) %<>% 
-    gsub("^fn_orig", "firstname_fn_orig", .) %>%
-    gsub("^ln_orig", "firstname_ln_orig", .)
-  
-  x %<>% gather_first_last_name()
-  # if(!is.null(x$firstname)) x$firstname <- ifelse(x$firstname == x$lastname, stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$lastname & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$lastname & grepl(",",x$name), stringr::word(x$name, -1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$name & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname==stringr::word(x$name, -1) & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$lastname <- ifelse(x$lastname == x$name & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, -1), x$lastname)
-  
-  x$firstname <- na_if(x$firstname, "")
-  x$lastname <- na_if(x$lastname, "")
-  
-  x$firstname <- stringr::word(x$firstname, -1, sep=",") %>% trimws()
-  
-  
-  x %<>% dplyr::mutate(fLname = ifelse(!is.na(firstname) & !is.na(lastname), paste0(firstname, " ", toupper(lastname)), 
-                                ifelse(!is.na(firstname) & is.na(lastname), firstname, 
-                                       ifelse(is.na(firstname) & !is.na(lastname), toupper(lastname), NA))))
-  dplyr::distinct(x) %>% 
-    dplyr::filter(!is.na(race)|!is.na(gender), !is.na(name)|!is.na(firstname)|!is.na(lastname))
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_extract_merge()
-read_extract_merge <- function(filelist = NULL, inpath = NULL, pattern = NULL,
-                               Ng=F, Nr=F, Nrg=F) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
-  }
-  lapply(
-    filelist, function (xx) feather::read_feather(xx) %>% extract_vars(., Ng=Ng, Nr=Nr, Nrg=Nrg)
-  ) %>% dplyr::bind_rows() %>% dplyr::distinct()
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' write_namesplit()
-write_namesplit <- function(filelist = NULL,
-                            inpath = NULL, pattern = NULL,
-                            newdir = NULL,
-                            extension="feather",
-                            subsets = 2, subsubsets = 2,
-                            extra = NULL,
-                            outpath = "~/", filename_prefix = "") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
-  }
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%gsub("\\/\\/", "\\/", .) %>%gsub("__", "_", .))
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>% gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .))
-  lapply(filelist, function (xx) {
-    mylist <- get(load(xx))
-    if(!is.list(mylist) | is.data.frame(mylist) | tibble::is_tibble(mylist)) mylist %<>% list()
-    mylist <- tryCatch(plyr::compact(mylist), error = function(e) mylist)      
-    mylist <- tryCatch(dplyr::combine(mylist), error = function(e) mylist)  
-    by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 1
-    if(by > length(mylist)) by <- length(mylist)
-    lapply(seq(1, (length(mylist)), by), function(x){
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      time <- system.time(snippet <- regulars_namesplit(mylist[start:end], extra = extra))
-      filename <- paste0(dir_path, "/", filename_prefix, "_", 
-                         gsub("-", "to", xx) %>% gsub("[^[:alnum:]]", "", .), "_", 
-                         round4(start), "to", round4(end)) %>% 
-        gsub("\\/\\/", "\\/",. ) %>% gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>% gsub("^\\_|\\_$|^_", "", .)
-      if(extension=="feather") feather::write_feather(snippet, paste0(filename, ".f"))
-      if(extension=="csv") write.csv(snippet, paste0(filename, ".csv"))
-      if(extension=="both"){ 
-        feather::write_feather(snippet, paste0(filename, ".f"))
-        write.csv(snippet, paste0(filename, ".csv"))
-      }
-      print("")
-      print(paste0(paste0(dim(snippet), collapse=" row "), " col - ", filename))
-      # print(filename)
-      # print(paste0("dim: ", dim(snippet)))
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
-  }
-  )
-}
-
-#' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' round5()
 round5 <- function(num) formatC(num, width = 5, format = "d", flag = "0")
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' round4()
@@ -5164,8 +3365,6 @@ lastname_wmiddle <- function(v){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' firstname_wmiddle()
@@ -5177,16 +3376,12 @@ firstname_wmiddle <- function(v){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' lastname_after_space_when_nocomma()
 lastname_after_space_when_nocomma <- function(v) ifelse(grepl(" ",v) & !grepl(",",v), stringr::word(v,-1), NA)
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' firstname_nomiddle()
@@ -5199,8 +3394,6 @@ firstname_nomiddle <- function(v){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' firstname_postcomma()
@@ -5217,8 +3410,6 @@ firstname_postcomma <- function(x){
 
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' lastname_precomma()
@@ -5235,8 +3426,6 @@ lastname_precomma <- function(x){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' namesplit()
@@ -5306,126 +3495,9 @@ gather_namesplit_clean <- function(df){
 }
 
 #--------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' samtokens()
-samtokens <- function(df, nmin=2,nmax=3,
-                      xv='firstname',
-                      yv='gender',
-                      sample=nrow(df)){
-  df$x <- df[[xv]]
-  df$y <- df[[yv]]
-  df %<>% 
-    sample_n(., sample) %>% 
-    select(x, y) %>%  
-    na.omit() %>% 
-    dplyr::distinct() %>%
-    dplyr::mutate(id=paste0("doc", 1:nrow(.)),
-                  y=as.factor(as.numeric(as.factor(y))),
-                  x = x %>%
-                    trimws(., which="both") %>%
-                    paste0(" ", ., " ")
-    ) %>% dplyr::distinct() 
-  
-  tryCatch(if(!require("quanteda")) install.packages("quanteda"), error=function(e) print("Couldn't install/access `quanteda` package"))
-  
-  df$x %<>%
-    quanteda::tokens(., ngrams=nmin:nmax,
-                     what="character",
-                     remove_separators=F,
-                     concatenator = "") %>%
-    lapply(., function(x) {
-      x <- gsub(" ", "_", x)
-      x <- paste0(x, collapse=" ")
-    }) %>% data.frame(., stringsAsFactors = F) %>% t() %>%
-    .[,1] %>% as.character()%>% unlist()
-  return(df)
-}
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' dtmfunc()
-#' dtmfunc <- function(df=d, corp=df$x, id=df$id, term_count_min=2){
-#'   tryCatch(if(!require("text2vec")) install.packages("text2vec"), error=function(e) print("Couldn't install/access `text2vec` package"))
-#'   tryCatch(if(!require("devtools")) install.packages('devtools'), error=function(e) print("Couldn't install/access `devtools` package"))
-#'   tryCatch(if(!require("text2vec")) devtools::install_github('dselivanov/text2vec'), error=function(e) print("Couldn't install/access `text2vec` package"))
-#'   it = text2vec::itoken(as.character(corp),  
-#'                         tokenizer = text2vec::word_tokenizer, 
-#'                         ids = id)
-#'   vocab <- text2vec::create_vocabulary(it) %>%
-#'     text2vec::prune_vocabulary(., term_count_min=term_count_min)
-#'   vectorizer = text2vec::vocab_vectorizer(vocab)
-#'   dtm_all = text2vec::create_dtm(it, vectorizer)
-#'   dtm_all
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' tokdtmfunc()
-#' tokdtmfunc <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2){
-#'   d <- samtokens(df=df, xv=xv, yv=yv, nmin=nmin, nmax=nmax)
-#'   dtm_all <- dtmfunc(df=d, corp=d$x, id=d$id, term_count_min=term_count_min)
-#'   list("dtm"=dtm_all, "df"=d)
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' cvglmnet()
-#' cvglmnet <- function(x = dtm_all, y = d$y, 
-#'                      family = 'binomial', alpha = 0,
-#'                      type.measure = "auc", nfolds = 5,
-#'                      thresh = 1e-3, maxit = 1e3){
-#'   
-#'   tryCatch(if(!require("glmnet")) install.packages("glmnet"), error=function(e) print("Couldn't install/access `glmnet` package"))
-#'   
-#'   m <- glmnet::cv.glmnet(x=x, y=y, 
-#'                          family=family, alpha=alpha, 
-#'                          type.measure=type.measure,
-#'                          nfolds=nfolds, thresh=thresh, 
-#'                          maxit=maxit)
-#'   # print(paste("max AUC =", round(max(m$cvm), 4)))
-#'   print(paste("mean AUC =", round(mean(m$cvm), 4)))
-#'   print("     ")
-#'   return(list(m, plot(m)))
-#'   # print(plot(m))
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' tok_cvglmnet()
-#' tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2,
-#'                          family = 'binomial', alpha = 0,
-#'                          type.measure = "auc", nfolds = 5,
-#'                          thresh = 1e-3, maxit = 1e3){
-#'   xy <- tokdtmfunc(df=df, xv=xv, yv=yv, nmin=nmin,nmax=nmax,term_count_min=term_count_min)
-#'   mod <- cvglmnet(x = xy$dtm, y = xy$df$y, 
-#'                   family = family, alpha = alpha,
-#'                   type.measure = type.measure, nfolds = nfolds,
-#'                   thresh = thresh, maxit = maxit)
-#'   
-#' }
 
 
-
-
-#' A function that makes sample data frames with name, race, gender type columns
-#'
-#' This function allows you to make sample dataframes!
+#' A function that makes sample data frames with name, race, gender type columns. This function allows you to make sample dataframes!
 #' @export
 #' @examples
 #' dfsampler(which=c('long', 'short')[1], tibble=F)
@@ -5490,11 +3562,11 @@ trimws_v <- function(v, which='both', doublespace=T) if(doublespace) gsub('   | 
 #' This function allows you to 
 #' @export
 #' @examples
-#' trimws_()
+#' trimws_(v, which='both', doublespace=T)
 trimws_ <- function(v, which='both', doublespace=T){
-  if(which=="both"){v <- gsub("[[:space:]]$|^[[:space:]]", "", v)}
-  if(which=="left"){v <- gsub("^[[:space:]]", "", v)}
-  if(which=="right"){v <- gsub("[[:space:]]$", "", v)}
+  if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)}
+  if(which=="left"){v <- gsub("^([[:space:]]| )", "", v)}
+  if(which=="right"){v <- gsub("([[:space:]]| )$", "", v)}
   if(doublespace) {v <- gsub('   |  |[[:space:]][[:space:]]', ' ', v)}
   v <- trimws(v, which=which)
   v
@@ -5505,35 +3577,30 @@ trimws_ <- function(v, which='both', doublespace=T){
 #' This function allows you to 
 #' @export
 #' @examples
-#' trimws_df()
+#' trimws_df(x, which='both', doublespace=T)
 trimws_df <- function(x, which='both', doublespace=T) dplyr::mutate_all(x, function(v) trimws_v(v, doublespace=doublespace, which=which))
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' na_if_()
-na_if_ <- function(x, na_if_Unknown=T) x %>% na_if('') %>% na_if('NA') %>% {if(na_if_Unknown) na_if(., 'Unknown') else .} %>% na_if('-') %>% 
-  na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
-  na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
-  na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>%
-  na_if("character(0)") %>% if(is.vector(.)) tryCatch(gsub("^[[:punct:]]$", NA, .), error=function(e) .) else .
-
+#' na_if_(x, na_if_Unknown=T)
+na_if_ <- function(x, na_if_Unknown=T){ 
+  x %>% na_if('') %>% na_if('NA') %>% {if(na_if_Unknown) na_if(., 'Unknown') else .} %>% na_if('-') %>% 
+    na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
+    na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
+    na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>%
+    na_if("character(0)") %>% if(is.vector(.)) tryCatch(gsub("^[[:punct:]]$", NA, .), error=function(e) .) else .
+}
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' newdate()
 newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' unique_sep()
+#' unique_sep(v, sep='; ')
 unique_sep <- function(v, sep='; '){
   splitv <- strsplit(v, sep)
   uniqv <- lapply(splitv, unique)
@@ -5552,7 +3619,7 @@ format_initial <- function(v, upper=T){
   v <- gsub("\\s([[:alpha:]])$"," \\1.", v)
   v <- gsub("^([[:alpha:]])$","\\1.", v)
   v <- trimws_(gsub('\\.', '. ', v))
-  if(upper) v <- gsub("\\b(\\w)", "\\U\\1", v, perl = TRUE)
+  if(upper) v <- gsub("\\b(\\w)", "\\U\\1", v, perl=T)
   trimws_(v)
 }
 
@@ -5562,22 +3629,18 @@ format_initial <- function(v, upper=T){
 #' @export
 #' @examples
 #' toupper_l1()
-toupper_l1 <- function(v) gsub("\\b(\\w)", "\\U\\1", v, perl = TRUE)
+toupper_l1 <- function(v) gsub("\\b(\\w)", "\\U\\1", v, perl=T)
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' name_case()
 name_case <- function(v) toupper_l1(tolower(v))
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
-#' clean_str()
+#' clean_str(v)
 clean_str <- function(v){
   v %>% trimws_() %>% 
     gsub(',', ', ', .) %>%
@@ -5589,8 +3652,6 @@ clean_str <- function(v){
 }
 
 #' A function
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' format_pasted_name()
@@ -5647,11 +3708,11 @@ join_full <- function(l, type='full') plyr::join_all(l, type=type)
 datatable_ <- function(d){
   DT::datatable(d, rownames=F,
                 options = list(pageLength = 5000, 
-                               autoWidth = TRUE,
+                               autoWidth=T,
                                dom = 'Bfrtip',
                                autoWidth=T,
                                columnDefs = list(list(width = '10', targets = 2)),
-                               scrollX = TRUE, 
+                               scrollX=T, 
                                selection="multiple"))
   
 }
@@ -5876,40 +3937,6 @@ collapse_obj_tostr <- function(x) x %>%
   lapply(., function(x) x %>% unlist() %>% 
            capture.output() %>% paste0(., collapse="    \n    "))
 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_()
-#' df_paste_ <- function(df){
-#'   vector_paste((substitute(df)))
-#'   df_paste(df)
-#' }
-#' 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_2()
-#' df_paste_2 <- function(df){
-#'   vector_paste(c("'____'", substitute(df), "'____'"))
-#'   df_paste(df)
-#' }
-#' 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_lod()
-#' df_paste_lod <- function(lod){
-#'   lapply(seq_along(lod), 
-#'          function(y, n, i) {vector_paste(n[[i]]); df_paste(y[[i]])}, 
-#'          y=lod, n=names(lod))
-#' }
-#' 
 
 #' A function
 #'
@@ -5932,16 +3959,6 @@ read_excels <- function(filelist, bindsheets = F, bindrows = F, simplif = F, col
 #' lapply2()
 lapply2 <- function(l, fxn) lapply(l, function(ll) lapply(ll, fxn))
 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' parse_excel_date()
-#' parse_excel_date <- function(v){
-#'   # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
-#'   v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
-#' }
 
 
 #' #' A function to parse an excel dates
@@ -6171,16 +4188,12 @@ summary_factor <- function(x, maxsum=7){
 }
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' sumry()
+#' sumry(x, maxsum=7)
 sumry <- function(x, maxsum=7) if (is.data.frame(x)) summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) else summary(if(is.character(x)) as.factor(x) else x, maxsum)
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' read_excel_all()
@@ -6314,7 +4327,7 @@ remove_duplicate_punct_consec <- function(v) gsub("([[:punct:]])\\1+", "\\1", v)
 #' @examples
 #' remove_space_btwn_identical_punct()
 remove_space_btwn_identical_punct <- function(v) v %>%
-  strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+  strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
   lapply(.,function(s) s %>% trimws_() %>% 
            paste0(., collapse="")) %>%
   unlist() %>% add_space_after_punct() %>% 
@@ -6329,7 +4342,7 @@ remove_space_btwn_identical_punct <- function(v) v %>%
 #' @examples
 #' remove_space_btwn_any_punct()
 remove_space_btwn_any_punct <- function(v) v %>%
-  strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+  strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
   lapply(.,function(s) s %>% trimws_() %>% 
            paste0(., collapse="")) %>%
   unlist() %>% add_space_after_punct() %>% 
@@ -6366,7 +4379,7 @@ trimpunct_ <- function(v, removenegativesymbol=F, beginning=T, end=T){
 
 
 # remove_space_btwn_identical_punct <- function(v) v %>%
-#   strsplit(., "(?<=[[:punct:]])", perl = TRUE) %>% 
+#   strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
 #   lapply(.,function(s) s %>% trimws_() %>% 
 #            paste0(., collapse="")) %>%
 #   unlist() %>% add_space_after_punct()
@@ -6467,7 +4480,7 @@ clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
 #' @export
 #' @examples
 #' base_breaks()
-base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, n = n)
+base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, na.rm=T)), log=T, n = n)
 
 #' Samantha Rhoads's function to...
 #'
@@ -6475,8 +4488,8 @@ base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, 
 #' @export
 #' @examples
 #' grepval()
-grepval <- function (pattern, x, ignore.case = FALSE, perl = FALSE, value = T, 
-                     fixed = FALSE, useBytes = FALSE, invert = FALSE) {
+grepval <- function (pattern, x, ignore.case=F, perl=F, value = T, 
+                     fixed=F, useBytes=F, invert=F) {
   if (!is.character(x)) 
     x <- structure(as.character(x), names = names(x))
   .Internal(grep(as.character(pattern), x, ignore.case, value, 
@@ -6494,15 +4507,15 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
   # clean_str() %>% clean_unique_sep(., "; ") #%>% 
   if(clean) d <- d %>%
       dplyr::mutate(unite_all_column = unite_all_column %>% 
-               clean_str() %>% 
-               clean_unique_sep(., "; ") %>% 
-               clean_unique_sep(., ";") %>% 
-               clean_str_strip_NAs(., ";") %>% 
-               clean_str() %>% 
-               strip_punct(., onlyends=T, replacewithspace=F) %>% 
-               na_if_() %>%
-               gsub(trimws_(sep), paste0(sep, " "), .) %>% 
-               trimws_())
+                      clean_str() %>% 
+                      clean_unique_sep(., "; ") %>% 
+                      clean_unique_sep(., ";") %>% 
+                      clean_str_strip_NAs(., ";") %>% 
+                      clean_str() %>% 
+                      strip_punct(., onlyends=T, replacewithspace=F) %>% 
+                      na_if_() %>%
+                      gsub(trimws_(sep), paste0(sep, " "), .) %>% 
+                      trimws_())
   d <- d %>% setNames(gsub("^unite_all_column$", newcol, names(.)))
   if(onlynewcol) d[[newcol]] else d
 }
@@ -6528,7 +4541,7 @@ unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_
 unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", 
                       onlynewcol = F, sep = "; ") {
   d %>% dplyr::select(fun) %>% unite_all(., clean = clean, remove = remove, 
-                                  newcol = newcol, onlynewcol = onlynewcol, sep=sep) %>% cbind(select(d, -fun), .)
+                                         newcol = newcol, onlynewcol = onlynewcol, sep=sep) %>% cbind(select(d, -fun), .)
 }
 
 
@@ -6576,8 +4589,8 @@ datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = l
     opts, 
     list(
       columnDefs = list(
-        list(visible = FALSE, targets = c(0, pos)),
-        list(orderable = FALSE, className = 'details-control', targets = 1),
+        list(visible=F, targets = c(0, pos)),
+        list(orderable=F, className = 'details-control', targets = 1),
         list(className = 'dt-left', targets = 1:3),
         list(className = 'dt-right', targets = 4:ncol(x))
       )
@@ -6674,7 +4687,7 @@ collapse_tiered_vec <- function(v, collapse="; ") lapply(v, function(s) paste0(s
 #' @examples
 #' str_extract_zip()
 str_extract_zip <- function(v, concat=T, collapse="; "){ 
-  vzips <- regmatches(v, gregexpr('[0-9]{5}(-[0-9]{4})?(?!.*[0-9]{5}(-[0-9]{4})?)',v, perl = TRUE))
+  vzips <- regmatches(v, gregexpr('[0-9]{5}(-[0-9]{4})?(?!.*[0-9]{5}(-[0-9]{4})?)',v, perl=T))
   if(concat) collapse_tiered_vec(vzips, collapse=collapse) else vzips
 }
 
@@ -6732,13 +4745,13 @@ abbtostate <- function (v) {
           "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
           "South Carolina", "South Dakota", "Tennessee", "Texas", 
           "California", "Vermont", "Virginia", "Washington", "West Virginia", 
-          "Wisconsin", "Wyoming", "District of Columbia")
+          "Wisconsin", "Wyoming", "District of Columbia", "US Virgin Islands", "Puerto Rico")
   ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
           "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
           "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
           "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
           "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC") %>% tolower() %>% strip_punct(., replacewithspace=F)
+          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR") %>% tolower() %>% strip_punct(., replacewithspace=F)
   st[match(v, ab)]
 }
 
@@ -6948,8 +4961,8 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' @examples
 #' pkg3(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
 pkg3 <- pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
-                  repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
-                  type = getOption("pkgType")) {
+                          repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
+                          type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
   packages <- unique(c(package1, ...))
   if(pipes) packages <- unique(c(packages, "magrittr"))
@@ -7068,7 +5081,7 @@ printurn <- caturn <- function(stuff, how=c("cat", "print")){
 #' @export
 #' @examples 
 #' catn(d) 
-catn <- function(..., file = "", sep = " ", fill = FALSE, labels = NULL, append = FALSE, collapse=" "){
+catn <- function(..., file = "", sep = " ", fill=F, labels = NULL, append=F, collapse=" "){
   cat("\n", paste0(..., collapse = collapse), "\n", 
       file=file, sep = sep, fill = fill, labels = labels, append = append)
 }
@@ -7180,12 +5193,16 @@ sumrys <- function(x, n=7){
 }
 
 #' Samantha Rhoads's function to return today's date in yyyymmdd format (no punctuation)
-#'
-#' Srhoads wrote this to allow you to return today's date in yyyymmdd format (no punctuation)
 #' @export
 #' @examples
 #' sysdate()
-sysdate <- function() format(Sys.Date(), format="%m%d%Y")
+sysdate <- sysdateYMD <- function() format(Sys.Date(), format="%Y%m%d")
+
+#' Samantha Rhoads's function to return today's date in mmddyyyy format (no punctuation)
+#' @export
+#' @examples
+#' sysdateMDY()
+sysdateMDY <- function() format(Sys.Date(), format="%m%d%Y")
 
 ########################################################################################################################
 
@@ -7193,20 +5210,17 @@ sysdate <- function() format(Sys.Date(), format="%m%d%Y")
 # 11202019 #######################################################################################################################
 
 #' Samantha Rhoads's function to return the most recent versions of files based on a given pattern of characters of its name
-#'
-#' Srhoads wrote this to allow you to get the most recent versions of files based on a given pattern of characters of its name
 #' @export
 #' @examples
 #' getMostRecentFiles()
-getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
-                               pattern = NULL, all.files = FALSE, full.names = T, 
-                               recursive = T, ignore.case = FALSE, include.dirs = FALSE, 
-                               no.. = FALSE){
+getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, 
+                               recursive=T, ignore.case=F, include.dirs=F, no..=F, verbose=F){
   fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
+  if(verbose){print(fns)}
   if(desc) {
-    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .) %>% dplyr::arrange(desc(mtime))
+    fninfo <- fns %>% file.info() %>% data.frame(name=fns, .) %>% dplyr::arrange(desc(mtime))
   } else {
-    fninfo <- fns %>% file.info() %>% data.frame(name = fns, .)  %>% dplyr::arrange(mtime)
+    fninfo <- fns %>% file.info() %>% data.frame(name=fns, .)  %>% dplyr::arrange(mtime)
   }
   if(verbose){
     return(fninfo)
@@ -7218,16 +5232,6 @@ getMostRecentFiles <- function(path = ".", desc=T, verbose=F,
 ########################################################################################################################
 
 # 12102019 #######################################################################################################################
-
-#' Samantha Rhoads's function to check if all of something is NA or NULL
-#'
-#' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (old version from 20191210)
-#' @export
-#' @examples
-#' is.nanull_V1()
-is.nanull_V1 <- function(x){
-  all(is.na(x)) | is.null(x)
-}
 
 #' Samantha Rhoads's function to check if all of something is NA or NULL
 #'
@@ -7245,27 +5249,19 @@ is.nanull <- function(x){
   })
 }
 
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
+#' Samantha Rhoads's function to take an Excel 5-digit date and turn it into a date format
 #' @export
 #' @examples
 #' excelToDateIf5DigitStr(v)
 excelToDateIf5DigitStr <- function(v){
-  v %>%
-    {
-      v <- .
-      if(all(unique(nchar(na.omit(gsub("[^[:digit:]]", "", v))))==5)){
-        v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
-      }
-      v
-    }
+  if(all(unique(nchar(na.omit(gsub("[^[:digit:]]", "", v))))==5)){
+    v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+  }
+  return(v)
 }
 
 
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
+#' Samantha Rhoads's function to take an Excel 5-digit date (or many digit datetime like '43467 381058125') + turn it into a date format
 #' @export
 #' @examples
 #' excelToDateIf5DigitStrAndManyDigitTime(v)
@@ -7295,118 +5291,6 @@ excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"..
       }
       v
     }
-  # v %>%
-  #   {
-  #     v <- .
-  #     if(
-  #       all(
-  #         unique(nchar(na.omit(
-  #           v %>%
-  #           word(1) %>%
-  #           gsub("[^[:digit:]]", "", .)
-  #         )))==5
-  #       ) & all(
-  #         unique(nchar(na.omit(
-  #           v %>%
-  #           word(2) %>%
-  #           gsub("[[:digit:]]", "", .)
-  #         )))==0
-  #       )
-  #     ){
-  #       v <- word(v, 1)
-  #       v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
-  #     }
-  #     v
-  #   }
-}
-
-
-
-# if(EVALME <- F){
-#   "([0-9]{4}|[0-9]{1,2})" -> DATEREGEX
-#   "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
-#   "([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_SLASH
-#   "([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DOT
-#   "([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_NOSEP
-#   
-#   
-#   fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
-#   twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
-#   twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
-#   twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
-#   
-#   extract_eightDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
-#     fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
-#     twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
-#     twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
-#     twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
-#     
-#     lapply(sep, function(sepi){
-#       REGEXPATS <- paste0(fourDigitYr, sepi, twoDigitMonth, sepi, twoDigitDay)
-#       REGEXPATS2 <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
-#       REGEXPATS_1_2 <- paste0(paste0("(", REGEXPATS, ")"), "|", paste0("(", REGEXPATS2, ")"))
-#       stringr::str_extract_all(string, REGEXPATS_1_2)
-#     })
-#     # lapply(sep, function(sepi){
-#     #   REGEXPATS <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
-#     #   stringr::str_extract_all(string, REGEXPATS)
-#     # })
-#   } 
-#   
-#   
-#   # " ?(19|20)([0-9]{2})"
-#   
-#   STR4 <- "20201130 11302020 012020 202001 2020-11-17 11-30-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
-#   string <- STR4
-#     
-#   # "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
-#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", fourDigitYr)
-#   STR2 <- "20200117 01172020 012020 202001 2020-01-17 01-17-2020 01-2020 2020-01 2020/01/17 01/17/2020 01/2020 2020/01 2020.01.17 01.17.2020 01.2020 2020.01"
-#   STR3 <- "20201117 11172020 012020 202001 2020-11-17 11-17-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
-#   stringr::str_extract_all(STR2, fourDigitYr)
-#   stringr::str_extract_all(STR2, twoDigitMonth)
-#   stringr::str_extract_all(STR3, twoDigitMonth)
-#   stringr::str_extract_all(STR3, twoDigitDay)
-#   
-#   # gsub("", DATEREGEX, )
-#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", DATEREGEX)
-# }
-
-
-
-
-
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
-#' @export
-#' @examples
-#' extract_dateV1(v)
-extract_dateV1 <- function(v) {
-  c(
-    datepat0 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat14 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
-    
-    datepat1 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat2 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
-    datepat3 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat4 = ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat5 = ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat6 = ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
-    
-    datepat7 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat8 = ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
-    datepat9 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat10 = ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat11 = ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat12 = ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat13 = ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
-  )
-  # # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
-  # (patternstr <- paste0('datepat', c(0:7, 9:14)) %>% sapply(get) %>% unlist() %>% paste0(., collapse="|"))
-  # v %>% stringr::str_extract_all(., patternstr)
-  (patternstr <- datepats %>% unlist() %>% paste0(., collapse="|"))
-  v %>% stringr::str_extract_all(., patternstr)
 }
 
 
@@ -7416,24 +5300,24 @@ extract_dateV1 <- function(v) {
 #' extract_date()
 extract_date <- function(v) {
   datepats <- c(
-    datepat00 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{2,4})?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat0 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat14 = ' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
+    datepat00=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{2,4})?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat0=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat14=' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
     # 
-    datepat1 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat2 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
-    datepat3 = ' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat4 = ' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat5 = ' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat6 = ' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
+    datepat1=' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat2=' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
+    datepat3=' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat4=' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat5=' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat6=' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
     # 
-    datepat7 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    # datepat8 = ' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
-    datepat9 = ' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat10 = ' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat11 = ' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat12 = ' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat13 = ' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?')
+    datepat7=' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    # datepat8=' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
+    datepat9=' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
+    datepat10=' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
+    datepat11=' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
+    datepat12=' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
+    datepat13=' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?')
   # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
   (patternstr <- datepats %>% unlist() %>% paste0(., collapse="|"))
   v %>% stringr::str_extract_all(., patternstr)
@@ -7453,7 +5337,7 @@ fillr <- function(df2, ID='ID'){
     na_if_() %>%
     tidyr::fill(-var) %>%
     na_if_() %>%
-    tidyr::fill(-var, .direction = 'up') %>%
+    tidyr::fill(-var, .direction='up') %>%
     na_if_() %>%
     dplyr::distinct()
   # df2 %>% select(-matches('^var$'))
@@ -7474,7 +5358,7 @@ fillr2 <- function(df2, ID='ID'){
   df2[['var']] <- df2[[ID]]
   df2 %<>% dplyr::group_by(var) %>%
     tidyr::fill(-var) %>%
-    tidyr::fill(-var, .direction = 'up')
+    tidyr::fill(-var, .direction='up')
   df2 <- df2[, -ncol(df2)]
   cat(paste0('fillr3: ', ID))
   df2 %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
@@ -7494,9 +5378,9 @@ DT_NAs_red_background <- function(DTdatatable){
   NAcodestoRED <- c(NA, "", " ", "  ", "-", "<center>-</center>", "<center> </center>", "<center></center>", "<center>  </center>")
   DTdatatable %>%
     DT::formatStyle(names(.$x$data),
-                backgroundColor = styleEqual(
-                  NAcodestoRED,
-                  rep("rgb(255,198,198)", length(NAcodestoRED)))
+                    backgroundColor = styleEqual(
+                      NAcodestoRED,
+                      rep("rgb(255,198,198)", length(NAcodestoRED)))
     )
 }
 
@@ -7541,11 +5425,11 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
                   escape=F,
                   rownames=F,
                   # extensions = "Buttons",
-                  # filter = list(position = 'top', clear = FALSE),
-                  options = list(#search = list(regex = TRUE, caseInsensitive = T),
+                  # filter = list(position = 'top', clear = F),
+                  options = list(#search = list(regex=T, caseInsensitive = T),
                     pageLength = pageLength,
                     dom = 'BfrtipSR',
-                    autoWidth = TRUE,
+                    autoWidth=T,
                     # columnDefs = list(list(width = '10%', targets = collapsevars)),
                     buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
                     initComplete = DT::JS(
@@ -7566,22 +5450,22 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
 #' @examples
 #' dt_condensed()
 dt_condensed <- function(df, pageLength=nrow(df)){
-    DT::datatable(df,
-                  escape=F,
-                  rownames=F,
-                  options = list(#search = list(regex = TRUE, caseInsensitive = T),
-                    pageLength = pageLength,
-                    dom = 'BfrtiSR',
-                    info=F,
-                    autoWidth = TRUE,
-                    buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
-                    initComplete = DT::JS(
-                      "function(settings, json) {",
-                      "$(this.api().table().body()).css({'font-size': '76%'});",
-                      "$(this.api().table().header()).css({'font-size': '76%'});",
-                      "}")),
-                  class = 'cell-border stripe table-hover table-condensed compact'
-    )
+  DT::datatable(df,
+                escape=F,
+                rownames=F,
+                options = list(#search = list(regex=T, caseInsensitive = T),
+                  pageLength = pageLength,
+                  dom = 'BfrtiSR',
+                  info=F,
+                  autoWidth=T,
+                  buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
+                  initComplete = DT::JS(
+                    "function(settings, json) {",
+                    "$(this.api().table().body()).css({'font-size': '76%'});",
+                    "$(this.api().table().header()).css({'font-size': '76%'});",
+                    "}")),
+                class = 'cell-border stripe table-hover table-condensed compact'
+  )
 }
 
 #' Samantha Rhoads's function to...
@@ -7603,17 +5487,17 @@ dt_sumry <- function(dftosumry, pageLength=nrow(df)){
     separate(., value, into=c("Variable", "Summary (Count)"), sep=":::") %>%
     # setNames("Variable Summaries") %>% 
     DT::datatable(.,  escape=F,
-                  fillContainer = TRUE,
-                  # filter = list(position = 'top', clear = FALSE),
+                  fillContainer=T,
+                  # filter = list(position = 'top', clear = F),
                   # extensions = c("Scroller", "Buttons", "ColReorder"),
                   class = 'cell-bordered stripe table-condensed compact',
-                  options = list(#scrollX = TRUE,
+                  options = list(#scrollX=T,
                     # autoWidth=T,
                     scrollCollapse = T,
-                    search = list(regex = TRUE, caseInsensitive = T),
+                    search = list(regex=T, caseInsensitive = T),
                     pageLength = pageLength,
                     columnDefs = list(list(className = 'dt-left', targets = "_all")),
-                    colReorder = TRUE,
+                    colReorder=T,
                     dom = 'BfrtiSR', #dom = 'BfrtilSR',
                     scrollY = "200vh",
                     # buttons = I('excel'),
@@ -7628,11 +5512,11 @@ dt_sumry <- function(dftosumry, pageLength=nrow(df)){
   # DT::datatable(sumryoutput,
   #               escape=F,
   #               rownames=F,
-  #               options = list(#search = list(regex = TRUE, caseInsensitive = T),
+  #               options = list(#search = list(regex=T, caseInsensitive = T),
   #                 pageLength = pageLength,
   #                 dom = 'BfrtiSR',
   #                 info=F,
-  #                 autoWidth = TRUE,
+  #                 autoWidth=T,
   #                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
   #                 initComplete = DT::JS(
   #                   "function(settings, json) {",
@@ -7644,16 +5528,12 @@ dt_sumry <- function(dftosumry, pageLength=nrow(df)){
 }
 
 #' Samantha Rhoads's function to generate a random string
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' rand_str()
 rand_str <- function(n=1, length=10, pattern = "[a-zA-Z0-9]") stringi::stri_rand_strings(n = n, length = length, pattern = pattern)
 
 #' Samantha Rhoads's function removes all special characters and spaces
-#'
-#' Srhoads wrote this to allow you to remove all special characters and spaces
 #' @export
 #' @examples
 #' kill_special_space()
@@ -7856,7 +5736,7 @@ setdiff_ <- function(x, y, printWhichOnly=F){
 #' @examples
 #' reticulate_correctly(x, y, printWhichOnly=F)
 reticulate_correctly <- function(){
-  reticulate::use_python("/usr/local/bin/python3", required = TRUE)
+  reticulate::use_python("/usr/local/bin/python3", required=T)
   reticulate::repl_python()
 }
 ###################################################################################################################################################
@@ -7921,7 +5801,7 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
     }) 
     
   }) %>% 
-     setNames(BOTHLISTNAMES) 
+    setNames(BOTHLISTNAMES) 
   
   RETURN <- tryCatch({
     RETURN0 %>%
@@ -8033,7 +5913,7 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
   }, error = function(e) {
     print(e)
     RETURN0
-    })
+  })
   
   if(print_only_differences){
     RETURN %<>% lapply(., function(l){ # l <- RETURN[[1]]
@@ -8067,7 +5947,7 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
 preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#434447", "#37718e", "#da3051", "#f5f6f8", "#9a2138", "#ffffff", "#333333"), plotly=F){
   hexs <- rev(unique(hexs))
   temp <- setNames(rep(1, length(hexs)), hexs)
-
+  
   if(plotly){
     P <- plotly::plot_ly(y=hexs, x=temp, type="bar", showlegend=F, size=4, text=hexs, textposition="inside",
                          marker = list(color = hexs,
@@ -8096,7 +5976,7 @@ preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#43444
 set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", check_n_rows=100){
   if(!(example_colname %in% names(d))){
     colnames_rownum <- grep_all_df(example_colname, d[1:check_n_rows, ], rownums_only=T)[1]
-    if(length(colnames_rownum)>0) d <- d %>% setNames(as.character(.[colnames_rownum, ])) %>% slice(-(1:colnames_rownum))
+    if (length(colnames_rownum) > 0) d <- d %>% setNames(as.character(.[colnames_rownum, ]) %>% gsub('^$|\\`', 'UNNAMED', .) %>% replace_na('NA') %>% make.unique()) %>% slice(-(1:colnames_rownum))
   }
   d %>% setNames(make.unique(names(.)))
 }
@@ -8126,18 +6006,18 @@ set_names_skip_rows_until_match_loop <- function (d, patterns=c('census_code','c
 #' @examples
 #' unload_pkg(pkgs)
 unload_pkg <- function(pkgs){ # pkgs <- c("srhoads", "ggmap")
-  detach_unload_true <- function(name, pos = 2L, unload = T, character.only = T, force = FALSE) {
+  detach_unload_true <- function(name, pos = 2L, unload = T, character.only = T, force=F) {
     detach(name, pos = pos, unload = unload, character.only = character.only, force = force)
   }
   pkgsstrarg <- paste0("package:", pkgs)
   if(length(pkgs)==1){
     while(pkgsstrarg %in% search()){
-      detach(pkgsstrarg, unload = TRUE, character.only = TRUE)
+      detach(pkgsstrarg, unload=T, character.only=T)
     }
   } else {
     lapply(pkgsstrarg, function(pkgstrarg) {
       while(pkgstrarg %in% search()){
-        detach(pkgstrarg, unload = TRUE, character.only = TRUE)
+        detach(pkgstrarg, unload=T, character.only=T)
       }
     })
   }
@@ -8161,31 +6041,25 @@ windows2macPath <- function(path='Y:\\AA_Secured\\CVS\\2020\\2020 Plan Prep\\Aet
 fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqstep=.01, df, dfvartocompare="job", stop_at_n_matches=Inf){
   df_copy <- df    # {s="samantha karlaina rhoads"; df=dfsampler(); dfvartocompare="name"; strictest_max_distance=0; seqstep=.01; stop_at_n_matches=5}
   df_copy[["DFVAR_TO_COMPARE"]] <- df_copy[[dfvartocompare]]
-  
   INDICATOR_STRINGS <- tolower(trimws(strip_punct(s, replacewith=" "))) %>% c(paste0("^", ., "$"), .)
   MAX_DISTANCES <- unique(c(strictest_max_distance, seq(0, 1, seqstep)))
-  
   matched_value <- tibble()
-  
   for (INDICATOR_STRING in INDICATOR_STRINGS){     # {INDICATOR_STRING = INDICATOR_STRINGS[1]}
-    if(nrow(matched_value)<stop_at_n_matches){
-      # catn("INDICATOR_STRING=", INDICATOR_STRING)
+    if(nrow(matched_value)<stop_at_n_matches){     #catn("INDICATOR_STRING=", INDICATOR_STRING)
       for (MAX_DISTANCE in MAX_DISTANCES){         # {MAX_DISTANCE = MAX_DISTANCES[1]}
-        if(nrow(matched_value)<stop_at_n_matches){
-          # catn("MAX_DISTANCE=", MAX_DISTANCE)
-          
+        if(nrow(matched_value)<stop_at_n_matches){ #catn("MAX_DISTANCE=", MAX_DISTANCE)
           if(MAX_DISTANCE==0 & grepl("\\^.*\\$", INDICATOR_STRING)){
-            matched_value %<>% bind_rows(., dplyr::filter(df_copy, grepl(INDICATOR_STRING, DFVAR_TO_COMPARE, ignore.case=T)) %>% mutate(similarity = MAX_DISTANCE))
+            matched_value %<>% bind_rows(., dplyr::filter(df_copy, grepl(INDICATOR_STRING, DFVAR_TO_COMPARE, ignore.case=T)) %>% mutate(similarity = 1-MAX_DISTANCE))
             df_copy %<>% filter(., !grepl(INDICATOR_STRING, DFVAR_TO_COMPARE, ignore.case=T))
           } else if(!grepl("\\^.*\\$", INDICATOR_STRING)){
-            matched_value %<>% bind_rows(., dplyr::filter(df_copy, agrepl(INDICATOR_STRING, DFVAR_TO_COMPARE, max.distance = c(all=MAX_DISTANCE))) %>% mutate(similarity = MAX_DISTANCE))
+            matched_value %<>% bind_rows(., dplyr::filter(df_copy, agrepl(INDICATOR_STRING, DFVAR_TO_COMPARE, max.distance = c(all=MAX_DISTANCE))) %>% mutate(similarity = 1-MAX_DISTANCE))
             df_copy %<>% filter(., !agrepl(INDICATOR_STRING, DFVAR_TO_COMPARE, max.distance = list(all=MAX_DISTANCE)))
           }
         }
       }
     }
   }
-  return(arrange(matched_value, similarity, nchar(DFVAR_TO_COMPARE)))
+  return(arrange(matched_value, desc(similarity), nchar(DFVAR_TO_COMPARE)))
 }
 
 #' Samantha Rhoads's function to get relevant, preferred, desired column from dataframe on a loop
@@ -8193,24 +6067,24 @@ fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqst
 #' @examples
 #' df_get_preferred_column(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F)
 df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F){
-    newcolname <- c()
-    for (pattern in patterns){ # {pattern = patterns[1]}
-        if (length(newcolname)==0){
-            if(exactEnd){
-                pattern <- paste0(pattern, "$")
-            }
-            if(exactStart){
-                pattern <- paste0("^", pattern)
-            }
-            newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
-        }
+  newcolname <- c()
+  for (pattern in patterns){ # {pattern = patterns[1]}
+    if (length(newcolname)==0){
+      if(exactEnd){
+        pattern <- paste0(pattern, "$")
+      }
+      if(exactStart){
+        pattern <- paste0("^", pattern)
+      }
+      newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
     }
-    if(returnNameOnly){
-        dfdesiredcolumn <- newcolname[[1]]
-    } else {
-        dfdesiredcolumn <- if(length(newcolname)==0){fillmissingwith} else {df[[newcolname[[1]]]]}  #[fillmissingwith]*len(xls) if len(newcolname)==0 else xls[newcolname[0]]
-    }
-    dfdesiredcolumn
+  }
+  if(returnNameOnly){
+    dfdesiredcolumn <- newcolname[[1]]
+  } else {
+    dfdesiredcolumn <- if(length(newcolname)==0){fillmissingwith} else {df[[newcolname[[1]]]]}  #[fillmissingwith]*len(xls) if len(newcolname)==0 else xls[newcolname[0]]
+  }
+  dfdesiredcolumn
 }
 
 
