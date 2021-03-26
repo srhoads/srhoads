@@ -7,8 +7,8 @@
 clean_str(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-clean_str()
+clean_str(v)
 }

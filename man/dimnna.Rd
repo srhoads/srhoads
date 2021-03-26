@@ -7,7 +7,7 @@
 dimnna(d)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 dimnna()

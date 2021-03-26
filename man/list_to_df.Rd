@@ -7,7 +7,7 @@
 list_to_df(mylist)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 list_to_df()

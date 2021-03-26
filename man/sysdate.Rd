@@ -7,7 +7,7 @@
 sysdate()
 }
 \description{
-Srhoads wrote this to allow you to return today's date in yyyymmdd format (no punctuation)
+Samantha Rhoads's function to return today's date in yyyymmdd format (no punctuation)
 }
 \examples{
 sysdate()

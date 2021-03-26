@@ -13,8 +13,8 @@ read_dfs_process(
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_dfs_process()
+read_dfs_process(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1)
 }

@@ -7,8 +7,8 @@
 try_read_feather(file)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_read_feather()
+try_read_feather(file)
 }

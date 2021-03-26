@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{select_list}
 \alias{select_list}
-\title{A function kinda like `dplyr`'s `select()` but works on lists}
+\title{A function kinda like `dplyr`'s `select()` but works on selecting stuff from lists}
 \usage{
 select_list(list, pattern, exact = F, ignore.case = T)
 }
 \description{
-This function is kinda like `dplyr`'s `select()` but works on selecting stuff from lists
+A function kinda like `dplyr`'s `select()` but works on selecting stuff from lists
 }
 \examples{
 select_list(list, pattern, exact=F, ignore.case=T)

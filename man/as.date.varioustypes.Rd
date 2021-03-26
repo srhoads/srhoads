@@ -7,8 +7,8 @@
 as.date.varioustypes(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-as.date.varioustypes()
+as.date.varioustypes(statevec)
 }

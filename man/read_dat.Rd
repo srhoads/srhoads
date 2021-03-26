@@ -7,8 +7,8 @@
 read_dat(f)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_dat()
+read_dat(f)
 }

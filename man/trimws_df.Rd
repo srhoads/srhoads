@@ -10,5 +10,5 @@ trimws_df(x, which = "both", doublespace = T)
 This function allows you to
 }
 \examples{
-trimws_df()
+trimws_df(x, which='both', doublespace=T)
 }

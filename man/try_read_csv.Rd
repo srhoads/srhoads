@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{try_read_csv}
 \alias{try_read_csv}
-\title{A function to a read csv file}
+\title{A function to a tryCatch read csv file}
 \usage{
 try_read_csv(file)
 }
 \description{
-This function allows you to
+A function to a tryCatch read csv file
 }
 \examples{
-try_read_csv()
+try_read_csv(file)
 }

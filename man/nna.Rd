@@ -7,7 +7,7 @@
 nna(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 nna()

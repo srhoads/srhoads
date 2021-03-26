@@ -7,7 +7,7 @@
 recode_race_regex(vec)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 recode_race_regex()

@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{dply_all}
 \alias{dply_all}
-\title{A function}
+\title{This function allows you to apply a function to a whole dataframe (inferior to purrr::map_if(is.dataframe, fun) tho!)}
 \usage{
 dply_all(x, fun)
 }
 \description{
-This function allows you to
+This function allows you to apply a function to a whole dataframe (inferior to purrr::map_if(is.dataframe, fun) tho!)
 }
 \examples{
 dply_all()

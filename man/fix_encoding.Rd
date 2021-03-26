@@ -7,7 +7,7 @@
 fix_encoding(df, originalEncoding = "latin1")
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 fix_encoding()

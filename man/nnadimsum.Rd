@@ -7,7 +7,7 @@
 nnadimsum(d, alpha = F)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 nnadimsum()

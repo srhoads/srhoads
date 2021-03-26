@@ -7,7 +7,7 @@
 load_feather_files(files)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 load_feather_files()

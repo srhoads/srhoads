@@ -7,7 +7,7 @@
 try_bind(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 try_bind()

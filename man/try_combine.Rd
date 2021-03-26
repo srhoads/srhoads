@@ -7,7 +7,7 @@
 try_combine(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 try_combine()

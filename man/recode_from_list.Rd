@@ -10,7 +10,7 @@ recode_from_list(
 )
 }
 \description{
-This is a function
+A function that acts like `recode()` but works on a list
 }
 \examples{
 recode_from_list(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru')))

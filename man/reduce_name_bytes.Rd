@@ -7,7 +7,7 @@
 reduce_name_bytes(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 reduce_name_bytes()

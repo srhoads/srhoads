@@ -9,8 +9,6 @@ paste_regex(v, collapse = "|", exact = F)
 paste_regex(v, collapse = "|", exact = F)
 }
 \description{
-This function allows you to paste a vector in a regex way with '|' options for exact or partial
-
 This function allows you to
 }
 \examples{

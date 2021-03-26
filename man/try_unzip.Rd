@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{try_unzip}
 \alias{try_unzip}
-\title{A function}
+\title{A function to tryCatch unzip_doir}
 \usage{
 try_unzip(zipfile)
 }
 \description{
-This function allows you to
+A function to tryCatch unzip_doir
 }
 \examples{
-try_unzip()
+try_unzip(zipfile)
 }

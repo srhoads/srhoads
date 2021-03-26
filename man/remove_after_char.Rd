@@ -2,15 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{remove_after_char}
 \alias{remove_after_char}
-\title{A function to remove characters after a certain character}
+\title{This function allows you to remove characters after a certain character of your choosing}
 \usage{
 remove_after_char(v, sep = " ")
 
 remove_after_char(v, sep = " ")
 }
 \description{
-This function allows you to remove characters after a certain character of your choosing
-
 This function allows you to
 }
 \examples{

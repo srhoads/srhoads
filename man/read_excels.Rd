@@ -2,16 +2,8 @@
 % Please edit documentation in R/functions.R
 \name{read_excels}
 \alias{read_excels}
-\title{A function to read excel files}
+\title{A function}
 \usage{
-read_excels(
-  filelist,
-  bindsheets = F,
-  bindrows = F,
-  simplif = F,
-  col_types = "text"
-)
-
 read_excels(
   filelist,
   bindsheets = F,
@@ -21,37 +13,8 @@ read_excels(
 )
 }
 \description{
-This function allows you to
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' df_paste_2()
-df_paste_2 <- function(df){
-  vector_paste(c("'____'", substitute(df), "'____'"))
-  df_paste(df)
-}
-}
-\details{
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' df_paste_lod()
-df_paste_lod <- function(lod){
-  lapply(seq_along(lod), 
-         function(y, n, i) {vector_paste(n[[i]]); df_paste(y[[i]])}, 
-         y=lod, n=names(lod))
-}
-
 A function
-
-This function allows you to
 }
 \examples{
-read_excels()
-read_excels()
+read_excels(filelist, bindsheets = F, bindrows = F, simplif = F, col_types = "text")
 }

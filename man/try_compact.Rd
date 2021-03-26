@@ -7,8 +7,8 @@
 try_compact(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_compact()
+try_compact(x)
 }

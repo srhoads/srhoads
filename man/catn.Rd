@@ -8,9 +8,9 @@ catn(
   ...,
   file = "",
   sep = " ",
-  fill = FALSE,
+  fill = F,
   labels = NULL,
-  append = FALSE,
+  append = F,
   collapse = " "
 )
 }

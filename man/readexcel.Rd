@@ -7,8 +7,8 @@
 readexcel(file, bindsheets = F, skip = 0, col_types = "text", simplify = T)
 }
 \description{
-This function allows you to
+A function just like read_excel but better bc it does all the sheets!
 }
 \examples{
-readexcel()
+readexcel(file, bindsheets=F, skip=0, col_types='text', simplify=T)
 }

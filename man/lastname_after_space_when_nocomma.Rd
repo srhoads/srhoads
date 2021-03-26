@@ -7,7 +7,7 @@
 lastname_after_space_when_nocomma(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 lastname_after_space_when_nocomma()

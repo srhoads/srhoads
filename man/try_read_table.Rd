@@ -7,8 +7,8 @@
 try_read_table(f)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_read_table()
+try_read_table(f)
 }

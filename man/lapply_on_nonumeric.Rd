@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{lapply_on_nonumeric}
 \alias{lapply_on_nonumeric}
-\title{A function}
+\title{A function lapply stuff to just non-numeric columns in a df}
 \usage{
 lapply_on_nonumeric(df, fun)
 }
 \description{
-This function allows you to
+A function lapply stuff to just non-numeric columns in a df
 }
 \examples{
 lapply_on_nonumeric()

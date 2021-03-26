@@ -7,8 +7,8 @@
 dply_to_title(x, stringsAsFactors = T)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-dply_to_title()
+dply_to_title(x, stringsAsFactors=T)
 }

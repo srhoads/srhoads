@@ -7,8 +7,8 @@
 multistep_clean_dfs(df, subsets = 2)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-()
+multistep_clean_dfs(df, subsets = 2)
 }

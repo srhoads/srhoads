@@ -2,21 +2,21 @@
 % Please edit documentation in R/functions.R
 \name{grep_ic}
 \alias{grep_ic}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to grep() but ignoring case as default & pasting a vec instead of just a string}
 \usage{
 grep_ic(
   pattern,
   x,
   ignore.case = T,
-  perl = FALSE,
-  value = FALSE,
-  fixed = FALSE,
-  useBytes = FALSE,
-  invert = FALSE
+  perl = F,
+  value = F,
+  fixed = F,
+  useBytes = F,
+  invert = F
 )
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to grep() but ignoring case as default & pasting a vec instead of just a string
 }
 \examples{
 grep_ic()

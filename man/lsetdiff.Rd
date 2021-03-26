@@ -7,7 +7,7 @@
 lsetdiff(l1, l2)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 lsetdiff()

@@ -7,7 +7,7 @@
 format_pasted_name(name)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 format_pasted_name()

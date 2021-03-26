@@ -7,5 +7,5 @@
 docu(fxn = "")
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }

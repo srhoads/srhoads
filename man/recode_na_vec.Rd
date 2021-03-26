@@ -4,10 +4,15 @@
 \alias{recode_na_vec}
 \title{A function}
 \usage{
-recode_na_vec(vec, recode_list = recode_na_list, extra = NULL)
+recode_na_vec(
+  vec,
+  recode_list = recode_na_list,
+  extra = NULL,
+  recode_na_getridofstrregex = NULL
+)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 recode_na_vec()

@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{ply}
 \alias{ply}
-\title{A function}
+\title{A function to operate dplyr?}
 \usage{
 ply(x, fun, num = T)
 }
 \description{
-This function allows you to
+A function to operate dplyr?
 }
 \examples{
 ply()

@@ -2,83 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{dfsampler}
 \alias{dfsampler}
-\title{#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' dtmfunc()
-dtmfunc <- function(df=d, corp=df$x, id=df$id, term_count_min=2){
-  tryCatch(if(!require("text2vec")) install.packages("text2vec"), error=function(e) print("Couldn't install/access `text2vec` package"))
-  tryCatch(if(!require("devtools")) install.packages('devtools'), error=function(e) print("Couldn't install/access `devtools` package"))
-  tryCatch(if(!require("text2vec")) devtools::install_github('dselivanov/text2vec'), error=function(e) print("Couldn't install/access `text2vec` package"))
-  it = text2vec::itoken(as.character(corp),  
-                        tokenizer = text2vec::word_tokenizer, 
-                        ids = id)
-  vocab <- text2vec::create_vocabulary(it) %>%
-    text2vec::prune_vocabulary(., term_count_min=term_count_min)
-  vectorizer = text2vec::vocab_vectorizer(vocab)
-  dtm_all = text2vec::create_dtm(it, vectorizer)
-  dtm_all
-}
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' tokdtmfunc()
-tokdtmfunc <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2){
-  d <- samtokens(df=df, xv=xv, yv=yv, nmin=nmin, nmax=nmax)
-  dtm_all <- dtmfunc(df=d, corp=d$x, id=d$id, term_count_min=term_count_min)
-  list("dtm"=dtm_all, "df"=d)
-}
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' cvglmnet()
-cvglmnet <- function(x = dtm_all, y = d$y, 
-                     family = 'binomial', alpha = 0,
-                     type.measure = "auc", nfolds = 5,
-                     thresh = 1e-3, maxit = 1e3){
-  
-  tryCatch(if(!require("glmnet")) install.packages("glmnet"), error=function(e) print("Couldn't install/access `glmnet` package"))
-  
-  m <- glmnet::cv.glmnet(x=x, y=y, 
-                         family=family, alpha=alpha, 
-                         type.measure=type.measure,
-                         nfolds=nfolds, thresh=thresh, 
-                         maxit=maxit)
-  # print(paste("max AUC =", round(max(m$cvm), 4)))
-  print(paste("mean AUC =", round(mean(m$cvm), 4)))
-  print("     ")
-  return(list(m, plot(m)))
-  # print(plot(m))
-}
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' tok_cvglmnet()
-tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2,
-                         family = 'binomial', alpha = 0,
-                         type.measure = "auc", nfolds = 5,
-                         thresh = 1e-3, maxit = 1e3){
-  xy <- tokdtmfunc(df=df, xv=xv, yv=yv, nmin=nmin,nmax=nmax,term_count_min=term_count_min)
-  mod <- cvglmnet(x = xy$dtm, y = xy$df$y, 
-                  family = family, alpha = alpha,
-                  type.measure = type.measure, nfolds = nfolds,
-                  thresh = thresh, maxit = maxit)
-  
-}
-A function that makes sample data frames with name, race, gender type columns}
+\title{A function that makes sample data frames with name, race, gender type columns. This function allows you to make sample dataframes!}
 \usage{
 dfsampler(which = c("long", "short")[1], tibble = F)
 }
 \description{
-This function allows you to make sample dataframes!
+A function that makes sample data frames with name, race, gender type columns. This function allows you to make sample dataframes!
 }
 \examples{
 dfsampler(which=c('long', 'short')[1], tibble=F)

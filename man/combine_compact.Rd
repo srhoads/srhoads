@@ -7,7 +7,7 @@
 combine_compact(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 combine_compact()

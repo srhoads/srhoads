@@ -7,8 +7,8 @@
 str_has_upper(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-str_has_upper()
+str_has_upper(v)
 }

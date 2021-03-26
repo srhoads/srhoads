@@ -7,7 +7,7 @@
 drop_rows_all_na(x, pct = 1)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 drop_rows_all_na()

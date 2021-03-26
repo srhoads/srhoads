@@ -5,15 +5,10 @@
 \title{A function}
 \usage{
 lapply2(l, fxn)
-
-lapply2(l, fxn)
 }
 \description{
-This function allows you to
-
-This function allows you to
+A function
 }
 \examples{
-lapply2()
 lapply2()
 }

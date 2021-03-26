@@ -10,5 +10,5 @@ trimws_(v, which = "both", doublespace = T)
 This function allows you to
 }
 \examples{
-trimws_()
+trimws_(v, which='both', doublespace=T)
 }

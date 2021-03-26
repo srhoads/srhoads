@@ -7,8 +7,8 @@
 na_if_(x, na_if_Unknown = T)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-na_if_()
+na_if_(x, na_if_Unknown=T)
 }

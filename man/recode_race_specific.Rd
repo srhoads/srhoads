@@ -7,7 +7,7 @@
 recode_race_specific(vec, extra = NULL)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 recode_race_specific()

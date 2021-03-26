@@ -7,8 +7,8 @@
 recode_na(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-recode_na()
+recode_na(x)
 }

@@ -7,7 +7,7 @@
 lastname_precomma(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 lastname_precomma()

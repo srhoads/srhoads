@@ -7,7 +7,7 @@
 is_datetype1(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 is_datetype1()

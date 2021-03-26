@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{excelToDateIf5DigitStr}
 \alias{excelToDateIf5DigitStr}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to take an Excel 5-digit date and turn it into a date format}
 \usage{
 excelToDateIf5DigitStr(v)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to take an Excel 5-digit date and turn it into a date format
 }
 \examples{
 excelToDateIf5DigitStr(v)

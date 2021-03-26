@@ -7,7 +7,7 @@
 regex_info()
 }
 \description{
-This is a function
+A function that reminds us what some regular expressions are, like and/or
 }
 \examples{
 regex_info()

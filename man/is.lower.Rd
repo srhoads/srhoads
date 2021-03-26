@@ -7,7 +7,7 @@
 is.lower(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 is.lower()

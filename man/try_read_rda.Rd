@@ -7,8 +7,8 @@
 try_read_rda(file)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_read_rda()
+try_read_rda(file)
 }

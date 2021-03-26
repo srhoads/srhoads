@@ -7,7 +7,7 @@
 read_excel_all(fns)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
 read_excel_all()

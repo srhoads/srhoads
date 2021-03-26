@@ -7,8 +7,8 @@
 read_file(file, bindsheets = F)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_file()
+read_file(file, bindsheets=F)
 }

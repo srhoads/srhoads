@@ -7,7 +7,7 @@
 roundupc(x)
 }
 \description{
-This is a function
+A function that rounds up to next highest digit base #, ie, to 100 or 1000 or 1000 etc...
 }
 \examples{
 roundupc(x)

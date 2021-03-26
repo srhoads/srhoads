@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{load_rdata_files}
 \alias{load_rdata_files}
-\title{A function}
+\title{This function allows you to}
 \usage{
 load_rdata_files(files)
 }

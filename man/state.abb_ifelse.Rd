@@ -7,8 +7,8 @@
 state.abb_ifelse(statevec)
 }
 \description{
-This function allows you to
+A function to change state names to abbreviations if there are already abbreviation in the vector, so mixed types
 }
 \examples{
-state.abb_ifelse()
+state.abb_ifelse(statevec)
 }

@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{drop_empty}
 \alias{drop_empty}
-\title{A function}
+\title{A function to drop empty (NULL) items from a list}
 \usage{
 drop_empty(x_list)
 }
 \description{
-This function allows you to
+A function to drop empty (NULL) items from a list
 }
 \examples{
-drop_empty()
+drop_empty(x_list)
 }

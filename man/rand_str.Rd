@@ -7,7 +7,7 @@
 rand_str(n = 1, length = 10, pattern = "[a-zA-Z0-9]")
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to generate a random string
 }
 \examples{
 rand_str()

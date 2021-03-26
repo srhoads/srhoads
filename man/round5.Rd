@@ -7,7 +7,7 @@
 round5(num)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 round5()

@@ -7,8 +7,8 @@
 is.factorchar(x)
 }
 \description{
-This function allows you to
+A function to ask if it's a character or factor logical
 }
 \examples{
-is.factorchar()
+is.factorchar(x)
 }

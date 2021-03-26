@@ -7,8 +7,8 @@
 gsub_NSRHOADS(x)
 }
 \description{
-This function allows you to
+a function gsubing stuff related to srhoads jl desktop comp path
 }
 \examples{
-gsub_NSRHOADS()
+gsub_NSRHOADS(x)
 }

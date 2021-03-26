@@ -7,7 +7,7 @@
 firstname_postcomma(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 firstname_postcomma()

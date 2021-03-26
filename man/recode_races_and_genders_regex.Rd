@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{recode_races_and_genders_regex}
 \alias{recode_races_and_genders_regex}
-\title{A function}
+\title{This function allows you to recode race and gender!}
 \usage{
 recode_races_and_genders_regex(df, extragender = NULL, extrarace = NULL)
 }
@@ -12,7 +12,7 @@ recode_races_and_genders_regex(df, extragender = NULL, extrarace = NULL)
 \item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
 }
 \description{
-This function allows you to recode gender!
+This function allows you to recode race and gender!
 }
 \examples{
 recode_races_and_genders_regex()

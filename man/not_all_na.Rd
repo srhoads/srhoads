@@ -7,8 +7,8 @@
 not_all_na(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-not_all_na()
+not_all_na(x)
 }

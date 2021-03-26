@@ -12,22 +12,10 @@ read_merge_write_feathers(
   outpath = "~/",
   filename_prefix = "DEFAULT"
 )
-
-read_merge_write_feathers(
-  filelist = NULL,
-  inpath = NULL,
-  pattern = NULL,
-  newdir = NULL,
-  outpath = "~/",
-  filename_prefix = "DEFAULT"
-)
 }
 \description{
-This function allows you to
-
-This function allows you to
+A function
 }
 \examples{
 read_merge_write_feathers()
-()
 }

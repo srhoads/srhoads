@@ -7,7 +7,7 @@
 name_case(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 name_case()

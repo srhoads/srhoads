@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{dply_nonnumeric}
 \alias{dply_nonnumeric}
-\title{A function}
+\title{A function to apply stuff to just non-numeric columns in a df}
 \usage{
 dply_nonnumeric(x, fun)
 }
 \description{
-This function allows you to
+A function to apply stuff to just non-numeric columns in a df
 }
 \examples{
 dply_nonnumeric()

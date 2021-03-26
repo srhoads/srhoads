@@ -13,11 +13,12 @@ split_original_rdas(
   outpath = "~/",
   by,
   extra = NULL,
-  filename_prefix
+  filename_prefix,
+  verbose = F
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 split_original_rdas()

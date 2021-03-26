@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{race_seq_names}
 \alias{race_seq_names}
-\title{A function}
+\title{A RECURSIVE function!!}
 \usage{
 race_seq_names(x)
 }
 \description{
-This function allows you to
+A RECURSIVE function!!
 }
 \examples{
 race_seq_names()

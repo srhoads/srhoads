@@ -7,7 +7,7 @@
 filter_list(l, is)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 filter_list()

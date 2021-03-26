@@ -7,7 +7,7 @@
 grep_(pattern, v, exact = F, ignore.case = F, value = F)
 }
 \description{
-This function allows you to do grep() but pasting a vec instead of just a string
+A function to do grep() but pasting a vec instead of just a string
 }
 \examples{
 grep_(pattern, v, exact=F, ignore.case=F, value=F)

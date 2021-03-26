@@ -7,12 +7,12 @@
 grepval(
   pattern,
   x,
-  ignore.case = FALSE,
-  perl = FALSE,
+  ignore.case = F,
+  perl = F,
   value = T,
-  fixed = FALSE,
-  useBytes = FALSE,
-  invert = FALSE
+  fixed = F,
+  useBytes = F,
+  invert = F
 )
 }
 \description{

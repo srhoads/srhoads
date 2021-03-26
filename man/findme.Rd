@@ -7,7 +7,7 @@
 findme(d = df00.5, g1 = "", g2 = "", g3 = "", g4 = "", g5 = "")
 }
 \description{
-This is a function
+A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
 }
 \examples{
 findme(d=df00.5, g1="", g2="", g3="", g4="", g5="")

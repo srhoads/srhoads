@@ -7,8 +7,8 @@
 unique_sep(v, sep = "; ")
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-unique_sep()
+unique_sep(v, sep='; ')
 }

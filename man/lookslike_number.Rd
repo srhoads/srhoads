@@ -7,8 +7,8 @@
 lookslike_number(v, include_decimal = F)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-lookslike_number()
+lookslike_number(v, include_decimal=F)
 }

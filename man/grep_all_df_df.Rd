@@ -7,7 +7,7 @@
 grep_all_df_df(pattern, df, exact = F, ignore.case = F, print = F)
 }
 \description{
-This function allows you to find matching string anywhere in a dataframe
+A function to find matching string anywhere in a dataframe
 }
 \examples{
 grep_all_df_df(pattern, df, exact=F, ignore.case=F, print=F)

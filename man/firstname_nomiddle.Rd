@@ -7,7 +7,7 @@
 firstname_nomiddle(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 firstname_nomiddle()

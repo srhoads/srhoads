@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{try_read_excel}
 \alias{try_read_excel}
-\title{A function to read excel file}
+\title{A function to tryCatch read excel file}
 \usage{
 try_read_excel(file, bindsheets = F, col_types = "text")
 }
 \description{
-This function allows you to
+A function to tryCatch read excel file
 }
 \examples{
-try_read_excel()
+try_read_excel(file, bindsheets=F, col_types='text')
 }

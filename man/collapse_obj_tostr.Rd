@@ -7,8 +7,8 @@
 collapse_obj_tostr(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-collapse_obj_tostr()
+collapse_obj_tostr(x)
 }

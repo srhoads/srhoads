@@ -7,7 +7,7 @@
 dealwith_racegender_variable(x)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 dealwith_racegender_variable()

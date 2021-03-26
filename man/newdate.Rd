@@ -2,16 +2,16 @@
 % Please edit documentation in R/functions.R
 \name{newdate}
 \alias{newdate}
-\title{A function to clean dates}
+\title{A function to clean dates: recode a date that's originally in a format like `January 17, 1996 11:00 AM`}
 \usage{
 newdate(v)
 
 newdate(v)
 }
 \description{
-This function allows you to recode a date that's originally in a format like `January 17, 1996 11:00 AM`
+A function to clean dates: recode a date that's originally in a format like `January 17, 1996 11:00 AM`
 
-This function allows you to
+A function
 }
 \examples{
 newdate()

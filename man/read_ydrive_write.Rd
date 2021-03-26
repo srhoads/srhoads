@@ -14,8 +14,8 @@ read_ydrive_write(
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_ydrive_write()
+read_ydrive_write(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text')
 }

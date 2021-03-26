@@ -7,8 +7,8 @@
 depth(this, thisdepth = 0)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-depth()
+depth(this,thisdepth=0)
 }

@@ -7,8 +7,8 @@
 read_dats(flist, bind = F)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_dats()
+read_dats(flist, bind=F)
 }

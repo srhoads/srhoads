@@ -820,6 +820,158 @@ preprocess_names <- function(x, extent = c("minimal", "thorough")) {
 
 
 # ---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#' A function
+#' @export
+#' @examples
+#' prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL, extent = NULL)
+prestep_preprocess_all_cols <- function(mylist, subsets = 2, type = NULL, extent = NULL) {
+  by <- round(length(mylist) / subsets)
+  if(by < 1){
+    by <- 2
+  }
+  if(by > length(mylist)){
+    by <- length(mylist)
+  }
+  
+  lapply(seq(1, (length(mylist)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - length(mylist)
+           end <- ifelse(diff <= 0, end, end - diff)
+           preprocess_all_cols(mylist[start:end], #type = type, 
+                               extent = extent)
+         } 
+  ) %>%
+    dplyr::bind_rows() %>% 
+    # lapply(., as.factor) %>% 
+    # data.frame() %>% 
+    dplyr::distinct()
+}
+
+# ---------------------------------------------------------------------------------
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' prestep_preprocess_data()
+prestep_preprocess_data <- function(mylist, subsets = 2, 
+                                    type = NULL, 
+                                    extent = NULL) {
+  by <- round(length(mylist) / subsets)
+  if(by < 1){
+    by <- 2
+  }
+  if(by > length(mylist)){
+    by <- length(mylist)
+  }
+  
+  lapply(seq(1, (length(mylist)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - length(mylist)
+           end <- ifelse(diff <= 0, end, end - diff)
+           preprocess_data(mylist[start:end], type = type, extent = extent)
+         } 
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    dplyr::distinct()
+}
+
+#' A function
+#' @export
+#' @examples
+#' multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/")
+multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/") {
+  write = match.arg(write)
+  by <- round(length(mylist) / subsets)
+  if(by < 1) by <- 2
+  if(by > length(mylist)) by <- length(mylist)
+  if (write)
+    return(lapply(seq(1, (length(mylist)), by), 
+                  function (x) {
+                    start <- x
+                    end <- x + (by - 1)
+                    diff <- end - length(mylist)
+                    end <- ifelse(diff <= 0, end, end - diff)
+                    feather::write_feather(prestep_preprocess_all_cols(mylist[start:end], 
+                                                                       subsets = subsets, 
+                                                                       # subsubsets = subsubsets,
+                                                                       type = type), 
+                                           paste0(featherpath, "block", round4(start), "to", round4(end), ".f"))
+                  }
+    ) %>%  
+      dplyr::bind_rows() %>%  
+      dplyr::distinct())
+  lapply(seq(1, (length(mylist)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - length(mylist)
+           end <- ifelse(diff <= 0, end, end - diff)
+           prestep_preprocess_all_cols(mylist[start:end], 
+                                       subsets = subsets, 
+                                       # subsubsets = subsubsets,
+                                       type = type
+           )
+         }
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    dplyr::distinct()
+}
+
+# ---------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+multistep_gather_join_first_last_name <- function(df, subsets = 2) {
+  by <- round(nrow(df) / subsets)
+  if(by < 1) by <- 2
+  if(by > length(mylist)) by <- length(mylist)
+  lapply(seq(1, (nrow(df)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - nrow(df)
+           end <- ifelse(diff <= 0, end, end - diff)
+           gather_join_first_last_name(df[start:end, ])
+         } 
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
+    dplyr::distinct()
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+multistep_gather_race_and_gender <- function(df, subsets = 2) {
+  by <- round(nrow(df) / subsets)
+  if(by < 1) by <- 2
+  if(by > length(mylist)) by <- length(mylist)
+  lapply(seq(1, (nrow(df)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - nrow(df)
+           end <- ifelse(diff <= 0, end, end - diff)
+           gather_race_and_gender(df[start:end, ])
+         } 
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    dplyr::distinct()
+}
+
 
 #' A function
 #'
@@ -902,6 +1054,504 @@ preprocess_data <- function(x, type = c("lod"), extent = NULL) {
 }
 # ---------------------------------------------------------------------------------
 
+
+# ---------------------------------------------------------------------------------
+#' A function
+#' @export
+#' @examples
+#' multistep_recode_race_and_gender(df, subsets = 2)
+multistep_recode_race_and_gender <- function(df, subsets = 2) {
+  mylist <- df
+  by <- round(nrow(mylist) / subsets)
+  if(by < 1) by <- 2
+  if(by > length(mylist)) by <- length(mylist)
+  lapply(seq(1, (nrow(mylist)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - nrow(mylist)
+           end <- ifelse(diff <= 0, end, end - diff)
+           recode_race_and_gender(mylist[start:end, ])
+         } 
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
+    dplyr::distinct()
+}
+# ---------------------------------------------------------------------------------
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' multistep_clean_recode(df, subsets = 2, scrub = NULL, extrarace = NULL, extragender = NULL)
+multistep_clean_recode <- function(df, subsets = 2, scrub = NULL, extrarace = NULL, extragender = NULL) {
+  mylist <- df
+  by <- round(nrow(mylist) / subsets)
+  if(by < 1) by <- 2
+  if(by > length(mylist)) by <- length(mylist)
+  
+  lapply(seq(1, (nrow(mylist)), by), 
+         function (x) {
+           start <- x
+           end <- x + (by - 1)
+           diff <- end - nrow(mylist)
+           end <- ifelse(diff <= 0, end, end - diff)
+           clean_recode(mylist[start:end, ], scrub = scrub, extrarace = extrarace, extragender = extragender)
+         } 
+  ) %>% 
+    dplyr::bind_rows() %>% 
+    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
+    dplyr::distinct()
+}
+# ---------------------------------------------------------------------------------
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+multistep_split_files <- function(filelist = NULL,
+                                  inpath = NULL,
+                                  pattern = NULL,
+                                  newdir = NULL,
+                                  subsets = NULL, #subsubsets = 2,
+                                  by = NULL,
+                                  extra = NULL,
+                                  outpath = "~/",
+                                  filename_prefix = "DEFAULTNAME") {
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
+  }
+  if(is.null(newdir)){
+    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  } 
+  if(!is.null(newdir)) {
+    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  }
+  lapply(filelist, function (xx) {
+    mylist <- get(load(xx))
+    mylist <- tryCatch(get(load(xx)), 
+                       error = function(e) feather::read_feather(xx))  
+    if(is.list(mylist) & !is.data.frame(mylist)){
+      mylist <- try_compact(mylist)    
+      mylist <- try_combine(mylist)    
+    }
+    if(is.null(by)) by <- round(length(mylist) / subsets)
+    if(by < 1) by <- 2
+    if(by > length(mylist)) by <- length(mylist)
+    lapply(seq(1, (length(mylist)), by), function (x) {
+      start <- x
+      end <- x + (by - 1)
+      diff <- end - length(mylist)
+      end <- ifelse(diff <= 0, end, end - diff)
+      time <- system.time(snippet <- mylist[start:end])
+      filename <- paste0(dir_path, "/", filename_prefix, "_", 
+                         gsub("[^[:alnum:]]", "", xx), "_", 
+                         round4(start), "to", round4(end), ".f") %>% 
+        gsub("\\/\\/", "\\/",. ) %>% gsub("__", "_",. ) %>%
+        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>% gsub("^\\_|\\_$|^_", "", .)
+      feather::write_feather(snippet, filename)
+      print(time)
+      # data.frame(dir = dir_path, filename = filename)
+    }
+    )
+  }
+  )
+}
+
+#---------------------------------------------------------------------------------------------------------------------------------
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+regulars <- function (x, extra = NULL, extent = "thorough"){
+  trycomb <- try_combine(x)
+  trycomp <- try_compact(x)
+  
+  if(is.list(trycomp)) x <- try_compact(x)
+  if(is.list(trycomb)) x <- try_combine(x)
+  
+  x %<>%
+    preprocess_data(., extent = "thorough") %>%
+    #  dplyr::select_if(not_all_na) %>%
+    dplyr::distinct()
+  
+  x %<>%
+    dealwith_racegender_variable() %>%
+    dplyr::distinct()
+  
+  x <- tryCatch(x, error = function(e) dfincase)
+  
+  if(is.null(x) | length(x) == 0) x <- dfincase
+  
+  # In case you have no race columns in this subset
+  if(is.null(x$gender)|is.null(x$name)|is.null(x$race))x <- dplyr::bind_rows(x, dfincase)
+  
+  x %<>%
+    gather_race_and_gender(.) %>%
+    dplyr::distinct()
+  
+  x %<>%
+    recode_races_and_genders(extrarace = extra, extragender = extra)  %>%
+    dplyr::distinct()
+  
+  x %<>%
+    gather_join_first_last_name(.) %>%
+    dplyr::distinct()
+  
+  x %<>%
+    recode_na() %>%
+    dplyr::distinct()
+  
+  x %<>%
+    clean_recode(., scrub = "once") %>%
+    dplyr::distinct()
+  #-------
+  x %<>%
+    dplyr::mutate(gender_r = race,
+                  race_g = gender) %>%
+    dplyr::distinct()
+  
+  x %<>%
+    gather_race_and_gender(.) %>%
+    dplyr::distinct()
+  
+  if(!is.null(x$gender) & !is.null(x$race)){
+    x %<>%
+      dplyr::mutate(gender_r = race,
+                    race_g = gender) %>%
+      dplyr::distinct()
+    
+    x %<>%
+      gather_race_and_gender(.) %>%
+      dplyr::distinct()
+    
+    x %<>% dplyr::mutate(gender = recode_gender_specific(gender, extra = extra),
+                         race = recode_race_specific(race, extra = extra))
+  }
+  
+  if(!is.null(x$gender) & is.null(x$race)){
+    x %<>% dplyr::mutate(race_g = gender) %>% dplyr::distinct()
+    x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
+    x %<>% dplyr::mutate(race = recode_race_specific(race, extra = extra))
+  }
+  
+  if(is.null(x$gender) & !is.null(x$race)){
+    x %<>% dplyr::mutate(gender_r = race) %>% dplyr::distinct()
+    x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
+    x %<>% dplyr::mutate(gender = recode_gender_specific(gender, extra = extra))
+  }
+  
+  x %<>% dplyr::distinct()
+  #-------
+  x %<>%
+    recode_races_and_genders() %>%
+    recode_races_and_genders() %>%
+    dplyr::select_if(not_all_na)  %>%
+    dplyr::distinct()
+  # if(!is.null(x$name)) x <- dplyr::filter(x, !is.na(name))
+  if(!is.null(x$gender) & !is.null(x$race)) x <- dplyr::filter(x, !is.na(gender) | !is.na(race))
+  x
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+featherdump_regulars_filelist_fun <- function(filelist = NULL,
+                                              inpath = NULL,
+                                              pattern = NULL,
+                                              newdir = NULL,
+                                              subsets = 2, subsubsets = 2,
+                                              extra = NULL,
+                                              outpath = "~/",
+                                              filename_prefix = "DEFAULTNAME") {
+  
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", .) %>%
+      gsub("__", "_", .)
+  }
+  
+  if(is.null(newdir)){
+    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  } 
+  
+  if(!is.null(newdir)) {
+    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  }
+  
+  lapply(filelist, function (xx) 
+  {
+    f <- get(load(xx))
+    f <- tryCatch(plyr::compact(f),  error = function(e) f)      
+    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
+    mylist <- f
+    
+    by <- round(length(mylist) / subsets)
+    
+    if(by < 1) by <- 2
+    if(by > length(mylist))by <- length(mylist)
+    
+    lapply(seq(1, (length(mylist)), by), function(x){
+      start <- x
+      end <- x + (by - 1)
+      diff <- end - length(mylist)
+      end <- ifelse(diff <= 0, end, end - diff)
+      
+      time <- system.time(snippet <- regulars(mylist[start:end], 
+                                              extra = extra))
+      
+      filename <- paste0(dir_path, "/", filename_prefix, 
+                         "_", 
+                         gsub("[^[:alnum:]]", "", xx), 
+                         "_", 
+                         round4(start), "to", round4(end),
+                         ".f") %>% 
+        gsub("\\/\\/", "\\/",. ) %>% 
+        gsub("__", "_",. ) %>%
+        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
+        gsub("^\\_|\\_$|^_", "", .)
+      
+      feather::write_feather(snippet, filename)
+      print(paste0(dim(snippet), " -- ", filename))
+      print(time)
+      # data.frame(dir = dir_path, filename = filename)
+    }
+    )
+  }
+  )
+}
+
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' load_save_rdata()
+load_save_rdata <- function(filelist = NULL,
+                            inpath = NULL,
+                            pattern = NULL,
+                            newdir = NULL,
+                            subsets = 2, subsubsets = 2,
+                            extra = NULL,
+                            outpath = "~/",
+                            filename_prefix = "DEFAULTNAME") {
+  
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", ., perl = T) %>%
+      gsub("__", "_", ., perl = T)
+  }
+  
+  if(is.null(newdir)){
+    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
+                 gsub("\\/\\/", "\\/", ., perl = T) %>%
+                 gsub("__", "_", ., perl = T))
+  } 
+  
+  if(!is.null(newdir)) {
+    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
+                 gsub("\\/\\/", "\\/", ., perl = T) %>%
+                 gsub("__", "_", ., perl = T))
+  }
+  
+  lapply(filelist, function (xx) 
+  {
+    f <- get(load(xx))
+    f <- tryCatch(plyr::compact(f),  error = function(e) f)      
+    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
+    mylist <- f
+    save(mylist, file = paste0(dir_path, "/", filename_prefix, 
+                               gsub("[^[:alnum:]]", "", xx), ".rda") %>% 
+           gsub("\\/\\/", "\\/",. , perl = T) %>% gsub("__", "_",. , perl = T) %>%
+           gsub("^_|_$|\\<_|_\\>", "", ., perl = T) %>% gsub("\\<\\_|\\_\\>", "", .))
+    
+  })
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+featherdump_anomalies_fun <- function(filelist = NULL,
+                                      inpath = NULL,
+                                      pattern = "\\.",
+                                      outpath = "~",
+                                      newdir = NULL,
+                                      subsets = 2, subsubsets = 2,
+                                      path = "~/",
+                                      filename_prefix = "anomalies") {
+  
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", .) %>%
+      gsub("__", "_", .)
+  }
+  
+  if(is.null(newdir)){
+    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  }
+  
+  if(!is.null(newdir)) {
+    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  }
+  
+  lapply(filelist, function (xx)
+  {
+    f <- get(load(xx))
+    f <- tryCatch(plyr::compact(f),
+                  error = function(e) f)
+    f <- tryCatch(dplyr::combine(f),
+                  error = function(e) f)
+    mylist <- f
+    
+    by <- round(length(mylist) / subsets)
+    if(by < 1) by <- 2
+    if(by > length(mylist)) by <- length(mylist)
+    
+    lapply(seq(1, (length(mylist)), by), function (x){
+      start <- x
+      end <- x + (by - 1)
+      diff <- end - length(mylist)
+      end <- ifelse(diff <= 0, end, end - diff)
+      
+      snippet <- anomalies(mylist[start:end])
+      
+      filename <- paste0(dir_path, "/", filename_prefix,
+                         "_",
+                         gsub("[^[:alnum:]]", "", xx),
+                         "_",
+                         round4(start), "to", round4(end),
+                         ".f") %>%
+        gsub("\\/\\/", "\\/",. ) %>%
+        gsub("__", "_",. ) %>%
+        gsub("^_|_$", "", .) %>%
+        gsub("^\\_|\\_$|^_|\\<_", "", .)
+      
+      feather::write_feather(snippet, filename)
+      
+      # data.frame(dir = dir_path, filename = filename)
+    }
+    )
+  }
+  )
+}
+
+#' A function
+#'
+#' This function allows you to 
+#' @export
+#' @examples
+#' ()
+featherdump_anomalies_filelist_fun <- function(filelist = NULL,
+                                               inpath = NULL,
+                                               pattern = NULL,
+                                               newdir = NULL,
+                                               subsets = 2, subsubsets = 2,
+                                               extra = NULL,
+                                               outpath = "~/",
+                                               filename_prefix = "DEFAULTNAME") {
+  
+  if(is.null(filelist)){
+    files <- list.files(inpath, pattern)
+    filelist <- paste0(inpath, "/", files) %>%
+      gsub("\\/\\/", "\\/", .) %>%
+      gsub("__", "_", .)
+  }
+  
+  if(is.null(newdir)){
+    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  } 
+  
+  if(!is.null(newdir)) {
+    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
+                 gsub("\\/\\/", "\\/", .) %>%
+                 gsub("__", "_", .))
+  }
+  
+  lapply(filelist, function (xx) 
+  {
+    f <- get(load(xx))
+    f <- tryCatch(plyr::compact(f), 
+                  error = function(e) f)      
+    f <- tryCatch(dplyr::combine(f), 
+                  error = function(e) f)  
+    mylist <- f
+    
+    by <- round(length(mylist) / subsets)
+    
+    if(by < 1) by <- 2
+    if(by > length(mylist)) by <- length(mylist)
+    
+    lapply(seq(1, (length(mylist)), by), function(x) {
+      
+      start <- x
+      end <- x + (by - 1)
+      diff <- end - length(mylist)
+      end <- ifelse(diff <= 0, end, end - diff)
+      
+      time <- system.time(snippet <- anomalies(mylist[start:end]))
+      
+      filename <- paste0(dir_path, "/", filename_prefix, 
+                         "_", 
+                         gsub("[^[:alnum:]]", "", xx), 
+                         "_", 
+                         round4(start), "to", round4(end),
+                         ".f") %>% 
+        gsub("\\/\\/", "\\/",. ) %>% 
+        gsub("__", "_",. ) %>%
+        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
+        gsub("^\\_|\\_$|^_", "", .)
+      
+      feather::write_feather(snippet, filename)
+      print(time)
+      print(paste0(dim(snippet), " -- ", filename))
+      # data.frame(dir = dir_path, filename = filename)
+    }
+    )
+  }
+  )
+}
+
+
+#' A function to read excel files
+#' @export
+#' @examples
+#' read_excels(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text')
+read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text'){
+  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, col_types=col_types))
+  if(simplif) d <- try_combine_compact(d) %>% drop_empty()
+  if(bindrows) d <- dplyr::bind_rows(d)
+  d
+}
 
 #' A read files into list of list function
 #'

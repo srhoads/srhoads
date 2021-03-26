@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{list_files}
 \alias{list_files}
-\title{A function}
+\title{same as list.files() except default recursive=T and full.names=T}
 \usage{
 list_files(p, pattern = NULL, recursive = T, full.names = T)
 }
 \description{
-This function allows you to
+same as list.files() except default recursive=T and full.names=T
 }
 \examples{
-list_files()
+list_files(p, pattern=NULL, recursive=T, full.names=T)
 }

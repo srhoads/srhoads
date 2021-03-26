@@ -7,8 +7,8 @@
 read_df_all(filenames, bindrows = F, bindsheets = F, simplif = T)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_df_all()
+read_df_all(filenames, bindrows=F, bindsheets=F, simplif=T)
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{gender_seq_names}
 \alias{gender_seq_names}
-\title{A function}
+\title{A RECURSIVE function}
 \usage{
 gender_seq_names(x)
 }
 \description{
-This function allows you to
+A RECURSIVE function
 }
 \examples{
 gender_seq_names()

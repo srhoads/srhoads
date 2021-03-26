@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{zipcode5}
 \alias{zipcode5}
-\title{A function that gets 5 digit zip codes}
+\title{A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111}
 \usage{
 zipcode5(
   text.var,
@@ -16,7 +16,7 @@ zipcode5(
 )
 }
 \description{
-This function extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
+A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 }
 \examples{
 zipcode5()

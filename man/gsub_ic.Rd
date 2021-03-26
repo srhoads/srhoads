@@ -9,14 +9,14 @@ gsub_ic(
   replacement,
   x,
   ignore.case = T,
-  perl = FALSE,
-  fixed = FALSE,
-  useBytes = FALSE,
+  perl = F,
+  fixed = F,
+  useBytes = F,
   exact = F
 )
 }
 \description{
-This function allows you to do gsub() but ignoring case as default & pasting a vec instead of just a string
+A function to do gsub() but ignoring case as default & pasting a vec instead of just a string
 }
 \examples{
 gsubic(pattern, to, v, exact=F, ignore.case=T)

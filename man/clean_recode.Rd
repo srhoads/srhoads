@@ -12,7 +12,7 @@ clean_recode(
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 clean_recode()

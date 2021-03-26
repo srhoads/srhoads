@@ -9,16 +9,17 @@ getMostRecentFiles(
   desc = T,
   verbose = F,
   pattern = NULL,
-  all.files = FALSE,
+  all.files = F,
   full.names = T,
   recursive = T,
-  ignore.case = FALSE,
-  include.dirs = FALSE,
-  no.. = FALSE
+  ignore.case = F,
+  include.dirs = F,
+  no.. = F,
+  printfilenames = F
 )
 }
 \description{
-Srhoads wrote this to allow you to get the most recent versions of files based on a given pattern of characters of its name
+Samantha Rhoads's function to return the most recent versions of files based on a given pattern of characters of its name
 }
 \examples{
 getMostRecentFiles()

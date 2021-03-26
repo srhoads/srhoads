@@ -7,7 +7,7 @@
 gsub_(pattern, to, v, exact = F, ignore.case = F)
 }
 \description{
-This function allows you to do gsub() but pasting a vec instead of just a string
+A function to do gsub() but pasting a vec instead of just a string
 }
 \examples{
 gsub_(pattern, to, v, exact=F, ignore.case=F)

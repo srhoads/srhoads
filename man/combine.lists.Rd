@@ -7,7 +7,7 @@
 combine.lists(list1, list2)
 }
 \description{
-This function allows you to...
+A function
 }
 \examples{
 combine.lists()

@@ -7,8 +7,8 @@
 read_csvs(filelist, bindrows = F, simplif = T)
 }
 \description{
-This function allows you to
+A function to read csv files
 }
 \examples{
-read_csvs()
+read_csvs(filelist, bindrows=F, simplif=T)
 }

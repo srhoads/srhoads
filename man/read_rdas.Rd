@@ -13,7 +13,7 @@ read_rdas(
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 read_rdas()

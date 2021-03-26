@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{grepl_ic}
 \alias{grepl_ic}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to grepl() but ignoring case as default & pasting a vec instead of just a string}
 \usage{
 grepl_ic(
   pattern,
@@ -14,7 +14,7 @@ grepl_ic(
 )
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to grepl() but ignoring case as default & pasting a vec instead of just a string
 }
 \examples{
 grepl_ic()

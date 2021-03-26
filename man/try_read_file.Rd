@@ -7,8 +7,8 @@
 try_read_file(file, bindsheets = F)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_read_file()
+try_read_file(file, bindsheets=F)
 }

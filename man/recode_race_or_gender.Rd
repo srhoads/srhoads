@@ -15,7 +15,7 @@ recode_race_or_gender(
 \item{#extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
 }
 \description{
-This function allows you to recode
+A Recode Race or Gender Function
 }
 \examples{
 recode_race_or_gender()

@@ -13,8 +13,8 @@ read_excel_somesheets(
 )
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_excel_somesheets()
+read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types='text', skip=0)
 }

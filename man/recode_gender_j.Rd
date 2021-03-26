@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{recode_gender_j}
 \alias{recode_gender_j}
-\title{A Recode Gender Function}
+\title{A Recode Gender Function: allows you to recode gender!}
 \usage{
 recode_gender_j(
   vec,
@@ -16,7 +16,7 @@ recode_gender_j(
 \item{extra}{Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".}
 }
 \description{
-This function allows you to recode gender!
+A Recode Gender Function: allows you to recode gender!
 }
 \examples{
 recode_gender_j()

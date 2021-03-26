@@ -7,8 +7,8 @@
 gsub_ply(from, to, x, ignore.case = T, num = T)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-gsub_ply()
+gsub_ply(from, to, x, ignore.case=T, num=T)
 }

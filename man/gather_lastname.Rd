@@ -7,8 +7,8 @@
 gather_lastname(df)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-gather_lastname()
+gather_lastname(df)
 }

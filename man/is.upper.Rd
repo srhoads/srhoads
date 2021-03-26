@@ -7,8 +7,8 @@
 is.upper(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-is.upper()
+is.upper(v)
 }

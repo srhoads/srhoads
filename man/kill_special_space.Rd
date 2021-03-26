@@ -7,7 +7,7 @@
 kill_special_space(text)
 }
 \description{
-Srhoads wrote this to allow you to remove all special characters and spaces
+Samantha Rhoads's function removes all special characters and spaces
 }
 \examples{
 kill_special_space()

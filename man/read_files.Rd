@@ -7,8 +7,8 @@
 read_files(filelist, bindsheets = F, bindrows = F, simplif = T)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-read_files()
+read_files(filelist, bindsheets=F, bindrows=F, simplif=T)
 }

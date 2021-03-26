@@ -7,8 +7,8 @@
 sumry(x, maxsum = 7)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
-sumry()
+sumry(x, maxsum=7)
 }

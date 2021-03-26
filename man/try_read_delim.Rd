@@ -7,8 +7,8 @@
 try_read_delim(f, delim = ";")
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
-try_read_delim()
+try_read_delim(f, delim=';')
 }

@@ -7,7 +7,7 @@
 not_all_same(x)
 }
 \description{
-This function allows you to
+A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
 }
 \examples{
 not_all_same()

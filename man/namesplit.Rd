@@ -7,7 +7,7 @@
 namesplit(df, dfincase)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 namesplit()

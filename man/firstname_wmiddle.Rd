@@ -7,7 +7,7 @@
 firstname_wmiddle(v)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 firstname_wmiddle()

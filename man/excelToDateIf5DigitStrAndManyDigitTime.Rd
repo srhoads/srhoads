@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{excelToDateIf5DigitStrAndManyDigitTime}
 \alias{excelToDateIf5DigitStrAndManyDigitTime}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to take an Excel 5-digit date (or many digit datetime like '43467 381058125') + turn it into a date format}
 \usage{
 excelToDateIf5DigitStrAndManyDigitTime(v)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to take an Excel 5-digit date (or many digit datetime like '43467 381058125') + turn it into a date format
 }
 \examples{
 excelToDateIf5DigitStrAndManyDigitTime(v)

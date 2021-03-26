@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{unzip_dir}
 \alias{unzip_dir}
-\title{A function}
+\title{A function to unzip a folder/directory}
 \usage{
 unzip_dir(zipfile, outdir = "unzip")
 }
 \description{
-This function allows you to
+A function to unzip a folder/directory
 }
 \examples{
-unzip_dir()
+unzip_dir(zipfile, outdir="unzip")
 }

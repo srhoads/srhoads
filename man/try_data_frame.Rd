@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{try_data_frame}
 \alias{try_data_frame}
-\title{A function}
+\title{This function allows you to}
 \usage{
 try_data_frame(x)
 }
@@ -10,5 +10,5 @@ try_data_frame(x)
 This function allows you to
 }
 \examples{
-try_data_frame()
+try_data_frame(x)
 }

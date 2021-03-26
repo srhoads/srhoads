@@ -7,7 +7,7 @@
 recode_races_regex(df)
 }
 \description{
-This function allows you to
+A function
 }
 \examples{
 recode_races_regex()
