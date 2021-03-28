@@ -41,6 +41,56 @@ docu <- function(fxn=""){
 # --------------------------------------------
 
 # ---------------------------------------------------------------------------------
+
+#' Samantha Rhoads's function to recode race more quickly than prior versions!!
+#' @export
+#' @examples
+#' recode_race(v)
+recode_race <- function(v){
+  v0 <- gsub("[[:space:]]| ", "", tolower(v)) %>% gsub("2(\\+|ormore|plus).*", "twoormoreraces", .) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .) %>% gsub("no(n|t)his.*lat.*", "", .)
+  v1 <- recode(v0, "white"="1", "blackorafricanamerican"="2", "hispanicorlatino"="3", "asian"="4", "americanindianoralaskanative"="5", "nativehawaiianorotherpacificislander"="6", "twoormoreraces"="7")
+  
+  if(any(grepl("[[:alpha:]]", v1))){
+    racetext <- c("white|caucasian|irish", "black|africa", "hispan|latino|latinx", "asia(|n)", "am.*ind|nat.*am", "pac.*isl|nat.*hawai|nhopi", "twoormore")
+    v1 <- ifelse(grepl(racetext[7], v1)&!grepl(paste0(setdiff(racetext, racetext[7]), collapse="|"), v1), "7", 
+                 ifelse(grepl(racetext[6], v1)&!grepl(paste0(setdiff(racetext, racetext[6]), collapse="|"), v1), "6", 
+                        ifelse(grepl(racetext[5], v1)&!grepl(paste0(setdiff(racetext, racetext[5]), collapse="|"), v1), "5", 
+                               ifelse(grepl(racetext[4], v1)&!grepl(paste0(setdiff(racetext, racetext[4]), collapse="|"), v1), "4", 
+                                      ifelse(grepl(racetext[3], v1)&!grepl(paste0(setdiff(racetext, racetext[3]), collapse="|"), v1), "3", 
+                                             ifelse(grepl(racetext[2], v1)&!grepl(paste0(setdiff(racetext, racetext[2]), collapse="|"), v1), "2", 
+                                                    ifelse(grepl(racetext[1], v1)&!grepl(paste0(setdiff(racetext, racetext[1]), collapse="|"), v1), "1", 
+                                                           v1)))))))
+    
+    if(any(grepl("[[:alpha:]]", v1))){
+      racetext <- c("wh|nonminority|polish|swed(e|is)|greek|1", "blk|afr|jamaic|egypt|somali|westindi|2", "hisp|lat|mexic|span|venezu|hondur|nicarag|puer.*ric|dominic|cuba|brazil|guatem|colombi|boliv|argenti|argentin|centralamer|salvad|3", "asia(|n)|chin|japa|korea|4", "am.*(ind|nat|alask|ak)|nat.*(am|ind|alask|ak)|ind.*(am|nat|alask|ak)|(alask|ak).*(am|nat)|5", "pac.*isl|nat.*hawai|nhopi|hawai|hopi|nhop|pacif|islander|tagal(a|o)|fil(l|)ipi", "twoormore|twoplus|races|multiple|morethan|twoorm|7")
+      v1 <- ifelse(grepl(racetext[7], v1)&!grepl(paste0(setdiff(racetext, racetext[7]), collapse="|"), v1), "7", 
+                   ifelse(grepl(racetext[6], v1)&!grepl(paste0(setdiff(racetext, racetext[6]), collapse="|"), v1), "6", 
+                          ifelse(grepl(racetext[5], v1)&!grepl(paste0(setdiff(racetext, racetext[5]), collapse="|"), v1), "5", 
+                                 ifelse(grepl(racetext[4], v1)&!grepl(paste0(setdiff(racetext, racetext[4]), collapse="|"), v1), "4", 
+                                        ifelse(grepl(racetext[3], v1)&!grepl(paste0(setdiff(racetext, racetext[3]), collapse="|"), v1), "3", 
+                                               ifelse(grepl(racetext[2], v1)&!grepl(paste0(setdiff(racetext, racetext[2]), collapse="|"), v1), "2", 
+                                                      ifelse(grepl(racetext[1], v1)&!grepl(paste0(setdiff(racetext, racetext[1]), collapse="|"), v1), "1", 
+                                                             v1)))))))
+      
+      
+      if(any(grepl("[[:alpha:]]", v1))){
+        v1 <- recode(v0, "w"="1", "b"="2", "l"="3", "a"="4", "ai"="5", "hi"="6", "bw"="7", 
+                     "his"="3", "baa"="2", "lat"="3", "hila"="3", "native"="5", "five"="5", "amin"="5", "pac"="6", "six"="6")
+        
+        if(any(grepl("[[:alpha:]]", v1))){
+          v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
+                       ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
+                              ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
+                                     ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
+                              )))
+        }
+      }
+    }
+  }
+  v1
+}
+
+
 gender_list_short <- {list(
   "female" = c("femlale", "females", "frau", "weiblich", "she", "fem", "fema","femaleidentif","feman","femino","wmn",
                "femalenotto", "femalke", "femaleiprefernottodisclose", "femal", "felame", "femalechoosenotto","wman",
@@ -3402,8 +3452,6 @@ state.abb_ifelse <- function(statevec) ifelse(is.na(state.abb[match(tolower(stat
 # June 26, 2019 (06/26/2019) ---------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------------------------------
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3414,16 +3462,12 @@ summary_factor_2deep <- function (x, maxsum = 7){
   else tryCatch(lapply(x, function(xx) summary(lapply(xx, as.factor))), error=function(e) summary(x))
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' char_as_factor()
 char_as_factor <- function(v) if(is.character(v)) as.factor(v) else v
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3435,8 +3479,6 @@ sumry_2deep <- function (x, maxsum = 7){
 }
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3455,8 +3497,6 @@ recode_diversitygroup <- function(v){
            'm' = "Male")
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3493,8 +3533,6 @@ read_excel_all <- function(fns){
     setNames(names(sheets))
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3502,8 +3540,6 @@ read_excel_all <- function(fns){
 clean_money_as_numeric <- function(v) as.numeric(gsub('[^\\.|[:digit:]]', '', v))
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3511,8 +3547,6 @@ clean_money_as_numeric <- function(v) as.numeric(gsub('[^\\.|[:digit:]]', '', v)
 not_is.character <- function(v) !is.character(v)
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3524,8 +3558,6 @@ not_is.factorchar <- function(v) !is.character(v) & !is.factor(v)
 # 07/02/2019 # July, 2, 2019
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3538,8 +3570,6 @@ strip_punct <- function(v, replacewithspace=T, replacewith=NULL, onlyends=F) {
 }
 # strip_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3556,8 +3586,6 @@ remove_duplicate_punct_separated_by_space <- function(v) gsub("([[:punct:]]) \\1
 remove_duplicate_punct_separated_by_space_or_not <- function(v) gsub("([[:punct:]]) \\1", "\\1", v) %>% gsub("([[:punct:]])\\1", "\\1", .) %>% trimws_()
 # remove_duplicate_punct_separated_by_space_or_not(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct",  "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3573,8 +3601,6 @@ remove_duplicate_punct <- function(v, nrepeat=6){
 }
 # remove_duplicate_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this ; .punct", "this . ;punct", "this . .punct", "this . .punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3582,8 +3608,6 @@ remove_duplicate_punct <- function(v, nrepeat=6){
 add_space_between_punct <- function(v) gsub("([[:punct:]])", " \\1 ", v) #"([[:punct:]]+)"
 # add_space_between_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct")) #%>% strsplit(., "[[:punct:]]")
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3591,8 +3615,6 @@ add_space_between_punct <- function(v) gsub("([[:punct:]])", " \\1 ", v) #"([[:p
 add_space_after_punct <- function(v) gsub("([[:punct:]])", "\\1 ", v) %>% trimws_() #"([[:punct:]]+)" : use that if u dont wanna make space btwn puncts themselves (ie: '..' not to '. . ')
 # add_space_after_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3600,8 +3622,6 @@ add_space_after_punct <- function(v) gsub("([[:punct:]])", "\\1 ", v) %>% trimws
 remove_duplicate_punct_consec <- function(v) gsub("([[:punct:]])\\1+", "\\1", v)
 # remove_duplicate_punct_consec(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3615,8 +3635,6 @@ remove_space_btwn_identical_punct <- function(v) v %>%
   gsub("([[:punct:]]) \\1", "\\1\\1", .)
 # remove_space_btwn_identical_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3630,8 +3648,6 @@ remove_space_btwn_any_punct <- function(v) v %>%
   gsub("([[:punct:]]) ([[:punct:]])", "\\1\\2", .)
 # remove_space_btwn_any_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct", "this; .punct"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3645,8 +3661,6 @@ trimpunct <- function(v, removenegativesymbol=F, beginning=T, end=T){
 }
 # trimpunct(c("s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3655,18 +3669,7 @@ trimpunct_ <- function(v, removenegativesymbol=F, beginning=T, end=T){
   v %>% trimpunct(removenegativesymbol=removenegativesymbol, beginning=beginning, end=end) %>%
     remove_duplicate_punct() %>% trimws_()
 }
-# trimpunct_(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
 
-
-# remove_space_btwn_identical_punct <- function(v) v %>%
-#   strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
-#   lapply(.,function(s) s %>% trimws_() %>% 
-#            paste0(., collapse="")) %>%
-#   unlist() %>% add_space_after_punct()
-# remove_space_btwn_identical_punct(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
-
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3684,8 +3687,6 @@ remove_space_btwn_identical_punct <- function(v) v %>%
 #' add_space_btwn_lower_upper_letters()
 add_space_btwn_lower_upper_letters <- function(v) gsub("([a-z])([A-Z])", "\\1 \\2", v)
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3693,8 +3694,6 @@ add_space_btwn_lower_upper_letters <- function(v) gsub("([a-z])([A-Z])", "\\1 \\
 separate_lower_upper_letters <- add_space_btwn_lower_upper_letters
 # add_space_btwn_lower_upper_letters(c("AppleBottomJeansAndCats"))
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3706,8 +3705,6 @@ sort_str_by_alpha <- function(v, desc=F){
              paste0(., collapse="; ")) %>% unlist()
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3718,15 +3715,6 @@ sort_str_by_nchar <- function(v, desc=T){
     lapply(., function(s) s[rev(order(nchar(s), s))] %>% 
              paste0(., collapse="; ")) %>% unlist()
 }
-
-
-# clean_str_strip_NAs_1 <- function(v, sep=", "){
-#   if(is.null(sep)) return(v)
-#   (sep1 <- gsub(" ", "", sep))
-#   # (v <- gsub(paste0(sep, " "), sep, v))
-#   (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1) %>% gsub("\\|\\|", "|", .) %>% gsub("\\| \\|", "|", .))
-#   v %>% gsub(sep, sep1, .) %>% gsub(getrid, "", .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .)
-# }
 
 
 clean_str_strip_NAs_1 <- function(v, sep=", "){
@@ -3742,12 +3730,10 @@ clean_str_strip_NAs_1 <- function(v, sep=", "){
     gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0("^", sep, "|^", sep1), "", .) %>% trimws_() %>% na_if_()
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' clean_str_strip_NAs()
+#' clean_str_strip_NAs(v, sep=", ", sep2=NULL, sep3=NULL)
 clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
   clean_str_strip_NAs_1(v, sep=sep) %>% clean_str_strip_NAs_1(., sep=sep2) %>% clean_str_strip_NAs_1(., sep=sep3)
 }
@@ -3755,21 +3741,16 @@ clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
 
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' base_breaks()
+#' base_breaks(n = 10)
 base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, na.rm=T)), log=T, n = n)
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' grepval()
-grepval <- function (pattern, x, ignore.case=F, perl=F, value = T, 
-                     fixed=F, useBytes=F, invert=F) {
+#' grepval(pattern, x, ignore.case=F, perl=F, value = T, fixed=F, useBytes=F, invert=F)
+grepval <- function (pattern, x, ignore.case=F, perl=F, value = T, fixed=F, useBytes=F, invert=F) {
   if (!is.character(x)) 
     x <- structure(as.character(x), names = names(x))
   .Internal(grep(as.character(pattern), x, ignore.case, value, 
@@ -3777,11 +3758,9 @@ grepval <- function (pattern, x, ignore.case=F, perl=F, value = T,
 }
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' unite_all()
+#' unite_all(d, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; ")
 unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; "){
   d <- d %>% unite(., unite_all_column, 1:ncol(.), sep=sep, remove=remove) #%>% #.[[1]] %>% 
   # clean_str() %>% clean_unique_sep(., "; ") #%>% 
@@ -3818,8 +3797,7 @@ unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_
 #' @export
 #' @examples
 #' unite_at()
-unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", 
-                      onlynewcol = F, sep = "; ") {
+unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", onlynewcol = F, sep = "; ") {
   d %>% dplyr::select(fun) %>% unite_all(., clean = clean, remove = remove, 
                                          newcol = newcol, onlynewcol = onlynewcol, sep=sep) %>% cbind(select(d, -fun), .)
 }
@@ -3889,8 +3867,6 @@ datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = l
 }
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' .callback2()
@@ -3952,36 +3928,36 @@ geocode_by_cell <- function(v, replacewith=NULL) lapply(v, function(s){
 }) %>% unlist()
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' collapse_tiered_vec()
-collapse_tiered_vec <- function(v, collapse="; ") lapply(v, function(s) paste0(s, collapse=collapse)) %>% unlist()
+#' collapse_tiered_vec(v, collapse = "; ", unique_sep=F)
+collapse_tiered_vec <- function (v, collapse = "; ", unique_sep=F){
+  lapply(v, function(s){
+    if(unique_sep & length(s)>1){
+      s <- unique(s)
+      # print(s)
+    }
+    paste0(s, collapse=collapse)
+  }) %>% unlist()
+}
 
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' str_extract_zip()
-str_extract_zip <- function(v, concat=T, collapse="; "){ 
-  vzips <- regmatches(v, gregexpr('[0-9]{5}(-[0-9]{4})?(?!.*[0-9]{5}(-[0-9]{4})?)',v, perl=T))
-  if(concat) collapse_tiered_vec(vzips, collapse=collapse) else vzips
+#' str_extract_zip(v, concat=T, collapse="; ", unique_sep=T)
+str_extract_zip <- function (v, concat=T, collapse="; ", unique_sep=T) {
+  vzips <- regmatches(v, gregexpr("[0-9]{5}(-[0-9]{4})?(?!.*[0-9]{5}(-[0-9]{4})?)", v, perl = TRUE))
+  if (concat) {collapse_tiered_vec(vzips, collapse=collapse, unique_sep=unique_sep)} else {vzips}
 }
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' extract_word_startswith_dollarsign()
 extract_word_startswith_dollarsign <- function(v) v %>% strsplit(" ") %>% sapply(., function(s) grep("\\$", s, value=T)[1]) %>% dplyr::combine()
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' statetoabb()
@@ -3997,19 +3973,17 @@ statetoabb <- function (v) {
           "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
           "South Carolina", "South Dakota", "Tennessee", "Texas", 
           "California", "Vermont", "Virginia", "Washington", "West Virginia", 
-          "Wisconsin", "Wyoming", "District of Columbia") %>% tolower() %>% strip_punct(., replacewithspace=F)
+          "Wisconsin", "Wyoming", "District of Columbia", "US Virgin Islands", "Puerto Rico") %>% tolower() %>% strip_punct(., replacewithspace=F)
   ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
           "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
           "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
           "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
           "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC")
+          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR")
   ab[match(v, st)]
 }
 
 #' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' abbtostate()
@@ -4035,8 +4009,6 @@ abbtostate <- function (v) {
   st[match(v, ab)]
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4047,8 +4019,6 @@ state2abb_or_abb2state <- function(v, abb=F){
   if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4062,8 +4032,6 @@ state2region <- function(v_abbr){
   regdf$state.region
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4074,8 +4042,6 @@ str_extract_all_concat <- function(v, pattern, exact=F, collapse="; ", ignore.ca
     lapply(., function(s) paste0(s, collapse=collapse)) %>% unlist()
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4164,26 +4130,24 @@ split_before_capital <- function(x, sep=" ", loosly=F) if(!loosly) gsub('([[:low
 
 # August 7, 2019 (08072019) _ ########################################################################################################################
 
-#' A function to load and/or install package first
-#'
-#' This function allows you to load and/or install package first
+#' This function allows you to load and/or install package first; you can specifify if you want it unloaded (or even loaded at all tbh. Setting import=F is a good way to check if the package is installed on your machine, without actually doing anything with it.)
 #' @export
 #' @examples
-#' pkg()
-pkg <- function (package1, ...) {
-  packages <- c(package1, ...)
-  for (package in packages) {
-    if (package %in% rownames(installed.packages())) 
-      do.call(library, list(package))
-    else {
-      install.packages(package, 
-                       repos = c("https://cloud.r-project.org", 
-                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
-                       type = getOption("pkgType"))
-      do.call(library, list(package))
+#' pkg(package1, ..., dependencies=NA, import=T, unload=F)
+pkg <- function(package1, ..., dependencies=NA, import=T, unload=F) {
+    packages <- c(package1, ...)
+    for (package in packages) {
+        if (package %in% rownames(installed.packages())) {
+            if(import){do.call(library, list(package))}
+            if(unload){try(unloadNamespace(package))}
+        } else {
+            install.packages(package, repos=c("https://cloud.r-project.org", "http://owi.usgs.gov/R/", "https://cran.rstudio.com/"), dependencies=dependencies, type=getOption("pkgType"))
+            if(import){do.call(library, list(package))}
+            if(unload){try(unloadNamespace(package))}
+        }
     }
-  }
 }
+
 
 
 #' A function to load and/or install package first (tidyverse included by default)!
@@ -5397,7 +5361,7 @@ mutate_col_if_not_exists <- function(d, var='YOS_Y'){
 ###################################################################################################################################################
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 03 26, 2021 (20210326) ##########################################################################################################################
 ###################################################################################################################################################
 
 

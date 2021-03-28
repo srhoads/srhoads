@@ -2229,6 +2229,27 @@ samtokens <- function(df, nmin=2,nmax=3,
   return(df)
 }
 
+
+# clean_str_strip_NAs_1 <- function(v, sep=", "){
+#   if(is.null(sep)) return(v)
+#   (sep1 <- gsub(" ", "", sep))
+#   # (v <- gsub(paste0(sep, " "), sep, v))
+#   (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1) %>% gsub("\\|\\|", "|", .) %>% gsub("\\| \\|", "|", .))
+#   v %>% gsub(sep, sep1, .) %>% gsub(getrid, "", .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .)
+# }
+
+# trimpunct_(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+
+# remove_space_btwn_identical_punct <- function(v) v %>%
+#   strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
+#   lapply(.,function(s) s %>% trimws_() %>% 
+#            paste0(., collapse="")) %>%
+#   unlist() %>% add_space_after_punct()
+# remove_space_btwn_identical_punct(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
+
+
+
 #' #' A function
 #' #'
 #' #' This function allows you to 
