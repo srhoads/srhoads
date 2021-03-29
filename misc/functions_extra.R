@@ -1624,9 +1624,51 @@ data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', col_types='text'
 #'   })
 #'   loaded
 #' }
-#' 
-#' 
-#' 
+
+
+
+
+# pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
+#                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
+#                   type = getOption("pkgType")) {
+#   if(is.null(package1)) package1 <- "tidyverse"
+#   packages <- unique(c(package1, ...))
+#   if(pipes) packages <- unique(c(packages, "magrittr"))
+#   for (package in packages) {
+#     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0("\n", package, " loaded (bc u already have it)\n"))}
+#     else {
+#       tryCatch(install.packages_wrapper(package,
+#                                         dependencies=dependencies,
+#                                         githubrepo=githubrepo,
+#                                         repos = repos, type = type),
+#                error=function(e) cat(paste0("\n", package, ": can't install (1st try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package, githubrepo=githubrepo); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (2nd try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package, dependencies=dependencies); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (3rd try)\n")))
+#       
+#       tryCatch({install.packages_wrapper(package); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (4th try)\n")))
+#       
+#       tryCatch({devtools::install_github(package); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (5th try)\n")))
+#       
+#       tryCatch({devtools::install_github(package,
+#                                          dependencies=dependencies,
+#                                          githubrepo=githubrepo,
+#                                          repos = repos, type = type); library(package)},
+#                error=function(e) cat(paste0(package, ": can't install (6th try)\n")))
+#       
+#       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n")))
+#     }
+#   }
+# }
+
+
+
+
 #' A function
 #' @export
 #' @examples

@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "more code cleanup; moved more superfluous files to misc/functions_extra.R"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "recode_race() + recode_gender() fxn enhanced"') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -74,7 +74,7 @@ recode_race <- function(v){
       
       
       if(any(grepl("[[:alpha:]]", v1))){
-        v1 <- recode(v0, "w"="1", "b"="2", "l"="3", "a"="4", "ai"="5", "hi"="6", "bw"="7", 
+        v1 <- recode(v1, "w"="1", "b"="2", "l"="3", "a"="4", "ai"="5", "hi"="6", "bw"="7", 
                      "his"="3", "baa"="2", "lat"="3", "hila"="3", "native"="5", "five"="5", "amin"="5", "pac"="6", "six"="6")
         
         if(any(grepl("[[:alpha:]]", v1))){
@@ -84,6 +84,61 @@ recode_race <- function(v){
                                      ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
                               )))
         }
+      }
+    }
+  }
+  v1
+}
+
+
+#' Samantha Rhoads's function to recode gender more quickly than prior versions!!
+#' @export
+#' @examples
+#' recode_gender(v)
+recode_gender <- function(v){
+  v0 <- gsub("[[:space:]]| ", "", tolower(v)) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .)
+  v1 <- recode(v0, "male"="1", "female"="2", "nonbinary"="3", "unknown"="NA")
+  
+  if(any(grepl("[[:alpha:]]", v1))){
+    gendertext <- c("\\bmale", "female|fmale", "nonbinary|other", "none|donotwishto|unknown|undefined|notprovid|decline|no.*(avail|applic)|\\bna\\b|nothin")
+    v1 <- #ifelse(grepl(gendertext[7], v1)&!grepl(paste0(setdiff(gendertext, gendertext[7]), collapse="|"), v1), "7",
+      # ifelse(grepl(gendertext[6], v1)&!grepl(paste0(setdiff(gendertext, gendertext[6]), collapse="|"), v1), "6", 
+      # ifelse(grepl(gendertext[5], v1)&!grepl(paste0(setdiff(gendertext, gendertext[5]), collapse="|"), v1), "5", 
+      # ifelse(grepl(gendertext[4], v1)&!grepl(paste0(setdiff(gendertext, gendertext[4]), collapse="|"), v1), "4", 
+      ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3", 
+             ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2", 
+                    ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1", 
+                           na_if_(v1))))#))))
+    
+    if(any(grepl("[[:alpha:]]", v1))){
+      gendertext <- c("\\b(m|mal|man|he|amle)|him|dude|mascul|guy|bro|his|ftm|femaletomale|one|boy|01", "fem|f|woman|girl|lady|femal|she|her|gal|wman|weiblich|mtf|maletofemale|frau|two|wmn|02", "non.*bin|three|3|03", "unk")
+      v1 <- #ifelse(grepl(gendertext[7], v1)&!grepl(paste0(setdiff(gendertext, gendertext[7]), collapse="|"), v1), "7",
+        #                ifelse(grepl(gendertext[6], v1)&!grepl(paste0(setdiff(gendertext, gendertext[6]), collapse="|"), v1), "6", 
+        #                       ifelse(grepl(gendertext[5], v1)&!grepl(paste0(setdiff(gendertext, gendertext[5]), collapse="|"), v1), "5", 
+        #                              ifelse(grepl(gendertext[4], v1)&!grepl(paste0(setdiff(gendertext, gendertext[4]), collapse="|"), v1), "4", 
+        ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3",
+               ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2",
+                      ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1",
+                             v1)))#))))
+      #   
+      #   
+      if(any(grepl("[[:alpha:]]", v1))){
+            v1 <- recode(v1, "m"="1", "f"="2", "n"="3", "her"="2", "g"="2", "his"="1")
+            
+            if(any(grepl("[[:alpha:]]", v1))){
+              gendertext <- c("man|mal", "fe", "3", "unk")
+              v1 <- ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3",
+                           ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2",
+                                  ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1",
+                                         v1)))#))))
+            }
+            #     if(any(grepl("[[:alpha:]]", v1))){
+            #       v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
+            #                    ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
+            #                           ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
+            #                                  ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
+            #                           )))
+            #     }
       }
     }
   }
@@ -3525,8 +3580,7 @@ read_excel_all <- function(fns){
     lapply(sheets[[d]], 
            function(sheet) readxl::read_excel(names(sheets)[d], 
                                               sheet, #skip = skip, 
-                                              na = c("NA", "None", "N/A", "-", "")#, 
-                                              # col_types = col_types
+                                              na = c("NA", "None", "N/A", "-", "")#, col_types = col_types
            )) %>%
       setNames(sheets[[d]]) 
   }) %>%
@@ -3779,8 +3833,7 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
   if(onlynewcol) d[[newcol]] else d
 }
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3791,8 +3844,7 @@ unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_
     cbind(dplyr::select_if(d, function(v) !fun(v)), .)
 }
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3803,8 +3855,6 @@ unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_al
 }
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -3824,8 +3874,6 @@ mutate_listname_to_lod_column <- function(LoD, new_colname_for_listname="LISTNAM
     setNames(namesLoD)
 }
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4084,29 +4132,24 @@ as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) 
 #' @export
 #' @examples
 #' read_table()
-read_table <- function(pastedstuff, sep="\t", header=T) tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), 
-                                                                 error=function(e) read.table(text=pastedstuff, sep=sep))
+read_table <- function(pastedstuff, sep="\t", header=T) tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), error=function(e) read.table(text=pastedstuff, sep=sep))
 
-#' Same as read_table, similar to as_table_paste: read data table pasted from clipboard
-#'
-#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to as_table_paste: read data table pasted from clipboard
 #' @export
 #' @examples
 #' read.table_fromClipboard()
 read.table_fromClipboard <- read_table
 
-#' Same as read_table, similar to as_table_paste: read data table pasted from clipboard. Same as read.table_fromClipboard too
-#'
-#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to as_table_paste: read data table pasted from clipboard. Same as read.table_fromClipboard too
 #' @export
 #' @examples
 #' read.csv_fromClipboard()
 read.csv_fromClipboard <- read_table
 
 
-#' Same as read_table, similar to `as_table_paste()`: read data table pasted from clipboard. Same as `read.table_fromClipboard()` and `read.csv_fromClipboard()` too
-#'
-#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
+#' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to `as_table_paste()`: read data table pasted from clipboard. Same as `read.table_fromClipboard()` and `read.csv_fromClipboard()` too
 #' @export
 #' @examples
 #' paste_table()
@@ -4150,8 +4193,6 @@ pkg <- function(package1, ..., dependencies=NA, import=T, unload=F) {
 
 
 
-#' A function to load and/or install package first (tidyverse included by default)!
-#'
 #' This function allows you to load and/or install package first (tidyverse included by default)!
 #' @export
 #' @examples
@@ -4170,8 +4211,6 @@ pkg_tidy <- function (package1="tidyverse", ...) {
 }
 
 
-#' A function to load and/or install package first (wrapper with tryCatch)!
-#'
 #' This function allows you to load and/or install package first (wrapper with tryCatch)!
 #' @export
 #' @examples
@@ -4227,47 +4266,7 @@ pkg3 <- pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubre
   }
 }
 
-# pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
-#                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
-#                   type = getOption("pkgType")) {
-#   if(is.null(package1)) package1 <- "tidyverse"
-#   packages <- unique(c(package1, ...))
-#   if(pipes) packages <- unique(c(packages, "magrittr"))
-#   for (package in packages) {
-#     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0("\n", package, " loaded (bc u already have it)\n"))}
-#     else {
-#       tryCatch(install.packages_wrapper(package,
-#                                         dependencies=dependencies,
-#                                         githubrepo=githubrepo,
-#                                         repos = repos, type = type),
-#                error=function(e) cat(paste0("\n", package, ": can't install (1st try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package, githubrepo=githubrepo); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (2nd try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package, dependencies=dependencies); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (3rd try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (4th try)\n")))
-#       
-#       tryCatch({devtools::install_github(package); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (5th try)\n")))
-#       
-#       tryCatch({devtools::install_github(package,
-#                                          dependencies=dependencies,
-#                                          githubrepo=githubrepo,
-#                                          repos = repos, type = type); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (6th try)\n")))
-#       
-#       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n")))
-#     }
-#   }
-# }
 
-
-#' A function to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
-#'
 #' This function allows you to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
 #' c = character, i = integer, n = number, d = double, l = logical, f = factor, D = date, T = date time, t = time, ? = guess, or _/- to skip the column
 #' @export
@@ -4284,8 +4283,7 @@ col_types <- function(type="c"){
 
 # 09/11/2019 (SEPTEMBER 11, 2019) 09112019 #######################################################################################################################
 
-#' A function to group by a desired variable and summarize it by `n()` (total count/sum)
-#'
+
 #' This function allows you to group by a desired variable and summarize it by `n()` (total count/sum). Compatible with dataframes & vectors. Uses `matches()` logic.
 #' @export
 #' @examples 
@@ -4307,8 +4305,7 @@ gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL){
 ########################################################################################################################
 
 # 09122019 #######################################################################################################################
-#' A function to both return and print output at the same time, but not redundantly.
-#'
+
 #' This function allows you to both return and print output at the same time, but not redundantly. You know when you run a function in R but don't assign the output to anything & it returns what you ran in the console? But not when you assign it to something? Well now you can print/cat & assign, but still get the stuff returned how intend. AND it won't return twice in the console--just one cute lil time. You can choose between `print` or `cat` as your desired output to the console.
 #' @export
 #' @examples 
@@ -4319,8 +4316,7 @@ printurn <- caturn <- function(stuff, how=c("cat", "print")){
   if(how=="print") print(stuff)
   invisible(stuff)
 }
-#' A function like `cat`, but wrapped in `\\n` (line breaks)
-#'
+
 #' This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
 #' @export
 #' @examples 
@@ -4333,8 +4329,6 @@ catn <- function(..., file = "", sep = " ", fill=F, labels = NULL, append=F, col
 
 # 12122020 #######################################################################################################################
 #' A function to literally do nothing... just returns the identical object you fed it
-#'
-#' This function is to literally do nothing
 #' @export
 #' @examples 
 #' donothing(x)
@@ -4343,8 +4337,7 @@ donothing <- function(x){
 }
 
 # 10232019 #######################################################################################################################
-#' A function to arrange a dataframe by fewest NAs first.
-#'
+
 #' This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).
 #' @export
 #' @examples 
@@ -4364,18 +4357,13 @@ arrange_by_na_desc <- function(d){
 
 # 11012019 #######################################################################################################################
 
-
-
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
 #' is.POSIX()
 is.POSIX <- function(v) if(any(grepl("POSIX", class(v)))) T else F
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4391,9 +4379,7 @@ is.Date <- function(v) if(any(class(v)=="Date")|is.POSIX(v)) T else F
 is.Date.class <- function(v) if(all(class(v)=="Date")) T else F
 
 
-#' Samantha Rhoads's function to find the closest date
-#'
-#' Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up
+#' Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up. Now it's Samantha Rhoads's function to find the closest date
 #' @export
 #' @examples
 #' closest()
@@ -4477,8 +4463,6 @@ getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.fi
 
 # 12102019 #######################################################################################################################
 
-#' Samantha Rhoads's function to check if all of something is NA or NULL
-#'
 #' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (edited 20200226)
 #' @export
 #' @examples
@@ -4567,8 +4551,7 @@ extract_date <- function(v) {
   v %>% stringr::str_extract_all(., patternstr)
 }
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4591,6 +4574,7 @@ fillr <- function(df2, ID='ID'){
   # dplyr::distinct(df2)
 }
 
+
 #' Samantha Rhoads's function fillr2
 #' @export
 #' @examples
@@ -4610,8 +4594,6 @@ fillr2 <- function(df2, ID='ID'){
 }
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4630,12 +4612,10 @@ DT_NAs_red_background <- function(DTdatatable){
 
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' select_vec()
+#' select_vec(v, pattern, ignore.case=T, everything=F)
 select_vec <- function(v, pattern, ignore.case=T, everything=F){
   as_tibble <- function(x, ..., .rows = NULL, .name_repair = c("check_unique", "unique", "universal", "minimal"), rownames = pkgconfig::get_config("tibble::rownames", NULL)){
     suppressWarnings(tibble::as_tibble(x, ..., .rows, .name_repair, rownames))
@@ -4655,8 +4635,6 @@ select_vec <- function(v, pattern, ignore.case=T, everything=F){
 
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -5193,17 +5171,11 @@ preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#43444
   temp <- setNames(rep(1, length(hexs)), hexs)
   
   if(plotly){
-    P <- plotly::plot_ly(y=hexs, x=temp, type="bar", showlegend=F, size=4, text=hexs, textposition="inside",
-                         marker = list(color = hexs,
-                                       line = list(color = 'rgb(8,48,107)', width = 1.5))) %>% 
+    P <- plotly::plot_ly(y=hexs, x=temp, type="bar", showlegend=F, size=4, text=hexs, textposition="inside", marker=list(color=hexs, line=list(color='rgb(8,48,107)', width=1.5))) %>% 
       layout(xaxis=list(showticklabels=F), 
              yaxis=list(tickwidth=1, tickfont=list(size=18)),
              margin = list(
-               r = 20, 
-               t = 25, 
-               b = 40, 
-               l = 20,
-               pad=20
+               r = 20, t = 25, b = 40, l = 20, pad=20
              )) %>% plotly::config(displayModeBar=F, staticPlot=T)
   } else {
     par(las=2)
