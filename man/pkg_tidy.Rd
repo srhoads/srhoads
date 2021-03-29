@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{pkg_tidy}
 \alias{pkg_tidy}
-\title{A function to load and/or install package first (tidyverse included by default)!}
+\title{This function allows you to load and/or install package first (tidyverse included by default)!}
 \usage{
 pkg_tidy(package1 = "tidyverse", ...)
 }

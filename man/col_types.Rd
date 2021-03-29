@@ -2,7 +2,8 @@
 % Please edit documentation in R/functions.R
 \name{col_types}
 \alias{col_types}
-\title{A function to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`}
+\title{This function allows you to get col_types when using `readr` package for functions like `read_csv()` with the argument `col_types=`
+c = character, i = integer, n = number, d = double, l = logical, f = factor, D = date, T = date time, t = time, ? = guess, or _/- to skip the column}
 \usage{
 col_types(type = "c")
 }

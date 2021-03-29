@@ -4,11 +4,11 @@
 \alias{str_extract_zip}
 \title{Samantha Rhoads's function to...}
 \usage{
-str_extract_zip(v, concat = T, collapse = "; ")
+str_extract_zip(v, concat = T, collapse = "; ", unique_sep = T)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
-str_extract_zip()
+str_extract_zip(v, concat=T, collapse="; ", unique_sep=T)
 }

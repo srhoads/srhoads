@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{dt_datatables_pre}
 \alias{dt_datatables_pre}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 dt_datatables_pre(df, pageLength = nrow(df))
 }

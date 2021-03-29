@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{state2region}
 \alias{state2region}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 state2region(v_abbr)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{is.nanull}
 \alias{is.nanull}
-\title{Samantha Rhoads's function to check if all of something is NA or NULL}
+\title{Srhoads wrote this to allow you to check if all of a variable is NA or NULL (edited 20200226)}
 \usage{
 is.nanull(x)
 }

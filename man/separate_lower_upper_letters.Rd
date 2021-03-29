@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{separate_lower_upper_letters}
 \alias{separate_lower_upper_letters}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 separate_lower_upper_letters(v)
 }

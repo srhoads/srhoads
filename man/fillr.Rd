@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{fillr}
 \alias{fillr}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 fillr(df2, ID = "ID")
 }

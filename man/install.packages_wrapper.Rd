@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{install.packages_wrapper}
 \alias{install.packages_wrapper}
-\title{A function to load and/or install package first (wrapper with tryCatch)!}
+\title{This function allows you to load and/or install package first (wrapper with tryCatch)!}
 \usage{
 install.packages_wrapper(
   package,

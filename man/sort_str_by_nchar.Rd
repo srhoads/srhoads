@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{sort_str_by_nchar}
 \alias{sort_str_by_nchar}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 sort_str_by_nchar(v, desc = T)
 }

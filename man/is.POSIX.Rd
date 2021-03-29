@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{is.POSIX}
 \alias{is.POSIX}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 is.POSIX(v)
 }

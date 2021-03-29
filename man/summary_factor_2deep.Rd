@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{summary_factor_2deep}
 \alias{summary_factor_2deep}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 summary_factor_2deep(x, maxsum = 7)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{state2abb_or_abb2state}
 \alias{state2abb_or_abb2state}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 state2abb_or_abb2state(v, abb = F)
 }

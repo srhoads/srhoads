@@ -7,7 +7,7 @@
 donothing(x)
 }
 \description{
-This function is to literally do nothing
+A function to literally do nothing... just returns the identical object you fed it
 }
 \examples{
 donothing(x)

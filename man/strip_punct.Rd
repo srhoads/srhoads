@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{strip_punct}
 \alias{strip_punct}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 strip_punct(v, replacewithspace = T, replacewith = NULL, onlyends = F)
 }

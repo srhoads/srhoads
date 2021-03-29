@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{add_space_between_punct}
 \alias{add_space_between_punct}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 add_space_between_punct(v)
 }

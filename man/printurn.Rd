@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{printurn}
 \alias{printurn}
-\title{A function to both return and print output at the same time, but not redundantly.}
+\title{This function allows you to both return and print output at the same time, but not redundantly. You know when you run a function in R but don't assign the output to anything & it returns what you ran in the console? But not when you assign it to something? Well now you can print/cat & assign, but still get the stuff returned how intend. AND it won't return twice in the console--just one cute lil time. You can choose between `print` or `cat` as your desired output to the console.}
 \usage{
 printurn(stuff, how = c("cat", "print"))
 }

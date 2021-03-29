@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{catn}
 \alias{catn}
-\title{A function like `cat`, but wrapped in `\\n` (line breaks)}
+\title{This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details}
 \usage{
 catn(
   ...,

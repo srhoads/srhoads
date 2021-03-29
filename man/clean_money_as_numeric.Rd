@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_money_as_numeric}
 \alias{clean_money_as_numeric}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 clean_money_as_numeric(v)
 }

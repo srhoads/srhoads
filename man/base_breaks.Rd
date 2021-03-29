@@ -7,8 +7,8 @@
 base_breaks(n = 10)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
-base_breaks()
+base_breaks(n = 10)
 }

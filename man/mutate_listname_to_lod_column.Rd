@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{mutate_listname_to_lod_column}
 \alias{mutate_listname_to_lod_column}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 mutate_listname_to_lod_column(LoD, new_colname_for_listname = "LISTNAME")
 }

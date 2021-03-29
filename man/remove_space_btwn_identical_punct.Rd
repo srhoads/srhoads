@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{remove_space_btwn_identical_punct}
 \alias{remove_space_btwn_identical_punct}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 remove_space_btwn_identical_punct(v)
 

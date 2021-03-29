@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{arrange_by_na}
 \alias{arrange_by_na}
-\title{A function to arrange a dataframe by fewest NAs first.}
+\title{This function is to arrange a dataframe by fewest NAs first (at the top of the dataset/earliest rows).}
 \usage{
 arrange_by_na(d)
 }

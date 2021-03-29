@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gbsum}
 \alias{gbsum}
-\title{A function to group by a desired variable and summarize it by `n()` (total count/sum)}
+\title{This function allows you to group by a desired variable and summarize it by `n()` (total count/sum). Compatible with dataframes & vectors. Uses `matches()` logic.}
 \usage{
 gbsum(d, var = NULL)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{DT_NAs_red_background}
 \alias{DT_NAs_red_background}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 DT_NAs_red_background(DTdatatable)
 }

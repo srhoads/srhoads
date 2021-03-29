@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{unite_at}
 \alias{unite_at}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 unite_at(
   d,

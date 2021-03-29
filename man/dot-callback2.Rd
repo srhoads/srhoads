@@ -7,7 +7,7 @@
 .callback2(x, pos = NULL)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
 .callback2()

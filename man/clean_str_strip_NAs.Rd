@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_str_strip_NAs}
 \alias{clean_str_strip_NAs}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 clean_str_strip_NAs(v, sep = ", ", sep2 = NULL, sep3 = NULL)
 }
@@ -10,5 +10,5 @@ clean_str_strip_NAs(v, sep = ", ", sep2 = NULL, sep3 = NULL)
 Srhoads wrote this to allow you to...
 }
 \examples{
-clean_str_strip_NAs()
+clean_str_strip_NAs(v, sep=", ", sep2=NULL, sep3=NULL)
 }

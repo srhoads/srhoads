@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{str_extract_all_concat}
 \alias{str_extract_all_concat}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 str_extract_all_concat(v, pattern, exact = F, collapse = "; ", ignore.case = F)
 }

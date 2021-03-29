@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{str_extract_money}
 \alias{str_extract_money}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 str_extract_money(v)
 }

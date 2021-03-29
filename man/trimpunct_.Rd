@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{trimpunct_}
 \alias{trimpunct_}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 trimpunct_(v, removenegativesymbol = F, beginning = T, end = T)
 }

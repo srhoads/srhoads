@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{datatable2}
 \alias{datatable2}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 datatable2(
   x,

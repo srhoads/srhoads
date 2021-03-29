@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{recode_diversitygroup}
 \alias{recode_diversitygroup}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 recode_diversitygroup(v)
 }

@@ -7,7 +7,7 @@
 extract_word_startswith_dollarsign(v)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
 extract_word_startswith_dollarsign()

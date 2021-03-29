@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{sumry_2deep}
 \alias{sumry_2deep}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 sumry_2deep(x, maxsum = 7)
 }

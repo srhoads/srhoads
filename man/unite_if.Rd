@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{unite_if}
 \alias{unite_if}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 unite_if(
   d,

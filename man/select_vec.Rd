@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{select_vec}
 \alias{select_vec}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 select_vec(v, pattern, ignore.case = T, everything = F)
 }
@@ -10,5 +10,5 @@ select_vec(v, pattern, ignore.case = T, everything = F)
 Srhoads wrote this to allow you to...
 }
 \examples{
-select_vec()
+select_vec(v, pattern, ignore.case=T, everything=F)
 }

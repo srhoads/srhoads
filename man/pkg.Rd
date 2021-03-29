@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{pkg}
 \alias{pkg}
-\title{A function to load and/or install package first}
+\title{This function allows you to load and/or install package first; you can specifify if you want it unloaded (or even loaded at all tbh. Setting import=F is a good way to check if the package is installed on your machine, without actually doing anything with it.)}
 \usage{
-pkg(package1, ...)
+pkg(package1, ..., dependencies = NA, import = T, unload = F)
 }
 \description{
-This function allows you to load and/or install package first
+This function allows you to load and/or install package first; you can specifify if you want it unloaded (or even loaded at all tbh. Setting import=F is a good way to check if the package is installed on your machine, without actually doing anything with it.)
 }
 \examples{
-pkg()
+pkg(package1, ..., dependencies=NA, import=T, unload=F)
 }

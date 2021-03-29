@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{remove_duplicate_punct}
 \alias{remove_duplicate_punct}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 remove_duplicate_punct(v, nrepeat = 6)
 }

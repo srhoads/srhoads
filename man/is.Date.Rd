@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{is.Date}
 \alias{is.Date}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 is.Date(v)
 }

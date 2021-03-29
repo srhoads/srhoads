@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{remove_duplicate_punct_consec}
 \alias{remove_duplicate_punct_consec}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 remove_duplicate_punct_consec(v)
 }

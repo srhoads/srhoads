@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{not_is.factorchar}
 \alias{not_is.factorchar}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 not_is.factorchar(v)
 }

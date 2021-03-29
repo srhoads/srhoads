@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{not_is.character}
 \alias{not_is.character}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 not_is.character(v)
 }

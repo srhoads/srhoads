@@ -10,8 +10,6 @@ summary_factor(x, maxsum = 7)
 }
 \description{
 This function allows you to
-
-Srhoads wrote this to allow you to...
 }
 \examples{
 summary_factor()

@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{closest}
 \alias{closest}
-\title{Samantha Rhoads's function to find the closest date}
+\title{Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up. Now it's Samantha Rhoads's function to find the closest date}
 \usage{
 closest(x, y, type = NA)
 }
 \description{
-Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up
+Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up. Now it's Samantha Rhoads's function to find the closest date
 }
 \examples{
 closest()

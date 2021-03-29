@@ -4,11 +4,11 @@
 \alias{collapse_tiered_vec}
 \title{Samantha Rhoads's function to...}
 \usage{
-collapse_tiered_vec(v, collapse = "; ")
+collapse_tiered_vec(v, collapse = "; ", unique_sep = F)
 }
 \description{
-Srhoads wrote this to allow you to...
+Samantha Rhoads's function to...
 }
 \examples{
-collapse_tiered_vec()
+collapse_tiered_vec(v, collapse = "; ", unique_sep=F)
 }
