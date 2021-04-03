@@ -10,5 +10,5 @@ filter_duplicated(d, var = "id")
 A function that can filter a dataframe so it includes all duplicates of your variable of choice
 }
 \examples{
-filter_duplicated()
+filter_duplicated(d, var="id")
 }

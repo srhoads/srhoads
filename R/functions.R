@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "recode_race() + recode_gender() fxn enhanced"') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "tried removing quanteda dependency bc it breaks with proxyC when deploying apps to RStudio Connect sometimes"') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -957,7 +957,7 @@ regex_info <- function(){
 #' A function that can filter a dataframe so it includes all duplicates of your variable of choice
 #' @export
 #' @examples
-#' filter_duplicated()
+#' filter_duplicated(d, var="id")
 filter_duplicated <- function(d, var="id"){
   vdups <-  d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) duplicated(v)) %>% .[[var]]
   d %>% dplyr::filter_at(dplyr::vars(dplyr::one_of(var)), function(v) v %in% vdups)
@@ -1048,8 +1048,6 @@ remove_after_char <- function(v, sep=' '){ gsub(paste0(sep, ".*"),"", v)}
 
 
 #' A function to paste a vector in a regex way with '|'
-#'
-#' This function allows you to 
 #' @export
 #' @examples
 #' drop_repeat_cols(d, fromall=F, fromlast=F, fromfirst=F)

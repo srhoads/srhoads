@@ -7,7 +7,7 @@
 drop_repeat_cols(d, fromall = F, fromlast = F, fromfirst = F)
 }
 \description{
-This function allows you to
+A function to paste a vector in a regex way with '|'
 }
 \examples{
 drop_repeat_cols(d, fromall=F, fromlast=F, fromfirst=F)

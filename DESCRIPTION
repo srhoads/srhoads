@@ -12,7 +12,6 @@ Imports:
     tools,
     stringi,
     plyr,
-    quanteda,
     grDevices,
     DT,
     janitor,
