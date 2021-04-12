@@ -201,7 +201,7 @@ if IMPORT_MODULES:
     except Exception as e:
         print('ERROR (functions.py): IMPORT_MODULES is True but ERRORS importing:', e)
         try: # pkgs2([['tpot'], ['imblearn'], ['mglearn'], ['patsy'], ['pandas'], ['pickle']])
-            pkg('tpot'); pkg('imblearn'); pkg('mglearn'); pkg('patsy'); pkg(pandas''); pkg('pickle');
+            pkg('tpot'); pkg('imblearn'); pkg('mglearn'); pkg('patsy'); pkg('pandas'); pkg('pickle');
         except Exception as e:
             print('ERROR (functions.py):', e)
     try:

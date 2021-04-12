@@ -638,6 +638,166 @@ types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS',
 #============================================================================================================================================================================
 
 
+
+#' This function allows you to 
+#' @export
+#' @examples
+#' gather_namesplit()
+gather_namesplit <- function(df){
+  df %<>% 
+    namesplit() %>%
+    gather_first_last_name() %>%
+    dplyr::distinct()
+  df
+}
+
+
+#' This function allows you to 
+#' @export
+#' @examples
+#' gather_namesplit_clean(df)
+gather_namesplit_clean <- function(df){
+  df %<>% lapply(., function(x){
+    x <- stringi::stri_enc_toutf8(x) %>%
+      gsub("_", " ", .) %>%
+      gsub("[^,|\\.| |\\-|-|[:alpha:]]", "", .) %>%
+      trimws(., which="both") %>% 
+      as.character() %>% 
+      tolower() %>% 
+      gsub(",", ", ", .) %>%
+      gsub("  ", " ", .) %>%
+      gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
+      trimws() 
+    x
+  }) %>% data.frame(., stringsAsFactors = F) %>%
+    clean_recode() %>%
+    gather_namesplit() %>%
+    recode_races_and_genders() %>% 
+    dplyr::mutate(gender=as.factor(recode_gender_specific(gender))) %>%
+    dplyr::distinct() %>%
+    lapply(., function (x) {
+      x %<>% 
+        gsub("^phd$|^rn$|^md$", "", .) %>%
+        gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
+        na_if(., "") %>%
+        as.factor()
+      x
+    }) %>%
+    data.frame() %>% 
+    dplyr::distinct()
+  df
+}
+
+#' This function allows you to recode race and gender!
+#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
+#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
+#' @keywords cats
+#' @export
+#' @examples
+#' recode_races_and_genders_regex()
+recode_races_and_genders_regex <- function(df, extragender = NULL, extrarace = NULL) {
+  
+  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
+  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
+  
+  if(length(genderdf) > 0){
+    genderdf <- lapply(genderdf, recode_gender_regex) 
+  }
+  if(length(racedf) > 0){
+    racedf <- lapply(racedf, recode_race_regex) 
+  }
+  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
+  
+  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0){
+    totaldf <- data.frame(df, stringsAsFactors = F)
+  }
+  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0){
+    totaldf <- data.frame(genderdf, stringsAsFactors = F)
+  }
+  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0){
+    totaldf <- data.frame(racedf, stringsAsFactors = F)
+  } 
+  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0){
+    totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
+  }
+  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0){
+    totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
+  }
+  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0){
+    totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
+  }
+  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0){
+    totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
+  } 
+  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) == 0){
+    totaldf <- dfincase
+  } 
+  
+  totaldf <- tryCatch(totaldf, error = function(e) {dfincase})
+  totaldf
+}
+
+
+
+#' A function
+#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
+#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
+#' @keywords cats
+#' @export
+#' @examples
+#' recode_races_and_genders()
+recode_races_and_genders <- function(df, extragender = NULL, extrarace = NULL, extra = NULL) {
+  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
+  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
+  if(!is.null(extra)) extragender <- extrarace <- extra
+  if(length(genderdf) > 0){
+    genderdf <- lapply(genderdf, recode_gender_regex) 
+    genderdf <- lapply(genderdf, function (x) recode_gender_j(x, recode_list = gender_list, extra = extragender))
+  }
+  if(length(racedf) > 0){
+    racedf <- lapply(racedf, recode_race_regex) 
+    racedf <- lapply(racedf, function (x) recode_race_j(x, recode_list = race_list, extra = extrarace))
+  }
+  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
+  
+  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
+  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
+  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
+  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
+  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(df, stringsAsFactors = F)
+  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, stringsAsFactors = F)
+  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(racedf, stringsAsFactors = F)
+  
+  totaldf <- tryCatch(totaldf, error = function(e) dfincase)
+  totaldf
+}
+
+
+# ---------------------------------------------------------------------------------
+#' A function
+#' @export
+#' @examples
+#' clean_recode()
+clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extragender = NULL) {
+  scrub <- match.arg(scrub)
+  df <- clean_dfs(df) 
+  df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender)
+  df <- data.frame(lapply(df, stringi::stri_enc_toutf8), stringsAsFactors = F)
+  
+  if(scrub == "once")return(dplyr::distinct(df))
+  if(scrub == "double"){
+    df <- clean_dfs(df) 
+    df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender) 
+    return(df)
+  } else {
+    return(df)
+  }
+}
+
+# ---------------------------------------------------------------------------------
+
+
+
 #' A function
 #' @export
 #' @examples

@@ -147,15 +147,12 @@ recode_gender <- function(v){
 
 
 gender_list_short <- {list(
-  "female" = c("femlale", "females", "frau", "weiblich", "she", "fem", "fema","femaleidentif","feman","femino","wmn",
-               "femalenotto", "femalke", "femaleiprefernottodisclose", "femal", "felame", "femalechoosenotto","wman",
-               "female", "shef", "her", "femaile", "feamle", "femalle", "sfemalev", "femalef", "ffemale", 
-               "ffemale", "femaleemaleale", "femnale", "woman", "girl", "femaile", "femail", "femaleemaleail", "idonotwishtoprovidethisinfofemale", 
-               "idonotwishtoprovidethisinfomale", "femalefemale", "queerfem", "transfemale", "transwoman", "mtf"),
+  "female" = c("femlale", "females", "frau", "weiblich", "she", "fem", "fema","femaleidentif","feman","femino","wmn","femalenotto", "femalke", "femaleiprefernottodisclose", "femal", "felame", "femalechoosenotto","wman",
+               "female", "shef", "her", "femaile", "feamle", "femalle", "sfemalev", "femalef", "ffemale", "ffemale", "femaleemaleale", "femnale", "woman", "girl", "femaile", "femail", 
+               "femaleemaleail", "idonotwishtoprovidethisinfofemale", "femalefemale", "queerfem", "transfemale", "transwoman", "mtf"),
   "male" = c("males", "mannlich", "mann", "männlich", "male", "him", "hismale", "mail", "christopher", "chris", "michael", "fsbm", "mfale", "mlae", "mike", 
              "dude", "guy", "malenotto", "maleiprefernottodisclose", "malechoosenotto", "femaletomaletrans","comalepanjobboard",
-             "maley", "his", "tospecifemaley", "amle", "maile", "smalev", "malem", "malevisual", "maleabogal","oluwafemi",
-             "mmale", "maleale","make", "man", "boy", "malemale", "maleundisclosed", "maleidentif","maleau","isazamale","tegamale",
+             "maley", "his", "tospecifemaley", "amle", "maile", "smalev", "malem", "malevisual", "maleabogal","oluwafemi","mmale", "maleale","make", "man", "boy", "malemale", "maleundisclosed", "maleidentif","maleau","isazamale","tegamale",
              "malequeer fluid", "malequeerfluid", "gayman", "transmale", "maleiamtransftm", "transedftm", "ftm"),
   "NA" = c("NATOEVERYONE", "malefemalerace", "malefemale", "femalemale")
 )}
@@ -187,30 +184,26 @@ race_list_short <- {list(
                                          "wnativeamerican"),
   "asian" = c("asian","viet","asiana","asianorasianeuropean","indian","asianisual","minahasianindonesia","chineseindonesia","eurasiansingapore","indonesia","batakindonesia",
               "asion","twoasian","asiantwo","asianv","chineseunitedkingdom","thai","thaithailandthailand","sundaneseindonesia","sthailandthailand","javaneseindonesia",
-              "fasian","asianorpacisl","masian","india","rasian","asianorasianbritish","asianandasianamericanincludespakistanisindians","bangladeshi","southasian","sindhiindian","koreanamerican","chinesejapanese","asiachinese","lasian", 
+              "fasian","masian","india","rasian","asianorasianbritish","asianandasianamericanincludespakistanisindians","bangladeshi","southasian","sindhiindian","koreanamerican","chinesejapanese","asiachinese","lasian", 
               "aisian","asianian","cambodian","vietnamese","korean","japanese","chinese","asianindian","southasiaeastindianincludingindianpakistanisrilankanbangladeshieastindiansfromguyanatrinidadeastafrica","asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam",
               "asain","nativeasian","southeastasian","asianasianamerican","southasiaeastindian","asiannothispanicorlatono","asianorasianamericaneuropean"),
-  "black or african american" = c("black or african american","blackorafricanamericanblackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                  "blackorafricanamerican","blackoramerican","morocco","sblackorafricanamerican","sblackorafricanamericanv","blacknothislatino","blackorafricanamericantwo",
+  "black or african american" = c("black or african american","blackorafricanamericanblackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment","blackorafricanamerican","blackoramerican","morocco","blacknothislatino","blackorafricanamericantwo",
                                   "guyanaian","jamaican","blackcarribamer","fblack","mblack","blackorafricanamericannofhispanic","blackorafricanamericaninanoftheblackracialgroupsofafrica",
-                                  "blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment","blackaframer","rblackorafricanamerican","jblackorafricanamerican","cblackorafricanamerican","bk","afircanamerican","blackoraframnisporlatino","blackorafram","af",
-                                  "blackafrianamerican","blackafricanamercian","sblackafricanamericanv","africanamericanblacknofhispanic","africansouthafrica","africanamerica",
-                                  "blackblackblackorafricanamerican","somalian","baa","ba","blackforafricanamerican","bl","blackorafricanamerican","twoblackorafricanamerican",
-                                  "black","afri","african","africanamerican","africanamericanblack","blackafricanamerican","blkafram","blackafram","blackblack","blackandafricanamerican",
-                                  "blackorafrican","blackoraficanamerican","blackorafroamerican","blackorafricanamericaninanyoftheblackracialgroupsofafrica","raceblack"),
+                                  "blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment","blackaframer",
+                                  "bk","afircanamerican","blackoraframnisporlatino","blackorafram","af","somalian","baa","ba","blackforafricanamerican","bl","blackorafricanamerican","twoblackorafricanamerican",
+                                  "black","afri","african","blkafram","blackafram","blackorafricanamericaninanyoftheblackracialgroupsofafrica","raceblack"),
   "hispanic or latino" = c("hispanic or latino", 
-                           "canales","hispaniclatinoq","hispanicpuerrico","hispanicorlatinos","nonwhitelatinomerican","nonwhitelatinomericanincludingindigenopersonsfromcentralandsouthamerican",
-                           "lathispanic","dunbrazil","hispanicinic","hispanichlatino","spaniclatino","hispanicc","latinomericanincludingindigenopersonsfromcentralandsouthamerican","latinotwo",
-                           "spanish","hispanic","hispaniclatino","hislatino","hispanicall","hispanicorlatinohispanicorlatino","hispanicnative","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "hispanicorlatinoallothers","hisporlat","hispa","latino","asianpacificislander","hispancorlatino","hispaniclatino","iamhispaniclatinoa","latina","latinx","latin"),
-  "native hawaiian or other pacific islander" = c("native hawaiian or other pacific islander","nativehawiianorothrpacificisl",
+                           "canales","hispanicpuerrico","hispanicorlatinos","nonwhitelatinomerican","nonwhitelatinomericanincludingindigenopersonsfromcentralandsouthamerican",
+                           "dunbrazil","hispanicinic","spaniclatino","hispanicc","latinomericanincludingindigenopersonsfromcentralandsouthamerican","latinotwo",
+                           "spanish","hislatino","hispanicall","hispanicnative","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
+                           "hispanicorlatinoallothers","hisporlat","hispa","latino","asianpacificislander","hispancorlatino","latina","latinx","latin"),
+  "native hawaiian or other pacific islander" = c("native hawaiian or other pacific islander","nativehawiianorothrpacificisl","asianorpacisl",
                                                   "polynesian","polynese","polynesia","melanesian","melanese","melanesia","micronesia","micronesian","micronese",
-                                                  "tuvalu","vanuatu","samoan","samoa","fijian","fiji","nauru","nauruan","palau","palauan","fillipino",
-                                                  "snativehawaiianorpacificislanderv"),
+                                                  "tuvalu","vanuatu","samoan","samoa","fijian","fiji","nauru","nauruan","palau","palauan","fillipino"),
   "white" = c("white","thispanicinformationtwoormoreraces","europeannewzealand","europeannewzealand","europeans","unitedkingdom",
               "azeri","whitenon","whitenonsasa","whitenofhispanichispanic","whiteite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant",
               "whitemiddleeastern","fwhite","mwhite","rwhite","germany","germanscottish","cauwhite","caasian","abalatralia",
-              "whiteundisclosed","caucasion","nonminority","whit","whire","uswhite","caucasian","whitewhite","wh","whitenothispanicorigin","whitev","nonhispanicwhite",
+              "whiteundisclosed","caucasion","nonminority","whit","whire","uswhite","caucasian","wh","whitenothispanicorigin","nonhispanicwhite",
               
               "meast","meast","meast","meast","meast","meast","arabmiddleeastern","arabian","lebanese","iraqi","middleastern","mideastern","jordanian","mideastrn","middleeastern","westasianarabincludingarabianarmenianiranianisraelilebanesepalestiniansyrianturkishegyptianiraqi",
               "iraq","greekamerican","saudi","turkish","mideastern","jordanian","persianamerican","middleeastren","lebanese","iraqi","iranianamerican","greek","arabmiddleeastern","whitetwotwo",
@@ -233,41 +226,35 @@ race_list <- {mapply(c,
                             "two or more races" = c("m", "bnw", "wbh", "wbhn", "wbn", "nla", "bhn", "ash", "nb", "bh", "mul", "7", "07", "007",
                                                     "otwos","ah","bipw","pw","hiw","apw","bhiw","bhw","bn","etwo","ltwo","twoa","taltwo","qaltwo",
                                                     "seven", "t", "two", "aw", "hn", "hw", "anh", "ahw", "aiw", "wn", "wna", "hb", "abiw", "ab","ahp"), 
-                            "NA" = c("tals", "VALUE","NA", 
-                                     "nr","ng",
-                                     "na", "na", "EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER","ho", "qal", "dti", "fax", "perfer", "ofcolor", "isclose","nolatino", "oth", "preferrednot","icurrentlyworkatforest", "nmin", 
-                                     "mm","min", "ielectnot", "frxcom","onlinejobsite", "abal", "thomas","smith", "notdeclaringunitedkingdom", "bragray","poc", "canvisibleminority", "remove", 
-                                     "nfalt", "missingor", "single", "ni", "aeorai", "visual", "sbentivegna", "does", "dn", "sb", "nd", "bkorkuch", "sgps", "didindentify", "noinformation", "declinded", "refe", "sg", "employermt", "dnr", "leftblank", 
-                                     "iama", "osed", "uknown", "anchoice", "unnown", "apprentice", "gbrnotdeclared", "electrician", "lack", "followstepscompleteeeoinformation", "notinformation", "cannoneofthecategoriesapply", 
-                                     "report", "missingblank", "br", "tmr", "undefined", "respond", "needhrreview", "say", "prefer", "observationneeded", "ielect", "multiples", "thispanicquestion",
-                                     "aiisclose", "true", "expatriates", "iisclose", "notsupplied", "notselected", "choose", "william", "s", "answeredyeshispaniclatinoquestion","unotknow",
-                                     "to", "do", "nonpoc", "state", "nonhispanic", "id", "furnish", "twas", "answer", "g", "aa", "refed", "yes", "un", "ukn", "ud", "u", "c", "y", "to", "sv", "r", "ndr", "or", "did",
-                                     "avisual", "not", "non", "entify", "not", "nanonnon", "ola", "oim", "oca", "gyr", "s", "diversity", "nothispanicorlanito", "mothispanic", "welder", "hire", "un", "oai", 
-                                     "eeob", "e", "empty", "none", "orm", "desc", "gender", "gmna", "minority", "no", "ns", "other", "q", "o", "blank", "8", "9", "10", "11", "0", "u", "a", "x", "z", "na", "null", "unk", "answer", 
-                                     "d", "o", "nralien", "tr", "ax", "dw", "dx", "i", "ad", "iw", "nspec", "ow", "bi", "biw", "unknowen", "f","ed","monstercom",
-                                     "didnotdisclose", "unknownphone", "notdelcared", "didnotwishtoanswer", "iamnothispaniclatinoa", "nothispaniclatino", "nothispaniclatino"))
+                            "NA" = c("tals","VALUE","NA", 
+                                     "nr","ng","na","na","EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER","ho","qal","dti","fax","perfer","ofcolor","isclose","nolatino","oth","preferrednot","icurrentlyworkatforest","nmin", 
+                                     "mm","min","ielectnot","frxcom","onlinejobsite","abal","thomas","smith","notdeclaringunitedkingdom","bragray","poc","canvisibleminority","remove", "nfalt","missingor","single","ni","aeorai","visual","sbentivegna","does","dn","sb","nd","bkorkuch","sgps","didindentify","noinformation","declinded","refe","sg","employermt","dnr","leftblank", "iama","osed","uknown","anchoice","unnown","apprentice","gbrnotdeclared","electrician","lack","followstepscompleteeeoinformation","notinformation","cannoneofthecategoriesapply", 
+                                     "report","missingblank","br","tmr","undefined","respond","needhrreview","say","prefer","observationneeded","ielect","multiples","thispanicquestion","aiisclose","true","expatriates","iisclose","notsupplied","notselected","choose","william","s","answeredyeshispaniclatinoquestion","unotknow",
+                                     "to","do","nonpoc","state","nonhispanic","id","furnish","twas","answer","g","aa","refed","yes","un","ukn","ud","u","c","y","to","sv","r","ndr","or","did","avisual","not","non","entify","not","nanonnon","ola","oim","oca","gyr","s","diversity","nothispanicorlanito","mothispanic","welder","hire","un","oai", 
+                                     "eeob","e","empty","none","orm","desc","gender","gmna","minority","no","ns","other","q","o","blank","8","9","10","11","0","u","a","x","z","na","null","unk","answer", "d","o","nralien","tr","ax","dw","dx","i","ad","iw","nspec","ow","bi","biw","unknowen","f","ed","monstercom",
+                                     "didnotdisclose","unknownphone","notdelcared","didnotwishtoanswer","iamnothispaniclatinoa","nothispaniclatino","nothispaniclatino"))
                        , sort)), 
                      SIMPLIFY=FALSE)}
 
 
 
-recode_race_getridofstrregex <- {paste0(c("yes", "wish", "us", "unitedstatesofamerica", "to", "sgp","state","self", "selected", "region", "raceethnicity", "race", "other", "othe", "oth$", "origins", "origin", "only", "ofany", "obsolete", 
-                                          "notofhispanic$", "notlatino$", "nothisporlatino", "nothispnc$", "nothispanicorlatino", "nothispanicorl$", "nothispanicor$", "nothispanicoflatino", 
-                                          "nothispaniclatinononhispanic$", "nothispaniclatino", "nothispanichispanic$", "nothispanichis$", "nothispaniceorlatino", "nothispanic$", "nothislatino$", 
-                                          "nothislat$", "nothis$", "norhispanic$", "norhislatino$", "norhis$", "noofhispanic$", "nonwhite", "nonhispanicorlatino", "nonhispanicor$", "nonhispaniclatino", "nonhispanichispanic$", "nonhispanichis$", "nonhispanic$", "nonhislat$", "nonhis$", "nonexempttoexempt", 
-                                          "nofhispanic$", "nispnlatino$", "nisplatino", "nisplat$", "nispanicorlatino", "nispanic$", "nispanc$", "nislatino$", "nislatin$", "nislat$", 
-                                          "lessthan", "ï", "hours", "heritage", "half", 
-                                          "gender", "gb", "furnish", # "males", "male",  # "females", "female", 
-                                          "ethnicity", "ethnic", "eorlatino", "dta", "donottoself", "donotto", "cmty", "apersonhavingorigins", "alls", "^nhispanic$", "^dstate"), 
+recode_race_getridofstrregex <- {paste0(c("yes","wish","us","unitedstatesofamerica","to","sgp","state","self","selected","region","raceethnicity","race","other","othe","oth$","origins","origin","only","ofany","obsolete", 
+                                          "notofhispanic$","notlatino$","nothisporlatino","nothispnc$","nothispanicorlatino","nothispanicorl$","nothispanicor$","nothispanicoflatino", 
+                                          "nothispaniclatinononhispanic$","nothispaniclatino","nothispanichispanic$","nothispanichis$","nothispaniceorlatino","nothispanic$","nothislatino$", 
+                                          "nothislat$","nothis$","norhispanic$","norhislatino$","norhis$","noofhispanic$","nonwhite","nonhispanicorlatino","nonhispanicor$","nonhispaniclatino","nonhispanichispanic$","nonhispanichis$","nonhispanic$","nonhislat$","nonhis$","nonexempttoexempt", 
+                                          "nofhispanic$","nispnlatino$","nisplatino","nisplat$","nispanicorlatino","nispanic$","nispanc$","nislatino$","nislatin$","nislat$", 
+                                          "lessthan","ï","hours","heritage","half", 
+                                          "gender","gb","furnish", # "males","male",  # "females","female", 
+                                          "ethnicity","ethnic","eorlatino","dta","donottoself","donotto","cmty","apersonhavingorigins","alls","^nhispanic$","^dstate"), 
                                         collapse="|")}
 
-recode_gender_getridofstrregex <- {paste0(c("gender", "sexis", "earnings", "sex", "tospecife", "lessthan", "over", "other", 
+recode_gender_getridofstrregex <- {paste0(c("gender","sexis","earnings","sex","tospecife","lessthan","over","other", 
                                             "inanyofthealpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineisls",
-                                            "noselfid", "assume", "senior", "junior", "applicantselected","other", "non","unotknow","y","ukn",
+                                            "noselfid","assume","senior","junior","applicantselected","other","non","unotknow","y","ukn",
                                             "apersonhavingiginsinanyoftheiginalpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineislsthailvietnam",
-                                            "and", "selected", "tonot", "self", "professionals", "professional", "toidentif$",
-                                            # "afircanamerican", "africanamerican", "hispanic", "africanamerican", "amerindalas", #"ornotorlatino", "notorlatino", "ormoreraces",# "white", "black", "non", "hisanic", "asian", "nativeamerican", # "hisanic",
-                                            "ethnicity", "ethnicit", "ethnici", "ethnic", "ethni", "ethn", "eth", "donotselectthisoptionifyouyour", "apersonhavingiginsinanyoftheiginalpeoplesofeuropemiddleeastnthafrica"
+                                            "and","selected","tonot","self","professionals","professional","toidentif$",
+                                            # "afircanamerican","africanamerican","hispanic","africanamerican","amerindalas", #"ornotorlatino","notorlatino","ormoreraces",# "white","black","non","hisanic","asian","nativeamerican", # "hisanic",
+                                            "ethnicity","ethnicit","ethnici","ethnic","ethni","ethn","eth","donotselectthisoptionifyouyour","apersonhavingiginsinanyoftheiginalpeoplesofeuropemiddleeastnthafrica"
 ), 
 collapse="|")}
 
@@ -1496,88 +1483,7 @@ recode_genders_regex <- function(df) {
   df
 }
 
-#' This function allows you to recode race and gender!
-#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
-#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
-#' @keywords cats
-#' @export
-#' @examples
-#' recode_races_and_genders_regex()
-recode_races_and_genders_regex <- function(df, extragender = NULL, extrarace = NULL) {
-  
-  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
-  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) > 0){
-    genderdf <- lapply(genderdf, recode_gender_regex) 
-  }
-  if(length(racedf) > 0){
-    racedf <- lapply(racedf, recode_race_regex) 
-  }
-  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0){
-    totaldf <- data.frame(df, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0){
-    totaldf <- data.frame(genderdf, stringsAsFactors = F)
-  }
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0){
-    totaldf <- data.frame(racedf, stringsAsFactors = F)
-  } 
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
-  }
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0){
-    totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
-  } 
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) == 0){
-    totaldf <- dfincase
-  } 
-  
-  totaldf <- tryCatch(totaldf, error = function(e) dfincase)
-  totaldf
-}
 
-#' A function
-#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
-#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
-#' @keywords cats
-#' @export
-#' @examples
-#' recode_races_and_genders()
-recode_races_and_genders <- function(df, extragender = NULL, extrarace = NULL, extra = NULL) {
-  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
-  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
-  if(!is.null(extra)) extragender <- extrarace <- extra
-  if(length(genderdf) > 0){
-    genderdf <- lapply(genderdf, recode_gender_regex) 
-    genderdf <- lapply(genderdf, function (x) recode_gender_j(x, recode_list = gender_list, extra = extragender))
-  }
-  if(length(racedf) > 0){
-    racedf <- lapply(racedf, recode_race_regex) 
-    racedf <- lapply(racedf, function (x) recode_race_j(x, recode_list = race_list, extra = extrarace))
-  }
-  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(df, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(racedf, stringsAsFactors = F)
-  
-  totaldf <- tryCatch(totaldf, error = function(e) dfincase)
-  totaldf
-}
-# ---------------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------------
 
@@ -1837,26 +1743,6 @@ recode_race_specific <- function(vec, extra = NULL) {
 }
 
 
-# ---------------------------------------------------------------------------------
-#' A function
-#' @export
-#' @examples
-#' clean_recode()
-clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extragender = NULL) {
-  scrub <- match.arg(scrub)
-  df <- clean_dfs(df) 
-  df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender)
-  df <- data.frame(lapply(df, stringi::stri_enc_toutf8), stringsAsFactors = F)
-  
-  if(scrub == "once")return(dplyr::distinct(df))
-  if(scrub == "double"){
-    df <- clean_dfs(df) 
-    df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender) 
-    return(df)
-  } else {
-    return(df)
-  }
-}
 
 
 # ---------------------------------------------------------------------------------
@@ -1959,13 +1845,13 @@ cleanpath <- function(x){
 #' @export
 #' @examples
 #' round5(num)
-round5 <- function(num) formatC(num, width = 5, format = "d", flag = "0")
+round5 <- function(num) {formatC(num, width = 5, format = "d", flag = "0")}
 
 #' A function
 #' @export
 #' @examples
 #' round4(num)
-round4 <- function(num) formatC(num, width = 4, format = "d", flag = "0")
+round4 <- function(num) {formatC(num, width = 4, format = "d", flag = "0")}
 
 
 #' A function to round intuitively based on how many digits the percentage number is + how much space you want to take up
@@ -2073,54 +1959,6 @@ namesplit <- function(df, dfincase){
 }
 
 
-#' This function allows you to 
-#' @export
-#' @examples
-#' gather_namesplit()
-gather_namesplit <- function(df){
-  df %<>% 
-    namesplit() %>%
-    gather_first_last_name() %>%
-    dplyr::distinct()
-  df
-}
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' gather_namesplit_clean(df)
-gather_namesplit_clean <- function(df){
-  df %<>% lapply(., function(x){
-    x <- stringi::stri_enc_toutf8(x) %>%
-      gsub("_", " ", .) %>%
-      gsub("[^,|\\.| |\\-|-|[:alpha:]]", "", .) %>%
-      trimws(., which="both") %>% 
-      as.character() %>% 
-      tolower() %>% 
-      gsub(",", ", ", .) %>%
-      gsub("  ", " ", .) %>%
-      gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
-      trimws() 
-    x
-  }) %>% data.frame(., stringsAsFactors = F) %>%
-    clean_recode() %>%
-    gather_namesplit() %>%
-    recode_races_and_genders() %>% 
-    dplyr::mutate(gender=as.factor(recode_gender_specific(gender))) %>%
-    dplyr::distinct() %>%
-    lapply(., function (x) {
-      x %<>% 
-        gsub("^phd$|^rn$|^md$", "", .) %>%
-        gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
-        na_if(., "") %>%
-        as.factor()
-      x
-    }) %>%
-    data.frame() %>% 
-    dplyr::distinct()
-  df
-}
 
 #--------------------------------------------------------------
 
@@ -3895,13 +3733,9 @@ dt_sumry <- function(dftosumry, pageLength=nrow(df)){
     ) %>%
     DT::formatStyle(0, target= 'row', color = 'black', lineHeight='98%', fontSize="95%")
   # DT::datatable(sumryoutput,
-  #               escape=F,
-  #               rownames=F,
+  #               escape=F, rownames=F,
   #               options = list(#search = list(regex=T, caseInsensitive = T),
-  #                 pageLength = pageLength,
-  #                 dom = 'BfrtiSR',
-  #                 info=F,
-  #                 autoWidth=T,
+  #                 pageLength = pageLength,dom = 'BfrtiSR',info=F, autoWidth=T,
   #                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print', 'colvis'),
   #                 initComplete = DT::JS(
   #                   "function(settings, json) {",
@@ -4858,9 +4692,6 @@ crosswalk_occp_codes <- function(v, remove_comma_sep=F){
 
 # MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
 ###################################################################################################################################################
-
-
-
 
 
 
