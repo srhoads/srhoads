@@ -6,16 +6,12 @@ Description: This package is a goodie bag filled with nuggets of facilitated-laz
 Imports:
     tidyverse,
     devtools,
-    qdapRegex,
     readxl,
-    feather,
-    tools,
     stringi,
     plyr,
     grDevices,
     DT,
     janitor,
-    glue,
     ggmap,
     shiny,
     magrittr

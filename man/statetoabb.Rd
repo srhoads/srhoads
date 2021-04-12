@@ -10,5 +10,5 @@ statetoabb(v)
 Samantha Rhoads's function to...
 }
 \examples{
-statetoabb()
+statetoabb(v)
 }

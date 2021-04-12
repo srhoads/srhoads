@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{recode_race2}
 \alias{recode_race2}
-\title{A function}
+\title{This function allows you to}
 \usage{
 recode_race2(vec, recode_list = race_list, extra = NULL)
 }

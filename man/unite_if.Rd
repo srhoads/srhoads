@@ -18,5 +18,5 @@ unite_if(
 Srhoads wrote this to allow you to...
 }
 \examples{
-unite_if()
+unite_if(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; ")
 }

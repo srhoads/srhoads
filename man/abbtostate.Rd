@@ -10,5 +10,5 @@ abbtostate(v)
 Samantha Rhoads's function to...
 }
 \examples{
-abbtostate()
+abbtostate(v)
 }

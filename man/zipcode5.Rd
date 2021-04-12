@@ -4,20 +4,12 @@
 \alias{zipcode5}
 \title{A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111}
 \usage{
-zipcode5(
-  text.var,
-  trim = !extract,
-  clean = TRUE,
-  pattern = "(?<!\\\\d)\\\\d{5}(?!\\\\d)",
-  replacement = "",
-  extract = TRUE,
-  dictionary = getOption("regex.library"),
-  ...
-)
+zipcode5(v)
 }
 \description{
 A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 }
 \examples{
-zipcode5()
+{v <- c('924832sjkhf',' 20439-22912', '93488-9293', '23984_93284', '39842-3949 32432', '328rjd2 nh22 22242 ')}
+zipcode5(v)
 }

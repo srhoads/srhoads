@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{dt_condensed}
 \alias{dt_condensed}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 dt_condensed(df, pageLength = nrow(df))
 }

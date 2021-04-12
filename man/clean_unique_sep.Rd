@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_unique_sep}
 \alias{clean_unique_sep}
-\title{A function}
+\title{This function allows you to}
 \usage{
 clean_unique_sep(v, sep = "///")
 }
@@ -10,5 +10,5 @@ clean_unique_sep(v, sep = "///")
 This function allows you to
 }
 \examples{
-clean_unique_sep()
+clean_unique_sep(v, sep='///')
 }

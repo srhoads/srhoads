@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{geocode_by_cell}
 \alias{geocode_by_cell}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 geocode_by_cell(v, replacewith = NULL)
 }
@@ -10,5 +10,6 @@ geocode_by_cell(v, replacewith = NULL)
 Srhoads wrote this to allow you to...
 }
 \examples{
+{geocode_by_cell('1156 Susan Way Sunnyvale, CA 94087')}; {geocode_by_cell('Stanford')}
 geocode_by_cell()
 }

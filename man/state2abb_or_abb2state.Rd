@@ -10,5 +10,5 @@ state2abb_or_abb2state(v, abb = F)
 Srhoads wrote this to allow you to...
 }
 \examples{
-state2abb_or_abb2state()
+state2abb_or_abb2state(v, abb=F)
 }

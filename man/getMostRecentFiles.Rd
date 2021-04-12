@@ -22,5 +22,5 @@ getMostRecentFiles(
 Samantha Rhoads's function to return the most recent versions of files based on a given pattern of characters of its name
 }
 \examples{
-getMostRecentFiles()
+getMostRecentFiles(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F)
 }

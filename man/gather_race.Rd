@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gather_race}
 \alias{gather_race}
-\title{A function}
+\title{This function allows you to}
 \usage{
 gather_race(df)
 }

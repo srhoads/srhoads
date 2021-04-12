@@ -10,5 +10,5 @@ split_before_capital(x, sep = " ", loosly = F)
 Srhoads wrote this to allow you to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter (loosly means you don't need the letter after the capital letter to be lowercase)
 }
 \examples{
-split_before_capital()
+split_before_capital(x, sep=" ", loosly=F)
 }

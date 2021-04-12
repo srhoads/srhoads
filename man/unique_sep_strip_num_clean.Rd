@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{unique_sep_strip_num_clean}
 \alias{unique_sep_strip_num_clean}
-\title{A function}
+\title{This function allows you to}
 \usage{
 unique_sep_strip_num_clean(v, sep = "///")
 }

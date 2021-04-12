@@ -13,5 +13,5 @@ This function allows you to
 }
 \examples{
 paste_regex(v, collapse='|', exact=F)
-paste_regex()
+paste_regex(v, collapse='|', exact=F)
 }

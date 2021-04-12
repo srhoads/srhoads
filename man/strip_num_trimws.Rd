@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{strip_num_trimws}
 \alias{strip_num_trimws}
-\title{A function}
+\title{This function allows you to}
 \usage{
 strip_num_trimws(v)
 }

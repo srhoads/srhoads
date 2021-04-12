@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{gather_join_first_last_name}
 \alias{gather_join_first_last_name}
-\title{A function}
+\title{This function allows you to}
 \usage{
 gather_join_first_last_name(df, seq = c("first last", "last,first"))
 }

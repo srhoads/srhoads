@@ -2,11 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{getPackageVersions}
 \alias{getPackageVersions}
-\title{Samantha Rhoads's function returns R package URLs for a given input package. Great if you need to install old package versions by their zipped/compressed tar.gz URL from cran}
+\title{Samantha Rhoads's function returns R package URLs for a given input package. Great if you need to install old package versions by their zipped/compressed tar.gz URL from cran
+Srhoads wrote this to allow you to get versions of packages. You can return the whole package version URL if desired too, ie: input "devtools" and get "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.0.2.tar.gz" and other versions as a vector}
 \usage{
 getPackageVersions(pkg = "devtools", sortNewToOld = T, getFullURL = T)
 }
 \description{
+Samantha Rhoads's function returns R package URLs for a given input package. Great if you need to install old package versions by their zipped/compressed tar.gz URL from cran
 Srhoads wrote this to allow you to get versions of packages. You can return the whole package version URL if desired too, ie: input "devtools" and get "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.0.2.tar.gz" and other versions as a vector
 }
 \examples{

@@ -10,5 +10,5 @@ is.Date(v)
 Srhoads wrote this to allow you to...
 }
 \examples{
-is.Date()
+is.Date(v)
 }

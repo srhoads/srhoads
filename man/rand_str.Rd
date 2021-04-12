@@ -10,5 +10,5 @@ rand_str(n = 1, length = 10, pattern = "[a-zA-Z0-9]")
 Samantha Rhoads's function to generate a random string
 }
 \examples{
-rand_str()
+rand_str(n=1, length=10, pattern = "[a-zA-Z0-9]")
 }

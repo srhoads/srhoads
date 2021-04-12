@@ -10,5 +10,5 @@ extract_word_startswith_dollarsign(v)
 Samantha Rhoads's function to...
 }
 \examples{
-extract_word_startswith_dollarsign()
+extract_word_startswith_dollarsign(v)
 }

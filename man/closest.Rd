@@ -10,5 +10,5 @@ closest(x, y, type = NA)
 Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up. Now it's Samantha Rhoads's function to find the closest date
 }
 \examples{
-closest()
+closest(x, y, type=NA)
 }

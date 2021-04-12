@@ -4,11 +4,11 @@
 \alias{fillr2}
 \title{Samantha Rhoads's function fillr2}
 \usage{
-fillr2(df2, ID = "ID")
+fillr2(df, ID = "ID")
 }
 \description{
 Samantha Rhoads's function fillr2
 }
 \examples{
-fillr2()
+fillr2(df, ID='ID')
 }

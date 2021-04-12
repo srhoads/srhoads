@@ -10,5 +10,5 @@ kill_special_space(text)
 Samantha Rhoads's function removes all special characters and spaces
 }
 \examples{
-kill_special_space()
+kill_special_space(text)
 }

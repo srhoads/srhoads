@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_na_sep}
 \alias{clean_na_sep}
-\title{A function}
+\title{This function allows you to}
 \usage{
 clean_na_sep(v, sep = "///")
 }
@@ -10,5 +10,5 @@ clean_na_sep(v, sep = "///")
 This function allows you to
 }
 \examples{
-clean_na_sep()
+clean_na_sep(v, sep='///')
 }

@@ -10,5 +10,5 @@ is.POSIX(v)
 Srhoads wrote this to allow you to...
 }
 \examples{
-is.POSIX()
+is.POSIX(v)
 }

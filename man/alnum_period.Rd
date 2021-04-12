@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{alnum_period}
 \alias{alnum_period}
-\title{A function}
+\title{This function allows you to}
 \usage{
 alnum_period(x)
 }

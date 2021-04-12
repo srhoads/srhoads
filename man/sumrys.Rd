@@ -10,5 +10,5 @@ sumrys(x, n = 7)
 Srhoads wrote this to allow you to get the length of the object and sumry of the object in one call (see `sumry()` for details on that type of summary)
 }
 \examples{
-sumrys()
+sumrys(x, n=7)
 }

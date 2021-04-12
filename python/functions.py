@@ -157,11 +157,8 @@ if IMPORT_MODULES:
             ['matplotlib', '*'],
             ['sklearn', '*'],
             ['tpot', '*'],
-            ['imblearn', '*'],
-            # ['', '*'],
-            # ['', '*'],
-            # ['', '*']
-            ])
+            ['imblearn', '*'], # ['', '*']
+        ])
         [exec(pkgImportString) for pkgImportString in pkgImportStrings]
     except Exception as e:
         print(e)

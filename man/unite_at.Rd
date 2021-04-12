@@ -18,5 +18,5 @@ unite_at(
 Srhoads wrote this to allow you to...
 }
 \examples{
-unite_at()
+unite_at(d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", onlynewcol = F, sep = "; ")
 }

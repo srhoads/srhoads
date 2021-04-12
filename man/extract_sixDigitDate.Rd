@@ -2,11 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{extract_sixDigitDate}
 \alias{extract_sixDigitDate}
-\title{Samantha Rhoads's function to extract a date of 6 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing. A 6 digit date is like "01-2019" or "202001" or "01/2020"}
+\title{Samantha Rhoads's function to extract a date of 6 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing. A 6 digit date is like "01-2019" or "202001" or "01/2020" 
+Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_sixDigitDate(string="I am Sam and I was born on 01-1996. Today is 202001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-1996" and "202001" in it at various places}
 \usage{
 extract_sixDigitDate(string, sep = c("-", "\\\\.", "/", ""))
 }
 \description{
+Samantha Rhoads's function to extract a date of 6 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing. A 6 digit date is like "01-2019" or "202001" or "01/2020" 
 Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_sixDigitDate(string="I am Sam and I was born on 01-1996. Today is 202001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-1996" and "202001" in it at various places
 }
 \examples{

@@ -10,5 +10,5 @@ DT_NAs_red_background(DTdatatable)
 Srhoads wrote this to allow you to...
 }
 \examples{
-DT_NAs_red_background()
+DT_NAs_red_background(DTdatatable)
 }

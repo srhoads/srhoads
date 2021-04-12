@@ -10,5 +10,5 @@ is.Date.class(v)
 Srhoads wrote this to allow you to...
 }
 \examples{
-is.Date.class()
+is.Date.class(v)
 }

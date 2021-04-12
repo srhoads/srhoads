@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{dt_sumry}
 \alias{dt_sumry}
-\title{Samantha Rhoads's function to...}
+\title{Srhoads wrote this to allow you to...}
 \usage{
 dt_sumry(dftosumry, pageLength = nrow(df))
 }

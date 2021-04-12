@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "R fxns added from censuscodeassign; python fxns cleanup+added from diversity-planning-project; other cleanup R/Python"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "R/Python fxns cleanup"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -180,448 +180,45 @@ gender_list <- {mapply(c,
 #vim nano emacs
 race_list_short <- {list(
   "american indian or alaska native" = c("american indian or alaska native", 
-                                         "aamericanindianoralaskanative", "aian", "aina", "aindian", "nativeamericanamericanindianalaskanative",
-                                         "aioan", "aioran", "alakan", "alaska", "alaskanative", "alaskannative", "nativeamericanalasknative",
-                                         "alaskannativeamerican", "ameindia", "ameralaskaindian", "amerianindianalaskanative", 
-                                         "american indian or alaska native", "americani", "americanind", "americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition",
-                                         "americanindalasnat", "americanindiainalaskanative", "americanindian", "americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                         "americanindianaknative", "americanindianalaskan", "americanindianalaskanat", "nativeamericanalnative",
-                                         "americanindianalaskanativ", "americanindianalaskanative", "americanindianalaskannational", 
-                                         "americanindianalaskannative", "americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition", 
-                                         "americanindianalaskiannative", "americanindiannativealaskan", "americanindalasianat","nativeamericanaknative",
-                                         "americanindiannativeamerican", "americanindiannofhispanic", "americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition",
-                                         "americanindianor", "americanindianora", "americanindianoralaska", "alaskannativeoramericanindian",
-                                         "americanindianoralaskan", "americanindianoralaskanative", "americanindianoralaskanativealgonquinfirstnation", 
-                                         "americanindianoralaskanativecherokee", "americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskanativenorhisporlat", "americanindianoralaskanativenot", 
-                                         "americanindianoralaskanativeor", "americanindianoralaskanativeotlatino", "americanindianoralaskanativenorhispanic",
-                                         "americanindianoralaskanativerolatino", "americanindianoralaskannat", "americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainstribalaffiliationorcommunityattachment",
-                                         "americanindianoralaskannative", "americanindianoralaskannativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintainstribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskannativeor", "americanindianoralaskiannative", "americanindianoralaskanativeinanofthealpeoplesofnorthsouthamericanincludingcentralamericanwhiteomaintainstribalaffiliationorcommunitattachment",
-                                         "americanindianoralasknative", "americanindianoralsskanative", "americanindianoralaskanativenorhispanicorlat",
-                                         "americanindianornativealaskan", "americanindianpacificislander", "americanindianoralaskannativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintainstribalaffiliationorcommunityattachment",
-                                         "americanindiaoralaska", "americanindiaunlaskanative", "americaninidanoralaskanative", 
-                                         "americanofirishancestry", "americanoralaskannative", "ameriindnalasknativ", "americanindianoralaskanativelatino",
-                                         "amerind", "amerindalasknat", "amerindalasknatnothispnc", "amerindalnative","latinoamericanindianoralaskanative",
-                                         "amerindian", "amerindianaknative", "amerindianalaskanative", "americanindianoralaskanativev",
-                                         "amerindianalasknnative", "amerindiannativeamerican", "amerindianoralaskanat", 
-                                         "amin", "amind", "amindala", "amindalaskannative", "amindian", "americanindianoralaskannativetwo",
-                                         "amindianalaskanative", "amindianalaskannative", "amindianamericanindianalaskanative", 
-                                         "anai", "asianamericanindianoralaskanative", "blackoramerican", 
-                                         "ind", "indian", "indianalaskian", "indiannative", "indigenoatralianno", 
-                                         "indigenoatralianyes", "mamericanindianor", "namericanindianalaskannative", 
-                                         "native", "nativealaskan", "nativeam", "nativeameicanindian", "natam",
-                                         "nativeamer", "nativeameralaskan", "nativeameralaskanative", "nativeamericanulhaque",
-                                         "nativeamerican", "nativeamericanala", "nativeamericanalas", "americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthsouthamericaincludingcentralamericawhomaintainstribalaffiliationorcommunityattachment",
-                                         "nativeamericanalaska", "nativeamericanalaskan", "nativeamericanalaskanat", 
-                                         "nativeamericanalaskanative", "nativeamericanalasknnative", "nativeamericanalsknnative", 
-                                         "nativeamericanb", "nativeamericanindian", "nativeamericanoraknative", 
-                                         "nativeamericanoralaskanat", "nativeamericanoralaskanative", "americanindianoralaskanativeinanyofthealpeoplesofnorthsouthamericanincludingcentralamericanwhiteomaintainstribalaffiliationorcommunityattachment",
-                                         "nativeamericanoralaskannative", "nativeamericanw", "nativeamerician", 
-                                         "nativeindian", "nnativeamerican", "ramericanindianoralaskannative", 
-                                         "samericanindianoralaskanative", "samericanindianoralaskanativev", 
+                                         "aamericanindianoralaskanative","aian","aina","aindian","nativeamericanamericanindianalaskanative",
+                                         "aioan","aioran","alakan","alaska","alaskanative","alaskannative","nativeamericanalasknative",
+                                         "alaskannativeamerican","ameindia","ameralaskaindian","amerianindianalaskanative","american indian or alaska native","americani","americanind","americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition",
+                                         "americanindalasnat","americanindiainalaskanative","americanindian","americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
                                          "wnativeamerican"),
-  "asian" = c("asian", "viet", "asiana","asianorasianeuropean", "indian", "asianisual","minahasianindonesia","chineseindonesia","eurasiansingapore","indonesia","batakindonesia",
+  "asian" = c("asian","viet","asiana","asianorasianeuropean","indian","asianisual","minahasianindonesia","chineseindonesia","eurasiansingapore","indonesia","batakindonesia",
               "asion","twoasian","asiantwo","asianv","chineseunitedkingdom","thai","thaithailandthailand","sundaneseindonesia","sthailandthailand","javaneseindonesia",
-              "fasian", "asianorpacisl","masian", "india", "rasian","asianorasianbritish", "asianandasianamericanincludespakistanisindians", "bangladeshi","southasian", "sindhiindian", "koreanamerican","chinesejapanese", "asiachinese", "lasian", 
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingcambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandvietnam", "asiannislat", "sasian", "bengladeshi", "aisan", "nepalese", "burnese", "bengali", "sikh", "myanmar", "asianturkic", "asiantibetan", "asiansrilankan", "asianpakistaniamerican", "asiannepali", "asiannepalese", "asiankalmyckmongol", "asianindonesian", "asianindiangujarati", "asianindianfilipino", "asianindianasianpakistani", "asianindianasianindian", "asianbangladeshi", "asianbangalesh", "napalese", "eurasian", "taiwanese", "asianbangladeshiunitedkingdom", "singapore", "indiansouthafrica", "hanchina", "asiannothispanicorlano", "asianindianunitedkingdom", "mysindian", "asianpakistaniunitedkingdom", "eastasian", "gbrasianpakistani", "asianunitedkingdom", "gbrasian", "gbrasianchinese", "mysmalay", "myschinese", "thaithailand", "asianvisual", "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentnot", 
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", "asiam", "sgpindian", "thathai", "vietnam", "sunna", "indiansingapore", "asina", "asia", 
-              "asn", "sasianv", "kinhvietnam", "asianpakistani", "basian", "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingcambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "asianself", "asianjapanese", "aia", "gbrasianindian", "chinesesingapore", "nonindigenotaiwantaiwan","balineseindonesia","asiannot",
-              "asianvietnamese", "asiankorean", "sgpchinese", "asianchinese", "sgchinese", "asians", "westasianarab","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", "asianin","ipshita", "indiannon", "indiansubcontinent", "asisan", "asianpi", "indianmalaysia","asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnam",
-              "asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam","haitan",
-              "asianallpersonshavinginanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentthisareaincludesforexamplechinaindiajapanandkorea", "southeastasianincludinurmesecambodianpilipinolaotianmalaysianthaivietnamese","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnamwhiteinanyofthealpeoplesofeuropemiddleeasrnorthafrica",
-              "asianindiansubcontinent", "sgindian", "americanasian", "asianamerican","china","ssingapore","eastasianincludingchinesejapanesekoreanpolynesian","asianchina","apersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnamnot",
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentncludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentncludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineisls",
-              "aisian", "asianian", "cambodian", "vietnamese", "korean", "japanese", "chinese", "asianindian", "southasiaeastindianincludingindianpakistanisrilankanbangladeshieastindiansfromguyanatrinidadeastafrica","asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam",
-              "asain", "nativeasian", "southeastasian", "asianasianamerican", "southasiaeastindian", "asiannothispanicorlatono", "asianorasianamericaneuropean"),
-  "black or african american" = c("black or african american", "blackorafricanamericanblackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                  "blackorafricanamerican", "morocco", "sblackorafricanamerican", "sblackorafricanamericanv","blacknothislatino", "blackorafricanamericantwo",
-                                  "guyanaian", "jamaican","blackcarribamer", "fblack","mblack", "blackorafricanamericannofhispanic", "blackorafricanamericaninanoftheblackracialgroupsofafrica",
-                                  "blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", "blackaframer", "rblackorafricanamerican", "jblackorafricanamerican", "cblackorafricanamerican", "bk", "afircanamerican", "blackoraframnisporlatino", "blackorafram", "af", "blacknativeamericanoralaskannative", "blackorafricanamericanotlatino", "africanamercian", "blackorafricaname", "blackaframblackorafricanamerican", "blackorafricanam", "blackorafrica", "blacknislat", "blackorafricanamericanaperso", "blackorafricanmerican", "blackafricanam", "africanam", "sblackafricanamerican", "borafam", "westindian", "blackafricaamerican", "westindianblack", "copticegyptian", "blackafricanmerican", "egyptian", "africanamericanbla", "blackafricaname", "blackamerican", "blackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", "backorafricanamerican", "africanamer", "blackafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "yorubanigeria", "blackafricanamerica", "blackcode", "blackaficanamerican", "gbrblackcarribean", "blackafricianamerican", 
-                                  "blackafrianamerican", "blackafricanamercian", "sblackafricanamericanv", "africanamericanblacknofhispanic", "africansouthafrica", "africanamerica", "blackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", "blackmorethanchoice", 
-                                  "blackafericanamerican", "blackafricanamericanself", "blackafricanameri", "blackorafricanamericanorafricanamerican", "blackafroamerican", "blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-                                  "blackblackafricanamerican", "blackaffricanam", "blackafam", "cblackafricanamerican", "blackunitedkingdom","blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                                  "twoormoreracesallpersonswho", "two or more racesallpersonswho", "blackafricanamer", "blackorafricanamericaninanyoftheblackracialgroupsofafricanthispanic","twoblack",
-                                  "nonhispanicblack","blackorafricanamericannothispanicotlatino","blackafrcianamerican","blackafricanamercan","blackafricananerican","blackmon","blackmore","blacktwo",
-                                  "blackafricanunitedkingdom","coloured","blacknonhispanicfricanamerican","blackorafricanamericannot",
-                                  "blackafricanamericanallpersonshavinginanyoftheblackracialgroupsofafrica", "blackorafricanamericanallpersonshavinginanyoftheblackracialgroupsofafrica","blackcarribamerican",
-                                  "ablackafricanamerican", "blackafricanamericanaperso", "blackafricanamericanorafricanamerican", "blackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricawhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                                  "blackaa", "blackafra", "blackafricanamericanblackafricanamerican","blackcarribean","zafafrican","blackorafricanamericaninanyoftheblackracialgroupsofafricanthispanicorlatino",
-                                  "blackafricanamericaninanyoftheblackracialgroupsofafrica", "blackafricanameric", "blackafricanameerican","blackorafricanamericanapersonhavingoriginsinanyoftheblackracialgroupsofafrica",
-                                  "blackorblackeri", "blackafricanamernothispnc", "balckorafricanamerican", "bafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                  "africanamericanorblack", "afr", "blackofafricanamerican", "blackafricnaamerican", "blackafamer", "balck","blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-                                  "africanblack", "blackorblacker", "blackorblack", "blackorafam", "blackafricanamericna", "blackafrican", "blackorafricanameric", "blackorafricanameerican",
-                                  "blackblackblackorafricanamerican", "somalian", "baa", "ba", "blackforafricanamerican", "bl", "blackorafricanamerican","twoblackorafricanamerican",
-                                  "black", "afri", "african", "africanamerican", "africanamericanblack", "blackafricanamerican", "blkafram", "blackafram", "blackblack", "blackandafricanamerican",
-                                  "blackorafrican", "blackoraficanamerican", "blackorafroamerican", "blackorafricanamericaninanyoftheblackracialgroupsofafrica", "raceblack"),
+              "fasian","asianorpacisl","masian","india","rasian","asianorasianbritish","asianandasianamericanincludespakistanisindians","bangladeshi","southasian","sindhiindian","koreanamerican","chinesejapanese","asiachinese","lasian", 
+              "aisian","asianian","cambodian","vietnamese","korean","japanese","chinese","asianindian","southasiaeastindianincludingindianpakistanisrilankanbangladeshieastindiansfromguyanatrinidadeastafrica","asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam",
+              "asain","nativeasian","southeastasian","asianasianamerican","southasiaeastindian","asiannothispanicorlatono","asianorasianamericaneuropean"),
+  "black or african american" = c("black or african american","blackorafricanamericanblackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
+                                  "blackorafricanamerican","blackoramerican","morocco","sblackorafricanamerican","sblackorafricanamericanv","blacknothislatino","blackorafricanamericantwo",
+                                  "guyanaian","jamaican","blackcarribamer","fblack","mblack","blackorafricanamericannofhispanic","blackorafricanamericaninanoftheblackracialgroupsofafrica",
+                                  "blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment","blackaframer","rblackorafricanamerican","jblackorafricanamerican","cblackorafricanamerican","bk","afircanamerican","blackoraframnisporlatino","blackorafram","af",
+                                  "blackafrianamerican","blackafricanamercian","sblackafricanamericanv","africanamericanblacknofhispanic","africansouthafrica","africanamerica",
+                                  "blackblackblackorafricanamerican","somalian","baa","ba","blackforafricanamerican","bl","blackorafricanamerican","twoblackorafricanamerican",
+                                  "black","afri","african","africanamerican","africanamericanblack","blackafricanamerican","blkafram","blackafram","blackblack","blackandafricanamerican",
+                                  "blackorafrican","blackoraficanamerican","blackorafroamerican","blackorafricanamericaninanyoftheblackracialgroupsofafrica","raceblack"),
   "hispanic or latino" = c("hispanic or latino", 
-                           "canales","hispaniclatinoq", "hispanicpuerrico","hispanicorlatinos","nonwhitelatinomerican", "nonwhitelatinomericanincludingindigenopersonsfromcentralandsouthamerican",
+                           "canales","hispaniclatinoq","hispanicpuerrico","hispanicorlatinos","nonwhitelatinomerican","nonwhitelatinomericanincludingindigenopersonsfromcentralandsouthamerican",
                            "lathispanic","dunbrazil","hispanicinic","hispanichlatino","spaniclatino","hispanicc","latinomericanincludingindigenopersonsfromcentralandsouthamerican","latinotwo",
-                           "hispaniciclatino", "hispanics", "hispanicorlatinoaor", "hispanicapaniclatino", "bhispanic", "fhispanic", "hispaniclatinos", "mhispanic", "ehispaniclatino", "elatino", "hispaniclatinomerican", "hispanicorlatinoo", "hispanicfri", "thispanicinformation", "hispanicw", "hispaniclatinohispanicorlatino", "hispanicn", "atthispanictime", "shispanicorlatino", "nicaraguen", "hyspanic", "guatemalan", "argentinean","honduran", "hislatin","ecuadorian", "portuguese","peruvian", "costarican","horl", "bolivian","venezulean", "salvadorean","columbian", "hisplatinoall","dominican", "venezuelan","hispaniclatinoorofspanish", "hispanicorlatinounspecified","hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafrica","hispaniclat", "haspanic","statehispanicorlatino", "hipanic","latinohispanic", 
-                           "iamhispaniclatinoaofcubanmexicanpuerricancentralorsouthamericanorspanishcultureorregardlessof", "hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hispaniclatinoi", "bballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandthanwhite", "hispaniclatibn", "hl", "hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hispanicorlation", "hisplatino", "hsp", "dhispanicorlatino", "lathisp", "shispanicorlatinov", "hispanicmexican", "hispaiclatino", "hispanicorlatinoself", "puerricancommonwealth", "dlatino","puerrico",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "mexican", "hispanichispanic", "hispanicpuerricancommonwealth", 
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", "alatino","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackafricanamericaninanyoftheblackracialgroupsofafrica", "puerricanmainland", "cuban", "hispaniccode", "hispanicpuerricanmainland", "hispaniccuban", "hispanicorlatinopuerrico", 
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica", "hispanic","latinoapersonofcubanmexicanpuerrica",
-                           "bhispanicorlatinowhiteonlyballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreracesorlatino", "statehispanic","apersonhavingoriginsinanyoftheoriginalpeoplesofnorthsouthamericaincludingcentralamericawhomaintainstribalaffiliationorcommunityattachmentnot",
-                           "hispanicorlatin", "hispanicpuerrican", "nhisp","hispaniclatin", "latinoorhispanic", "hispanicorlatinoapersonofcubanmexicanpuerrica", "hispanic or latinoapersonofcubanmexicanpuerrica", "latio",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "hispanicocom","hispaniclatinohispaniclatino","pardoormulatino","chicanachicanomexamerican",
-                           "ahispanicorlatino", "ahispanic or latino", "hispanic or latino or latino", "hispanicorlatinoorlatino","hispanicapersonofcubanpuerricansouthorcentralamerican","hispanicnot","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispanicorlatinoorlatino","hispanic or latinoorlatino", "hispanicorlatino","hispanicorlat","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "puerrican", "his", "hislation", "hipaniclation", "hhispanic", "lat", "hisp", "hispanicorlatinopuertorico", "hispanicapersonofcubanpuertoricansouthorcentralamerican","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                           "hispanicorlatinoapersonofcubanmexicanpuertoricansouthorcentralamericanorspanishcultureororiginregardlessof","latinomerican","twohispaniclatino","hispanicstwo","latinopuerrico",
-                           "hispanicorlatinoapersonofcubanmexicanpuertoricansouthorcentralamericanspanishcultureororiginregardlessof","hila","hla","hispanicstate","hispanicdstate","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hisplat", "hispw", "puertorican", "guamanianchamorro","hislatinohispanicorlatino", "hispanicoflatino","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispaniclatinospaniclatino", "mexicanamermexicanchicano", "southamerican", "hispanicorlatino","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispanicorlatinio", "spanish", "hispanic", "hispaniclatino", "hislatino","hispanicall", "hispanicorlatinohispanicorlatino", "hispanicnative","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "hispanicorlatinoallothers", "hisporlat", "hispa", "latino", "asianpacificislander", "hispancorlatino", "hispaniclatino", "iamhispaniclatinoa", "latina", "latinx", "latin"),
+                           "spanish","hispanic","hispaniclatino","hislatino","hispanicall","hispanicorlatinohispanicorlatino","hispanicnative","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
+                           "hispanicorlatinoallothers","hisporlat","hispa","latino","asianpacificislander","hispancorlatino","hispaniclatino","iamhispaniclatinoa","latina","latinx","latin"),
   "native hawaiian or other pacific islander" = c("native hawaiian or other pacific islander","nativehawiianorothrpacificisl",
-                                                  "polynesian", "polynese", "polynesia", "melanesian", "melanese","melanesia","micronesia","micronesian","micronese",
+                                                  "polynesian","polynese","polynesia","melanesian","melanese","melanesia","micronesia","micronesian","micronese",
                                                   "tuvalu","vanuatu","samoan","samoa","fijian","fiji","nauru","nauruan","palau","palauan","fillipino",
-                                                  "aasianpacificislander", "americanindianpacificislander", "anativehawaiianorpacificislander", 
-                                                  "aorpi", "ap", "api", "asainorpacificisland", "asianfilipino", "nativehawaiianpacislander","tagalogphilippines",
-                                                  "asianfillipino", "asianindiannative", "asianislandpacific", "sopacific", "southpacific","malaysingapore",
-                                                  "asiannativehawaiianorasianpacificislander", "asiannativehawaiianorpacificislander","pacificislandernativehawaiian",
-                                                  "asiannativehawaiianpacificislander", "asianorp", "asianorpacificisl", "asianorpacificisland","tonga", "tongan",
-                                                  "asianorpacificislander", "asianpac", "asianpacific", "asianpacifici", "nativehawiiothrpacislander",
-                                                  "asianpacificisland", "asianpacificnative", "asianpacis", "asianpacisl", "pacificislandernativehawaiian",
-                                                  "asianpacislander", "asianpasificislander", "aspi", "dnativehawaiianorotherpacificislander", "rresstraightislanderatralia",
-                                                  "filipano", "filipino", "filipinoamerican", "gnativehawaiianorotherpacificislander", "nativehawaiiannofhispanic",
-                                                  "haw", "hawaiian", "hawaiianorpacificislander", "hawaiianorpacislandr", "pacisl","nathawothpacislnd",
-                                                  "hawaiianotherpacificisland", "hawaiianpacific", "hawaiianpacificisl", "nathawothpacislndhispanic",
-                                                  "hawaiianpacificisland", "hawaiianpacificislander", "hawaiianpacificislands", "hawiianothpacisland",
-                                                  "hawaiianpacislanders", "hawaiin", "hawaiinorpacificislander", "nativeorpacisl","hawaiianpacislnd",
-                                                  "hawaiipac", "hawiaan", "hawiianorpacificislander", "hawiianpacisland", "nativehawaiianorotherpacificislanderasian",
-                                                  "hawiianpacisnd", "hawpacif", "hawpacifnathawaiianothpacislander", "nativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                                                  "hawpacifnathawaiianpacislander", "hawpi", "hipi", "hop", "hpacificislndr", "asianpacificisler",
-                                                  "hpi", "islander", "knativehawaiianor", "nathawaiian", "nathawaiianoacislander", "maori",
-                                                  "nathawaiianothpacificislander", "nathawaiianothpacislander", "hawaiipi","hapi",
-                                                  "nathawaiianpacificislander", "nathawaiianpacisland", "nathawaiianpacislander", "hispanicpacificnative",
-                                                  "nathawaiinothpacislandr", "nathawaiinthpacislander", "nathawaiipacis", "nativehawaiianorpacificisler",
-                                                  "nathawothpacislander", "nathawothpacislndhislat", "nathawpacific", "hawaiianpcificislander",
-                                                  "nathawpacificnislat", "native hawaiian or other pacific islander", "nativehawaiianorpacificislerapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorpacificisls",
-                                                  "nativeamericanalaskannative", "nativeamericanoralaskanative", "malay","nativehawaiinothpacisland",
-                                                  "nativeamericanoralaskannative", "nativehawa", "nativehawaiannorpacificislander", 
-                                                  "nativehawaiian", "nativehawaiianandpacificislander", "nativehawaiianor", "nativehawaiianorpacificislerinanofthealpeoplesofhawaiiguamsamoaorpacificisls",
-                                                  "nativehawaiianorasianpacificislander", "nativehawaiianorasianpacificislanderasian", 
-                                                  "nativehawaiianoro", "nativehawaiianorotherpacific", "nativehawaiianorotherpacificislander", 
-                                                  "nativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorotherpacificislanderinanyofthepeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorotherpacificislandernativehawaiianorotherpacificislander", 
-                                                  "nativehawaiianorotherpacificislandernis", "nativehawaiianorotherpacificislanderorl", 
-                                                  "nativehawaiianorotherpacificislanderorlatin", "nativehawaiianorotherpacisl", 
-                                                  "nativehawaiianorpacif", "nativehawaiianorpacific", "nativehawaiianorpacificisland", 
-                                                  "nativehawaiianorpacificislandaer", "nativehawaiianorpacificislande", "hawaiianpacificislanderasian",
-                                                  "nativehawaiianorpacificislander", "nativehawaiianorpacificislanderasian", 
-                                                  "nativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", 
-                                                  "nativehawaiianorpacificislanderinanyofthepeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorpacificislandernativehawaiianorpacificislander", "nativehawaiianorotherpacificislanderv",
-                                                  "nativehawaiianorpacificislandernis", "nativehawaiianorpacificislandernothispanicorl", 
-                                                  "nativehawaiianorpacisl", "nativehawaiianorpacislander", "nativehawaiianotherpacific", 
-                                                  "nativehawaiianotherpacificislander", "nativehawaiianothpacifis", "nativehawaiianorotherpacificislanderlatino",
-                                                  "nativehawaiianothpacisland", "nativehawaiianpacific", "nativehawaiianpacificisland", 
-                                                  "nativehawaiianpacificislande", "nativehawaiianpacificislander", "pacificnativepacificnative",
-                                                  "nativehawaiianpacificislanderallpersonshavinginanyofthealpeoplesofthehawaiianislandsorpacificislandsincludingthephilippineislandsandsamoa", 
-                                                  "nativehawaiianpacificislanderinanyofthepeoplesofhawaiiguamsamoapacificislands", 
-                                                  "nativehawaiianpacificislndr", "nativehawaiianpacifis", "nativehawaiianpacisl", 
-                                                  "nativehawaiianpacisland", "nativehawaiin", "nativehawaiinislander", "nativehawaiianorotherpacificislanderapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorotherpacificislands",
-                                                  "nativehawaiinorotherpacificislander", "nativehawaiinorpacificislander", "pacificnativepacific",
-                                                  "nativehawaiinotherpacificislander", "nativehawaiinpacificislander", "nativehawaiianorrpacificislander",
-                                                  "nativehawaiinpacisland", "nativehawaiipacifcisln", "nativehawhiteaiianorpacificislander", 
-                                                  "nativehawianpacificislander", "nativehawiian", "nativehawiianorpacificislander", "pacifi",
-                                                  "nativehawiianpacificisland", "nativehawiianpacificislander", "asianhawaiianpacificislander",
-                                                  "nativhawiiothrpacisldr", "nh", "nhi", "nhopi", "nhorpi", "nhp", "nathawothpacislndlatino",
-                                                  "nhpi", "pac", "pacif", "pacific", "pacificisland", "pacificislander", "americanindianoralaskanativeasianlatino",
-                                                  "pacificislanderhawaiian", "pacificislandernofhispanic", "pacificislanderornativehawaiian", 
-                                                  "pacificnative", "pacificnativeasian", "pacificnativeindiannative", "hispanicpacificnative",
-                                                  "pacisland", "pacislander", "philippines", "pi", "ppacificislander", "hispanicpacificnativeasian",
-                                                  "rnativehawaiianorotherpacificislander", "snativehawaiianorotherpacificislander",
-                                                  "snativehawaiianorotherpacificislanderv", "snativehawaiianorpacificislander", 
                                                   "snativehawaiianorpacificislanderv"),
-  "white" = c("white", "thispanicinformationtwoormoreraces", "europeannewzealand","europeannewzealand","europeans","unitedkingdom",
-              "azeri", "whitenon", "whitenonsasa", "whitenofhispanichispanic","whiteite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant",
-              "whitemiddleeastern", "fwhite", "mwhite", "rwhite", "germany", "germanscottish", "cauwhite", "caasian", "abalatralia",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica", "iwhite", "whitea", "whitenot", "ewhitenonhispanicorlatio", "whitenislat","european", "whitele", "swhite", "whitee", "whitenonhispanicorlation", "greekamerican", "bmwhite", "turkish", "bulgarian", "italian", "greek", "couwhite", "mediterranean", "wm", "wf", "infowhitehheld", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", "whitepuerrico", "statewhite", "atralia", "polish", "gbrwhiteeuropean", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachmentnot", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant","blackafricanamlatino","nativeamericanalaskanatlatino","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "wit", "whiteh", "aribac", "cauc", "ca", "whitesouthafrica", 
-              "wtt", "zafwhite", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanot", "whitecanada", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanthispanicorlatino","whitenothislatino","whiteinanofthealpeoplesofeuropemiddleeasrnorthafrica",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", "gbrwhiteirish", "whiteunitedkingdom", "whitenothispanicoflatino", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "selfwhite", "gbrwhite", "whitebrazil", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafrica", "brawhite", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whitecode", "ewhite", "gbrwhitebritish", "whitenonhispanic", "swhitev", "whitte", "whtie", "whiteor", "whitein", "whiteallpersonshavinginanyofthealpeopleofeuropenorthafricaorthemiddleeast","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-              "awhite", "whiteirishunitedkingdom", "whiteie", "whiteeuropeanunitedkingdom", "whitebritishunitedkingdom","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "nondiverse", "americanwhite", "whiteamerican", "wihite", "whitehdrew", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafricanot","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica",
-              "whiteeuropean", "whitebritish", "while", "whie", "whiteornonhis","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricaasianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricaamericanindianoralaskanativeinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanthispanic",
-              "whitechoosenotto", "whitecaian", "ukranian", "whiteorwhite", "whte", "wt","whitete","whiteirish","sweden","whiteasperhonofccpreqresponse","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica",
-              "whiteundisclosed", "caucasion", "nonminority", "whit", "whire", "uswhite", "caucasian", "whitewhite", "wh", "whitenothispanicorigin","whitev","nonhispanicwhite",
+  "white" = c("white","thispanicinformationtwoormoreraces","europeannewzealand","europeannewzealand","europeans","unitedkingdom",
+              "azeri","whitenon","whitenonsasa","whitenofhispanichispanic","whiteite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant",
+              "whitemiddleeastern","fwhite","mwhite","rwhite","germany","germanscottish","cauwhite","caasian","abalatralia",
+              "whiteundisclosed","caucasion","nonminority","whit","whire","uswhite","caucasian","whitewhite","wh","whitenothispanicorigin","whitev","nonhispanicwhite",
               
-              "meast", "meast", "meast", "meast", "meast", "meast", "arabmiddleeastern", "arabian", "lebanese", "iraqi", "middleastern", "mideastern", "jordanian", "mideastrn", "middleeastern","westasianarabincludingarabianarmenianiranianisraelilebanesepalestiniansyrianturkishegyptianiraqi",
-              "iraq", "greekamerican", "saudi", "turkish", "mideastern", "jordanian", "persianamerican", "middleeastren", "lebanese", "iraqi", "iranianamerican", "greek", "arabmiddleeastern", "whitetwotwo",
-              "arabian", "syrian", "armenian", "arab", "afghani", "kurdish", "mediterranean", "iranian", "persian", "mideast", "arabicmiddleeastern", "aribac", "pakistani", "middleeastern", "middleeast", "arabic"),
-  "two or more races" = c("two or more races", "nativeamericanalaskanathispanic","whiteblackorafricanamericanamericanindianoralaskanativetwoormoreraces","whiteblackorafricanamericantwoormoreraces","whitetwo","latinowhitetwoormoreraces",
+              "meast","meast","meast","meast","meast","meast","arabmiddleeastern","arabian","lebanese","iraqi","middleastern","mideastern","jordanian","mideastrn","middleeastern","westasianarabincludingarabianarmenianiranianisraelilebanesepalestiniansyrianturkishegyptianiraqi",
+              "iraq","greekamerican","saudi","turkish","mideastern","jordanian","persianamerican","middleeastren","lebanese","iraqi","iranianamerican","greek","arabmiddleeastern","whitetwotwo",
+              "arabian","syrian","armenian","arab","afghani","kurdish","mediterranean","iranian","persian","mideast","arabicmiddleeastern","aribac","pakistani","middleeastern","middleeast","arabic"),
+  "two or more races" = c("two or more races","nativeamericanalaskanathispanic","whiteblackorafricanamericanamericanindianoralaskanativetwoormoreraces","whiteblackorafricanamericantwoormoreraces","whitetwo","latinowhitetwoormoreraces",
                           "bhispanicorlatinowhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreracesorlatino","americanindianoralaskanativeasianblackorafricanamericannativehawaiianorotherpacificislander",
-                          "twoormoreracestwoormoreraces","blackorafricanamericanwhitetwoormoreraces","hispanicorlatinowhitetwoormoreraces", "hispanicorlatinotwoormoreraceswhite","allpersonswhowithmoraeoftheabacesnot",
-                          "2ormore", "aamericanindianoralaskanativehispanicorlatino", "twoormoreracess", "hispanicorlatinotwoormoreraces","blackorafricanamericanhispanicorlatinotwoormoreraces","asianhislatino","mixedwhiteasian",
-                          "mixedmixedunitedkingdom","mixedwhiteasianunitedkingdom","mixedwhiteblackafrican","mixedwhiteblackcarribeanunitedkingdom","mixedwhiteblackcarribean","hispanicblackorafricanamericantwoormoreraces",
-                          "africanamericancaucasian", "africanamericanhispanic", "africanamericanwhite", "asiantwoormoreraceswhite","americanindianoralaskanativetwoormoreraces","hispanicorlatinonativehawaiianorotherpacificislander",
-                          "afrihispanic", "americanindianalaskannativeasian", "whitetwoormoreraceswhitenativeamericanss", "blackorafricanamericantwoormoreraceswhite","americanindianoralaskanativetwoormoreraceswhite","whitesingapore",
-                          "americanindianalaskannativeasianmultiracialwhite", "americanindianalaskannativeasiantwoormoreraces", "asiantwoormoreraces","asianblackorafricanamericantwoormoreraces","hispanicwhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreraces",
-                          "americanindianalaskannativeasianwhite", "americanindianalaskannativeblackafricanamerican", "blacklatino","americanindianoralaskanativeblackorafricanamericantwoormoreraces","twoormoreraceshislatino",
-                          "americanindianalaskannativeblackafricanamericantwoormoreraces", "blackorafricanamericanwhitetwoormoreraces","asianblackorafricanamericantwoormoreraceswhite","blackorafricanamericantwoormoreraces","whitenativehawaiianorotherpacificislanderlatinoamericanindianoralaskanativetwoormoreraces",
-                          "americanindianalaskannativeblackafricanamericantwoormoreraceswhite", "americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraceswhite","twora",
-                          "americanindianalaskannativeblackorafricanamerican", "americanindianalaskannativecaucasian", "americanindianalaskannativeblackorafricanamericantwoormoreraceswhite","twoormoreracesc","asianlatinowhite",
-                          "americanindianalaskannativehispanicorlatino", "americanindianalaskannativehispanicorlatinowhite", "americanindianoralaskanativeblackorafricanamericantwoormoreraceswhite","twoorm","hispanicwhitetwoormoreraces",
-                          "americanindianalaskannativetwoormoreraceswhite", "americanindianalaskannativewhite", "americanindianoralaskanativeblackorafricanamericanhispanicorlatinowhite","americanindianoralaskanativehispanicwhite",
-                          "americanindianandwhite", "americanindianblack", "americanindianlatino", "americanindianoralaskanativenativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativehispanic","blackandafricanamericanlatinowhite",
-                          "americanindianoralaskanativeasian", "americanindianoralaskanativeasianblackafricanamerican", "americanindianoralaskanativenativehawaiianorotherpacificislandertwoormoreraces","blackorafricanamericanlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatino", "nativehawaiianorotherpacificislandertwoormoreraces", "americanindianoralaskanativeasianblackorafricanamericantwoormoreraceswhite","nativehawaiianorotherpacificislanderlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislandertwoormoreraces", "americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislandertwoormoreraceswhite", "blackorafricanamericannativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativeasianlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislanderwhite", "asiannativehawaiianorotherpacificislandertwoormoreraces","hispanicwhitetwo","americanindianoralaskanativeasianlatinonativehawaiianorotherpacificislandertwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislander", "americanindianoralaskanativeblackorafricanamericanhispanicorlatinotwoormoreraceswhite","americanindianoralaskanativeblackorafricanamericanhispanicorlatinotwoormoreraces",
-                          "americanindianoralaskanativeasiannativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativeasianblackorafricanamericantwoormoreraceswhite","whitelatio","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislandertwoormoreraceswhite", "nativehawaiianorotherpacificislandertwoormoreraceswhite","twosormore","latinotwoormoreraceswhite",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislanderwhite", "twoormoreracesallpersonswhiteowhitehmorethanoneoftheabovefives","ormoreraces","latinoblackorafricanamericantwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericantwoormoreraces", "blackorafricanamericantwoormoreraces","blackorafricanamericantwoormoreraces","ormoreracesapersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasianblackafricanamericantwoormoreraceswhite", "asianblackorafricanamericanhispanicorlatinotwoormoreraceswhite","nathawothpacislndhispanic","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislandertwoormoreraceswhite",
-                          "americanindianoralaskanativeasianblackafricanamericanwhite", "americanindianoralaskanativeasianblackorafricanamerican","blackorafricanamericanamericanindianoralaskanativetwoormoreraces","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraceswhite",
-                          "whitelatinoblackorafricanamerican","whitelatinoblackorafricanamericanamericanindianoralaskanativetwoormoreraces","whiteblackasiannativeamerican","twoblackorafricanamericanhispaniclatino","blackwhitetwos",
-                          "americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislanderwhite", "asianindianoralaskanative","twoormoreraceshawaiianpacificislanderasianindianalaskannativeafricanamerican",
-                          "americanindianoralaskanativeasianhispanicorlatino", "americanindianoralaskanativeasianhispanicorlatinonativehawaiianorpacificislandertwoormoreraces", "twoormoreracesapersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislandertwoormoreraces", "americanindianoralaskanativeasianhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraces","latinoblackorafricanamerican",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislandertwoormoreraceswhite", "asianblackorafricanamericanhispanicorlatino","personsofmixed","twotwoormoreraces","latinonativehawaiianorotherpacificislander",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislanderwhite", "blackorafricanamericanhispanicorlatinotwoormoreraceswhite","twoormoreracesallpersonswhitehmorethanoneoftheabovesixs","americanindianoralaskanativelatinowhite",
-                          "americanindianoralaskanativeasiantwoormoreraces", "americanindianoralaskanativeasiantwoormoreraceswhite", "whiteblackorafricanamericanasian","twoormoreracesapersonwhiteoidentifieswhitehmorethanoneofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorotherpacificislanderasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasianwhite", "americanindianoralaskanativeblackafricanamerican", "whiteasiantwoormoreraces","personsofmixedincludingpersonswhitehoneparentinoneofthevisibleminoritygroupslistedabove",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatino", "whiteblackorafricanamericanamericanindianoralaskanative","africanamericanamericanindianalaskannative","twoormoreracesallpersonswhiteoidentifwhitehmoraeoftheabaces",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinonativehawaiianorpacificislander", "twoormoreracesallpersonswhiteowhitehmorethanoneoftheaboves","latinotwoormoreraces","twobr","americanindianoralaskanativelatinotwoormoreraceswhite",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinotwoormoreraces", "nativehawaiianorotherpacificislanderhispanic","whiteamericanindianalaskannativehispanicafricanamerican","americanindianoralaskanativelatinotwoormoreraces",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinotwoormoreraceswhite", "twoormoreracesblackorafricanamericanamericanindianoralaskanativetwoormoreraces","blackandafricanamericanamericanindianalaskannativeasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinowhite", "twoormoreracesallpersonswhiteowhitehmorethanoneoftheaboves","mtwoormoreraces","blackandafricanamericanamericanindianalaskannativelatinowhite","blackorafricanamericanlatinotwoormoreraceswhite",
-                          "americanindianoralaskanativeblackafricanamericannativehawaiianorpacificislander", "twoormoreracesforipedseeaap","asianindianalaskannative","blackandafricanamericanamericanindianalaskannativelatino","americanindianoralaskanativenothispanicotlatino",
-                          "americanindianoralaskanativeblackafricanamericannativehawaiianorpacificislandertwoormoreraces", "asianhispanicwhitenofhispanic","blackandafricanamericanasianhispanicwhite","americanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericantwoormoreraces", "whiteoormore","asianhispanichawaiianpacificislander","nativeamericanorpacificislander","twob","blackandafricanamericanasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericantwoormoreraceswhite", "asianhispanicnativehawaiianorotherpacificislander","americanindianalaskannativenativehawaiianorotherpacificislanderwhite","asianlatinotwoormoreraces",
-                          "americanindianoralaskanativeblackafricanamericanwhite", "americanindianoralaskanativeblackorafricanamerican", "asiannativehawaiianorotherpacificislanderwhitenofhispanic","americanindianoralaskanativeblackorafricanamericanlatinowhite",
-                          "americanindianoralaskanativeblackorafricanamericanhispanicorlatino", "blackorafricanamericanamericanindianalaskan","asianwhitenofhispanic","blackandafricanamericanasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackorafricanamericantwoormores", "nativehawaiianorotherpacificislanderblackorafricanamericantwoormoreraces","blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackorafricanamericantwoormoreswhite", "nativehawaiianorotherpacificislanderblackorafricanamerican","blackandafricanamericanamericanindianalaskannativehispanicwhite","latinoamericanindianoralaskanative",
-                          "americanindianoralaskanativeblackorafricanamericanwhite", "americanindianoralaskanativehispanicorlatino", "asianwhiteamericanindianalaskannative","blackandafricanamericanasiannativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinonativehawaiianorpacificislander", "asianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic","blackandafricanamericanhispanicnativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinonativehawaiianorpacificislandertwoormoreraceswhite", "hispanicwhiteasian","asianhispanicnativehawaiianorotherpacificislanderwhite","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinotwoormoreraces", "whiteamericanindianoralaskanativetwoormoreraces","whiteamericanindianalaskannativeafricanamerican","asianlatinonativehawaiianorotherpacificislander","asianblackorafricanamericanlatino",
-                          "americanindianoralaskanativehispanicorlatinotwoormoreraceswhite", "hispanicamericanindianalaskannative","hispanicwhitenofhispanic","blackandafricanamericanamericanindianalaskannativeasianhispanicwhite","nathawothpacislndhislatino","blackandafricanamericanamericanindianalaskannativeasianlatinowhite",
-                          "americanindianoralaskanativehispanicorlatinowhite", "americanindianoralaskanativeinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", "americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedstatesofame",
-                          "americanindianoralaskanativenativehawaiianorpacificislander", "americanindianoralaskanativeasianblackorafricanamericannativehawaiianorotherpacificislanderwhite","blackandafricanamericanasianlatino","aamericanindianoralaskanativelatino",
-                          "americanindianoralaskanativenativehawaiianorpacificislandertwoormoreraces", "americanindianalaskannativeblackorafricanamericantwoormoreraces","blackandafricanamericannativehawaiianorotherpacificislanderwhite","asianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativenativehawaiianorpacificislanderwhite", "americanindianoralaskanativeblackorafricanamericanhispanic","blackandafricanamericanamericanindianalaskannativeasianwhite","blackandafricanamericanasianlatinowhite","blackorafricanamericanlatinotwoormoreraces",
-                          "americanindianoralaskanativenothispanicrolatino", "americanindianoralaskanativeorlatino", "hispanicnativehawaiianorotherpacificislanderwhitenofhispanic","americanindianoralaskanativelatino","latinowhitetwo","americanindianalaskannativeasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativetwoormoreraceswhiteasian", "americanindianoralaskanativetwoormoreraceswhiteblackafricanamerican", "whiteasianafricanamerican","latinonativehawaiianorotherpacificislanderwhite","blackorafricanamericanlatinowhite","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativetwoormores", "americanindianoralaskanativetwoormoreswhite", "asianblackorafricanamericanhispanicwhite","twowhite","blackandafricanamericannativeamericanorpacificislanderwhite","americanindianoralaskanativeblackorafricanamericanlatino",
-                          "americanindianoralaskanativewhite", "americanindianoralaskanativewhiteblackafricanamerican", "hispanicwhiteamericanindianalaskannative","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhite","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "americanindianoralaskanativewhiteblackorafricanamerican", "americanindianoralaskannativeblackafricanamerican", "whiteafricanamericanhispanic","hawaiianpacificislanderhispanicwhite","americanindianalaskannativeasianlatino","americanindianalaskannativeasianlatinowhite",
-                          "americanindianoralaskannativeblackafricanamericantwoormoreraces", "americanindianoralaskanativeblackorafricanamericanhispanicwhite","whitehislatino","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "americanindianoralaskannativeblackorafricanamerican", "americanindianoralaskannativehispanicorlatino", "hispanicwhitehawaiianpacificislander","blackandafricanamericanlatino",
-                          "americanindianoralaskannativetwoormoreraces", "americanindianoralaskannativewhitenofhispanic", "americanindianoralaskanativenativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskannativewhitetwoormoreraces", "americanindianorpacificisland", "whiteblackorafricanamericanasianindianoralaskanative",
-                          "americanindianwhite", "amindalaskanathislat", "amindianalaskanativetwoormoreraces", "asianblackorafricanamericanhispanic","americanindianoralaskanativehispanicnativehawaiianorotherpacificislander",
-                          "armenianasian", "armenianasianamer", "asianamericanindianoralaskannative", "americanindianoralaskanativeblackorafricanamericannativehawaiianorotherpacificislandertwoormoreraces",
-                          "asianandasianincludespakistanisindians", "asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands", 
-                          "asianblack", "asianblackafricanamerican", "asianblackafricanamericanhispanicorlatino", "hispanicafricanamericanasian","whitehawaiianpacificislander",
-                          "asianblackafricanamericanhispanicorlatinotwoormoreraceswhite", "blackorafricanamericanhispanictwoormoreraces","whiteafricanamerican","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "asianblackafricanamericanhispanicorlatinowhite", "asianblackafricanamericantwoormoreraces", "hispanicafricanamericanwhite","eeotwob","americanindianalaskannativeasianlatinowhite",
-                          "asianblackafricanamericantwoormoreraceswhite", "asianblackafricanamericanwhite", "hawaiianpacificislanderwhiteasian","blackorafricanamericanasianindianoralaskanative",
-                          "asianblackorafricanamerican", "asianblackorafricanamericantwoormores", "asiantwoormoreracesblackorafricanamerican","whiteafricanamericanasian",
-                          "asianblackorafricanamericanwhite", "asiancaucasian", "asianchinesewhite", "hawaiianpacificislanderasianwhite","whiteafricanamericanamericanindianalaskannative",
-                          "asianeorlatino", "asianhislat", "asianhispanic", "asianhispanicorlatino", "hawaiianpacificislanderhispanic","nativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "asianhispanicorlatinonativehawaiianorpacificislander", "asianhispanicorlatinotwoormoreraces", "hispanichawaiianpacificislander","twoormoreracesallpersonwhitehmorethanoneoftheabovefives",
-                          "asianhispanicorlatinowhite", "asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands", 
-                          "asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", "americanindianalaskannativeasianlatino",
-                          "asianindiansubcontinenthispanic", "asianindiansubcontinentwhite", "americanindianoralaskanativeasianblackorafricanamericanwhite","blackandafricanamericanamericanindianalaskannativeasianlatinowhite",
-                          "asianlatino", "asiannativehawaiianorotherpacificislander", "asiannativehawaiianorotherpacificislanderwhite", "blackandafricanamericanamericanindianalaskannativeasianwhite","blackandafricanamericanasianlatinonativehawaiianorotherpacificislander",
-                          "asiannativehawaiianorpacificislander", "asiannativehawaiianorpacificislandertwoormoreraces", "hawaiianpacificislanderwhite","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "asiannativehawaiianorpacificislanderwhite", "asiannativehawaiianpacificislandertwoormoreraces", "africanamericanwhitehawaiianpacificislanderamericanindianalaskannative","americanindianalaskannativeasianlatinonativehawaiianorotherpacificislander",
-                          "asiannativehawaiianpacificislanderwhite", "asiannofhispanic", "hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                          "asianorpacificislanderblack", "asianorpacificislanderblacknativeamericanoralaskannative", "africanamericanasianhispanic","americanindianalaskannativeasianlatino","blackandafricanamericanamericanindianalaskannativeasianlatinonativehawaiianorotherpacificislander",
-                          "asianorpacificislanderhispanic", "asianorpacificislandernativeamericanoralaskannative", "africanamericanamericanindianalaskannativetwoormoreraces","blackandafricanamericanlatinonativehawaiianorotherpacificislander",
-                          "asianorpacificislandertwoormoreracesnativeamericanoralaskannativewhite", "africanamericanamericanindianalaskannativehispanicwhite","americanindianalaskannativeasianlatinowhite",
-                          "asianorpacificislanderwhite", "asianorpacificislanderwhitenofhispanic", "africanamericanasianhispanicwhite","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "asianpacificnativewhite", "asiantwoormoreracesblackafricanamerican", "africanamericantwoormoreraces","blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorrpacificislanderwhite",
-                          "asiantwoormores", "asiantwoormoreswhite", "asianwh", "asianwhite", "africanamericanhispanicwhiteasianindianalaskannativehawaiianpacificislander","americanindianalaskannativelatinonativehawaiianorotherpacificislander",
-                          "asianwhiteasian", "atwo or more races", "atwoormoreraces", "bhispanicorlatino", "africanamericanwhiteasianindianalaskannative","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "biracial", "bkwhite", "blackafricanamericanamericanindianalaskannative", "africanamericanwhiteamericanindianalaskannativehispanic",
-                          "blackafricanamericanamericanindianoralaskanative", "blackafricanamericanamericanindianoralaskanativetwoormoreraces", 
-                          "blackafricanamericanamericanindianoralaskanativetwoormoreracesorlatino", "americanindianoralaskannativewhite",
-                          "blackafricanamericanasian", "blackafricanamericanasianjapanese", "hispanictwoormoreraceswhite","whitetwoormoreraceswhiteasian",
-                          "blackafricanamericaneuropeanasian", "blackafricanamericanhispanic or latino", "twowhitetwoasian",
-                          "blackafricanamericanhispanicorlatino", "blackafricanamericanhispanicorlatinonativehawaiianorpacificislanderwhite", 
-                          "blackafricanamericanhispanicorlatinotwoormoreraces", "blackafricanamericanhispanicorlatinotwoormoreraceswhite", 
-                          "blackafricanamericanhispanicorlatinowhite", "blackafricanamericanmultiracial", "twoormoreraceswhiteasian",
-                          "blackafricanamericanmultiracialasian", "blackafricanamericanmultiracialwhite", "whitetwoormoreraceshispanicwhiteasianamericanindianoralaskanative",
-                          "blackafricanamericannativehawaiianorasianpacificislander", "blackafricanamericannativehawaiianorpacificislander", 
-                          "blackafricanamericannativehawaiianorpacificislandertwoormoreraces", "whitenativehawaiianorotherpacificislanderhispanicamericanindianoralaskanativetwoormoreraces",
-                          "blackafricanamericannofhispanic", "blackafricanamericanstatehispanicorlatino", "whitetwoormoreraceshispanicwhiteasiannativeamerican",
-                          "blackafricanamericantwo or more races", "blackafricanamericantwoormoreraces", "whitenativehawaiianorotherpacificislander",
-                          "blackafricanamericantwoormoreraceswhite", "blackafricanamericanwhite", "whitenativehawaiianorotherpacificislanderblackorafricanamerican",
-                          "blackafricanamericanwhiteamericanindian", "blackafricanamericanwhitemultiracial", 
-                          "blackafricanamericanwhitemultiracialamericanindianalaskannative", "asianindianoralaskanative",
-                          "blackafricanamericanwhitenativehawaiianorasianpacificislander", "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                          "blackafricanamericanwhitetwoormoreraces", "blackafricanamhislat", 
-                          "blackamericanindian", "blackandafricanamericanamericanindianalaskannative", 
-                          "blackandafricanamericanamericanindianalaskannativeasianhispanicorlatinonativehawaiianorotherpacificislanderwhite", 
-                          "blackandafricanamericanamericanindianalaskannativewhite", "blackandafricanamericanasian", 
-                          "blackandafricanamericanasianwhite", "blackandafricanamericanhispanicorlatino", 
-                          "blackandafricanamericanhispanicorlatinowhite", "blackandafricanamericannativehawaiianorotherpacificislander", 
-                          "blackandafricanamericanwhite", "blackandasian", "blackandwhite", 
-                          "blackasian", "blackasianpacificislander", "blackhispaniwhite", "blackorafricanamericanlatinotwoormoreraceswhite",
-                          "blackindiannative", "blacknativeamerican", "blacknativeamericanoralaskannativewhite", 
-                          "blacknofhispanic", "blackorafricanamericanamericanindianalaskannative", 
-                          "blackorafricanamericanamericanindianoralaskanative", "blackorafricanamericanamericanindianoralaskanativetwoormores", 
-                          "blackorafricanamericanasian", "blackorafricanamericanasianjapanese", 
-                          "blackorafricanamericaneuropeanasian", "blackorafricanamericanhawaiianorpacificislander", 
-                          "blackorafricanamericanhispanicorlatino", "blackorafricanamericanhispanicorlatinotwoormores", 
-                          "blackorafricanamericanhispanicorlatinowhite", "blackorafricanamericanmultiracial", 
-                          "blackorafricanamericanmultiracialasian", "blackorafricanamericanmultiracialwhite", 
-                          "blackorafricanamericannativehawaiianorasianpacificislander", "africanamericanamericanindianalaskannativeasian",
-                          "blackorafricanamericannativehawaiianorotherpacificislander", "africanamericanamericanindianalaskannativeasianwhite",
-                          "blackorafricanamericannativehawaiianorotherpacificislanderwhite", "africanamericanamericanindianalaskannativehispanicstate",
-                          "blackorafricanamericannativehawaiianorpacificislander", "blackorafricanamericannativehawaiianorpacificislanderwhite", 
-                          "blackorafricanamericantwoormores", "blackorafricanamericantwoormoreswhite", 
-                          "blackorafricanamericanwhite", "blackorafricanamericanwhiteamericanindian", 
-                          "blackorafricanamericanwhitemultiracial", "blackorafricanamericanwhitemultiracialamericanindianalaskannative", 
-                          "blackorafricanamericanwhitenativehawaiianorasianpacificislander", "nativeamericanorpacificislander",
-                          "blackorblackericanwhite", "blackpacificnative", "blackpacificnativeblack", 
-                          "blackwhite", "blackwhiteblack", "blackwhites", "brazilianjapanese", "twoormoreracesamericanindianalaskannativeafricanamericanhawaiianpacificislander",
-                          "bw", "caucasianafricanamerican", "caucasianasian", "caucasianhispanic", "latinoasiantwoormoreraces",
-                          "cblackorafricanamericanhispanicorlatino", "combinationoformorecategories", 
-                          "combinationoftwoormorecategories", "diverse", "etwoormoreracesorlatino", 
-                          "ewhitelatio", "filipinomexican", "ftwoormoreraces", "ftwoormoreraceshispanicorlatino", 
-                          "ftwosormore", "gbrmixed", "gnativehawaiianorotherpacificislanderhispanicorla", 
-                          "greekandmexican", "hawaiianorpacificislanderwhite", "hispanicafricanamerican", 
-                          "hispanicamericanindianoralaskannative", "hispanicasian", "hispanicblack", 
-                          "hispanicblackindiannative", "hispanicblackwhite", "hispaniccaucasian", "whiteamericanindianalaskannativeasian",
-                          "hispanichispaniwhiteasian", "hispanicindiannative", "hispaniclatinowhite", 
-                          "hispanicmultiracial", "hispanicnativeamericanoralaskannative", "twoormorenlatino",
-                          "hispanicorlatino white", "hispanicorlatinoamericanindianoralaskanative", 
-                          "hispanicorlatinoasian", "hispanicorlatinoasiantwoormores", "hispanicorlatinoblackafricanamerican", 
-                          "hispanicorlatinoblackafricanamericantwoormoreraces", "hispanicorlatinoblackorafricanamerican", 
-                          "hispanicorlatinoblackorafricanamericantwoormores", "hispanicorlatinonativehawaiianorotherpacificislanderwhite", 
-                          "hispanicorlatinonativehawaiianorpacificislander", "hispanicorlatinonativehawaiianorpacificislanderwhite", 
-                          "hispanicorlatinootherwhites", "hispanicorlatinotwoormore", "hispanicorlatinotwoormores", 
-                          "hispanicorlatinotwoormoreswhite", "hispanicorlatinowhite", "hispanicorlatinowhiteasian", "blackandafricanamericanlatinonativehawaiianorotherpacificislanderwhite",
-                          "hispanicorlatinowhiteonly", "hispanicorlatinowhites", "hispanicorlatinowhitetwoormores", "asianblackorafricanamericanlatinowhite",
-                          "hispanicwhite", "hispanicwhiteafricannative", "hispanicwhiteblack", "blackorafricanamericanhispanic",
-                          "hispanicwhiteblackpacificnativeasian", "hispanicwhiteindiannative", "asianhispanicwhite","twor",
-                          "hispanicwhitepacificnativeasian", "hispaniwhite", "hispwhite", "americanindianoralaskanativenativehawaiianorotherpacificislander",
-                          "iamhispaniclatinoaofcubanmexicanpuertoricancentralorsouthamericanorotherspanishcultureororiginregardlessof", "asianhispanicnativehawaiianorrpacificislanderwhite",
-                          "idonotwishtofurnishthisinformationtwoormores", "indiannativeasianblackwhite", "blackorafricanamericanhispanicwhite","blackandafricanamericannativehawaiianorrpacificislanderwhite",
-                          "indiannativeasianpacificnativewhite", "indiannativeblack", "indiannativeblackwhite", "hispanicnativehawaiianorotherpacificislander","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislander",
-                          "indiannativepacificnativeblackwhite", "indiannativewhite", "interracial", "hispanicblackorafricanamerican","americanindianalaskannativeasiannativehawaiianorrpacificislanderwhite",
-                          "latinowhite", "latinwhite", "mix", "mixed", "mixedbw", "mixedtwoormore", "hispanicnativehawaiianorotherpacificislander","americanindianalaskannativenativehawaiianorrpacificislanderwhite",
-                          "mixedtwoormoreraces", "mixedtwoormores", "mixedwhiteblackafricanunitedkingdom", "hispanictwoormoreraces","blackandafricanamericanasianhispanicwhite","whitelatinotwoormoreraces",
-                          "morethan1choice", "morethanchoice", "morethanone", "mormore", "blackandafricanamericanasianhispanicnativehawaiianorotherpacificislander","blackandafricanamericanasianhispanicnativehawaiianorrpacificislanderwhite",
-                          "mr", "mu", "mulits", "mult", "multi", "multirac", "multiracial", "blackandafricanamericanasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "multiracialasiannativehawaiianorasianpacificislander", "multiracialasianwhite", "blackandafricanamericanhispanicnativehawaiianorotherpacificislander","blackandafricanamericanasiannativehawaiianorrpacificislanderwhite",
-                          "multiracialblackafricanamerican", "multiracialblackafricanamericanwhite", "blackandafricanamericanasianhispanicwhitenofhispanic","americanindianalaskannativeasianhispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialblackorafricanamerican", "multiracialblackorafricanamericanwhite", "blackandafricanamericanasiannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "multiracialindiannative", "multiracialnativehawaiianorasianpacificislanderblackafricanamericanamericanindianalaskannativeasian", "blackandafricanamericanamericanindianalaskannativehispanicwhite",
-                          "multiracialnativehawaiianorasianpacificislanderblackorafricanamericanamericanindianalaskannativeasian", "blackandafricanamericanwhitenofhispanic","blackandafricanamericanhispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialnativehawaiianorasianpacificislanderwhiteasian", "blackafricanamhispanic","ormoresc","twoormoresc","blackandafricanamericanhispanicwhitenofhispanic",
-                          "multiracialtwoormoreraces", "multiracialtwoormores", "multiracialwhite", "blackandafricanamericanasiannativehawaiianorotherpacificislander","americanindianalaskannativehispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialwhiteblackafricanamerican", "multiracialwhiteblackorafricanamerican", "blackandafricanamericanasianwhitenofhispanic","ormoresallpersonswhiteoidentifwhitehmoraeoftheabaces",
-                          "mults", "mutliracial", "nativeamericanalaskannativetwoormoreraces", "blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislander","latinoasian",
-                          "nativeamericanalaskannativetwoormoreraceswhite", "nativeamericanalaskannativetwoormores", "blackandafricanamericanhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativeamericanalaskannativetwoormoreswhite", "nativeamericanalaskannativewhite", "blackandafricanamericanasianhispanic","whiteasianhispanic","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorrpacificislanderwhite",
-                          "nativeamericanhispanic", "nativeamericanoralaskannativewhite", "twoormoreracesallpersonswhitehmorethanoneoftheabovefives","americanindianoralaskanativeasianhispanicnativehawaiianorpacificislerwhite",
-                          "nativeamericanwhite", "nativehawaiianorasianpacificislandermultiracialwhiteblackafricanamerican", "blackandafricanamericannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorasianpacificislandermultiracialwhiteblackorafricanamerican", "blackandafricanamericanamericanindianalaskannativewhitenofhispanic","blackandafricanamericanamericanindianalaskannativenativehawaiianorrpacificislanderwhite",
-                          "nativehawaiianorasianpacificislanderwhite", "nativehawaiianorotherpacificislanderinanyofthepeoplesofhawaiiguamsamoaorotherpacificislands", "blackandafricanamericannativehawaiianorotherpacificislanderwhite",
-                          "nativehawaiianorotherpacificislanderwhite", "nativehawaiianorpacificisland", "blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorpacificislanderblackafricanamerican", "nativehawaiianorpacificislanderblackafricanamericantwoormoreraces", "blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorotherpacificislander",
-                          "nativehawaiianorpacificislanderblackorafricanamerican", "nativehawaiianorpacificislanderhispanicorlatino", "americanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorpacificislandertwoormoreraces", "nativehawaiianorpacificislandertwoormoreraceswhite", "hawaiianpacificislanderafricanamerican","americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "nativehawaiianorpacificislanderwhite", "nativehawaiianpacificislanderlatino", "twoormoreracespersonswhitehmorethanoneoftheabovefives","hawaiianpacificislanderasianhispanic","americanindianalaskannativelatinowhite",
-                          "nativehawaiianpacificislandertwoormoreraceswhite", "nativehawaiianpacislandino", "blackandafricanamericanamericanindianalaskannativehispanicwhitenofhispanic","americanindianalaskannativeasianhispanicwhite",
-                          "nativehawaiianwhite", "ntwoormoreraces", "oneormores", "ormore","twoormore", "blackandafricanamericanamericanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "ormorenisp","twoormorenisp", "ormorenothisp", "twoormorenothisp","ormores","twoormores", "ormoreselected", "ormoresnispanc","twoormoreselected", "twoormoresnispanc", "blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "ormoresnothispanc", "ormoresnothispancw312w41a", "ormoretwoormoreraces","twoormoresnothispanc", "twoormoresnothispancw312w41a", "twoormoretwoormoreraces", "blackandafricanamericanamericanindianalaskannativeasianhispanicwhitenofhispanic",
-                          "ormoretwoormores", "twoormoretwoormores", "othercombinationoftwoormorecategories", "twoormoreracesallpersonswhitehmorethanoneoftheaboves","whiteasianhawaiianpacificislander","ormoreracespersonwhitehmoraeoftheabovefives","twoormoreracespersonwhitehmoraeoftheabovefives",
-                          "pacificnativeblack", "pacificnativeblackwhite", "pacificnativewhite", "blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorotherpacificislanderwhitenofhispanic","blatinowhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthewhitelatino",
-                          "rtwoormoreraces", "stwoormoreraces", "stwoormoreracesv","twoormoreracesv", "ttwoormoreraces", "blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislander",
-                          "twnnonindigeno", "two or more races", "two or more racesallpersonswho", "blackandafricanamericanamericanindianalaskannativehispanic","americanindianalaskannativeafricanamericanhispanicwhite",
-                          "two or more racesifyouwhitehtwo or more raceslistedabove", "twomore", "blackandafricanamericanamericanindianalaskannativeasianwhitenofhispanic","ormoreracesallpersonswhowithmoraeoftheabaces","twoormoreracesallpersonswhowithmoraeoftheabaces",
-                          "twomores", "twomr", "twoofmores", "twoor", "twoormor", "twoormore", "americanindianalaskanativeblackorafricanamericanwhite","americanindianalaskannativehispanicafricanamericanwhiteasianhawaiianpacificislander",
-                          "twoormorefound", "twoormorenothispnlatino", "twoormoreraces", "americanindianoralaskannativeblackorafricanamericantwoormoreraces","americanindianalaskannativeafricanamericanhispanic","americanindianalaskannativenativehawaiianorotherpacificislanderwhite",
-                          "twoormoreracesallpersonswhiteo", "twoormoreracesallpersonswhiteowhitehmorethanoneoftheabovesixs", "americanindianalaskannativetwoormoreracesafricanamerican","americanindianalaskannativeasiannativehawaiianorotherpacificislanderwhite",
-                          "twoormoreracesallpersonswho", "twoormoreracesforipedseeoaap", "blackorafricanamericanhispaniclatino","hispanicafricanamericanamericanindianalaskannative","americanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhite",
-                          "twoormoreraceshislat", "twoormoreraceshispanic", "twoormoreraceshispaniwhite", "blackandafricanamericanamericanindianalaskannativeasianhispanic","americanindianalaskannativeafricanamericanhawaiianpacificislander",
-                          "twoormoreraceshispaniwhiteasian", "twoormoreraceshispaniwhitenativeamerican", "blackandafricanamericanamericanindianalaskannativeasianhispanicnativehawaiianorotherpacificislander",
-                          "twoormoreraceshispaniwhitess", "twoormoreracesifyouwhitehtwoormoreraceslistedabove", "asianhawaiianpacificislanderhispanic","americanindianoralaskanativeblackorafricanamericannativehawaiianorotherpacificislander",
-                          "twoormoreraceslatino", "twoormoreracesn", "twoormoreracesnofhispanic", "asianindianoralaskannative","hispanicwhiteafricanamerican","americanindianalaskannativeasianafricanamerican",
-                          "twoormoreracesnonhispanic", "twoormoreracesorlatino", "twoormoreracesorlatinoamericanindianoralaskanativeblackafricanamerican", "americanindianalaskannativewhiteafricanamericanhispanic",
-                          "twoormoreracesorlatinoblackafricanamericanamericanindianoralaskanative", "blackandafricanamericanamericanindianalaskannativeasian","americanindianalaskannativetwoormoreraces",
-                          "twoormoreracesorlatinoblackafricanamericanamericanindianoralaskanativetwoormoreraces", "asianhawaiianpacificislanderwhite","asianafricanamericanamericanindianalaskannative",
-                          "twoormoreracesorlatinoblackorafricanamerican", "twoormoreracesp", "hispanicnativehawaiianorpacifictwoormoreraces","asianafricanamericanhispanic","americanindianalaskannativeafricanamericanasianwhitehawaiianpacificislanderhispanic",
-                          "twoormoreracespersonswhiteo", "twoormoreracespersonwhiteowhitehmorethanoneoftheabovefives", "asianhawaiianpacificislanderamericanindianalaskannativewhite","americanindianalaskannativelatino",
-                          "twoormoreraceswhite", "twoormoreraceswhitess", "twoormoreracesyoumaybyselectingtwoormoreracesabove", "asianhawaiianpacificislanderamericanindianalaskannativewhite",
-                          "twoormoreraices", "twoormores", "twoormoresallpersonswhoidentifywithmorethanoneoftheabovefives", "asianhispanicamericanindianalaskannative","americanindianalaskannativeafricanamericanhispanichawaiianpacificislanderasianwhite",
-                          "twoormoresallpersonswhowhitehmorethanoneoftheabovefives", "twoormoresapersonwhoidentifieswithmorethanoneofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorotherpacificislanderasianoramericanindianoralaskanative", 
-                          "twoormoreschoosenotto", "twoormoresforipedseeoaap", "twoormoreswhite", "americanindianalaskannativehispanic","asianafricanamericanwhitehawaiianpacificislander","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraces",
-                          "twoors", "twos", "wai", "wandb", "wb", "whiteafrican", "whiteamericanindian", "americanindianalaskannativehispanicnativehawaiianorotherpacificislander","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraceswhite",
-                          "whiteamericanindianalaskanative", "whiteamericanindianalaskannative", "americanindianalaskannativeasiannativehawaiianorotherpacificislander","ormoreracesamericanindianalaskannative","twoormoreracesamericanindianalaskannative",
-                          "whiteamericanindianalaskannativeblackafricanamerican", "whiteamericanindianalaskannativeblackorafricanamerican", "asianafricanamericanwhite","twoormoreracespersonwhitehmorethanoneoftheabovefives",
-                          "whiteamericanindianoralaskanative", "whiteamericanindianoralaskanativetwoormores", "americanindianalaskannativehispanicwhite","americanindianalaskannativewhiteasian",
-                          "whiteamericanindianoralaskannative", "whiteamericanindianoralaskannativeasian", "americanindianalaskannativeasiannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica", "americanindianalaskannativehispanicwhitenofhispanic","whitetwoormoreraceshispanicwhitenativeamerican",
-                          "whiteasian", "whiteasianindiannative", "whiteasianmultiracial", "africanamericanwhiteasian","americanindianalaskannativenativehawaiianorotherpacificislander",
-                          "whiteasianorpacificislander", "whiteasianss", "whiteasiantwoormores", "americanindianalaskannativeafricanamerican","americanindianoralaskanativeasianblackorafricanamericanhispanicnativehawaiianorotherpacificislanderunitedstatesofame",
-                          "whiteblack", "whiteblackafricanamerican", "whiteblackafricanamericanamericanindianoralaskanative", "americanindianalaskannativewhiteafricanamerican","asiannativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamericanwhite",
-                          "whiteblackafricanamericanamericanindianoralaskanativetwoormoreraces", "americanindianalaskannativeafricanamericanasian","americanindianoralaskanativeasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "whiteblackafricanamericanasian", "whiteblackafricanamericanasianamericanindianoralaskanative", "americanindianalaskannativenativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteblackafricanamericanmultiracial", "whiteblackafricanamericantwoormoreraces", "americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislander",
-                          "whiteblackasian", "whiteblackindiannative", "whiteblackorafricanamerican", "americanindianalaskannativeafricanamericanwhite","americanindianoralaskanativeasiannativehawaiianorotherpacificislanderwhite",
-                          "whiteblackorafricanamericanamericanindianoralaskanativetwoormores", "africanamericanwhiteamericanindianalaskannative","asianafricanamerican","asianindianoralaskanativewhite",
-                          "whiteblackorafricanamericanmultiracial", "whiteblackorafricanamericantwoormores", "americanindianalaskannativeasianhispanic","americanindianalaskanativetwoblackorafricanamericanwhite",
-                          "whiteblackpacificnative", "whitecaucasianinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica", "americanindianalaskannativewhitenofhispanic",
-                          "whitehiispanic", "whitehislat", "whitehispanicorlatino", "whitehispanicorlatinotwoormores", "americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", 
-                          "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica", "africanamericanamericanindianalaskannativewhite","africanamericanhawaiianpacificislanderwhite",
-                          "whiteindiannative", "whitelatino", "whitemultiracial", "whitemultiracialasian", "africanamericanhawaiianpacificislander","americanindianalaskannativehispanicafricanamerican",
-                          "whitemultiracialblackafricanamerican", "whitemultiracialblackorafricanamerican", "africanamericanhispanicamericanindianalaskannative","americanindianalaskannativehispanicafricanamericanwhite",
-                          "whitenativeamerican", "whitenativehawaiianorasianpacificislander", "africanamericanasian","americanindianalaskannativeasianhispanicwhitenofhispanic","asianindianoralaskanativeblackorafricanamerican",
-                          "whitenativehawaiianorpacificislander", "whitenativehawaiianorpacificislanderasianamericanindianoralaskanative", "twoormoreracesafricanamerican","nativehawaiianorotherpacificislanderamericanindianoralaskanative",
-                          "whitenativehawaiianorpacificislanderblackafricanamerican", "whitenativehawaiianorpacificislanderhispanicorlatinoamericanindianoralaskanativetwoormoreraces", "asianindianoralaskanativeblackorafricanamericanwhite",
-                          "whitenofhispanic", "whitepacificnative", "whitepacificnativeasian", "blackorafricanamericanandhispaniclatino","africanamericanhispanicamericanindianalaskannativewhite","americanindianoralaskanativewhitenot",
-                          "whitetwoormoreraces", "whitetwoormoreraceshispanics", "whitetwoormoreraceshispanictwoormoreracess", "americanindianalaskannativeasianwhitenofhispanic",
-                          "whitetwoormoreraceshispanicwhite", "whitetwoormoreraceshispanicwhiteasian", "africanamericanasianwhite","hispanicafricanamericanamericanindianalaskannative",
-                          "whitetwoormoreraceshispanicwhitenativeamericans", "whitetwoormoreraceslatino", "africanamericanhispanicwhite","multiracialtwo","htwo",
-                          "whitetwoormoreracesnativeamerican", "whitetwoormoreraceswhite", "asianindiansubcontinentblack","multitwos","blackwhitetwos","twosb","nativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamerican",
-                          "whitetwoormoreraceswhitenativeamerican", "whitetwoormores", "nativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamericanwhite",
                           "nativehawaiianorotherpacificislanderblackorafricanamericanwhite"),
-  "NA" = c("NATOEVERYONE", "notspecified", "memberofvisibleminoritycanada")
+  "NA" = c("NATOEVERYONE","notspecified","memberofvisibleminoritycanada")
 )}
 
 race_list <- {mapply(c, 
@@ -653,86 +250,15 @@ race_list <- {mapply(c,
                      SIMPLIFY=FALSE)}
 
 
-partials <- {c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-               "pacific islander", "indian", "female", "woman", "women", "feminine", "masculine", "white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races", 
-               "female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine", "mannlich")}
 
-preprocess_names_other_getridofstrregex <- {paste0(
-  c("macro", "staffmark", "stafffmark","information", "informatio", "informati", "informat", "informa", "inform", "infor", "info",
-    "ofor", "ofor", "worker", "fake", "reportingformat", "public", "describe", "description", "desc", "discription", "renglish", "english", "other",
-    "accurate", "ofor", "eem", "eeo", "forms", "form", "applicant", "legal", "employee", "paygapanalysis", "lastfirst", "selfidentification", "taleo", "detail",
-    "promoted", "specify", "iprefernottoprovide",
-    "text", "fnf", "complete", "blackor", "itly", "whatisyour", "corrected", "iparttimeion", "lication", "background", "jacksonlewis", "description",
-    "ifno", "hmlm", "orininator", "former", "localesensitive", "makeyourselection", "upper", "lower",
-    "grp", "current", "applicant", "person", "primary", "candidate", "app", "spriden", "spbpers", "ipeds", "new", "individual", "indiv", "ind", "ming",
-    "reported", "preferred", "optional", "recipient", "legal", "previous", "previou", "secondary", "second", "avisu", "translate", "workforce", "horizon",
-    "start", "candidate", "unitedstatesglobal", "information", "contact", "identified", "original", "origin", "orig", "recruitingworkflowprofile", "label",
-    "wfn", "fixed", "updated", "fields", "donor", "colleague", "legacy", "alpha", "expand", "combined", "dra", "full", "jl", "pleaseselectyour", "further", 
-    "candidate", "candidat", "candid", "candi", "cand", "groupof", "knowna", "dnu", "questioncode", "ofprior",
-    "associate", "fsu", "value", "emp", "adminentered", "reported", "selfentered", "essee", "final", "sterms", "ofindividual", "rtiption", "codemf",
-    "same", "identification", "affiliations", "affiliation", "ination", "used", "translation", "deccription", "definition", "ination", "dentification", "norhispanicorlat", "nisorlat", "nispnc",
-    "category", "voluntaryselfid", "codeaap", "morf", "haassoc", "asofnov", "further", "ming", "cd$", "^hrm", "^loy", "^lfull"), 
-  collapse = "|")}
-
-
-turntoracestrregex <- {paste0(
-  c("raceethnicity", "raceethn$", "nativehawaiianotherpacificislander", 
-    "xethnicity", "ethnicgroup", "ethnicity", "ethnicit", "ethnici", 
-    "ethnic", "ethni", "ethno", "ethn", "eth$", "racecodes", "racecode", 
-    "race", "raceno", "twoormoreraces", "africanamerican", "raceance", 
-    "racefor", "racecategory", "racer$", "raceic", "racehr", "eeorace", 
-    "eerace", "lwrace", "racename", "namerace", "raceid", "psrace", 
-    "^srace", "racerace", "racesee", "raceitly", "raceiparttimeion", 
-    "drarace", "inictyname", "racety", "racedscr", "white", "thispanic", 
-    "hispaniclatino", "alrace", "orrace", "ifrace", "twomoreraces", 
-    "racepre$", "racedecr", "raceal", "raceip", "raceraceentity", 
-    "racecd", "racep", "allrace", "finrace", "eprace", "raceer$", 
-    "adprace", "^erace", "asian", "black", "americanindianalaskannative", 
-    "^lrace", "^rce$", "ethrace", "racey$", "racex$", "racecitiy", 
-    "raceand", "andrace", "^prace", "racedistributiongraph", "racestaffmark", 
-    "racedsc", "raceiannative", "raceinev", "loyrace", "raceiy", 
-    "racems", "raceminority", "nativehawaiianorotherpacificislander", 
-    "nativeamerican", "hispanic", "raceming", "furtherinforace", 
-    "crace", "prace", "srace", "racekey", "lrace", "races$", "rcename", 
-    "raceid$"), 
-  collapse="|")}
-
-turntogenderstrregex <- {paste0(c("female", "male$", "^male", "adpgender", "genderer$", "gendercodes", 
-                                  "gendercode", "gendery$", "genderx$", "gnder", "gndr", "gender", 
-                                  "sex", "hpigenderr", "^sgender", "^xgender", "psgender", "^lgender", 
-                                  "gendermf", "gendereeo", "genderr$", "genderhr", "aagender", 
-                                  "algender", "genderkey", "genderid", "apgender", "submissiongenderternal", 
-                                  "gendercategory", "eegender", "eeogender", "argender", "^cgender", 
-                                  "pmgender", "mmaleffemale", "^fgender", "^mgender", "hpigender", 
-                                  "genderfield", "gendername", "genders$", "^pgender", "$pgender", 
-                                  "clmntgender", "^epgender", "emgender", "revisedgender", "negender", 
-                                  "genderming", "furthergender", "fieldgender", "genderaap", "genderand", 
-                                  "andgender", "fgender", "gendercd", "mgender", "^egender", "gendergendergender", 
-                                  "gendergender", "namegender"), collapse="|")}
-
-
-recode_race_getridofstrregex <- {paste0(c("yes", "wish", "us", "unitedstatesofamerica", "to", "sgp","state",
-                                          "self", "selected", "region", "raceethnicity", "race", "other", 
-                                          "othe", "oth$", "origins", "origin", "only", "ofany", "obsolete", 
-                                          "notofhispanic$", "notlatino$", "nothisporlatino", "nothispnc$", 
-                                          "nothispanicorlatino", "nothispanicorl$", "nothispanicor$", "nothispanicoflatino", 
-                                          "nothispaniclatinononhispanic$", "nothispaniclatino", "nothispanichispanic$", 
-                                          "nothispanichis$", "nothispaniceorlatino", "nothispanic$", "nothislatino$", 
-                                          "nothislat$", "nothis$", "norhispanic$", "norhislatino$", "norhis$", 
-                                          "noofhispanic$", "nonwhite", "nonhispanicorlatino", "nonhispanicor$", 
-                                          "nonhispaniclatino", "nonhispanichispanic$", "nonhispanichis$", 
-                                          "nonhispanic$", "nonhislat$", "nonhis$", "nonexempttoexempt", 
-                                          "nofhispanic$", "nispnlatino$", "nisplatino", "nisplat$", "nispanicorlatino", 
-                                          "nispanic$", "nispanc$", "nislatino$", "nislatin$", "nislat$", 
-                                          # "males", "male", 
+recode_race_getridofstrregex <- {paste0(c("yes", "wish", "us", "unitedstatesofamerica", "to", "sgp","state","self", "selected", "region", "raceethnicity", "race", "other", "othe", "oth$", "origins", "origin", "only", "ofany", "obsolete", 
+                                          "notofhispanic$", "notlatino$", "nothisporlatino", "nothispnc$", "nothispanicorlatino", "nothispanicorl$", "nothispanicor$", "nothispanicoflatino", 
+                                          "nothispaniclatinononhispanic$", "nothispaniclatino", "nothispanichispanic$", "nothispanichis$", "nothispaniceorlatino", "nothispanic$", "nothislatino$", 
+                                          "nothislat$", "nothis$", "norhispanic$", "norhislatino$", "norhis$", "noofhispanic$", "nonwhite", "nonhispanicorlatino", "nonhispanicor$", "nonhispaniclatino", "nonhispanichispanic$", "nonhispanichis$", "nonhispanic$", "nonhislat$", "nonhis$", "nonexempttoexempt", 
+                                          "nofhispanic$", "nispnlatino$", "nisplatino", "nisplat$", "nispanicorlatino", "nispanic$", "nispanc$", "nislatino$", "nislatin$", "nislat$", 
                                           "lessthan", "ï", "hours", "heritage", "half", 
-                                          "gender", "gb", "furnish", 
-                                          # "females", "female", 
-                                          "ethnicity", 
-                                          "ethnic", "eorlatino", "dta", "donottoself", "donotto", "cmty", 
-                                          "apersonhavingorigins", "alls", "^nhispanic$", "^dstate"), 
+                                          "gender", "gb", "furnish", # "males", "male",  # "females", "female", 
+                                          "ethnicity", "ethnic", "eorlatino", "dta", "donottoself", "donotto", "cmty", "apersonhavingorigins", "alls", "^nhispanic$", "^dstate"), 
                                         collapse="|")}
 
 recode_gender_getridofstrregex <- {paste0(c("gender", "sexis", "earnings", "sex", "tospecife", "lessthan", "over", "other", 
@@ -798,7 +324,7 @@ dfincase <- {data.frame(name=c('charlene teters', 'sandra sunrising osawa'),
 #' @export
 #' @examples
 #' not_all_na(x)
-not_all_na <- function(x){ any(!is.na(x)) }
+not_all_na <- function(x){any(!is.na(x)) }
 
 #' A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
 #' @export
@@ -1005,22 +531,23 @@ roundupc <- function(x) { 10^ceiling(log10(x)) }
 
 #' A function that gets 5 digit zip codes; it extracts relevant first 5 digits from zip code when it's formatted like 11111-1111
 #' @export
-#' @examples
-#' zipcode5()
-zipcode5 <- qdapRegex::rm_(pattern="(?<!\\d)\\d{5}(?!\\d)", extract=TRUE)
+#' @examples {v <- c('924832sjkhf',' 20439-22912', '93488-9293', '23984_93284', '39842-3949 32432', '328rjd2 nh22 22242 ')}
+#' zipcode5(v)
+zipcode5 <- function(v){stringr::str_extract_all(v, pattern="(?<!\\d)\\d{5}(?!\\d)")} # OLD:# zipcode5 <- qdapRegex::rm_(pattern="(?<!\\d)\\d{5}(?!\\d)", extract=TRUE)
+
 
 #' A function to paste a vector in a regex way with '|' partial
 #' @export
 #' @examples
 #' paste_regex_partial(v, collapse='|')
-paste_regex_partial <- function(v, collapse='|') { paste0(v, collapse=collapse) }
+paste_regex_partial <- function(v, collapse='|') {paste0(v, collapse=collapse) }
 
 
 #' A function to paste a vector in a regex way with '|' exact with '^' in front and '$' in back
 #' @export
 #' @examples
 #' paste_regex_exact(v, collapse='|')
-paste_regex_exact <- function(v, collapse='|') { paste0('^', v, '$', collapse=collapse) }
+paste_regex_exact <- function(v, collapse='|'){paste0('^', v, '$', collapse=collapse) }
 
 
 #' A function to paste a vector in a regex way with '|' options for exact or partial. Is it working?
@@ -1204,13 +731,16 @@ read_csvs <- function(filelist, bindrows=F, simplif=T){
 #' @export
 #' @examples
 #' try_read_rda(file)
-try_read_rda <- function(file) d <- tryCatch(get(load(file)), error=function(e) NULL)
+try_read_rda <- function(file){tryCatch(get(load(file)), error=function(e) NULL)}
 
 #' A function
 #' @export
 #' @examples
 #' try_read_feather(file)
-try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), error=function(e) NULL)
+try_read_feather <- function(file) {
+  pkg('feather')
+  tryCatch(read_feather(file), error=function(e) NULL)
+}
 
 #' A function
 #' @export
@@ -1318,11 +848,11 @@ read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_
     sublist <- lapply(sublist, function(xx) xx %>% read_df_all(.) %>% regulars_namesplit())
     filename <- paste0(outpath, prefix, round5(start), "to", round5(end), ".f")
     (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct()) %>%
-      feather::write_feather(., filename)
+      saveRDS(., filename)
     # return(nrow(sublist))
     print("")
     print(paste0("dim: ", paste0(dim(sublist), collapse=" row "), " col - ", filename))
-    print(sample_n(filter(sublist, !is.na(fLname)), 3))
+    print(dplyr::sample_n(dplyr::filter(sublist, !is.na(fLname)), 3))
     # print(paste0("dim: ", dim(sublist)))
   }) %>% print(system.time())
 }
@@ -1701,8 +1231,7 @@ dealwith_racegender_variable <- function(x){
   x
 }
 # ---------------------------------------------------------------------------------
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1717,8 +1246,7 @@ gather_name <- function(df) {
     dplyr::distinct() 
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1736,8 +1264,7 @@ gather_name_namesplit <- function(df) {
   df
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1751,8 +1278,7 @@ gather_gender <- function(df) {
     dplyr::distinct() 
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1766,8 +1292,7 @@ gather_race <- function(df) {
     dplyr::distinct() 
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1781,8 +1306,7 @@ gather_race_and_gender <- function(df) {
 }
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -1795,8 +1319,7 @@ gather_join_first_last_name <- function(df, seq = c("first last", "last,first"))
   dplyr::distinct(df)
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -2173,8 +1696,7 @@ recode_gender2 <- function(vec,
   vec
 }
 # ---------------------------------------------------------------------------------
-#' A function
-#'
+
 #' This function allows you to recode race
 #' @param recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
 #' @param extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
@@ -2233,8 +1755,7 @@ recode_race_j <- function(vec,
 }
 # ---------------------------------------------------------------------------------
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -2316,8 +1837,6 @@ recode_race_specific <- function(vec, extra = NULL) {
 }
 
 
-
-
 # ---------------------------------------------------------------------------------
 #' A function
 #' @export
@@ -2366,340 +1885,6 @@ multistep_clean_dfs <- function(df, subsets = 2) {
     dplyr::distinct()
 }
 
-#' This function allows you to 
-#' @export
-#' @examples
-#' load_rdata_files()
-load_rdata_files <- function (files){
-  loaded <- lapply(files, function (x) 
-  {
-    f <- get(load(x))
-    f <- tryCatch(plyr::compact(f), 
-                  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), 
-                  error = function(e) f)  
-  })
-  
-  loaded <- tryCatch(dplyr::combine(dplyr::combine(loaded)), 
-                     error = function(e) {
-                       tryCatch(dplyr::combine(loaded), 
-                                error = function(e) loaded)
-                     })
-  loaded <- tryCatch(dplyr::combine(loaded), # not really necessary but just in case
-                     error = function(e) loaded)
-}
-
-
-#' A function
-#' @export
-#' @examples
-#' load_feather_files()
-load_feather_files <- function (files){
-  loaded <- lapply(files, function (x) 
-  {
-    f <- tryCatch(feather::read_feather(x), 
-                  error = function(e) x ) 
-    f <- tryCatch(plyr::compact(f), 
-                  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), 
-                  error = function(e) f)  
-  })
-  
-  loaded <- tryCatch(dplyr::combine(dplyr::combine(loaded)), 
-                     error = function(e) {
-                       tryCatch(dplyr::combine(loaded), 
-                                error = function(e) loaded)
-                     })
-  loaded <- tryCatch(dplyr::combine(loaded), # not really necessary but just in case
-                     error = function(e) loaded)
-  
-}
-
-#' A function
-#' @export
-#' @examples
-#' read_merge_write_feathers()
-read_merge_write_feathers <- function(filelist = NULL, 
-                                      inpath = NULL,
-                                      pattern = NULL,
-                                      newdir = NULL,
-                                      outpath = "~/",
-                                      filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", .) %>%
-    gsub("__", "_", .) %>%
-    gsub("^_|_$", "", .) %>%
-    gsub("^\\_|\\_$|^_|\\<_", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
-  
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_merge_feathers()
-read_merge_feathers <- function(filelist = NULL, 
-                                inpath = NULL,
-                                pattern = NULL, 
-                                recode_extra_na = F) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  loaded <- dplyr::distinct(loaded)
-  
-  if(recode_extra_na){
-    loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  
-  if(!is.null(loaded$name) & !is.null(loaded$gender) & !is.null(loaded$race)){
-    loaded <- dplyr::filter(loaded,# !is.na(name), 
-                            !is.na(gender) | !is.na(race))
-  }
-  loaded
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_feathers()
-read_feathers <- function(filelist = NULL, 
-                          inpath = NULL,
-                          pattern = NULL, bind=T,
-                          recode_extra_na = F){
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  loaded <- lapply(filelist, feather::read_feather) 
-  if(bind){
-    loaded <- dplyr::bind_rows(loaded)
-    loaded <- dplyr::distinct(loaded)
-    if(recode_extra_na) loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  loaded
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_rdas()
-read_rdas <- function(filelist = NULL, 
-                      inpath = NULL,
-                      pattern = NULL, bind=F,
-                      recode_extra_na = F){
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  loaded <- lapply(filelist, function(x) get(load(x))) 
-  if(bind){
-    loaded <- dplyr::bind_rows(loaded)
-    loaded <- dplyr::distinct(loaded)
-    if(recode_extra_na) loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  loaded
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_files_to_rda()
-read_files_to_rda <- function(filelist,
-                              path = "~/",
-                              filename_prefix = "nrg_data", col_types='text'){
-  
-  x <- filelist
-  
-  dir.create(dir_path <- paste0(path, "/", filename_prefix, "_dump") %>% 
-               stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-               stringr::str_replace_all(., "__", "_"))
-  
-  lapply(filelist, function (xx) {
-    
-    data <- tryCatch(feather::read_feather(xx), 
-                     error = function(e) NULL) 
-    
-    if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
-                       error = function(e) NULL) 
-    }
-    
-    if(is.null(data)){
-      data <- tryCatch(read_csv_files(xx), 
-                       error = function(e) NULL) 
-    }
-    
-    filename <- paste0(dir_path, "/", filename_prefix, 
-                       "_", 
-                       gsub("[^[:alnum:]]", "", xx), 
-                       "_", 
-                       "1", "to", nrow(data),
-                       ".rda") %>% 
-      stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-      stringr::str_replace_all(., "__", "_")
-    
-    
-    save(data, file = filename)
-  })
-  
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_rda_merge_write_feathers()
-read_rda_merge_write_feathers <- function(filelist = NULL, 
-                                          inpath = NULL,
-                                          pattern = NULL,
-                                          newdir = NULL,
-                                          outpath = "~/",
-                                          filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", ., perl = T) %>%
-      gsub("__", "_", ., perl = T)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  }
-  
-  loaded <- lapply(rdata, function (x){
-    x <- load(x)
-    x <- get(x)
-  })
-  
-  loaded <- try_combine_compact(loaded)
-  
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", ., perl = T) %>%
-    gsub("__", "_", ., perl = T) %>%
-    gsub("^_|_$", "", ., perl = T) %>%
-    gsub("\\<\\_|\\_\\>", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
-  
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_files_to_feather()
-read_files_to_feather <- function(filelist,
-                                  path = "~/",
-                                  filename_prefix = "nrg_data"){
-  
-  x <- filelist
-  
-  dir.create(dir_path <- paste0(path, "/", filename_prefix, "_dump") %>% 
-               stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-               stringr::str_replace_all(., "__", "_"))
-  
-  lapply(filelist, function (xx) {
-    
-    data <- tryCatch(feather::read_feather(xx), 
-                     error = function(e) NULL) 
-    
-    if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
-                       error = function(e) NULL) 
-      data <- dplyr::bind_rows(data) #%>% data.frame()
-    }
-    
-    if(is.null(data)){
-      data <- tryCatch(read_csv_files(xx), 
-                       error = function(e) NULL) 
-    }
-    
-    if(is.null(data)){
-      data <- data.frame(data, stringsAsFactors = F)
-    }
-    
-    filename <- paste0(dir_path, "/", filename_prefix, 
-                       "_", 
-                       gsub("[^[:alnum:]]", "", xx), 
-                       "_", 
-                       "1", "to", nrow(data),
-                       ".f") %>% 
-      stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-      stringr::str_replace_all(., "__", "_")
-    
-    
-    feather::write_feather(data, filename)
-    
-    # data.frame(dir = dir_path, filename = filename)
-  })
-  
-}
-
 
 #' A function
 #' @export
@@ -2713,10 +1898,6 @@ fix_encoding <- function(df, originalEncoding = "latin1") {
     }
   return(df)
 }
-
-
-
-
 
 
 
@@ -2745,27 +1926,20 @@ combine.lists <- function(list1, list2){
 
 
 
-
-
-
-#' A function
-#'
 #' This function allows you to 
 #' @export
 #' @examples
 #' alnum_period(x)
 alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
 #' alnum(x)
 alnum <- function(x) gsub("[^[:alnum:]]", "", x)
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -3241,52 +2415,47 @@ paste_regex_exact <- function(v, collapse='|') paste0('^', v, '$', collapse=coll
 #' This function allows you to 
 #' @export
 #' @examples
-#' paste_regex()
+#' paste_regex(v, collapse='|', exact=F)
 paste_regex <- function(v, collapse='|', exact=F){
   if(exact) paste_regex_exact(v)
   else paste_regex_partial(v)
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
 #' strip_num_trimws(v)
 strip_num_trimws <- function(v) trimws_(gsub('[[:digit:]]+', '', v))
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' clean_na_sep()
+#' clean_na_sep(v, sep='///')
 clean_na_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', trimws_(v), perl=T)) %>% 
   gsub(' ///|/// |//////', '///', ., perl=T) %>% 
   trimws_() %>% na_if_()
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' clean_na_sep_comma()
+#' clean_na_sep_comma(v, sep=', ')
 clean_na_sep_comma <- function(v, sep=', ') trimws_(gsub(', NA|NA, |^, |, $|^, |, $|^\\, |\\, $', '', trimws_(v), perl=T)) %>% 
   gsub(' , |,  |, , ', ', ', ., perl=T) %>% 
   trimws_() %>% na_if_()
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' clean_unique_sep()
+#' clean_unique_sep(v, sep='///')
 clean_unique_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', v, perl=T)) %>% 
   gsub(' ///|/// |//////', '///', ., perl=T) %>% 
   unique_sep(., sep=sep) %>% na_if_()
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -3800,15 +2969,18 @@ clean_str_strip_NAs <- function(v, sep=", ", sep2=NULL, sep3=NULL){
 #' @export
 #' @examples
 #' base_breaks(n = 10)
-base_breaks <- function(n = 10) function(x) grDevices::axisTicks(log10(range(x, na.rm=T)), log=T, n = n)
+base_breaks <- function(n = 10) function(x) {
+  grDevices::axisTicks(log10(range(x, na.rm=T)), log=T, n=n)
+}
 
 #' Samantha Rhoads's function to...
 #' @export
 #' @examples
 #' grepval(pattern, x, ignore.case=F, perl=F, value = T, fixed=F, useBytes=F, invert=F)
 grepval <- function (pattern, x, ignore.case=F, perl=F, value = T, fixed=F, useBytes=F, invert=F) {
-  if (!is.character(x)) 
-    x <- structure(as.character(x), names = names(x))
+  if (!is.character(x)){ 
+    x <- structure(as.character(x), names=names(x))
+  }
   .Internal(grep(as.character(pattern), x, ignore.case, value, 
                  perl, fixed, useBytes, invert))
 }
@@ -3839,7 +3011,7 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' unite_if()
+#' unite_if(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; ")
 unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_column", onlynewcol=F, sep="; "){
   d %>% select_if(fun) %>%
     unite_all(., clean=clean, remove=remove, newcol=newcol, onlynewcol=onlynewcol) %>% #.[[1]] %>% 
@@ -3850,7 +3022,7 @@ unite_if <- function(d, fun=is.factorchar, clean=T, remove=F, newcol="unite_all_
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' unite_at()
+#' unite_at(d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", onlynewcol = F, sep = "; ")
 unite_at <- function (d, fun = newcol, clean = T, remove = F, newcol = "unite_all_column", onlynewcol = F, sep = "; ") {
   d %>% dplyr::select(fun) %>% unite_all(., clean = clean, remove = remove, 
                                          newcol = newcol, onlynewcol = onlynewcol, sep=sep) %>% cbind(select(d, -fun), .)
@@ -3879,7 +3051,7 @@ mutate_listname_to_lod_column <- function(LoD, new_colname_for_listname="LISTNAM
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' datatable2()
+#' datatable2(x, vars = NULL, opts = NULL, caption=NULL, extensions = list(), ...)
 datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = list(), ...) {
   
   names_x <- names(x)
@@ -3949,8 +3121,9 @@ datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = l
   var format = function(d) {
   text = '<div><table >' + 
   "
-  
+  pkg('glue')
   for (i in seq_along(pos)) {
+    # text <- paste(text, glue::glue(
     text <- paste(text, glue::glue(
       "'<tr>' +
       '<td>' + '{names_x[pos[i]]}' + '</td>' +
@@ -3965,17 +3138,18 @@ datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = l
 }
 
 
-#' Samantha Rhoads's function to...
-#'
 #' Srhoads wrote this to allow you to...
 #' @export
-#' @examples
+#' @examples {geocode_by_cell('1156 Susan Way Sunnyvale, CA 94087')}; {geocode_by_cell('Stanford')}
 #' geocode_by_cell()
 geocode_by_cell <- function(v, replacewith=NULL) lapply(v, function(s){
+  ## ggmap VERSION REQUIRED (2.6.1):
+  # {install.packages("https://cran.r-project.org/src/contrib/Archive/ggmap/ggmap_2.6.1.tar.gz", type="source", repos=NULL); .rs.restartR(); library(ggmap)}
   if(is.null(replacewith)) replacewith <- s
   # tryCatch(geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_str_strip_NAs() %>% gsub(",", ", ", .) %>% trimws_(), error=function(e) s)
-  tryCatch(ggmap::geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_unique_sep(., ", ") %>% na_if_(), error=function(e) replacewith)
+  tryCatch(ggmap::geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_unique_sep(., ", ") %>% na_if_(), error=function(e) {cat('\n#geocode_by_cell() ERROR:\n'); print(e); replacewith})
 }) %>% unlist()
+
 
 #' Samantha Rhoads's function to...
 #' @export
@@ -4004,13 +3178,13 @@ str_extract_zip <- function (v, concat=T, collapse="; ", unique_sep=T) {
 #' Samantha Rhoads's function to...
 #' @export
 #' @examples
-#' extract_word_startswith_dollarsign()
-extract_word_startswith_dollarsign <- function(v) v %>% strsplit(" ") %>% sapply(., function(s) grep("\\$", s, value=T)[1]) %>% dplyr::combine()
+#' extract_word_startswith_dollarsign(v)
+extract_word_startswith_dollarsign <- function(v) {v %>% strsplit(" ") %>% sapply(., function(s) grep("\\$", s, value=T)[1]) %>% dplyr::combine()}
 
 #' Samantha Rhoads's function to...
 #' @export
 #' @examples
-#' statetoabb()
+#' statetoabb(v)
 statetoabb <- function (v) {
   v <- strip_punct(tolower(v), replacewithspace=F)
   st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
@@ -4036,7 +3210,7 @@ statetoabb <- function (v) {
 #' Samantha Rhoads's function to...
 #' @export
 #' @examples
-#' abbtostate()
+#' abbtostate(v)
 abbtostate <- function (v) {
   v <- strip_punct(tolower(v), replacewithspace=F)
   st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
@@ -4062,7 +3236,7 @@ abbtostate <- function (v) {
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' state2abb_or_abb2state()
+#' state2abb_or_abb2state(v, abb=F)
 state2abb_or_abb2state <- function(v, abb=F){
   st1 <- statetoabb(v) %>% abbtostate()
   st2 <- abbtostate(v)
@@ -4072,7 +3246,7 @@ state2abb_or_abb2state <- function(v, abb=F){
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' ()
+#' (v_abbr)
 state2region <- function(v_abbr){
   (v_abbr <- state2abb_or_abb2state(v_abbr, abb=T))
   vdf <- tibble(state.abb = tolower(v_abbr))
@@ -4125,36 +3299,36 @@ str_extract_money <- function(v) v %>%
 #' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
 #' @export
 #' @examples
-#' as_table_paste()
-as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) read.csv(text=pastedstuff, sep=sep, header=header)
+#' as_table_paste(pastedstuff, sep="\t", header=T)
+as_table_paste <- read_table_paste <- function(pastedstuff, sep="\t", header=T) {read.csv(text=pastedstuff, sep=sep, header=header)}
 
 #' Samantha Rhoads's function to copy something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output
 #'
 #' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from...
 #' @export
 #' @examples
-#' read_table()
-read_table <- function(pastedstuff, sep="\t", header=T) tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), error=function(e) read.table(text=pastedstuff, sep=sep))
+#' read_table(pastedstuff, sep="\t", header=T)
+read_table <- function(pastedstuff, sep="\t", header=T) {tryCatch(read.csv(text=pastedstuff, sep=sep, header=header), error=function(e) read.table(text=pastedstuff, sep=sep))}
 
 
 #' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to as_table_paste: read data table pasted from clipboard
 #' @export
 #' @examples
-#' read.table_fromClipboard()
+#' read.table_fromClipboard(pastedstuff, sep="\t", header=T)
 read.table_fromClipboard <- read_table
 
 
 #' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to as_table_paste: read data table pasted from clipboard. Same as read.table_fromClipboard too
 #' @export
 #' @examples
-#' read.csv_fromClipboard()
+#' read.csv_fromClipboard(pastedstuff, sep="\t", header=T)
 read.csv_fromClipboard <- read_table
 
 
 #' Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to `as_table_paste()`: read data table pasted from clipboard. Same as `read.table_fromClipboard()` and `read.csv_fromClipboard()` too
 #' @export
 #' @examples
-#' paste_table()
+#' paste_table(pastedstuff, sep="\t", header=T)
 paste_table <- read_table
 
 
@@ -4164,8 +3338,8 @@ paste_table <- read_table
 #' Srhoads wrote this to allow you to split a string between a lowercase and capital letter, as long as the letter after the uppercase one is a lowercase letter (loosly means you don't need the letter after the capital letter to be lowercase)
 #' @export
 #' @examples
-#' split_before_capital()
-split_before_capital <- function(x, sep=" ", loosly=F) if(!loosly) gsub('([[:lower:]])([[:upper:]])([[:lower:]])', paste0('\\1', sep, '\\2\\3'), x) else gsub('([[:lower:]])([[:upper:]])', paste0('\\1', sep, '\\2'), x)
+#' split_before_capital(x, sep=" ", loosly=F)
+split_before_capital <- function(x, sep=" ", loosly=F){ if(!loosly) gsub('([[:lower:]])([[:upper:]])([[:lower:]])', paste0('\\1', sep, '\\2\\3'), x) else gsub('([[:lower:]])([[:upper:]])', paste0('\\1', sep, '\\2'), x)}
 
 
 ########################################################################################################################
@@ -4198,7 +3372,7 @@ pkg <- function(package1, ..., dependencies=NA, import=T, unload=F) {
 #' This function allows you to load and/or install package first (tidyverse included by default)!
 #' @export
 #' @examples
-#' pkg_tidy()
+#' pkg_tidy(package1="tidyverse", ...)
 pkg_tidy <- function (package1="tidyverse", ...) {
   packages <- unique(c(c(package1, ...), "magrittr"))
   for (package in packages) {
@@ -4237,9 +3411,6 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 }  
 
 
-
-#' A function to load and/or install package first (holistic)!
-#'
 #' This function allows you to load and/or install package first (holistic)!
 #' `pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)
 #' @export
@@ -4311,7 +3482,7 @@ gbsum <- group_by_summary <- group_by_summarize <- function(d, var=NULL){
 #' This function allows you to both return and print output at the same time, but not redundantly. You know when you run a function in R but don't assign the output to anything & it returns what you ran in the console? But not when you assign it to something? Well now you can print/cat & assign, but still get the stuff returned how intend. AND it won't return twice in the console--just one cute lil time. You can choose between `print` or `cat` as your desired output to the console.
 #' @export
 #' @examples 
-#' printurn(stuff, cat=T) 
+#' printurn(stuff, how=c("cat", "print")) 
 printurn <- caturn <- function(stuff, how=c("cat", "print")){
   how <- match.arg(how)
   if(how=="cat") tryCatch(cat(stuff, "\n"), error=function(e) print(stuff))
@@ -4322,7 +3493,7 @@ printurn <- caturn <- function(stuff, how=c("cat", "print")){
 #' This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
 #' @export
 #' @examples 
-#' catn(d) 
+#' catn(..., file = "", sep = " ", fill=F, labels = NULL, append=F, collapse=" ") 
 catn <- function(..., file = "", sep = " ", fill=F, labels = NULL, append=F, collapse=" "){
   cat("\n", paste0(..., collapse = collapse), "\n", 
       file=file, sep = sep, fill = fill, labels = labels, append = append)
@@ -4346,7 +3517,6 @@ donothing <- function(x){
 #' arrange_by_na(d)
 arrange_by_na <- function (d) { d %>% dplyr::arrange(rowSums(is.na(.)))}
 
-
 #' Function to arrange a dataframe by MOST NAs first (at the top of the dataset/earliest rows).
 #' @export
 #' @examples {D <- data.frame(id=1:5, gender=c("F", "M", NA, "F", NA), race=c(3, 5, NA, 7, NA))}; arrange_by_na_desc(D); 
@@ -4362,29 +3532,29 @@ arrange_by_na_desc <- function(d){
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' is.POSIX()
-is.POSIX <- function(v) if(any(grepl("POSIX", class(v)))) T else F
+#' is.POSIX(v)
+is.POSIX <- function(v){ if(any(grepl("POSIX", class(v)))) T else F}
 
 
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' is.Date()
-is.Date <- function(v) if(any(class(v)=="Date")|is.POSIX(v)) T else F
+#' is.Date(v)
+is.Date <- function(v) {if(any(class(v)=="Date")|is.POSIX(v)) T else F}
 
 #' Samantha Rhoads's function to...
 #'
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' is.Date.class()
-is.Date.class <- function(v) if(all(class(v)=="Date")) T else F
+#' is.Date.class(v)
+is.Date.class <- function(v){ if(all(class(v)=="Date")) T else F}
 
 
 #' Jason originally wrote this to allow you to find the closest date in your piece of data to a given date you choose, like mathcing them up. Now it's Samantha Rhoads's function to find the closest date
 #' @export
 #' @examples
-#' closest()
+#' closest(x, y, type=NA)
 closest <- function(x, y, type=NA) {
   if ((length(x) == 0) | (length(y) == 0)) return(rep(F, length(y)))
   
@@ -4416,7 +3586,7 @@ closest <- function(x, y, type=NA) {
 #' Srhoads wrote this to allow you to get the length of the object and sumry of the object in one call (see `sumry()` for details on that type of summary)
 #' @export
 #' @examples
-#' sumrys()
+#' sumrys(x, n=7)
 sumrys <- function(x, n=7){
   list(dim_or_length = tryCatch(dim(x), error=function(e) length(x)),
        sumry = sumry(x, n)#,
@@ -4428,13 +3598,13 @@ sumrys <- function(x, n=7){
 #' @export
 #' @examples
 #' sysdate()
-sysdate <- sysdateYMD <- function() format(Sys.Date(), format="%Y%m%d")
+sysdate <- sysdateYMD <- function(){format(Sys.Date(), format="%Y%m%d")}
 
 #' Samantha Rhoads's function to return today's date in mmddyyyy format (no punctuation)
 #' @export
 #' @examples
 #' sysdateMDY()
-sysdateMDY <- function() format(Sys.Date(), format="%m%d%Y")
+sysdateMDY <- function(){format(Sys.Date(), format="%m%d%Y")}
 
 ########################################################################################################################
 
@@ -4444,9 +3614,8 @@ sysdateMDY <- function() format(Sys.Date(), format="%m%d%Y")
 #' Samantha Rhoads's function to return the most recent versions of files based on a given pattern of characters of its name
 #' @export
 #' @examples
-#' getMostRecentFiles()
-getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, 
-                               recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F){
+#' getMostRecentFiles(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F)
+getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F){
   fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
   if(printfilenames){print(fns)}
   if(desc) {
@@ -4468,7 +3637,7 @@ getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.fi
 #' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (edited 20200226)
 #' @export
 #' @examples
-#' is.nanull()
+#' is.nanull(x)
 is.nanull <- function(x){
   tryCatch({
     all(is.na(x)) | is.null(x)
@@ -4496,31 +3665,27 @@ excelToDateIf5DigitStr <- function(v){
 #' @examples
 #' excelToDateIf5DigitStrAndManyDigitTime(v)
 excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"...or... "43467 402791006942"
-  v %>%
-    {
-      v <- .
-      if(
-        all(
-          unique(nchar(na.omit(
-            v %>% word(1) %>% gsub("[^[:digit:]]", "", .)
-          )))==5
-        ) & all(
-          unique(nchar(na.omit(
-            v %>% word(2) %>% gsub("[[:digit:]]", "", .)
-          )))==0
-        )
-      ){
-        v <- word(v, 1)
-        v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
-      } else {
-        if(any(grepl("\\.", v))&!is.Date.class(v)){
-          v <- gsub("\\.", " ", v)
-          v <- word(v, 1)
-          v <- tryCatch(lubridate::date(janitor::excel_numeric_to_date(as.numeric(v))), error=function(e) v)
-        }
-      }
-      v
+  if(
+    all(
+      unique(nchar(na.omit(
+        v %>% word(1) %>% gsub("[^[:digit:]]", "", .)
+      )))==5
+    ) & all(
+      unique(nchar(na.omit(
+        v %>% word(2) %>% gsub("[[:digit:]]", "", .)
+      )))==0
+    )
+  ){
+    v <- word(v, 1)
+    v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+  } else {
+    if(any(grepl("\\.", v))&!is.Date.class(v)){
+      v <- gsub("\\.", " ", v)
+      v <- word(v, 1)
+      v <- tryCatch(lubridate::date(janitor::excel_numeric_to_date(as.numeric(v))), error=function(e) v)
     }
+  }
+  return(v)
 }
 
 
@@ -4557,49 +3722,49 @@ extract_date <- function(v) {
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' fillr()
-fillr <- function(df2, ID='ID'){
+#' fillr(df, ID='ID')
+fillr <- function(df, ID='ID'){
   cat("fillr()\n")
-  df2 <- na_if_(df2)
-  df2[['var']] <- df2[[ID]]
-  df2 %<>% dplyr::group_by(var) %>%
+  df <- na_if_(df)
+  df[['var']] <- df[[ID]]
+  df %<>% dplyr::group_by(var) %>%
     na_if_() %>%
     tidyr::fill(-var) %>%
     na_if_() %>%
     tidyr::fill(-var, .direction='up') %>%
     na_if_() %>%
     dplyr::distinct()
-  # df2 %>% select(-matches('^var$'))
-  df2 <- df2[, -ncol(df2)]
+  # df %>% select(-matches('^var$'))
+  df <- df[, -ncol(df)]
   print(paste0('fillr: ', ID))
-  df2
-  # dplyr::distinct(df2)
+  df
+  # dplyr::distinct(df)
 }
 
 
 #' Samantha Rhoads's function fillr2
 #' @export
 #' @examples
-#' fillr2()
-fillr2 <- function(df2, ID='ID'){
-  DATE_COLUMN_NAMES <- df2 %>% select_if(is.Date.class) %>% names()
-  df2 %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), as.character)
-  df2 <- na_if_(df2)
-  df2[['var']] <- df2[[ID]]
-  df2 %<>% dplyr::group_by(var) %>%
+#' fillr2(df, ID='ID')
+fillr2 <- function(df, ID='ID'){
+  DATE_COLUMN_NAMES <- df %>% select_if(is.Date.class) %>% names()
+  df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), as.character)
+  df <- na_if_(df)
+  df[['var']] <- df[[ID]]
+  df %<>% dplyr::group_by(var) %>%
     tidyr::fill(-var) %>%
     tidyr::fill(-var, .direction='up')
-  df2 <- df2[, -ncol(df2)]
+  df <- df[, -ncol(df)]
   cat(paste0('fillr3: ', ID))
-  df2 %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
-  df2
+  df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
+  df
 }
 
 
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' DT_NAs_red_background()
+#' DT_NAs_red_background(DTdatatable)
 DT_NAs_red_background <- function(DTdatatable){
   cat("\n", "DT_NAs_red_background()", "\n")
   # DTdatatable$x$data <- DTdatatable$x$data %>% mutate_all(., function(v) replace_na(v, "<center>-</center>"))
@@ -4667,8 +3832,7 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
 }
 
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4692,8 +3856,7 @@ dt_condensed <- function(df, pageLength=nrow(df)){
   )
 }
 
-#' Samantha Rhoads's function to...
-#'
+
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
@@ -4754,13 +3917,13 @@ dt_sumry <- function(dftosumry, pageLength=nrow(df)){
 #' Samantha Rhoads's function to generate a random string
 #' @export
 #' @examples
-#' rand_str()
-rand_str <- function(n=1, length=10, pattern = "[a-zA-Z0-9]") stringi::stri_rand_strings(n = n, length = length, pattern = pattern)
+#' rand_str(n=1, length=10, pattern = "[a-zA-Z0-9]")
+rand_str <- function(n=1, length=10, pattern = "[a-zA-Z0-9]"){stringi::stri_rand_strings(n = n, length = length, pattern = pattern)}
 
 #' Samantha Rhoads's function removes all special characters and spaces
 #' @export
 #' @examples
-#' kill_special_space()
+#' kill_special_space(text)
 kill_special_space <- function(text) {
   stringr::str_replace_all(stringr::str_replace_all(text, "[^[:alnum:][:space:]]", ""), " ", "")
 }
@@ -4769,7 +3932,6 @@ kill_special_space <- function(text) {
 # January 10, 2020 (20200110) ##########################################################################################################################
 
 #' Samantha Rhoads's function returns R package URLs for a given input package. Great if you need to install old package versions by their zipped/compressed tar.gz URL from cran
-#'
 #' Srhoads wrote this to allow you to get versions of packages. You can return the whole package version URL if desired too, ie: input "devtools" and get "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.0.2.tar.gz" and other versions as a vector
 #' @export
 #' @examples
@@ -4790,7 +3952,6 @@ getPackageVersions <- function(pkg = "devtools", sortNewToOld=T, getFullURL=T){
 
 
 #' Samantha Rhoads's function to extract a date of 8 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing.
-#'
 #' Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_eightDigitDate(string="I am Sam and I was born on 01-17-1996. Today is 20201001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-17-1996" and "20201001" in it at various places 
 #' @export
 #' @examples
@@ -4815,7 +3976,6 @@ extract_eightDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
 
 
 #' Samantha Rhoads's function to extract a date of 6 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing. A 6 digit date is like "01-2019" or "202001" or "01/2020" 
-#'
 #' Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_sixDigitDate(string="I am Sam and I was born on 01-1996. Today is 202001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-1996" and "202001" in it at various places 
 #' @export
 #' @examples

@@ -4,11 +4,11 @@
 \alias{fillr}
 \title{Srhoads wrote this to allow you to...}
 \usage{
-fillr(df2, ID = "ID")
+fillr(df, ID = "ID")
 }
 \description{
 Srhoads wrote this to allow you to...
 }
 \examples{
-fillr()
+fillr(df, ID='ID')
 }

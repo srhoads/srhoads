@@ -10,5 +10,5 @@ is.nanull(x)
 Srhoads wrote this to allow you to check if all of a variable is NA or NULL (edited 20200226)
 }
 \examples{
-is.nanull()
+is.nanull(x)
 }

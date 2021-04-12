@@ -2,7 +2,8 @@
 % Please edit documentation in R/functions.R
 \name{pkg3}
 \alias{pkg3}
-\title{A function to load and/or install package first (holistic)!}
+\title{This function allows you to load and/or install package first (holistic)!
+`pipes` arg Refers to loading the `magrittr` package to get its pipes (`%<>%`)}
 \usage{
 pkg3(
   package1 = NULL,

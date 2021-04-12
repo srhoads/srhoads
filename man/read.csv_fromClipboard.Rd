@@ -10,5 +10,5 @@ read.csv_fromClipboard(pastedstuff, sep = "\\t", header = T)
 Srhoads wrote this to allow you to copy/paste from clipboard something that looks like a dataframe (formatted like a dataframe) from a webpage/website & paste it in this function as one string & get a dataframe object back as output. Alternative names could have been (but do not actually work) read.table_as... read.table_paste... read.table_from... read_table_as... read_table_paste... read_table_from... Same as read_table, similar to as_table_paste: read data table pasted from clipboard. Same as read.table_fromClipboard too
 }
 \examples{
-read.csv_fromClipboard()
+read.csv_fromClipboard(pastedstuff, sep="\t", header=T)
 }

@@ -2,11 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{extract_eightDigitDate}
 \alias{extract_eightDigitDate}
-\title{Samantha Rhoads's function to extract a date of 8 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing.}
+\title{Samantha Rhoads's function to extract a date of 8 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing.
+Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_eightDigitDate(string="I am Sam and I was born on 01-17-1996. Today is 20201001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-17-1996" and "20201001" in it at various places}
 \usage{
 extract_eightDigitDate(string, sep = c("-", "\\\\.", "/", ""))
 }
 \description{
+Samantha Rhoads's function to extract a date of 8 digits from a string. `sep` is the character that separates parts of a date, ie: dash or slash or nothing.
 Srhoads wrote this to allow you to extract a date of 8 digits from a string, ie: `extract_eightDigitDate(string="I am Sam and I was born on 01-17-1996. Today is 20201001.", sep=c("-", "\\.", "/", ""))` returns a hierarchical list with: "01-17-1996" and "20201001" in it at various places
 }
 \examples{

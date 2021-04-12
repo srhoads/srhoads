@@ -18,5 +18,5 @@ catn(
 This function is like `cat` but is wrapped in `\\n` (line breaks). It prints with formatting, and without quotes. Look at `cat`'s documentation for details
 }
 \examples{
-catn(d) 
+catn(..., file = "", sep = " ", fill=F, labels = NULL, append=F, collapse=" ") 
 }

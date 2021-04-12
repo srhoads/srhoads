@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{cleanpath}
 \alias{cleanpath}
-\title{A function}
+\title{This function allows you to}
 \usage{
 cleanpath(x)
 }

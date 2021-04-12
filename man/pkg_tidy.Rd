@@ -10,5 +10,5 @@ pkg_tidy(package1 = "tidyverse", ...)
 This function allows you to load and/or install package first (tidyverse included by default)!
 }
 \examples{
-pkg_tidy()
+pkg_tidy(package1="tidyverse", ...)
 }

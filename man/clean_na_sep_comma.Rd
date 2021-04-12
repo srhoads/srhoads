@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{clean_na_sep_comma}
 \alias{clean_na_sep_comma}
-\title{A function}
+\title{This function allows you to}
 \usage{
 clean_na_sep_comma(v, sep = ", ")
 }
@@ -10,5 +10,5 @@ clean_na_sep_comma(v, sep = ", ")
 This function allows you to
 }
 \examples{
-clean_na_sep_comma()
+clean_na_sep_comma(v, sep=', ')
 }

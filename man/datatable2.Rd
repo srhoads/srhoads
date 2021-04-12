@@ -17,5 +17,5 @@ datatable2(
 Srhoads wrote this to allow you to...
 }
 \examples{
-datatable2()
+datatable2(x, vars = NULL, opts = NULL, caption=NULL, extensions = list(), ...)
 }
