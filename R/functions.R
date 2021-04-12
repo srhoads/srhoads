@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "R/Python fxns cleanup"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "R/Python fxns cleanup; rm_ds_store() fxn written"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -3416,9 +3416,7 @@ install.packages_wrapper <- function(package,  dependencies = NA, githubrepo=NUL
 #' @export
 #' @examples
 #' pkg3(package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType"))
-pkg3 <- pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL,
-                          repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), 
-                          type = getOption("pkgType")) {
+pkg3 <- pkg2 <- function (package1=NULL, ..., pipes=F, dependencies=NA, githubrepo=NULL, repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"), type = getOption("pkgType")) {
   if(is.null(package1)) package1 <- "tidyverse"
   packages <- unique(c(package1, ...))
   if(pipes) packages <- unique(c(packages, "magrittr"))
@@ -4512,13 +4510,22 @@ as_numeric <- function(v, suppresswarnings=T){
   return(v_)
 }
 
+#' This function is a system wrapper to delete silly .DS_Store files
+#' @export
+#' @examples
+#' rm_ds_store(v, suppresswarnings=T)
+rm_ds_store <- function(){
+  system("rm -f .DS_Store")
+}
+
+
 #' Samantha Rhoads's function to
 #' @export
 #' @examples
 #' dbDisconnectAll(drivername='PostgreSQL')
 dbDisconnectAll <- function(drivername='PostgreSQL'){
   (cons <- DBI::dbListConnections(DBI::dbDriver(drivername))); # RPostgres::dbDisconnect(cons[[3]])
-  lapply( cons, function(x) dbDisconnect(x) )
+  lapply( cons, function(x) DBI::dbDisconnect(x) )
   cat(sprintf("%s connection(s) closed.\n",  length(cons)))
 }
 
