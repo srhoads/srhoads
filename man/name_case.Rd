@@ -10,5 +10,5 @@ name_case(v)
 A function
 }
 \examples{
-name_case()
+name_case(v)
 }

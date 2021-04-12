@@ -10,5 +10,5 @@ round4(num)
 A function
 }
 \examples{
-round4()
+round4(num)
 }

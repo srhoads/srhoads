@@ -10,5 +10,5 @@ filter_list(l, is)
 A function
 }
 \examples{
-filter_list()
+filter_list(l, is)
 }

@@ -10,5 +10,5 @@ firstname_wmiddle(v)
 A function
 }
 \examples{
-firstname_wmiddle()
+firstname_wmiddle(v)
 }

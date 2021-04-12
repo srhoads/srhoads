@@ -10,5 +10,5 @@ alnum_period(x)
 This function allows you to
 }
 \examples{
-alnum_period()
+alnum_period(x)
 }

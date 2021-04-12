@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{trimws_}
 \alias{trimws_}
-\title{A function}
+\title{This function allows you to trim whitespace but also remove double spaces}
 \usage{
 trimws_(v, which = "both", doublespace = T)
 }
 \description{
-This function allows you to
+This function allows you to trim whitespace but also remove double spaces
 }
 \examples{
 trimws_(v, which='both', doublespace=T)

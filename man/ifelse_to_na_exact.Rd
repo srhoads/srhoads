@@ -10,5 +10,5 @@ ifelse_to_na_exact(v, na_vec)
 This function allows you to
 }
 \examples{
-ifelse_to_na_exact()
+ifelse_to_na_exact(v, na_vec)
 }

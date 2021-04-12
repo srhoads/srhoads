@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "tried removing quanteda dependency bc it breaks with proxyC when deploying apps to RStudio Connect sometimes"') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "R fxns added from censuscodeassign; python fxns cleanup+added from diversity-planning-project; other cleanup R/Python"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 
@@ -1128,8 +1128,8 @@ dply_to_title <- string_to_title <- vecs_to_title <- to_title <- function(x, str
 gsub_ply <- function(from, to, x, ignore.case=T, num=T) ply(x, function(xx) gsub(from, to, xx, ignore.case=ignore.case), num=num)
 
 
-# `%>%` <- magrittr::`%>%` 
-# `%<>%` <- magrittr::`%<>%`
+`%>%` <- magrittr::`%>%`
+`%<>%` <- magrittr::`%<>%`
 
 ## Loads pipes (`%>%` and `%<>%`) into R env
 #' @export
@@ -2753,7 +2753,7 @@ combine.lists <- function(list1, list2){
 #' This function allows you to 
 #' @export
 #' @examples
-#' alnum_period()
+#' alnum_period(x)
 alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
 
 #' A function
@@ -2761,7 +2761,7 @@ alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
 #' This function allows you to 
 #' @export
 #' @examples
-#' alnum()
+#' alnum(x)
 alnum <- function(x) gsub("[^[:alnum:]]", "", x)
 
 #' A function
@@ -2769,7 +2769,7 @@ alnum <- function(x) gsub("[^[:alnum:]]", "", x)
 #' This function allows you to 
 #' @export
 #' @examples
-#' cleanpath()
+#' cleanpath(x)
 cleanpath <- function(x){
   x %<>% 
     gsub("\\/\\/", "\\/",. ) %>% 
@@ -2784,24 +2784,38 @@ cleanpath <- function(x){
 #' A function
 #' @export
 #' @examples
-#' round5()
+#' round5(num)
 round5 <- function(num) formatC(num, width = 5, format = "d", flag = "0")
 
 #' A function
 #' @export
 #' @examples
-#' round4()
+#' round4(num)
 round4 <- function(num) formatC(num, width = 4, format = "d", flag = "0")
 
 
-#' A function
-#'
+#' A function to round intuitively based on how many digits the percentage number is + how much space you want to take up
+#' @export
+#' @examples
+#' round_intuitively(x, roundby=2)
+round_intuitively <- function(x, roundby=2){
+  x <- #ifelse(x < .01, round(x, roundby+1), 
+    ifelse(x < .1, round(x, roundby+1), 
+           ifelse(x < 1, round(x, roundby),
+                  ifelse(x > 1 & x < 10, round(x, max(roundby-1, 1)),
+                         round(x))))
+  # x <- ifelse(x < 1, round(x, roundby), round(x, roundby-2))
+  # if(!is.null(roundby)) x <- round(x, roundby)
+  x
+}
+
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' lastname_wmiddle()
+#' lastname_wmiddle(v)
 lastname_wmiddle <- function(v){
-  v %<>% gsub( ", ", ",", .) %>% 
+  v <- v %>% gsub( ", ", ",", .) %>% 
     gsub( ",.*$", "", .) %>% 
     gsub( "^\\S* ", "", .)
   v
@@ -2810,9 +2824,9 @@ lastname_wmiddle <- function(v){
 #' A function
 #' @export
 #' @examples
-#' firstname_wmiddle()
+#' firstname_wmiddle(v)
 firstname_wmiddle <- function(v){
-  v %<>% gsub( ", ", ",", .) %>% 
+  v <- v %>% gsub( ", ", ",", .) %>% 
     gsub( "^.*,", "", .) %>% 
     gsub( " \\S*$", "", .)
   v
@@ -2821,15 +2835,15 @@ firstname_wmiddle <- function(v){
 #' A function
 #' @export
 #' @examples
-#' lastname_after_space_when_nocomma()
+#' lastname_after_space_when_nocomma(v)
 lastname_after_space_when_nocomma <- function(v) ifelse(grepl(" ",v) & !grepl(",",v), stringr::word(v,-1), NA)
 
 #' A function
 #' @export
 #' @examples
-#' firstname_nomiddle()
+#' firstname_nomiddle(v)
 firstname_nomiddle <- function(v){
-  v %<>% 
+  v <- v %>% 
     firstname_wmiddle() %>%
     trimws(., which="both") %>% 
     stringr::word(., 1)
@@ -2850,7 +2864,6 @@ firstname_postcomma <- function(x){
     trimws(., which="both")
   x
 }
-
 
 #' A function
 #' @export
@@ -2885,8 +2898,7 @@ namesplit <- function(df, dfincase){
   df
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -2899,12 +2911,11 @@ gather_namesplit <- function(df){
   df
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' ()
+#' gather_namesplit_clean(df)
 gather_namesplit_clean <- function(df){
   df %<>% lapply(., function(x){
     x <- stringi::stri_enc_toutf8(x) %>%
@@ -2992,17 +3003,11 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 
 
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' trimws_v()
-trimws_v <- function(v, which='both', doublespace=T) if(doublespace) gsub('   |  ', ' ', trimws(v, which=which)) else trimws(v, which=which)
 
-#' A function
-#'
-#' This function allows you to 
+
+
+
+#' This function allows you to trim whitespace but also remove double spaces
 #' @export
 #' @examples
 #' trimws_(v, which='both', doublespace=T)
@@ -3015,13 +3020,21 @@ trimws_ <- function(v, which='both', doublespace=T){
   v
 }
 
-#' A function
-#'
 #' This function allows you to 
 #' @export
 #' @examples
-#' trimws_df(x, which='both', doublespace=T)
-trimws_df <- function(x, which='both', doublespace=T) dplyr::mutate_all(x, function(v) trimws_v(v, doublespace=doublespace, which=which))
+#' trimws_v(v, which='both', doublespace=T)
+trimws_v <- trimws_
+
+
+#' This function allows you to trimws on your whole dataframe (but just character and factor variables)
+#' @export
+#' @examples
+#' trimws_df(x, which='both', doublespace=T, on_factor_vars=T)
+trimws_df <- function(x, which='both', doublespace=T) {
+  fun <- if(on_factor_vars){is.factorchar} else {is.character}
+  dplyr::mutate_if(x, fun, function(v) trimws_(v, doublespace=doublespace, which=which))
+}
 
 #' A function
 #' @export
@@ -3037,7 +3050,7 @@ na_if_ <- function(x, na_if_Unknown=T){
 #' A function
 #' @export
 #' @examples
-#' newdate()
+#' newdate(v)
 newdate <- function(v) lubridate::mdy_hm(v) %>% lubridate::date()
 
 #' A function
@@ -3050,12 +3063,11 @@ unique_sep <- function(v, sep='; '){
   lapply(uniqv, function(s) paste0(s, collapse=sep)) %>% dplyr::combine() %>% as.character()
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' format_initial()
+#' format_initial(v, upper=T)
 format_initial <- function(v, upper=T){
   v <- gsub("\\s([[:alpha:]])\\s"," \\1. ", v)
   v <- gsub("^([[:alpha:]])\\s","\\1. ", v)
@@ -3066,18 +3078,17 @@ format_initial <- function(v, upper=T){
   trimws_(v)
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' toupper_l1()
+#' toupper_l1(v)
 toupper_l1 <- function(v) gsub("\\b(\\w)", "\\U\\1", v, perl=T)
 
 #' A function
 #' @export
 #' @examples
-#' name_case()
+#' name_case(v)
 name_case <- function(v) toupper_l1(tolower(v))
 
 #' A function
@@ -3097,7 +3108,7 @@ clean_str <- function(v){
 #' A function
 #' @export
 #' @examples
-#' format_pasted_name()
+#' format_pasted_name(name)
 format_pasted_name <- function(name){
   name <- trimws_(gsub(' NA|NA ', '', name))
   name <- clean_str(name)
@@ -3109,45 +3120,39 @@ format_pasted_name <- function(name){
   name
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' remove_after_char()
+#' remove_after_char(v, sep=' ')
 remove_after_char <- function(v, sep=' ') gsub(paste0(sep, ".*"),"", v)
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' extract_words_w_nums()
+#' extract_words_w_numsv()
 extract_words_w_nums <- function(v) sapply(stringr::str_extract_all(v, '[A-Za-z]*[0-9]+[A-Za-z]*'), paste, collapse=' ')
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' na_if_all_digits()
+#' na_if_all_digits(v)
 na_if_all_digits <- function(v) gsub(paste_regex(c(1:2000), exact=T), NA, v, ignore.case = T)
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' join_full()
+#' join_full(l, type='full')
 join_full <- function(l, type='full') plyr::join_all(l, type=type)
 
 
-#' A function
-#'
-#' This function allows you to 
+#' This function allows you to make a DT datatable with better defaults in my opinion
 #' @export
 #' @examples
-#' datatable_()
+#' datatable_(d)
 datatable_ <- function(d){
   DT::datatable(d, rownames=F,
                 options = list(pageLength = 5000, 
@@ -3160,12 +3165,11 @@ datatable_ <- function(d){
   
 }
 
-#' A function
-#'
+
 #' This function allows you to 
 #' @export
 #' @examples
-#' df_to_vec()
+#' df_to_vec(df)
 df_to_vec <- function(df) as.character(unlist(df))
 
 #' A function
@@ -3173,7 +3177,7 @@ df_to_vec <- function(df) as.character(unlist(df))
 #' This function allows you to 
 #' @export
 #' @examples
-#' ifelse_to_na_exact()
+#' ifelse_to_na_exact(v, na_vec)
 ifelse_to_na_exact <- function(v, na_vec) ifelse(tolower(v) %in% tolower(na_vec), NA, v)
 
 #' A function
@@ -3181,7 +3185,7 @@ ifelse_to_na_exact <- function(v, na_vec) ifelse(tolower(v) %in% tolower(na_vec)
 #' This function allows you to 
 #' @export
 #' @examples
-#' ifelse_to_na_partial()
+#' ifelse_to_na_partial(v, na_vec)
 ifelse_to_na_partial <- function(v, na_vec) ifelse(grepl(paste_regex(na_vec), v), NA, v)
 
 #' A function
@@ -3189,7 +3193,7 @@ ifelse_to_na_partial <- function(v, na_vec) ifelse(grepl(paste_regex(na_vec), v)
 #' This function allows you to 
 #' @export
 #' @examples
-#' ifelse_to_na()
+#' ifelse_to_na(v, na_vec, exact=T)
 ifelse_to_na <- function(v, na_vec, exact=T) if(exact) ifelse_to_na_exact(v, na_vec) else ifelse_to_na_partial(v, na_vec)
 
 #' A function
@@ -3197,7 +3201,7 @@ ifelse_to_na <- function(v, na_vec, exact=T) if(exact) ifelse_to_na_exact(v, na_
 #' This function allows you to 
 #' @export
 #' @examples
-#' unlist_as_char()
+#' unlist_as_char(df)
 unlist_as_char <- function(df) as.character(unlist(df))
 
 #' A function
@@ -3205,7 +3209,7 @@ unlist_as_char <- function(df) as.character(unlist(df))
 #' This function allows you to 
 #' @export
 #' @examples
-#' sort_df_columns()
+#' sort_df_columns(df)
 sort_df_columns <- function(df) df %>% dplyr::select(sort(names(.)))
 
 #' A function
@@ -3248,7 +3252,7 @@ paste_regex <- function(v, collapse='|', exact=F){
 #' This function allows you to 
 #' @export
 #' @examples
-#' strip_num_trimws()
+#' strip_num_trimws(v)
 strip_num_trimws <- function(v) trimws_(gsub('[[:digit:]]+', '', v))
 
 #' A function
@@ -3298,7 +3302,7 @@ drop_rows_all_na <- function(x, pct=1) x[!rowSums(is.na(x)) >= ncol(x)*pct,]
 #' A function
 #' @export
 #' @examples
-#' nna()
+#' nna(x)
 nna <- function(x) sum(is.na(x))
 
 #' A function
@@ -3343,13 +3347,13 @@ lsetdiff <- function(l1, l2){ l1[!(l1 %in% l2)] } # same as identical() i believ
 #' A function
 #' @export
 #' @examples
-#' lapply2()
+#' lapply2(l, fxn)
 lapply2 <- function(l, fxn){ lapply(l, function(ll) lapply(ll, fxn))}
 
 #' A function
 #' @export
 #' @examples
-#' filter_list()
+#' filter_list(l, is)
 filter_list <- filter_l <- function(l, is){
   l_is <- lapply(l, is)
   l[l_is==T]
@@ -5187,13 +5191,18 @@ preview_hex_colors <- function(hexs = c("#b41e3b", "#337ab7", "#f37036", "#43444
 #' @export
 #' @examples
 #' set_names_skip_rows_until_match(d, example_colname="Employee ID", check_n_rows=100)
-set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", check_n_rows=100){
-  if(!(example_colname %in% names(d))){
+set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", check_n_rows=100, doEvenIfColnameIsAlreadyIt=F){
+  if (!(example_colname %in% names(d))|doEvenIfColnameIsAlreadyIt) {
     colnames_rownum <- grep_all_df(example_colname, d[1:check_n_rows, ], rownums_only=T)[1]
-    if (length(colnames_rownum) > 0) d <- d %>% setNames(as.character(.[colnames_rownum, ]) %>% gsub('^$|\\`', 'UNNAMED', .) %>% replace_na('NA') %>% make.unique()) %>% slice(-(1:colnames_rownum))
+    dNewNames <- as.character(d[colnames_rownum, ]) %>% gsub('^$|\\`', 'UNNAMED', .) %>% replace_na(., "NA.0") %>% make.unique()
+    if ((length(colnames_rownum)>0)&!is.na(colnames_rownum)) {
+      d <- d %>% setNames(dNewNames) %>% slice(-(1:colnames_rownum))
+    }
   }
-  d %>% setNames(make.unique(names(.)))
+return(d %>% setNames(make.unique(names(.))))
 }
+
+
 
 #' Samantha Rhoads's function to assign column names by skipping the appropriate number of rows in a dataframe before the actual column names. Uses a reference name.
 #' @export
@@ -5332,6 +5341,331 @@ mutate_col_if_not_exists <- function(d, var='YOS_Y'){
 
 
 # 03 26, 2021 (20210326) ##########################################################################################################################
+
+
+#' This function is same as as.numeric or readr::parse_number but u can do it on more than just a character vector + u can suppress the annoying warnings
+#' @export
+#' @examples
+#' as_numeric(v, suppresswarnings=T)
+as_numeric <- function(v, suppresswarnings=T){
+  v_ <- if(suppresswarnings){suppressWarnings(readr::parse_number(as.character(v)))} else {readr::parse_number(as.character(v))}
+  return(v_)
+}
+
+#' Samantha Rhoads's function to
+#' @export
+#' @examples
+#' dbDisconnectAll(drivername='PostgreSQL')
+dbDisconnectAll <- function(drivername='PostgreSQL'){
+  (cons <- DBI::dbListConnections(DBI::dbDriver(drivername))); # RPostgres::dbDisconnect(cons[[3]])
+  lapply( cons, function(x) dbDisconnect(x) )
+  cat(sprintf("%s connection(s) closed.\n",  length(cons)))
+}
+
+#' Samantha Rhoads's function to connect to an azure file share + return specific parameters or objects depending on what you want
+#' @export
+#' @examples
+#' connect_to_azure_file_share(share_name="somestring", storage_name="somestringalso", azure_key="somelongstringugetfromazureportal", return_share=F)
+connect_to_azure_file_share <- function(share_name="somestring", storage_name="somestringalso", azure_key="somelongstringugetfromazureportal", return_share=F){
+  pkg("AzureRMR", "AzureStor")
+  endp_link <- paste0("https://", storage_name, ".file.core.windows.net/") 
+  share_link <- paste0(endp_link, share_name)
+  file_endp <- file_endpoint(endp_link, key=azure_key)
+  share <- file_share(share_link, key=azure_key)
+  if(return_share) {
+    return(share)
+  } else {
+    container <- storage_container(file_endp, name=share_name) # fileStores <- list_azure_files(container))$name
+    return(container)
+  }
+}
+
+#' Samantha Rhoads's function to drop rows where not enough columns have data. IE: if you have 3 columns in a df but require at least 2 columns to have values, then you drop a row where two+ values are NA
+#' @export
+#' @examples
+#' drop_rows_n_cols_not_na(x, min_nonna_cols=2)
+drop_rows_n_cols_not_na <- function (x, min_nonna_cols=2) {
+  x[rowSums(!is.na(x)) >= min_nonna_cols, ]
+}
+
+#' Samantha Rhoads's function to tell the shell to open a file in whatever its default program is
+#' @export
+#' @examples
+#' system_open(paths)
+system_open <- open_system <- function(paths){
+  lapply(paths, function(s){
+    cmdstr <- paste0('open ', s)
+    system(cmdstr)
+  })
+}
+
+#' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you tell the shell to open the file (in Excel); fxn returns the dataframe object
+#' @export
+#' @examples
+#' writexl_open(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F)
+writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F){
+  writexl::write_xlsx(x, path=path, col_names=col_names, format_headers=format_headers, use_zip64=use_zip64)
+  system(paste0('open ', path))
+  return(x)
+}
+
+
+#' Samantha Rhoads's function to clean a vector of job titles (jlcentric)
+#' @export
+#' @examples
+#' clean_jobtitle(v)
+clean_jobtitle <- function(v){
+  v %>%
+    tolower() %>% strip_punct(., replacewith=" ") %>% trimws_() %>%
+    gsub("(^| )[[:digit:]][[:digit:]]($| )", "", .) %>% trimws_() %>%
+    gsub("[[:digit:]][[:digit:]][[:digit:]][[:digit:]]|^[[:digit:]][[:digit:]]$", "", .) %>%
+    gsub("( |^)\\d{1,9}( |$)|now included in | \\d$|^\\d{1,9}[[:alpha:]]$", "", .)  %>% trimws_() %>% 
+    gsub(".*accountable (for|to).*", "", .) %>% 
+    gsub(".*job profile.*", "", .) %>% 
+    gsub("^(r|g|)\\d{1,19}$", "", .) %>% 
+    gsub("^(i|ii|iii|iv|v|vi)$|r\\d{8}", "", .) %>%
+    gsub(" (filled|i|ii|iii|iv|f|h|m|r|s)$", "", .) %>%
+    trimws_() %>% na_if(., "") %>% na_if(., "not found") %>% na_if(., "unknown")
+}
+
+#' Samantha Rhoads's function to change one record of one variable in a SQL database (jlcentric)
+#' @export
+#' @examples
+#' edit_client_name(con, table='clientmanagement_client', CLIENT_NAME_TO_RENAME = "GROSSOLDNAME", CLIENT_NAME_NEW = "PLEASEWORKCOOLNAME")
+edit_client_name <- function(con, table='clientmanagement_client', CLIENT_NAME_TO_RENAME = "GROSSOLDNAME", CLIENT_NAME_NEW = "PLEASEWORKCOOLNAME"){
+  pkg('RPostgreSQL')
+  UPDATE_ROW_QUERY <- paste0("update ", table, " set client_name='", CLIENT_NAME_NEW, "' WHERE client_name='", CLIENT_NAME_TO_RENAME, "'")
+  update <- DBI::dbSendQuery(con, UPDATE_ROW_QUERY)
+  postgresqlCloseResult(update)
+}
+
+
+#' Samantha Rhoads's function to preliminarily clean a vector of job groups (jlcentric)
+#' @export
+#' @examples
+#' clean_job_group(v)
+clean_job_group <- function(v){
+  "job_group|job_code|job_group_name|desc|job"
+  return(v %>% gsub("(^| )\\d{1,12}($| )", "", .))
+}
+
+#' Samantha Rhoads's function to recode jobgroups as numbers rounded to the nearest tenth (ie: 1.1 or 1.2) if the string looks like a number (jlcentric)
+#' @export
+#' @examples
+#' recode_jobgroup_nums(v, verbose=F)
+recode_jobgroup_nums <- function(v, verbose=F) {
+  if(verbose){cat("\n", "recode_jobgroup_nums()", "\n")}
+  sapply(v, function(s) {
+    if(lookslike_number(s)) {round(as.numeric(s), 1)} else {s}
+  }) %>% as.character()
+}
+
+#' Samantha Rhoads's function to recode EEO1 category (job group) either with component 2 logic or regular logic (jlcentric)
+#' @export
+#' @examples
+#' recode_jobgroup(v, component2=F, verbose=F)
+recode_jobgroup <- function(v, component2=F, verbose=F){
+  if(verbose){cat("\n", "recode_jobgroup()", "\n")}
+  v <- recode_jobgroup_nums(v)
+  v <- gsub("1e\\+16", "1", v) %>% tolower() %>%
+    gsub("exe snr", "executive/senior", .) %>%
+    gsub("operatives.*", "operatives", .) %>%
+    gsub("laborers.*", "laborers and helpers", .)
+  if(component2){
+    v <- recode(tolower(v),
+                "1" = "1. Executive/Senior Level Officials and Managers", "1.0" = "1. Executive/Senior Level Officials and Managers",
+                "1.1" = "1. Executive/Senior Level Officials and Managers", "1.2" = "2. First/Mid-Level Officials and Managers", "2" = "3. Professionals", "3" = "4. Technicians", "4" = "5. Sales Workers", "5" = "6. Administrative Support Workers", "6" = "7. Craft Workers", "7" = "8. Operatives", "8" = "9. Laborers and Helpers", "9" = "10. Service Workers", "10" = "10. Service Workers", "9999" = "99",
+                "1.0 executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers", "1.1 executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers",
+                "1.2 first/mid-level officials and managers" = "2. First/Mid-Level Officials and Managers", "2. professionals" = "3. Professionals", "3. technicians" = "4. Technicians", "4. sales workers" = "5. Sales Workers", "5. administrative support workers" = "6. Administrative Support Workers", "6. craft workers" = "7. Craft Workers", "7. operatives" = "8. Operatives","8. laborers and helpers" = "9. Laborers and Helpers", "9. service workers" = "10. Service Workers", "10. service workers" = "10. Service Workers",
+                "executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers","first/mid-level officials and managers" = "2. First/Mid-Level Officials and Managers", "professionals" = "3. Professionals", "technicians" = "4. Technicians", "sales workers" = "5. Sales Workers", "administrative support workers" = "6. Administrative Support Workers", "craft workers" = "7. Craft Workers", "operatives" = "8. Operatives", "laborers and helpers" = "9. Laborers and Helpers", "service workers" = "10. Service Workers","not applicable" = "9999", "not reported" = "NA")
+  } else {
+    v <- recode(tolower(v),
+                "1" = "1.1 Executive/Senior Level Officials and Managers",
+                "1.0" = "1.1 Executive/Senior Level Officials and Managers",
+                "1.1" = "1.1 Executive/Senior Level Officials and Managers",
+                "1.2" = "1.2 First/Mid-Level Officials and Managers",
+                "2" = "2. Professionals",
+                "3" = "3. Technicians",
+                "4" = "4. Sales Workers",
+                "5" = "5. Administrative Support Workers",
+                "6" = "6. Craft Workers",
+                "7" = "7. Operatives",
+                "8" = "8. Laborers and Helpers",
+                "9" = "9. Service Workers", "9999" = "99",
+                "1.0 executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
+                "1.1 executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
+                "1.2 first/mid-level officials and managers" = "1.2 First/Mid-Level Officials and Managers",
+                "2. professionals" = "2. Professionals",
+                "3. technicians" = "3. Technicians",
+                "4. sales workers" = "4. Sales Workers",
+                "5. administrative support workers" = "5. Administrative Support Workers",
+                "6. craft workers" = "6. Craft Workers",
+                "7. operatives" = "7. Operatives",
+                "8. laborers and helpers" = "8. Laborers and Helpers",
+                "9. service workers" = "9. Service Workers",
+                "executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
+                "first/mid-level officials and managers" = "1.2. First/Mid-Level Officials and Managers", 
+                "professionals" = "2. Professionals", 
+                "technicians" = "3. Technicians", 
+                "sales workers" = "4. Sales Workers", 
+                "administrative support workers" = "5. Administrative Support Workers",
+                "craft workers" = "6. Craft Workers", 
+                "operatives" = "7. Operatives", 
+                "laborers and helpers" = "8. Laborers and Helpers", 
+                "service workers" = "9. Service Workers")
+  }
+  v <- ifelse(grepl('^1.*1.*000.*1', v),  "1.1 Executive/Senior Level Officials and Managers", v)
+  v <- na_if(v, "NA") # tools::toTitleCase(v) %>% as.factor()
+  return(v)
+}
+
+
+#' Samantha Rhoads's function to recode eeo1 category with broader reaches than recode_jobgroup()... (jlcentric)
+#' @export
+#' @examples
+#' recode_eeo1(v, return_codes=F)
+recode_eeo1 <- function(v, return_codes=F){
+  v <- v %>% tolower() %>% trimpunct() %>% trimws_() %>% recode_jobgroup()
+  v <- v %>% ifelse(grepl("(exe|exc).*s.*r.*off.*(s|m.*g.*r)", ., ignore.case=T), "1.1 Executive/Senior Level Officials and Managers", .)
+  v <- v %>% ifelse(grepl("(fir|1)st.*mid.*(m.*g.*r|off)|^1(\\.|)2$", ., ignore.case=T), "1.2 First/Mid-Level Officials and Managers", .)
+  v <- v %>% ifelse(grepl("profes.*n.*l", ., ignore.case=T), "2. Professionals", .)
+  v <- v %>% ifelse(grepl("techn", ., ignore.case=T), "3. Technicians", .)
+  v <- v %>% ifelse(grepl("sales", ., ignore.case=T), "4. Sales Workers", .)
+  v <- v %>% ifelse(grepl("admin.*sup.*w.*k|of.*c.*cleric", ., ignore.case=T), "5. Administrative Support Workers", .)
+  v <- v %>% ifelse(grepl("craft.*w.*k", ., ignore.case=T), "6. Craft Workers", .)
+  v <- v %>% ifelse(grepl("op.*rat.*v", ., ignore.case=T), "7. Operatives", .)
+  v <- v %>% ifelse(grepl("labor.*helper", ., ignore.case=T), "8. Laborers and Helpers", .)
+  v <- v %>% ifelse(grepl("s.*v.*c.*w.*k.*r", ., ignore.case=T), "9. Service Workers", .)
+  if(return_codes) {v <- v %>% str_extract(., "^[[:digit:]]\\.[[:digit:]]|^\\d{1,2}") %>% gsub('\\.$', '', .)} #  %>% strip_punct()}
+  tolower(v)
+}
+
+#' Samantha Rhoads's function to (jlcentric)
+#' @export
+#' @examples
+#' pad_occp(v)
+pad_occp <- function(v){
+  ifelse(nchar(v)==3 & nchar(gsub("[[:digit:]]", "", v))==0, paste0("0", v), 
+         ifelse(nchar(v)==2 & nchar(gsub("[[:digit:]]", "", v))==0, paste0("00", v),
+                v))
+}
+
+
+#' Samantha Rhoads's function to crosswalk older OCCP (Census) Codes to the most current iteration (2018-2019) codes (jlcentric)
+#' @export
+#' @examples
+#' crosswalk_occp_codes(v, remove_comma_sep=F)
+crosswalk_occp_codes <- function(v, remove_comma_sep=F){
+  v %>% # HOLISTIC CROSSWALK: 'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+    dplyr::recode(., # 2000-2004 codes # https://usa.ipums.org/usa/volii/c2ssoccup.shtml
+           '0030'='0010',
+           '0130'='0135, 0136, 0137',
+           '0200'='0205',
+           '0210'='0205',
+           '0320'='4465, 0430',
+           '0400'='0440',
+           '0430'='0335, 0440, 0705',
+           
+           '0560'='0565, 3945',
+           '0620'='0630, 0640, 0650',
+           '0720'='0725',
+           '0730'='0735, 0740',
+           '1000'='1005, 1006',
+           '1107'='0705, 1108, 1065, 1022, 1032',
+           
+           '1040'='1050',
+           '1100'='1105',
+           '1110'='1106, 1007, 1030',
+           '1210'='1240',
+           '1230'='1240',
+           '1500'='1520',
+           '1510'='1530',
+           '1810'='0735',
+           '1830'='1860',
+           '1940'='1935', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+           '1950'='1970', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+           '1960'='1950, 1965',
+           '2020'='2015, 2016, 2025',
+           '2110'='2100',
+           '2140'='2145',
+           '2150'='2160',
+           '2820'='2825',
+           '3130'='3255, 3256, 3258',
+           '3240'='3245',
+           '3410'='3420',
+           '3530'='3535',
+           '3650'='3645, 3646, 3647, 3648, 3649, 3655',
+           '3830'='3840',
+           '3920'='3930',
+           '3950'='3955',
+           '4550'='9050, 9415',
+           '4960'='4965',
+           '5130'='5165',#, 4400', 
+           '5200'='5420',#{fuzzy_match_occps("Gaming/Gamblind Cage Workers",.05); fuzzy_match_occps("Brokerage Clerks",.05)}
+           
+           '5210'='5350',
+           '5830'='5940, 5165',
+           '5930'='5940', #???	'Office and Administrative Support Workers, All Other'
+           '6000'='6005',
+           '6020'='6050',
+           '6350'='6355',
+           '6500'='6220',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+           '6510'='6515',
+           '6750'='6765', '6760'='6765',
+           '6920'='6800',
+           '7050'='7100',
+           '7110'='7100',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+           '7310'='7315',
+           '7520'='7630',
+           '7550'='7640', # ???? 'Manufactured Building and Mobile Home Installers' #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+           '7620'='7630',
+           '7710'='7750',#, 7140', #??? 'Aircraft Structure, Surfaces, Rigging, and Systems Assemblers'
+           '8060'='8100', #??? 'Model Makers and Patternmakers, Metal and Plastic'	
+           '8230'='8256',
+           '8240'='8256, 8255',
+           '8260'='8255',
+           '8840'='8990','8900'='8990','8960'='8990',
+           '8965'='7905, 8990',
+           '9330'='9300',
+           '9340'='9420',
+           'bbbb'='0000') %>% 
+    dplyr::recode(., # 2012, codes
+           '0330'='0335', '0950'='0960', '1060'='1065', '1930'='1935', '2430'='2435', '2540'='2545', 
+           '3535'='3545', '4300'='4330', '4460'='4461', '4610'='3602', '5030'='5040', '5620'='9645', '5800'='1108',
+           '6830'='6835', '6910'='6850', '7900'='7905', '8840'='8990', 
+           '9000'='9005', '9340'='9430', '9360'='9365', '9500'='9570', '9560'='9570', '9730'='6850') %>% 
+    gsub('^(3850|3860)$', '3870', .) %>% gsub('^(4050|4060)$', '4055', .) %>% gsub('^(4410|4430)$', '4435', .) %>% 
+    gsub('^(6100|6110)$', '6115', .) %>% gsub('^(6300|6310|6320)$', '6305', .) %>% gsub('^(6420|6430)$', '6410', .) %>% 
+    gsub('^(6930|6940)$', '6950', .) %>% gsub('^(7600|7630)$', '7640', .) %>% gsub('^(7920|7930|7940)$', '7925', .) %>% 
+    gsub('^(7960|8010|8020)$', '8025', .) %>% gsub('^(8120|8150|8160|8200|8210|8220)$', '8225', .) %>% gsub('^(8330|8340)$', '8335', .) %>% 
+    gsub('^(8360|8400|8410|8420)$', '8365', .) %>% gsub('^(8430|8440|8460)$', '8465', .) %>% gsub('^(8520|8550)$', '8555', .) %>% 
+    gsub('^(8860|8900)$', '8965', .) %>% gsub('^(9230|9260)$', '9265', .) %>% gsub('^(9740|9750)$', '9760', .) %>%
+    dplyr::recode(., 
+           '0050'='0051, 0052', '0100'='0101, 0102', '0430'='0335, 0440, 0705', '0740'='0705, 0750', '0840'='0845, 0960', '1107'='0705, 1108, 1065, 1022, 1032', 
+           '1020'='1021, 1022', '1030'='1031, 1032', '1300'='1305, 1306', '1540'='1541, 1545', '1550'='1551, 1555', '1740'='1745, 1750', '1820'='1821, 1822, 1825', 
+           '1965'='1935, 1970', '2000'='2001, 2002, 2003, 2004, 2005, 2006', '2010'='2011, 2012, 2013, 2014', '2160'='2170, 2180, 2862', '2200'='2205, 2545',
+           '2340'='2350, 2360', '2550'='2435, 2555', '2630'='2631, 2632, 2633, 2634, 2635, 2636, 2640', '2720'='2721, 2722, 2723', '2750'='2751, 2752', 
+           '2760'='2755, 2770', '2800'='2805, 2865', '2860'='2861, 2865', '2900'='2905, 5040', '2960'='2905, 2970', '3060'='3090, 3100',# 3065, 3070', 
+           '3260'='3270, 3261', 
+           '3320'='3321, 3322, 3323, 3324, 3330', '3400'='3401, 3402', '3420'='3421, 3422, 3423, 3424, 3430, 3545', '3510'='3515, 3550', '3540'='1980, 3550',
+           '3600'='3601, 3603, 3605', '3730'='3725', '3800'='3801, 3802', '3955'='3946, 3960', '4250'='4251, 4252, 4255', '4320'='4330, 9005',
+           '4520'='4521, 4522, 4525', '4620'='4621, 4622', '4650'='4461, 4655', '5520'='5521, 5522', '5700'='5710, 5720, 5730, 5740', '6440'='6441, 6442',
+           '6820'='6825, 6835', '6840'='6850, 6950', '8965'='7905, 8990', '9120'='9121, 9122, 9141', '9140'='9141, 9142', '9200'='9210, 9265', '9420'='9365, 9430',
+           '9520'='9570, 9760, 6850, 6825', '9820'='1555, 9825') %>%
+    gsub('(3730|3735)', '3725', .) %>%
+    gsub('(3065|3070)', '3090, 3100', .) %>%
+    gsub('(6821)', '9570, 9760, 6850, 6825', .) %>%
+    gsub('(0325|0400|0426)', '0440', .) %>%
+    gsub('(8840|8900|8960)', '8990', .) %>%
+    # gsub('()', '', .) %>%
+    # gsub('()', '', .) %>%
+    
+    {if(remove_comma_sep) gsub(",", " ", .) else .} %>% 
+    trimws_()
+}
+
+
+
 ###################################################################################################################################################
 
 

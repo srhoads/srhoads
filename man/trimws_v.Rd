@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{trimws_v}
 \alias{trimws_v}
-\title{A function}
+\title{This function allows you to}
 \usage{
 trimws_v(v, which = "both", doublespace = T)
 }
@@ -10,5 +10,5 @@ trimws_v(v, which = "both", doublespace = T)
 This function allows you to
 }
 \examples{
-trimws_v()
+trimws_v(v, which='both', doublespace=T)
 }

@@ -10,5 +10,5 @@ alnum(x)
 This function allows you to
 }
 \examples{
-alnum()
+alnum(x)
 }

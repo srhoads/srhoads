@@ -10,5 +10,5 @@ cleanpath(x)
 This function allows you to
 }
 \examples{
-cleanpath()
+cleanpath(x)
 }

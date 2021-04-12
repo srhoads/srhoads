@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{datatable_}
 \alias{datatable_}
-\title{A function}
+\title{This function allows you to make a DT datatable with better defaults in my opinion}
 \usage{
 datatable_(d)
 }
 \description{
-This function allows you to
+This function allows you to make a DT datatable with better defaults in my opinion
 }
 \examples{
-datatable_()
+datatable_(d)
 }

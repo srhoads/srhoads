@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{df_to_vec}
 \alias{df_to_vec}
-\title{A function}
+\title{This function allows you to}
 \usage{
 df_to_vec(df)
 }
@@ -10,5 +10,5 @@ df_to_vec(df)
 This function allows you to
 }
 \examples{
-df_to_vec()
+df_to_vec(df)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{join_full}
 \alias{join_full}
-\title{A function}
+\title{This function allows you to}
 \usage{
 join_full(l, type = "full")
 }
@@ -10,5 +10,5 @@ join_full(l, type = "full")
 This function allows you to
 }
 \examples{
-join_full()
+join_full(l, type='full')
 }

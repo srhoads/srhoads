@@ -10,5 +10,5 @@ format_pasted_name(name)
 A function
 }
 \examples{
-format_pasted_name()
+format_pasted_name(name)
 }

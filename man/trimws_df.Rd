@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{trimws_df}
 \alias{trimws_df}
-\title{A function}
+\title{This function allows you to trimws on your whole dataframe (but just character and factor variables)}
 \usage{
 trimws_df(x, which = "both", doublespace = T)
 }
 \description{
-This function allows you to
+This function allows you to trimws on your whole dataframe (but just character and factor variables)
 }
 \examples{
-trimws_df(x, which='both', doublespace=T)
+trimws_df(x, which='both', doublespace=T, on_factor_vars=T)
 }

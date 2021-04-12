@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{extract_words_w_nums}
 \alias{extract_words_w_nums}
-\title{A function}
+\title{This function allows you to}
 \usage{
 extract_words_w_nums(v)
 }
@@ -10,5 +10,5 @@ extract_words_w_nums(v)
 This function allows you to
 }
 \examples{
-extract_words_w_nums()
+extract_words_w_numsv()
 }

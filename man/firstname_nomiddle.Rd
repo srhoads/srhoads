@@ -10,5 +10,5 @@ firstname_nomiddle(v)
 A function
 }
 \examples{
-firstname_nomiddle()
+firstname_nomiddle(v)
 }

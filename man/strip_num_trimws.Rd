@@ -10,5 +10,5 @@ strip_num_trimws(v)
 This function allows you to
 }
 \examples{
-strip_num_trimws()
+strip_num_trimws(v)
 }

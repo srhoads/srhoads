@@ -10,5 +10,5 @@ sort_df_columns(df)
 This function allows you to
 }
 \examples{
-sort_df_columns()
+sort_df_columns(df)
 }

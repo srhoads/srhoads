@@ -10,5 +10,5 @@ nna(x)
 A function
 }
 \examples{
-nna()
+nna(x)
 }

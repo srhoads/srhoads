@@ -15,5 +15,5 @@ A function
 }
 \examples{
 newdate()
-newdate()
+newdate(v)
 }

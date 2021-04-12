@@ -10,5 +10,5 @@ unlist_as_char(df)
 This function allows you to
 }
 \examples{
-unlist_as_char()
+unlist_as_char(df)
 }

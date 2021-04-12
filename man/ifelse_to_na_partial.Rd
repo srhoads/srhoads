@@ -10,5 +10,5 @@ ifelse_to_na_partial(v, na_vec)
 This function allows you to
 }
 \examples{
-ifelse_to_na_partial()
+ifelse_to_na_partial(v, na_vec)
 }

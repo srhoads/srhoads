@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{na_if_all_digits}
 \alias{na_if_all_digits}
-\title{A function}
+\title{This function allows you to}
 \usage{
 na_if_all_digits(v)
 }
@@ -10,5 +10,5 @@ na_if_all_digits(v)
 This function allows you to
 }
 \examples{
-na_if_all_digits()
+na_if_all_digits(v)
 }

@@ -10,5 +10,5 @@ lapply2(l, fxn)
 A function
 }
 \examples{
-lapply2()
+lapply2(l, fxn)
 }

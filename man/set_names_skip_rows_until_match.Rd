@@ -7,7 +7,8 @@
 set_names_skip_rows_until_match(
   d,
   example_colname = "Employee ID",
-  check_n_rows = 100
+  check_n_rows = 100,
+  doEvenIfColnameIsAlreadyIt = F
 )
 }
 \description{

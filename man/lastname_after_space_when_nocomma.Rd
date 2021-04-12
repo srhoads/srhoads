@@ -10,5 +10,5 @@ lastname_after_space_when_nocomma(v)
 A function
 }
 \examples{
-lastname_after_space_when_nocomma()
+lastname_after_space_when_nocomma(v)
 }

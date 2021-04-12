@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{format_initial}
 \alias{format_initial}
-\title{A function}
+\title{This function allows you to}
 \usage{
 format_initial(v, upper = T)
 }
@@ -10,5 +10,5 @@ format_initial(v, upper = T)
 This function allows you to
 }
 \examples{
-format_initial()
+format_initial(v, upper=T)
 }

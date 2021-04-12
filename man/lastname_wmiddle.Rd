@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{lastname_wmiddle}
 \alias{lastname_wmiddle}
-\title{A function}
+\title{This function allows you to}
 \usage{
 lastname_wmiddle(v)
 }
@@ -10,5 +10,5 @@ lastname_wmiddle(v)
 This function allows you to
 }
 \examples{
-lastname_wmiddle()
+lastname_wmiddle(v)
 }

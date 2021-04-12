@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{toupper_l1}
 \alias{toupper_l1}
-\title{A function}
+\title{This function allows you to}
 \usage{
 toupper_l1(v)
 }
@@ -10,5 +10,5 @@ toupper_l1(v)
 This function allows you to
 }
 \examples{
-toupper_l1()
+toupper_l1(v)
 }
