@@ -2,16 +2,19 @@
 % Please edit documentation in R/functions.R
 \name{recode_from_list}
 \alias{recode_from_list}
-\title{A function that acts like `recode()` but works on a list}
+\title{Samantha Rhoads's function to recode from a list so you don't have to write out every recode to and from statement individually. Utilizes dplyr::recode. A function that acts like `recode()` but works on a list}
 \usage{
 recode_from_list(
-  v,
-  recode_list = list(`NA` = c("na", "not applicable"), `TRUE` = c("true", "tru"))
+  .x,
+  recode_list = list(RECODETO1 = c("RECODEFROM1a", "RECODEFROM1b"), RECODETO2 =
+    c("RECODEFROM2a", "RECODEFROM2b")),
+  .default = NULL,
+  .missing = NULL
 )
 }
 \description{
-A function that acts like `recode()` but works on a list
+Samantha Rhoads's function to recode from a list so you don't have to write out every recode to and from statement individually. Utilizes dplyr::recode. A function that acts like `recode()` but works on a list
 }
 \examples{
-recode_from_list(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru')))
+recode_from_list(.x, recode_list=list('RECODETO1'=c('RECODEFROM1a', 'RECODEFROM1b'), 'RECODETO2'=c('RECODEFROM2a', 'RECODEFROM2b')), .default=NULL, .missing=NULL)
 }

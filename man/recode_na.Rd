@@ -4,11 +4,16 @@
 \alias{recode_na}
 \title{A function}
 \usage{
-recode_na(x)
+recode_na(x, ...)
+
+recode_na(x, ...)
 }
 \description{
 A function
+
+Samantha Rhoads's function to
 }
 \examples{
 recode_na(x)
+recode_na()
 }

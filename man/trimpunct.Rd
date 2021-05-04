@@ -2,13 +2,19 @@
 % Please edit documentation in R/functions.R
 \name{trimpunct}
 \alias{trimpunct}
-\title{Srhoads wrote this to allow you to...}
+\title{Srhoads wrote this to allow you to clean up the punctuation in a string or vector of strings}
 \usage{
-trimpunct(v, removenegativesymbol = F, beginning = T, end = T)
+trimpunct(
+  v,
+  removenegativesymbol = F,
+  beginning = T,
+  end = T,
+  removeduplicatepunct = T
+)
 }
 \description{
-Srhoads wrote this to allow you to...
+Srhoads wrote this to allow you to clean up the punctuation in a string or vector of strings
 }
 \examples{
-trimpunct()
+trimpunct(v, removenegativesymbol=F, beginning=T, end=T, removeduplicatepunct=T)
 }

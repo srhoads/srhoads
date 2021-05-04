@@ -10,5 +10,5 @@ trimpunct_(v, removenegativesymbol = F, beginning = T, end = T)
 Srhoads wrote this to allow you to...
 }
 \examples{
-trimpunct_()
+trimpunct_(v, removenegativesymbol=F, beginning=T, end=T)
 }
