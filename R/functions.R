@@ -477,11 +477,8 @@ filter_duplicated <- function(d, var="id"){
 }
 
 
-#' A function that acts like `recode()` but works on a list
-#' @export
-#' @examples
-#' recode_from_list(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru')))
-recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru'))){
+
+recode_from_list_v1 <- function(v, recode_list = list('NA' = c('na', 'not applicable'), 'TRUE' = c('true', 'tru'))){
   v <- tolower(v) %>% trimws_() %>% gsub('\\&', 'and', .) %>% gsub('\\.|\\(|\\)', '', .) %>% gsub('-', ' ', .) %>% trimws_()
   v <- gsub("[^ |[:alpha:]]", "", v, perl = T)
   v <- tolower(v)
@@ -493,6 +490,21 @@ recode_from_list <- function(v, recode_list = list('NA' = c('na', 'not applicabl
   v <- dplyr::recode(v, !!!recode_key)
   gsub("^NA$", NA, v, perl = T)
 }
+
+#' Samantha Rhoads's function to recode from a list so you don't have to write out every recode to and from statement individually. Utilizes dplyr::recode. A function that acts like `recode()` but works on a list
+#' @export
+#' @examples
+#' recode_from_list(.x, recode_list=list('RECODETO1'=c('RECODEFROM1a', 'RECODEFROM1b'), 'RECODETO2'=c('RECODEFROM2a', 'RECODEFROM2b')), .default=NULL, .missing=NULL)
+recode_from_list <- function(.x, recode_list=list('RECODETO1'=c('RECODEFROM1a', 'RECODEFROM1b'), 'RECODETO2'=c('RECODEFROM2a', 'RECODEFROM2b')), .default=NULL, .missing=NULL){
+  recode_key <- lapply(names(recode_list), function(x) {
+    to_recode <- recode_list[[x]]
+    setNames(rep(x, length(to_recode)), to_recode)
+  })
+  recode_key <- unlist(recode_key)
+  v <- dplyr::recode(.x, !!!recode_key, .default=.default, .missing=.missing)
+  return(v)
+}
+
 
 
 #' A function that finds strings in a dataframe anywhere (like `grep()` but many strings)
@@ -2289,9 +2301,15 @@ clean_na_sep_comma <- function(v, sep=', ') trimws_(gsub(', NA|NA, |^, |, $|^, |
 #' @export
 #' @examples
 #' clean_unique_sep(v, sep='///')
-clean_unique_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', v, perl=T)) %>% 
-  gsub(' ///|/// |//////', '///', ., perl=T) %>% 
-  unique_sep(., sep=sep) %>% na_if_()
+clean_unique_sep <- function(v, sep='///'){ 
+  # trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', v, perl=T)) %>% gsub(' ///|/// |//////', '///', ., perl=T) %>% 
+  remove_str <- paste0('(^|', sep, ')', 'NA($|', sep, ')')
+  v_ <- gsub(remove_str, sep, v, perl=T)
+  trim_sep_str <- paste0('^', sep, '|', sep, '$', '|', sep, sep)
+  v_ <- gsub(trim_sep_str, '', v_, perl=T)
+  trimws_(v_) %>% 
+    unique_sep(., sep=sep) %>% na_if_()
+}
 
 
 #' This function allows you to 
@@ -2711,26 +2729,49 @@ remove_space_btwn_any_punct <- function(v) v %>%
   gsub("([[:punct:]]) ([[:punct:]])", "\\1\\2", .)
 # remove_space_btwn_any_punct(c("this..punct", "this . . punct", "this. .punct", "this. . punct", "this . .punct", "this;.punct", "this; .punct"))
 
-#' Srhoads wrote this to allow you to...
+#' Srhoads wrote this to allow you to clean up the punctuation in a string or vector of strings
 #' @export
 #' @examples
-#' trimpunct()
-trimpunct <- function(v, removenegativesymbol=F, beginning=T, end=T){
+#' trimpunct(v, removenegativesymbol=F, beginning=T, end=T, removeduplicatepunct=T)
+trimpunct <- function(v, removenegativesymbol=F, beginning=T, end=T, removeduplicatepunct=T){
   v <- trimws_(v)
   if(!removenegativesymbol) v <- gsub("^-", "samhasanegativesymbolherenowand", v)
   if(beginning) v <- gsub('^[[:punct:] ]+', "", v) 
   if(end) v <- gsub('[[:punct:]]+$', "", v)
-  trimws_(gsub("^samhasanegativesymbolherenowand", "-", v))
+  v <- trimws_(gsub("^samhasanegativesymbolherenowand", "-", v))
+  if(removeduplicatepunct){
+    v <- remove_duplicate_punct(v)
+  }
+  return(v)
 }
 # trimpunct(c("s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
 
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' trimpunct_()
+#' trimpunct_(v, removenegativesymbol=F, beginning=T, end=T)
 trimpunct_ <- function(v, removenegativesymbol=F, beginning=T, end=T){
   v %>% trimpunct(removenegativesymbol=removenegativesymbol, beginning=beginning, end=end) %>%
     remove_duplicate_punct() %>% trimws_()
+}
+
+
+#' Srhoads wrote this to allow you to clean punctuation in a string or vector of strings
+#' @export
+#' @examples
+#' clean_punct()
+clean_punct <- function(v, removenegativesymbol=F, beginning=T, end=T){
+  v <- trimws_(v)
+  if(!removenegativesymbol) v <- gsub("^-", "samhasanegativesymbolherenowand", v)
+  v <- gsub("^\\(", "samhasopenparenthesisherenowand", v)
+  v <- gsub("\\)$", "samhascloseparenthesisherenowand", v)
+  if(beginning) v <- gsub('^[[:punct:] ]+', "", v) 
+  if(end) v <- gsub('[[:punct:]]+$', "", v)
+  v <- gsub('samhasopenparenthesisherenowand', '(', v)
+  v <- gsub('samhascloseparenthesisherenowand', ')', v)
+  v <- trimws_(gsub("^samhasanegativesymbolherenowand", "-", v))
+  v <- remove_duplicate_punct(v)
+  return(v)
 }
 
 #' Srhoads wrote this to allow you to...
@@ -4395,9 +4436,10 @@ drop_rows_n_cols_not_na <- function (x, min_nonna_cols=2) {
 #' system_open(paths)
 system_open <- open_system <- function(paths){
   lapply(paths, function(s){
-    cmdstr <- paste0('open ', s)
+    cmdstr <- paste0('open "', s, '"')
     system(cmdstr)
   })
+  return(paths)
 }
 
 #' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you tell the shell to open the file (in Excel); fxn returns the dataframe object
@@ -4409,6 +4451,28 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
   system(paste0('open ', path))
   return(x)
 }
+
+
+#' Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `xlsx` package but not putting in dependencies or referencing it directly)
+#' @export
+#' @examples
+#' xlsx_write_sheet(x, file, sheetName, col.names=TRUE, row.names=TRUE, append=T, overwrite=T)
+xlsx_write_sheet <- function(x, file, sheetName, col.names=T, row.names=F, append=T, overwrite=T){
+  pkg('xlsx')
+  wb <- #xlsx::
+    loadWorkbook(file)
+  if(any(grepl(sheetName, names(#xlsx::
+    getSheets(wb))))&overwrite){
+    # xlsx::
+    removeSheet(wb, sheetName)
+    cat('\ncurrent sheet removed before overwriting\n')
+    # xlsx::
+    saveWorkbook(wb, file=file)
+  }
+  # xlsx::
+  write.xlsx2(x=x, file=file, sheetName=sheetName, col.names=col.names, row.names=row.names, append=append)
+}
+
 
 
 #' Samantha Rhoads's function to clean a vector of job titles (jlcentric)
@@ -4450,96 +4514,9 @@ clean_job_group <- function(v){
   return(v %>% gsub("(^| )\\d{1,12}($| )", "", .))
 }
 
-#' Samantha Rhoads's function to recode jobgroups as numbers rounded to the nearest tenth (ie: 1.1 or 1.2) if the string looks like a number (jlcentric)
-#' @export
-#' @examples
-#' recode_jobgroup_nums(v, verbose=F)
-recode_jobgroup_nums <- function(v, verbose=F) {
-  if(verbose){cat("\n", "recode_jobgroup_nums()", "\n")}
-  sapply(v, function(s) {
-    if(lookslike_number(s)) {round(as.numeric(s), 1)} else {s}
-  }) %>% as.character()
-}
-
-#' Samantha Rhoads's function to recode EEO1 category (job group) either with component 2 logic or regular logic (jlcentric)
-#' @export
-#' @examples
-#' recode_jobgroup(v, component2=F, verbose=F)
-recode_jobgroup <- function(v, component2=F, verbose=F){
-  if(verbose){cat("\n", "recode_jobgroup()", "\n")}
-  v <- recode_jobgroup_nums(v)
-  v <- gsub("1e\\+16", "1", v) %>% tolower() %>%
-    gsub("exe snr", "executive/senior", .) %>%
-    gsub("operatives.*", "operatives", .) %>%
-    gsub("laborers.*", "laborers and helpers", .)
-  if(component2){
-    v <- recode(tolower(v),
-                "1" = "1. Executive/Senior Level Officials and Managers", "1.0" = "1. Executive/Senior Level Officials and Managers",
-                "1.1" = "1. Executive/Senior Level Officials and Managers", "1.2" = "2. First/Mid-Level Officials and Managers", "2" = "3. Professionals", "3" = "4. Technicians", "4" = "5. Sales Workers", "5" = "6. Administrative Support Workers", "6" = "7. Craft Workers", "7" = "8. Operatives", "8" = "9. Laborers and Helpers", "9" = "10. Service Workers", "10" = "10. Service Workers", "9999" = "99",
-                "1.0 executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers", "1.1 executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers",
-                "1.2 first/mid-level officials and managers" = "2. First/Mid-Level Officials and Managers", "2. professionals" = "3. Professionals", "3. technicians" = "4. Technicians", "4. sales workers" = "5. Sales Workers", "5. administrative support workers" = "6. Administrative Support Workers", "6. craft workers" = "7. Craft Workers", "7. operatives" = "8. Operatives","8. laborers and helpers" = "9. Laborers and Helpers", "9. service workers" = "10. Service Workers", "10. service workers" = "10. Service Workers",
-                "executive/senior level officials and managers" = "1. Executive/Senior Level Officials and Managers","first/mid-level officials and managers" = "2. First/Mid-Level Officials and Managers", "professionals" = "3. Professionals", "technicians" = "4. Technicians", "sales workers" = "5. Sales Workers", "administrative support workers" = "6. Administrative Support Workers", "craft workers" = "7. Craft Workers", "operatives" = "8. Operatives", "laborers and helpers" = "9. Laborers and Helpers", "service workers" = "10. Service Workers","not applicable" = "9999", "not reported" = "NA")
-  } else {
-    v <- recode(tolower(v),
-                "1" = "1.1 Executive/Senior Level Officials and Managers",
-                "1.0" = "1.1 Executive/Senior Level Officials and Managers",
-                "1.1" = "1.1 Executive/Senior Level Officials and Managers",
-                "1.2" = "1.2 First/Mid-Level Officials and Managers",
-                "2" = "2. Professionals",
-                "3" = "3. Technicians",
-                "4" = "4. Sales Workers",
-                "5" = "5. Administrative Support Workers",
-                "6" = "6. Craft Workers",
-                "7" = "7. Operatives",
-                "8" = "8. Laborers and Helpers",
-                "9" = "9. Service Workers", "9999" = "99",
-                "1.0 executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
-                "1.1 executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
-                "1.2 first/mid-level officials and managers" = "1.2 First/Mid-Level Officials and Managers",
-                "2. professionals" = "2. Professionals",
-                "3. technicians" = "3. Technicians",
-                "4. sales workers" = "4. Sales Workers",
-                "5. administrative support workers" = "5. Administrative Support Workers",
-                "6. craft workers" = "6. Craft Workers",
-                "7. operatives" = "7. Operatives",
-                "8. laborers and helpers" = "8. Laborers and Helpers",
-                "9. service workers" = "9. Service Workers",
-                "executive/senior level officials and managers" = "1.1 Executive/Senior Level Officials and Managers",
-                "first/mid-level officials and managers" = "1.2. First/Mid-Level Officials and Managers", 
-                "professionals" = "2. Professionals", 
-                "technicians" = "3. Technicians", 
-                "sales workers" = "4. Sales Workers", 
-                "administrative support workers" = "5. Administrative Support Workers",
-                "craft workers" = "6. Craft Workers", 
-                "operatives" = "7. Operatives", 
-                "laborers and helpers" = "8. Laborers and Helpers", 
-                "service workers" = "9. Service Workers")
-  }
-  v <- ifelse(grepl('^1.*1.*000.*1', v),  "1.1 Executive/Senior Level Officials and Managers", v)
-  v <- na_if(v, "NA") # tools::toTitleCase(v) %>% as.factor()
-  return(v)
-}
 
 
-#' Samantha Rhoads's function to recode eeo1 category with broader reaches than recode_jobgroup()... (jlcentric)
-#' @export
-#' @examples
-#' recode_eeo1(v, return_codes=F)
-recode_eeo1 <- function(v, return_codes=F){
-  v <- v %>% tolower() %>% trimpunct() %>% trimws_() %>% recode_jobgroup()
-  v <- v %>% ifelse(grepl("(exe|exc).*s.*r.*off.*(s|m.*g.*r)", ., ignore.case=T), "1.1 Executive/Senior Level Officials and Managers", .)
-  v <- v %>% ifelse(grepl("(fir|1)st.*mid.*(m.*g.*r|off)|^1(\\.|)2$", ., ignore.case=T), "1.2 First/Mid-Level Officials and Managers", .)
-  v <- v %>% ifelse(grepl("profes.*n.*l", ., ignore.case=T), "2. Professionals", .)
-  v <- v %>% ifelse(grepl("techn", ., ignore.case=T), "3. Technicians", .)
-  v <- v %>% ifelse(grepl("sales", ., ignore.case=T), "4. Sales Workers", .)
-  v <- v %>% ifelse(grepl("admin.*sup.*w.*k|of.*c.*cleric", ., ignore.case=T), "5. Administrative Support Workers", .)
-  v <- v %>% ifelse(grepl("craft.*w.*k", ., ignore.case=T), "6. Craft Workers", .)
-  v <- v %>% ifelse(grepl("op.*rat.*v", ., ignore.case=T), "7. Operatives", .)
-  v <- v %>% ifelse(grepl("labor.*helper", ., ignore.case=T), "8. Laborers and Helpers", .)
-  v <- v %>% ifelse(grepl("s.*v.*c.*w.*k.*r", ., ignore.case=T), "9. Service Workers", .)
-  if(return_codes) {v <- v %>% str_extract(., "^[[:digit:]]\\.[[:digit:]]|^\\d{1,2}") %>% gsub('\\.$', '', .)} #  %>% strip_punct()}
-  tolower(v)
-}
+
 
 #' Samantha Rhoads's function to (jlcentric)
 #' @export
@@ -4563,20 +4540,20 @@ crosswalk_occp_codes <- function(v, remove_comma_sep=F){
            '0130'='0135, 0136, 0137',
            '0200'='0205',
            '0210'='0205',
-           '0320'='4465, 0430',
+           '0320'='4465, 0335, 0440, 0705',
            '0400'='0440',
            '0430'='0335, 0440, 0705',
            
            '0560'='0565, 3945',
            '0620'='0630, 0640, 0650',
            '0720'='0725',
-           '0730'='0735, 0740',
+           '0730'='0735, 0705, 0750',
            '1000'='1005, 1006',
            '1107'='0705, 1108, 1065, 1022, 1032',
            
            '1040'='1050',
            '1100'='1105',
-           '1110'='1106, 1007, 1030',
+           '1110'='1106, 1007, 1031, 1032',
            '1210'='1240',
            '1230'='1240',
            '1500'='1520',
@@ -4585,11 +4562,11 @@ crosswalk_occp_codes <- function(v, remove_comma_sep=F){
            '1830'='1860',
            '1940'='1935', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
            '1950'='1970', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '1960'='1950, 1965',
+           '1960'='1935, 1970',
            '2020'='2015, 2016, 2025',
            '2110'='2100',
            '2140'='2145',
-           '2150'='2160',
+           '2150'='2170, 2180, 2862',
            '2820'='2825',
            '3130'='3255, 3256, 3258',
            '3240'='3245',
@@ -4666,6 +4643,86 @@ crosswalk_occp_codes <- function(v, remove_comma_sep=F){
 }
 
 
+#' Samantha Rhoads's function to convert NAICS codes to their sector names or codes (jlcentric)
+#' @export
+#' @examples
+#' naics_to_sector(v, return_description=F)
+naics_to_sector <- function(v, return_description=F){
+  v_ <- substr(v, 1,2)
+  v_sector <- ifelse(v_ %in% c('31','32','33','3M'), '31-33', ifelse(v_ %in% c('44','45','4M'), '44-45', ifelse(v_ %in% c('48','49'), '48-49', ifelse(v_ %in% c('99','0'), '-', v_))))
+  if(return_description){
+    v_sector <- recode(v_sector, 
+                       '11'='Agriculture, Forestry, Fishing and Hunting',
+                       '21'='Mining, Quarrying, and Oil and Gas Extraction',
+                       '22'='Utilities',
+                       '23'='Construction',
+                       '31-33'='Manufacturing',
+                       '42'='Wholesale Trade',
+                       '44-45'='Retail Trade',
+                       '48-49'='Transportation and Warehousing',
+                       '51'='Information',
+                       '52'='Finance and Insurance',
+                       '53'='Real Estate and Rental and Leasing',
+                       '54'='Professional, Scientific, and Technical Services',
+                       '55'='Management of Companies and Enterprises',
+                       '56'='Administrative and Support and Waste Management and Remediation Services',
+                       '61'='Educational Services',
+                       '62'='Health Care and Social Assistance',
+                       '71'='Arts, Entertainment, and Recreation',
+                       '72'='Accommodation and Food Services',
+                       '81'='Other Services (except Public Administration)',
+                       '92'='Public Administration')
+  }
+  return(v_sector)
+}
+
+
+#' Samantha Rhoads's function to bind rows of object if they're dataframes
+#' @export
+#' @examples
+#' bind_rows_(..., .id = NULL)
+bind_rows_ <- function(..., .id = NULL){
+  if(is.data.frame(...)|all(sapply(..., is.data.frame))){
+    return(dplyr::bind_rows(..., .id = NULL))
+  } else {
+    return(...)
+  }
+}
+
+#' Samantha Rhoads's function to bind rows going multiple depths
+#' @export
+#' @examples
+#' bind_rows2(l)
+bind_rows2 <- function(l){
+  lapply(lapply2(l, bind_rows_), bind_rows_)
+}
+
+
+#' Samantha Rhoads's function to
+#' @export
+#' @examples
+#' clean_unique_na_sep()
+clean_unique_na_sep <- function(v, sep=",", sort_strings=F){
+  splitv <- strsplit(v, sep)
+  uniqv <- lapply(splitv, function(s){
+    s_ <- na.omit(unique(na_if(trimws_(s), 'NA')))
+    if(sort_strings){
+      s_ <- sort(s)
+    }
+    paste0(s_, collapse=sep)
+  })
+  as.character(unlist(uniqv))
+}
+
+
+#' Samantha Rhoads's function to
+#' @export
+#' @examples
+#' recode_na()
+recode_na <- function(x, ...) {
+  x[x %in% c(...)] <- NA
+  x
+}
 
 ###################################################################################################################################################
 
