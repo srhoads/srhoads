@@ -1020,6 +1020,32 @@ def drop_empty(l):
         l_copy.remove("")
     return l_copy
 
+def unique(list1): 
+    # intilize a null list 
+    unique_list = [] 
+    # traverse for all elements 
+    for x in list1: 
+        # check if exists in unique_list or not 
+        if x not in unique_list: 
+            unique_list.append(x) 
+    return unique_list
+
+def list_remove(l, remove_list=['']):
+    l_copy = list(l.copy()) if type(l)==str else l.copy()
+    for remove_str in remove_list:
+        l_copy.remove(remove_str) if remove_str in l_copy else None
+    return l_copy
+
+def list_select_matches(l, patterns=['9570', '9760'], invert=False):
+    l_copy = list(l.copy()) if type(l)==str else l.copy()
+    if invert:
+        for pattern in patterns:
+            l_copy.remove(pattern) if pattern in l_copy else None
+    else:
+        l_copy = [pattern for pattern in patterns if pattern in l_copy]
+    return l_copy
+    
+
 def df_select_matches(df, pattern="", ignore_case=True, invert=False):
     flags = re.IGNORECASE if ignore_case else False
     df_copy = df.copy()
@@ -1066,6 +1092,7 @@ def recode_0s_pad_str(s="1234", length=4, empty_if_all_0s=True, only_numbers=Fal
     return sfull
 
 def recode_sex(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.str.replace(" ", "").str.lower().replace(
     ["female",  "f", "fem",     "male",  "m"],  
     ["2", "2", "2",     "1",    "1"]
@@ -1073,6 +1100,7 @@ def recode_sex(pdcolumn):
     return newcolumn
 
 def recode_sex_to_male_female(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.str.replace(" ", "").str.lower().replace(
     ["2", "1", "f", "m"],  
     ["female", "male", "female", "male"]
@@ -1080,6 +1108,7 @@ def recode_sex_to_male_female(pdcolumn):
     return newcolumn
 
 def recode_hisp(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.apply(str).str.replace(" ", "").str.lower().replace(
     ["hispanicorlatino","3","hispanic","hisp", "latino", "lat"],   
     ["y", "y", "y","y","y","y"]
@@ -1087,6 +1116,7 @@ def recode_hisp(pdcolumn):
     return newcolumn
 
 def recode_race(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.apply(str).str.replace(" ", "").str.lower().replace(
     # ["white","w","wh","1",     "black","blackorafricanamerican","2",     "3","3","3",     "4","4","4",     "5","americanindianorotheralaskanative","5",     "asian","6","6",     "7","twoormoreraces","nhopi",     "8","other","8",     "hispanicorlatino","9","9"],  
     # ["1", "1", "1","1",          "2","2","2",                            "9","9","9",     "6","6","6",     "5","5","5",                                     "6","6","6",         "9","9","7",                  "8","8","8",         "9","9","9"])
@@ -1099,11 +1129,22 @@ def recode_race(pdcolumn):
     return newcolumn
 
 def recode_race_to_jl_num(pdcolumn):
-    pdcolumn = pd.Series(pdcolumn) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.apply(str).str.replace(" ", "").str.lower().replace(
         ["white","black","hisp","asian","amerind","nhopi","twoplus"],
         ["1",    "2",    "8",   "6",    "5",    "7",    "9"])
     return newcolumn
+
+def pre_clean_codes(s):
+    s0 = re.sub("\\\r|\\\n|\\\t|'|\"|_|;|\\(|\\)|\\=|\\<|\\>|\\!|\\?|\\[|\\](,| ){2,10}|, ,", ',', s)
+    s1 = re.sub("( ){2,10}", ' ', s0)
+    s2 = re.sub('(,){2,10}|, |, ,', ',', s1).strip('^(,| )|(,| )$').strip()
+    return s2
+
+def clean_occp_str(s):
+    s0 = re.sub("[a-zA-Z]|\\.|:|201(0|7|8)-201(7|9)|-|&|\\/| [0-9][0-9]-[0-9][0-9] |(,){2,20}|, |\\\r|\\\n|\\\t|'|_|;|\\(|\\)|\\=|\\<|\\>|\\!|\\?|\\[|\\]", ",", s).replace(',,', ',').strip('^,|,$').strip()
+    s1 = re.sub('( |\\s){2,20}', ' ', s0).strip().replace(', ', ',')
+    return s1
 
 def state_abb_to_name(pdcolumn):
     states_dict = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DC":"District of Columbia","DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming","PR":"Puerto Rico"}
@@ -1228,6 +1269,7 @@ def crosswalk_occp_codes(pdcolumn):
 # crosswalk_occp_codes(["5130", "3060", "1107", "9520", "3260", "430", "7710", "8860",])
 
 def recode_race_to_jl_word(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.apply(str).str.replace(" ", "").str.lower().replace(
         ["1","2","3","4","5","6","7"],
         ["white","black","hisp","asian","amerind","nhopi","twoplus"]
@@ -1263,6 +1305,31 @@ def df_select_matches2(df, patterns=['', ''], ignore_case=True, invert=False):
     else:
         colnames = df_copy.columns[~df_copy.columns.str.contains(patterns, flags=flags)] if invert else df_copy.columns[df_copy.columns.str.contains(patterns, flags=flags)]
     return df_copy[colnames]
+
+
+def printurn(x):
+    print(x)
+    return(x)
+
+def recode_onehot_if(s='CHILDRENS COAT', pattern='CHILDREN'):
+    result = '1' if pattern in str(s) else '0'
+    return(result)
+
+def check_color(color):
+    pkg('colour'); from colour import Color
+    try:
+        Color(color)
+        return True
+    except ValueError:
+        return False
+
+def extract_color(pdcolumn):
+    pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
+    newcolumn = pdcolumn.copy().apply(lambda s: ' '.join([i for i in str(s).split(' ') if check_color(i)]))
+    return(newcolumn)
+    
+
+
 
 
 #===================== DUBIOUS INSTRUCTIONAL STUFF ==============================================================================================================================================

@@ -2037,9 +2037,9 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 #' trimws_(v, which='both', doublespace=T)
 trimws_ <- function(v, which='both', doublespace=T){
   if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)}
-  if(which=="left"){v <- gsub("^([[:space:]]| )", "", v)}
-  if(which=="right"){v <- gsub("([[:space:]]| )$", "", v)}
-  if(doublespace) {v <- gsub('   |  |[[:space:]][[:space:]]', ' ', v)}
+  if(which=="left"){v <- gsub("^([[:space:]]| ){1,100}", "", v)}
+  if(which=="right"){v <- gsub("([[:space:]]| )${1,100}", "", v)}
+  if(doublespace) {v <- gsub('(   |  |[[:space:]][[:space:]]){1,100}', ' ', v)}
   v <- trimws(v, which=which)
   v
 }
@@ -4718,10 +4718,25 @@ clean_unique_na_sep <- function(v, sep=",", sort_strings=F){
 #' Samantha Rhoads's function to
 #' @export
 #' @examples
-#' recode_na()
+#' recode_na(x, ...)
 recode_na <- function(x, ...) {
   x[x %in% c(...)] <- NA
   x
+}
+
+
+#' Samantha Rhoads's function to recode states (even from state fips codes)
+#' @export
+#' @examples
+#' recode_state(v, from_fips=F, abb=T)
+recode_state <- function(v, from_fips=F, abb=T){
+  if(all(is.numeric(v))|all(lookslike_number(v))){
+    state_fips_df <- data.frame(stringsAsFactors = FALSE, state = c("AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AS","GU","MP","PR","UM","VI"),
+                                state_code = c("01","02","04","05","06","08","09","10","11","12","13","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","44","45","46","47","48","49","50","51","53","54","55","56","60","66","69","72","74","78"))
+    # state_fips_df$state[match(v, state_fips_df$state_code)] # as.numeric(state_fips_df$state)[match(v, as.numeric(state_fips_df$state_code))] # as.numeric(state_fips_df$state_code)[match(v, as.numeric(state_fips_df$state))]
+    v <- state_fips_df$state[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_fips_df$state_code)))]
+  }
+  state2abb_or_abb2state(v, abb=abb)
 }
 
 ###################################################################################################################################################
