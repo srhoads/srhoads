@@ -25,7 +25,7 @@ if(installIfNeeded <- F){
 # redocument=F # redocument=T
 if(redocument <- F){
   devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "R/Python fxns cleanup; rm_ds_store() fxn written"; git push') ### --- SHELL if you remove system()
+  system('git add -A && git commit -m "added/edited functions"; git push') ### --- SHELL if you remove system()
   devtools::install_github('srhoads/srhoads')
 }
 

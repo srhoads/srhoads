@@ -15,5 +15,5 @@ Samantha Rhoads's function to
 }
 \examples{
 recode_na(x)
-recode_na()
+recode_na(x, ...)
 }
