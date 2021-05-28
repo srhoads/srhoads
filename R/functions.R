@@ -3065,7 +3065,7 @@ extract_word_startswith_dollarsign <- function(v) {v %>% strsplit(" ") %>% sappl
 #' @examples
 #' statetoabb(v)
 statetoabb <- function (v) {
-  v <- strip_punct(tolower(v), replacewithspace=F)
+  v_ <- strip_punct(tolower(v), replacewithspace=F)
   st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
           "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
           "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
@@ -3083,7 +3083,8 @@ statetoabb <- function (v) {
           "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
           "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
           "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR")
-  ab[match(v, st)]
+  result <- ab[match(v_, st)]
+  ifelse(is.na(result), v, result)
 }
 
 #' Samantha Rhoads's function to...
@@ -3091,7 +3092,7 @@ statetoabb <- function (v) {
 #' @examples
 #' abbtostate(v)
 abbtostate <- function (v) {
-  v <- strip_punct(tolower(v), replacewithspace=F)
+  v_ <- strip_punct(tolower(v), replacewithspace=F)
   st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
           "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
           "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
@@ -3109,7 +3110,8 @@ abbtostate <- function (v) {
           "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
           "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
           "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR") %>% tolower() %>% strip_punct(., replacewithspace=F)
-  st[match(v, ab)]
+  result <- st[match(v_, ab)]
+  ifelse(is.na(result), v, result)
 }
 
 #' Srhoads wrote this to allow you to...
@@ -4515,8 +4517,22 @@ clean_job_group <- function(v){
 }
 
 
+#' Samantha Rhoads's function to pad 0s in front of string to make string a certain length
+#' @export
+#' @examples
+#' recode_0s_pad_str(v)
+recode_0s_pad_str <- function(v=c('1234'), length=5, empty_if_all_0s=T, only_numbers=F){
+  v_ <- trimws_(as.character(v))
+  v_ <- if(only_numbers) gsub("-|[a-zA-Z]", "", v_)  else v_
+  v_ <- ifelse(nchar(v_)>=length, v_, stringr::str_sub(paste0(paste0(rep(0, length), collapse=''), v_), start=-length))
+  return(v_)
+}
 
-
+#' Samantha Rhoads's function to pad 0s in front of string to make string a certain length
+#' @export
+#' @examples
+#' recode_0s_pad_str(v)
+pad_leading_0s <- recode_0s_pad_str
 
 #' Samantha Rhoads's function to (jlcentric)
 #' @export
@@ -4736,13 +4752,104 @@ recode_state <- function(v, from_fips=F, abb=T){
     # state_fips_df$state[match(v, state_fips_df$state_code)] # as.numeric(state_fips_df$state)[match(v, as.numeric(state_fips_df$state_code))] # as.numeric(state_fips_df$state_code)[match(v, as.numeric(state_fips_df$state))]
     v <- state_fips_df$state[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_fips_df$state_code)))]
   }
+  
   state2abb_or_abb2state(v, abb=abb)
 }
 
 ###################################################################################################################################################
 
 
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+# 05 27, 2021 (20210527) ##########################################################################################################################
+
+#' Samantha Rhoads's function to recode a vector from 2 reference vectors
+#' @export
+#' @examples
+#' recode_match(v_input=c('girl', 'dude'), match_vec=c('dude', 'man', 'girl', 'woman'), desired_vec=c('male', 'male', 'female', 'female'))
+recode_match <- function(v_input=c('girl', 'dude'), match_vec=c('dude', 'man', 'girl', 'woman'), desired_vec=c('male', 'male', 'female', 'female')){
+  result <- desired_vec[match(v_input, match_vec)]
+  ifelse(is.na(result), v_input, result)
+}
+
+
+#' Samantha Rhoads's function to 
+#' @export
+#' @examples
+#' monthYear_to_dateRangeStr(v = c('2020-01, 2020-02, 2020-03', '2020-05, 2021-01', '2021-10, 2021-11, 2021-12, 2022-02'), to_symbol=" to ")
+monthYear_to_dateRangeStr <- function(v = c('2020-01, 2020-02, 2020-03', '2020-05, 2021-01', '2021-10, 2021-11, 2021-12, 2022-02'), to_symbol=" to "){
+  tryCatch({
+    v %>% gsub('-', '', .) %>% strsplit(., ', ') %>% sapply(., function(x){ # {x <- v %>% gsub('-', '', .) %>% strsplit(., ', ') %>% .[[2]]}
+      x_ <- readr::parse_number(as.character(x))
+      x_0 <- split(x_, cumsum(c(1, diff(x_) != 1)))
+      x_1 <- x_0 %>% sapply(., function(y){if(length(unique(y))>1){paste0(min(y,na.rm=T), to_symbol, max(y,na.rm=T))} else y}) %>% paste0(., collapse=', ')
+      gsub('(\\d{4})', '\\1-', x_1)
+    })
+  }, 
+  error=function(e){v})
+}
+
+#' Samantha Rhoads's function to 
+#' @export
+#' @examples
+#' unique_sep_sort(v, sep = "; ")
+unique_sep_sort <- function (v, sep = "; ") {
+  splitv <- strsplit(v, sep)
+  uniqv <- lapply(splitv, function(x) sort(unique(x)))
+  lapply(uniqv, function(s) paste0(s, collapse = sep)) %>% 
+    dplyr::combine() %>% as.character()
+}
+
+#' Samantha Rhoads's function to 
+#' @export
+#' @examples
+#' paste_unique_sep_sort(v, sep = "; ", collapse=sep)
+paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep) {
+  v_ <- paste0(v, collapse=collapse)
+  unique_sep_sort(v_, sep=sep)
+}
+
+#' Samantha Rhoads's function to 
+#' @export
+#' @examples
+#' describe_rgb_to_hex_translation(RGB="rgb(35, 59, 150)")
+describe_rgb_to_hex_translation <- function(RGB="rgb(35, 59, 150)"){
+  letter_digit_recode_list <- list('A'='10','B'='11','C'='12','D'='13','E'='14','F'='15')
+  rba_separated <- as.numeric(trimws(gsub('[^[:space:]:[:digit:]]', '', unlist(strsplit(RGB, ',')))))
+  cat('rba_separated=', rba_separated)
+  
+  hex_separated <- sapply(rba_separated, function(rgb_specific_segment){ #{rgb_specific_segment=199}
+    catn('\n_____________________________')
+    calc1 <- rgb_specific_segment/16
+    calc1b <- unlist(strsplit(as.character(calc1), '.', fixed=T))
+    cat('\nrgb_specific_segment/16 ==', rgb_specific_segment/16, '== (', calc1b[1], 'and', paste0('.',calc1b[2]) ,')')
+    hexchar1a <- recode_from_list(calc1b[1], recode_list=letter_digit_recode_list)
+    hexchar1b <- names(letter_digit_recode_list)[match(hexchar1a, as.character(unlist(letter_digit_recode_list)))]
+    if(is.na(hexchar1b)){hexchar1b<-hexchar1a}
+    # cat(paste0('hexchar1a ==', calc1b[1], '\nhexchar1b ==', hexchar1b))
+    cat(paste0('\nhexchar1 == ', calc1b[1], ' == ', hexchar1b))
+    
+    hexchar2a <- as.numeric(paste0('.',calc1b[2]))*16
+    hexchar2b <- names(letter_digit_recode_list)[match(hexchar2a, as.character(unlist(letter_digit_recode_list)))]
+    if(is.na(hexchar2b)){hexchar2b<-hexchar2a}
+    cat(paste0('\nhexchar2 == ', paste0('.',calc1b[2]), '*16 == ', hexchar2a, ' == ', hexchar2b))
+    # cat(paste0('hexchar2a == ', paste0('.',calc1b[2]), '*16 ==', hexchar2a, '\nhexchar2b ==', hexchar2b))
+    
+    hex_specific_segment <- paste0(hexchar1b, hexchar2b)
+    cat('\nhex_specific_segment ==', hex_specific_segment, '\n')
+    print(hex_specific_segment)
+    hex_specific_segment
+  })
+  hex_code <- paste0(hex_separated, collapse="")
+  cat('\n============================\nhex_code ==', hex_code, '\n')
+  return(hex_code)
+}
+
+
+#' Samantha Rhoads's function to check if your in your local environment
+#' @export
+#' is_local()
+is_local <- function() {Sys.getenv('SHINY_PORT') == ""}
+
+
 ###################################################################################################################################################
 
 
