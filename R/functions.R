@@ -4846,6 +4846,7 @@ describe_rgb_to_hex_translation <- function(RGB="rgb(35, 59, 150)"){
 
 #' Samantha Rhoads's function to check if your in your local environment
 #' @export
+#' @examples
 #' is_local()
 is_local <- function() {Sys.getenv('SHINY_PORT') == ""}
 

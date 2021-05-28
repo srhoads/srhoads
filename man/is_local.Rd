@@ -9,3 +9,6 @@ is_local()
 \description{
 Samantha Rhoads's function to check if your in your local environment
 }
+\examples{
+is_local()
+}
