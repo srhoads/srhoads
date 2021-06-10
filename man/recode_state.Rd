@@ -4,11 +4,11 @@
 \alias{recode_state}
 \title{Samantha Rhoads's function to recode states (even from state fips codes)}
 \usage{
-recode_state(v, from_fips = F, abb = T)
+recode_state(v, abb = T, to_fips = F)
 }
 \description{
 Samantha Rhoads's function to recode states (even from state fips codes)
 }
 \examples{
-recode_state(v, from_fips=F, abb=T)
+recode_state(v, abb=T, to_fips=F)
 }

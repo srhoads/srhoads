@@ -10,5 +10,5 @@ state2region(v_abbr)
 Srhoads wrote this to allow you to...
 }
 \examples{
-(v_abbr)
+state2region(v_abbr)
 }

@@ -3060,32 +3060,77 @@ str_extract_zip <- function (v, concat=T, collapse="; ", unique_sep=T) {
 #' extract_word_startswith_dollarsign(v)
 extract_word_startswith_dollarsign <- function(v) {v %>% strsplit(" ") %>% sapply(., function(s) grep("\\$", s, value=T)[1]) %>% dplyr::combine()}
 
+
+
+#' Samantha Rhoads's function to return either a HOLISTIC dataframe of state names and their abbreviations or a vector of just states or just abbreviations
+#' @export
+#' @examples
+#' get_states(return_which=c('both', 'name', 'abb')[1])
+get_states <- function(return_which=c('both', 'name', 'abb', 'fips')[1]){
+  state_names_abbs_df <- data.frame(
+    state_names = c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
+                    "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", 
+                    "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", 
+                    "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", 
+                    "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
+                    "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", 
+                    "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
+                    "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", 
+                    "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
+                    "District of Columbia", "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "US Virgin Islands"),
+    state_abbs = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
+                   "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", 
+                   "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+                   "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
+                   "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+                   "DC", "AS", "GU",'MP', "PR", "VI"),
+    state_fips = c("01", "02", "04", "05", "06", "08", "09", "10", "12", "13", "15", "16", 
+                   "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", 
+                   "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", 
+                   "39", "40", "41", "42", "44", "45", "46", "47", "48", "49", "50", 
+                   "51", "53", "54", "55", "56", 
+                   "11", "60", "66", "69", "72", "78")
+  )
+  if(grepl('both|name.*abb|abb.*name|all|total|every', return_which, ignore.case=T)){
+    return(state_names_abbs_df)
+  } else if(grepl('name', return_which, ignore.case=T)){
+    return(state_names_abbs_df$state_names)
+  } else if(grepl('abb', return_which, ignore.case=T)){
+    return(state_names_abbs_df$state_abbs)
+  } else if(grepl('fips', return_which, ignore.case=T)){
+    return(state_names_abbs_df$state_fips)
+  } else {
+    return(state_names_abbs_df)
+  }
+}
+
 #' Samantha Rhoads's function to...
 #' @export
 #' @examples
 #' statetoabb(v)
 statetoabb <- function (v) {
   v_ <- strip_punct(tolower(v), replacewithspace=F)
-  st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
-          "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
-          "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
-          "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", 
-          "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
-          "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
-          "New Mexico", "New York", "North Carolina", "North Dakota", 
+  st <- c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
+          "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", 
+          "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", 
+          "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", 
+          "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
+          "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", 
           "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
-          "South Carolina", "South Dakota", "Tennessee", "Texas", 
-          "California", "Vermont", "Virginia", "Washington", "West Virginia", 
-          "Wisconsin", "Wyoming", "District of Columbia", "US Virgin Islands", "Puerto Rico") %>% tolower() %>% strip_punct(., replacewithspace=F)
-  ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
-          "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
-          "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
-          "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
-          "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR")
+          "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", 
+          "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
+          "District of Columbia",'Washington DC', "US Virgin Islands",'United States Virgin Islands','Virgin Islands', "Puerto Rico",'American Samoa'
+  ) %>% tolower() %>% strip_punct(., replacewithspace=F)
+  ab <- c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", 
+          "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
+          "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
+          "UT", "VT", "VA", "WA", "WV", "WI", "WY", 
+          "DC", "DC", "VI", "VI", "VI", "PR", "AS")
   result <- ab[match(v_, st)]
   ifelse(is.na(result), v, result)
 }
+
 
 #' Samantha Rhoads's function to...
 #' @export
@@ -3093,23 +3138,9 @@ statetoabb <- function (v) {
 #' abbtostate(v)
 abbtostate <- function (v) {
   v_ <- strip_punct(tolower(v), replacewithspace=F)
-  st <- c("Alabama", "Alaska", "Arizona", "Kansas", "Utah", 
-          "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
-          "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Arkansas", 
-          "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", 
-          "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", 
-          "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
-          "New Mexico", "New York", "North Carolina", "North Dakota", 
-          "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
-          "South Carolina", "South Dakota", "Tennessee", "Texas", 
-          "California", "Vermont", "Virginia", "Washington", "West Virginia", 
-          "Wisconsin", "Wyoming", "District of Columbia", "US Virgin Islands", "Puerto Rico")
-  ab <- c("AL", "AK", "AZ", "KS", "UT", "CO", "CT", 
-          "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "AR", 
-          "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", 
-          "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", 
-          "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-          "CA", "VT", "VA", "WA", "WV", "WI", "WY", "DC", "VI", "PR") %>% tolower() %>% strip_punct(., replacewithspace=F)
+  state_names_abbs_df <- get_states(return_which='both')
+  st <- state_names_abbs_df$state_names
+  ab <- state_names_abbs_df$state_abbs %>% tolower() %>% strip_punct(., replacewithspace=F)
   result <- st[match(v_, ab)]
   ifelse(is.na(result), v, result)
 }
@@ -3119,15 +3150,80 @@ abbtostate <- function (v) {
 #' @examples
 #' state2abb_or_abb2state(v, abb=F)
 state2abb_or_abb2state <- function(v, abb=F){
-  st1 <- statetoabb(v) %>% abbtostate()
-  st2 <- abbtostate(v)
-  if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
+  v_ <- tolower(v)
+  state_names_abbs_df <- get_states(return_which='both')
+  # state_names <- c(state.name[order(nchar(state.name), state.name, decreasing=T)], 'District of Columbia', 'Washington DC', 'Puerto Rico', 'US Virgin Islands', 'United States Virgin Islands', 'Virgin Islands', 'American Samoa')
+  addl_states <- c("S Carolina", "N Carolina", "W Virginia", "N Hampshire", "S Dakota", "N Dakota", "N Mexico", "N Jersey", "N York")
+  # state_names <- c(state_names, addl_states)
+  # state_abbs <- c(state.abb, 'DC', 'PR', 'VI', 'AS')
+  if(any(!tolower(v) %in% tolower(c(state.abb, state.name)))){v_ <- gsub('united states', 'us', v_)}
+  st1 <- statetoabb(v_) %>% abbtostate()
+  st2 <- abbtostate(v_)
+  result <- if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
+  
+  if(any(!(result %in% unlist(state_names_abbs_df) ) )){
+    state_names_abbs_df
+  }
+    
+  return(result)
+}
+
+#' Samantha Rhoads's function to extract states from a vector
+#' @export
+#' @examples
+#' extract_state(v, keep_which=c('all', 'first', 'last')[1], return_input_if_no_match=T)
+extract_state <- function(v, keep_which=c('all', 'first', 'last')[1], return_input_if_no_match=T){ 
+  v_ <- gsub('W\\. V', 'W V', v)    #{v <- c('City, West Virginia', 'Larami, WY', 'Oskaloosa, DC', 'Sunnyvale', 'Baby, W. Virginia', 'Sami, W Virginia', 'Cat, N Carolina', 'Albany, N York', 'Albany, N. York', 'Laramie, Wyoming')}
+  state_names_abbs_df <- get_states(return_which='both')
+  addl_states <- c('United States Virgin Islands', 'Virgin Islands', "S Carolina", "N Carolina", "W Virginia", "N Hampshire", "S Dakota", "N Dakota", "N Mexico", "N Jersey", "N York")
+  state_names <- c(state_names_abbs_df$state_names[order(nchar(state_names_abbs_df$state_names), state_names_abbs_df$state_names, decreasing=T)], addl_states)
+  # addl_states <- grep('West|East|South|North|New', state_names, value=T) %>% gsub('West', 'W', .) %>% gsub('East', 'E', .) %>% gsub('South', 'S', .) %>% gsub('North', 'N', .) %>% gsub('New', 'N', .) %>% edit()
+  state_names <- c(state_names, addl_states) %>% unique()
+  state_abbs <- state_names_abbs_df$state_abbs
+  v_ <- stringr::str_extract_all(tools::toTitleCase(v_), paste0("\\b(", paste_regex(state_names), ")\\b")  ) %>% sapply(., function(x) paste0(x, collapse="; "))
+  if(any(nchar(v_)==0)){
+    v_ <- sapply(1:length(v), function(i){ # {i=2}
+      vs <- v[i]; v_s <- v_[i]
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(vs, paste0("\\b(", paste_regex(state_abbs), ")\\b")  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(vs, paste0(paste_regex(state_names))  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(vs, paste0("\\b(", paste_regex(tolower(state_abbs)), ")\\b")  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(gsub('\\.', '', vs), paste0("\\b(", paste_regex(c(state_abbs, state_names)), ")\\b")  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(vs, paste0(paste_regex(gsub(' ', '', state_names)))  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(vs, paste_regex(state_names)  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0){v_s <- stringr::str_extract_all(tolower(vs), paste_regex(tolower(state_names))  ) %>% sapply(., function(x) paste0(x, collapse="; "))}
+      if(nchar(v_s)==0&return_input_if_no_match){v_s <- vs} else if(nchar(v_s)==0){v_s <- NA}
+      v_s
+    }) %>% as.character()
+  }
+  if(keep_which=='first'){
+    v_ <- gsub(';.*', '', v_) %>% trimws()
+  } else if(keep_which=='last'){
+    v_ <- gsub('.*;', '', v_) %>% trimws()
+  }
+  v_
+}
+
+
+#' Samantha Rhoads's function to recode states (even from state fips codes)
+#' @export
+#' @examples
+#' recode_state(v, abb=T, to_fips=F)
+recode_state <- function(v, abb=T, to_fips=F){
+  if(all(is.numeric(v))|all(lookslike_number(v))){
+    state_fips_df <- get_states()
+    # state_fips_df <- data.frame(stringsAsFactors = FALSE, state = c("AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AS","GU","MP","PR","UM","VI"),
+                                # state_code = c("01","02","04","05","06","08","09","10","11","12","13","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","44","45","46","47","48","49","50","51","53","54","55","56","60","66","69","72","74","78"))
+    # state_fips_df$state[match(v, state_fips_df$state_code)] # as.numeric(state_fips_df$state)[match(v, as.numeric(state_fips_df$state_code))] # as.numeric(state_fips_df$state_code)[match(v, as.numeric(state_fips_df$state))]
+    v <- state_fips_df$state_abbs[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_fips_df$state_fips)))]
+  }
+  result <- state2abb_or_abb2state(v, abb=abb)
+  return(result)
 }
 
 #' Srhoads wrote this to allow you to...
 #' @export
 #' @examples
-#' (v_abbr)
+#' state2region(v_abbr)
 state2region <- function(v_abbr){
   (v_abbr <- state2abb_or_abb2state(v_abbr, abb=T))
   vdf <- tibble(state.abb = tolower(v_abbr))
@@ -4741,21 +4837,6 @@ recode_na <- function(x, ...) {
 }
 
 
-#' Samantha Rhoads's function to recode states (even from state fips codes)
-#' @export
-#' @examples
-#' recode_state(v, from_fips=F, abb=T)
-recode_state <- function(v, from_fips=F, abb=T){
-  if(all(is.numeric(v))|all(lookslike_number(v))){
-    state_fips_df <- data.frame(stringsAsFactors = FALSE, state = c("AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AS","GU","MP","PR","UM","VI"),
-                                state_code = c("01","02","04","05","06","08","09","10","11","12","13","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","44","45","46","47","48","49","50","51","53","54","55","56","60","66","69","72","74","78"))
-    # state_fips_df$state[match(v, state_fips_df$state_code)] # as.numeric(state_fips_df$state)[match(v, as.numeric(state_fips_df$state_code))] # as.numeric(state_fips_df$state_code)[match(v, as.numeric(state_fips_df$state))]
-    v <- state_fips_df$state[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_fips_df$state_code)))]
-  }
-  
-  state2abb_or_abb2state(v, abb=abb)
-}
-
 ###################################################################################################################################################
 
 
@@ -4851,6 +4932,41 @@ describe_rgb_to_hex_translation <- function(RGB="rgb(35, 59, 150)"){
 is_local <- function() {Sys.getenv('SHINY_PORT') == ""}
 
 
+#' Samantha Rhoads's function to fill a dataframe variable (at_var) by a name of an ID variable (by_var)
+#' @export
+#' @examples
+#' fillr_by_at(d, by_var='occ_code', at_var='occ_description')
+fillr_by_at <- function(d, by_var='occ_code', at_var='occ_description'){
+  d0 <- d
+  d0[['AT_VAR']] <- d0[[at_var]]
+  d1 <- d0 %>% group_by_at(vars(one_of(by_var))) %>% tidyr::fill(., AT_VAR) %>% tidyr::fill(., AT_VAR, .direction = "up")
+  d1[[at_var]] <- d1[['AT_VAR']]
+  ungroup(mutate(d1, AT_VAR=NULL))
+}
+
+#' Samantha Rhoads's function to get the column letter of a number
+#' @export
+#' @examples
+#' get_column_letter(v)
+get_column_letter <- function(v){
+  ab <- toupper(letters)
+  st <- as.character(1:length(ab))
+  result <- ab[match(v, st)]
+  if(is.na(result)){
+    ab <- c(ab, lapply(ab, function(s) paste0(s, ab)) %>% unlist())
+    st <- as.character(1:length(ab))
+    result <- ab[match(v, st)]
+  }
+  return(result)
+}
+
+#' Samantha Rhoads's function to split a dataframe by specified row indeces (numbers)
+#' @export
+#' @examples
+#' split_by_index(d, index=c(5, 10, 15))
+split_by_index <- function(d, index=c(5, 10, 15)){
+  split(d, cumsum(1:nrow(d) %in% index)) 
+}
 ###################################################################################################################################################
 
 
