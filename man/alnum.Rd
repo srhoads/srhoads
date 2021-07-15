@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{alnum}
 \alias{alnum}
-\title{This function allows you to}
+\title{This function allows you to extract alphanumeric characters from a string}
 \usage{
 alnum(x)
 }
 \description{
-This function allows you to
+This function allows you to extract alphanumeric characters from a string
 }
 \examples{
 alnum(x)

@@ -4,7 +4,7 @@
 \alias{statetoabb}
 \title{Samantha Rhoads's function to...}
 \usage{
-statetoabb(v)
+statetoabb(v, state_names_abbs_df = get_states(return_which = "both"))
 }
 \description{
 Samantha Rhoads's function to...

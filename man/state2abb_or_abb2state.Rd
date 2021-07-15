@@ -4,7 +4,11 @@
 \alias{state2abb_or_abb2state}
 \title{Srhoads wrote this to allow you to...}
 \usage{
-state2abb_or_abb2state(v, abb = F)
+state2abb_or_abb2state(
+  v,
+  abb = F,
+  state_names_abbs_df = get_states(return_which = "both")
+)
 }
 \description{
 Srhoads wrote this to allow you to...

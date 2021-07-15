@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{unique_sep_sort}
 \alias{unique_sep_sort}
-\title{Samantha Rhoads's function to}
+\title{Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep}
 \usage{
 unique_sep_sort(v, sep = "; ")
 }
 \description{
-Samantha Rhoads's function to
+Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep
 }
 \examples{
 unique_sep_sort(v, sep = "; ")

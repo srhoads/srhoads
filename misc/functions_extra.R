@@ -62,10 +62,10 @@ if(!exists('zip_code_db')|!exists('zip_puma_ref')){
 
 unique_sep_sort2 <- srhoads::unique_sep_sort #function(v, sep = "; "){sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()}
 
-get_state_puma <- function(st, puma){
-  state_abb <- srhoads::recode_state(st, abb=T)
-  paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
-}
+# get_state_puma <- function(st, puma){
+#   state_abb <- srhoads::recode_state(st, abb=T)
+#   paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
+# }
 
 
 
