@@ -1,3260 +1,1023 @@
+library(srhoads); pkg('tidyverse', 'magrittr')
 
-race_list_short <- {list(
-  "american indian or alaska native" = c("american indian or alaska native", 
-                                         "aamericanindianoralaskanative","aian","aina","aindian","nativeamericanamericanindianalaskanative",
-                                         "aioan","aioran","alakan","alaska","alaskanative","alaskannative","nativeamericanalasknative",
-                                         "alaskannativeamerican","ameindia","ameralaskaindian","amerianindianalaskanative","american indian or alaska native","americani","americanind","americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition",
-                                         "americanindalasnat","americanindiainalaskanative","americanindian","americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                         "americanindianaknative","americanindianalaskan","americanindianalaskanat","nativeamericanalnative",
-                                         "americanindianalaskanativ","americanindianalaskanative","americanindianalaskannational","americanindianalaskannative","americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition", 
-                                         "americanindianalaskiannative","americanindiannativealaskan","americanindalasianat","nativeamericanaknative",
-                                         "americanindiannativeamerican","americanindiannofhispanic","americanindianalaskannativeallpersonshavinginanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintainsculturalidentificationthroughtribalaffiliationorcommunityrecognition",
-                                         "americanindianor","americanindianora","americanindianoralaska","alaskannativeoramericanindian",
-                                         "americanindianoralaskan","americanindianoralaskanative","americanindianoralaskanativealgonquinfirstnation", 
-                                         "americanindianoralaskanativecherokee","americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskanativenorhisporlat","americanindianoralaskanativenot","americanindianoralaskanativeor","americanindianoralaskanativeotlatino","americanindianoralaskanativenorhispanic",
-                                         "americanindianoralaskanativerolatino","americanindianoralaskannat","americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintainstribalaffiliationorcommunityattachment",
-                                         "americanindianoralaskannative","americanindianoralaskannativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintainstribalaffiliationorcommunityattachment", 
-                                         "americanindianoralaskannativeor","americanindianoralaskiannative","americanindianoralaskanativeinanofthealpeoplesofnorthsouthamericanincludingcentralamericanwhiteomaintainstribalaffiliationorcommunitattachment",
-                                         "americanindianoralasknative","americanindianoralsskanative","americanindianoralaskanativenorhispanicorlat",
-                                         "americanindianornativealaskan","americanindianpacificislander","americanindianoralaskannativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintainstribalaffiliationorcommunityattachment",
-                                         "americanindiaoralaska","americanindiaunlaskanative","americaninidanoralaskanative", 
-                                         "americanofirishancestry","americanoralaskannative","ameriindnalasknativ","americanindianoralaskanativelatino",
-                                         "amerind","amerindalasknat","amerindalasknatnothispnc","amerindalnative","latinoamericanindianoralaskanative",
-                                         "amerindian","amerindianaknative","amerindianalaskanative","americanindianoralaskanativev",
-                                         "amerindianalasknnative","amerindiannativeamerican","amerindianoralaskanat", 
-                                         "amin","amind","amindala","amindalaskannative","amindian","americanindianoralaskannativetwo",
-                                         "amindianalaskanative","amindianalaskannative","amindianamericanindianalaskanative", 
-                                         "anai","asianamericanindianoralaskanative","ind","indian","indianalaskian","indiannative","indigenoatralianno", 
-                                         "indigenoatralianyes","mamericanindianor","namericanindianalaskannative", 
-                                         "native","nativealaskan","nativeam","nativeameicanindian","natam",
-                                         "nativeamer","nativeameralaskan","nativeameralaskanative","nativeamericanulhaque",
-                                         "nativeamerican","nativeamericanala","nativeamericanalas","americanindianoralaskanativeapersonhavingoriginsinanyoftheoriginalpeoplesofnorthsouthamericaincludingcentralamericawhomaintainstribalaffiliationorcommunityattachment",
-                                         "nativeamericanalaska","nativeamericanalaskan","nativeamericanalaskanat", 
-                                         "nativeamericanalaskanative","nativeamericanalasknnative","nativeamericanalsknnative", 
-                                         "nativeamericanb","nativeamericanindian","nativeamericanoraknative", 
-                                         "nativeamericanoralaskanat","nativeamericanoralaskanative","americanindianoralaskanativeinanyofthealpeoplesofnorthsouthamericanincludingcentralamericanwhiteomaintainstribalaffiliationorcommunityattachment",
-                                         "nativeamericanoralaskannative","nativeamericanw","nativeamerician", 
-                                         "nativeindian","nnativeamerican","ramericanindianoralaskannative", 
-                                         "samericanindianoralaskanative","samericanindianoralaskanativev", 
-                                         "wnativeamerican"),
-  "asian" = c("asian","viet","asiana","asianorasianeuropean","indian","asianisual","minahasianindonesia","chineseindonesia","eurasiansingapore","indonesia","batakindonesia",
-              "asion","twoasian","asiantwo","asianv","chineseunitedkingdom","thai","thaithailandthailand","sundaneseindonesia","sthailandthailand","javaneseindonesia",
-              "fasian","asianorpacisl","masian","india","rasian","asianorasianbritish","asianandasianamericanincludespakistanisindians","bangladeshi","southasian","sindhiindian","koreanamerican","chinesejapanese","asiachinese","lasian", 
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingcambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandvietnam","asiannislat","sasian","bengladeshi","aisan","nepalese","burnese","bengali","sikh","myanmar","asianturkic","asiantibetan","asiansrilankan","asianpakistaniamerican","asiannepali","asiannepalese","asiankalmyckmongol","asianindonesian","asianindiangujarati","asianindianfilipino","asianindianasianpakistani","asianindianasianindian","asianbangladeshi","asianbangalesh","napalese","eurasian","taiwanese","asianbangladeshiunitedkingdom","singapore","indiansouthafrica","hanchina","asiannothispanicorlano","asianindianunitedkingdom","mysindian","asianpakistaniunitedkingdom","eastasian","gbrasianpakistani","asianunitedkingdom","gbrasian","gbrasianchinese","mysmalay","myschinese","thaithailand","asianvisual","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentnot", 
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam","asiam","sgpindian","thathai","vietnam","sunna","indiansingapore","asina","asia", 
-              "asn","sasianv","kinhvietnam","asianpakistani","basian","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingcambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "asianself","asianjapanese","aia","gbrasianindian","chinesesingapore","nonindigenotaiwantaiwan","balineseindonesia","asiannot",
-              "asianvietnamese","asiankorean","sgpchinese","asianchinese","sgchinese","asians","westasianarab","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent","asianin","ipshita","indiannon","indiansubcontinent","asisan","asianpi","indianmalaysia","asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnam",
-              "asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam","haitan",
-              "asianallpersonshavinginanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentthisareaincludesforexamplechinaindiajapanandkorea","southeastasianincludinurmesecambodianpilipinolaotianmalaysianthaivietnamese","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnamwhiteinanyofthealpeoplesofeuropemiddleeasrnorthafrica",
-              "asianindiansubcontinent","sgindian","americanasian","asianamerican","china","ssingapore","eastasianincludingchinesejapanesekoreanpolynesian","asianchina","apersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnamnot",
-              "asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentncludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentncludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands","asianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineisls",
-              "aisian","asianian","cambodian","vietnamese","korean","japanese","chinese","asianindian","southasiaeastindianincludingindianpakistanisrilankanbangladeshieastindiansfromguyanatrinidadeastafrica","asianinanofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalasiapakistanthephilippineislsthailvietnam",
-              "asain","nativeasian","southeastasian","asianasianamerican","southasiaeastindian","asiannothispanicorlatono","asianorasianamericaneuropean"),
-  "black or african american" = c("black or african american","blackorafricanamericanblackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                  "blackorafricanamerican","blackoramerican","morocco","sblackorafricanamerican","sblackorafricanamericanv","blacknothislatino","blackorafricanamericantwo",
-                                  "guyanaian","jamaican","blackcarribamer","fblack","mblack","blackorafricanamericannofhispanic","blackorafricanamericaninanoftheblackracialgroupsofafrica",
-                                  "blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment","blackaframer","rblackorafricanamerican","jblackorafricanamerican","cblackorafricanamerican","bk","afircanamerican","blackoraframnisporlatino","blackorafram","af","blacknativeamericanoralaskannative","blackorafricanamericanotlatino","africanamercian","blackorafricaname","blackaframblackorafricanamerican","blackorafricanam","blackorafrica","blacknislat","blackorafricanamericanaperso","blackorafricanmerican","blackafricanam","africanam","sblackafricanamerican","borafam","westindian","blackafricaamerican","westindianblack","copticegyptian","blackafricanmerican","egyptian","africanamericanbla","blackafricaname","blackamerican","blackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam","backorafricanamerican","africanamer","blackafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","yorubanigeria","blackafricanamerica","blackcode","blackaficanamerican","gbrblackcarribean","blackafricianamerican", 
-                                  "blackafrianamerican","blackafricanamercian","sblackafricanamericanv","africanamericanblacknofhispanic","africansouthafrica","africanamerica","blackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent","blackmorethanchoice", 
-                                  "blackafericanamerican","blackafricanamericanself","blackafricanameri","blackorafricanamericanorafricanamerican","blackafroamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-                                  "blackblackafricanamerican","blackaffricanam","blackafam","cblackafricanamerican","blackunitedkingdom","blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                                  "twoormoreracesallpersonswho","two or more racesallpersonswho","blackafricanamer","blackorafricanamericaninanyoftheblackracialgroupsofafricanthispanic","twoblack",
-                                  "nonhispanicblack","blackorafricanamericannothispanicotlatino","blackafrcianamerican","blackafricanamercan","blackafricananerican","blackmon","blackmore","blacktwo",
-                                  "blackafricanunitedkingdom","coloured","blacknonhispanicfricanamerican","blackorafricanamericannot","blackafricanamericanallpersonshavinginanyoftheblackracialgroupsofafrica","blackorafricanamericanallpersonshavinginanyoftheblackracialgroupsofafrica","blackcarribamerican","ablackafricanamerican","blackafricanamericanaperso","blackafricanamericanorafricanamerican","blackorafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricawhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                                  "blackaa","blackafra","blackafricanamericanblackafricanamerican","blackcarribean","zafafrican","blackorafricanamericaninanyoftheblackracialgroupsofafricanthispanicorlatino",
-                                  "blackafricanamericaninanyoftheblackracialgroupsofafrica","blackafricanameric","blackafricanameerican","blackorafricanamericanapersonhavingoriginsinanyoftheblackracialgroupsofafrica",
-                                  "blackorblackeri","blackafricanamernothispnc","balckorafricanamerican","bafricanamerican","blackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                                  "africanamericanorblack","afr","blackofafricanamerican","blackafricnaamerican","blackafamer","balck","blackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-                                  "africanblack","blackorblacker","blackorblack","blackorafam","blackafricanamericna","blackafrican","blackorafricanameric","blackorafricanameerican",
-                                  "blackblackblackorafricanamerican","somalian","baa","ba","blackforafricanamerican","bl","blackorafricanamerican","twoblackorafricanamerican",
-                                  "black","afri","african","africanamerican","africanamericanblack","blackafricanamerican","blkafram","blackafram","blackblack","blackandafricanamerican",
-                                  "blackorafrican","blackoraficanamerican","blackorafroamerican","blackorafricanamericaninanyoftheblackracialgroupsofafrica","raceblack"),
-  "hispanic or latino" = c("hispanic or latino", 
-                           "canales","hispaniclatinoq","hispanicpuerrico","hispanicorlatinos","nonwhitelatinomerican","nonwhitelatinomericanincludingindigenopersonsfromcentralandsouthamerican",
-                           "lathispanic","dunbrazil","hispanicinic","hispanichlatino","spaniclatino","hispanicc","latinomericanincludingindigenopersonsfromcentralandsouthamerican","latinotwo",
-                           "hispaniciclatino","hispanics","hispanicorlatinoaor","hispanicapaniclatino","bhispanic","fhispanic","hispaniclatinos","mhispanic","ehispaniclatino","elatino","hispaniclatinomerican","hispanicorlatinoo","hispanicfri","thispanicinformation","hispanicw","hispaniclatinohispanicorlatino","hispanicn","atthispanictime","shispanicorlatino","nicaraguen","hyspanic","guatemalan","argentinean","honduran","hislatin","ecuadorian","portuguese","peruvian","costarican","horl","bolivian","venezulean","salvadorean","columbian","hisplatinoall","dominican","venezuelan","hispaniclatinoorofspanish","hispanicorlatinounspecified","hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafrica","hispaniclat","haspanic","statehispanicorlatino","hipanic","latinohispanic", 
-                           "iamhispaniclatinoaofcubanmexicanpuerricancentralorsouthamericanorspanishcultureorregardlessof","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hispaniclatinoi","bballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandthanwhite","hispaniclatibn","hl","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hispanicorlation","hisplatino","hsp","dhispanicorlatino","lathisp","shispanicorlatinov","hispanicmexican","hispaiclatino","hispanicorlatinoself","puerricancommonwealth","dlatino","puerrico",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","mexican","hispanichispanic","hispanicpuerricancommonwealth", 
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent","alatino","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackafricanamericaninanyoftheblackracialgroupsofafrica","puerricanmainland","cuban","hispaniccode","hispanicpuerricanmainland","hispaniccuban","hispanicorlatinopuerrico", 
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica","hispanic","latinoapersonofcubanmexicanpuerrica",
-                           "bhispanicorlatinowhiteonlyballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreracesorlatino","statehispanic","apersonhavingoriginsinanyoftheoriginalpeoplesofnorthsouthamericaincludingcentralamericawhomaintainstribalaffiliationorcommunityattachmentnot",
-                           "hispanicorlatin","hispanicpuerrican","nhisp","hispaniclatin","latinoorhispanic","hispanicorlatinoapersonofcubanmexicanpuerrica","hispanic or latinoapersonofcubanmexicanpuerrica","latio",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "hispanicocom","hispaniclatinohispaniclatino","pardoormulatino","chicanachicanomexamerican",
-                           "ahispanicorlatino","ahispanic or latino","hispanic or latino or latino","hispanicorlatinoorlatino","hispanicapersonofcubanpuerricansouthorcentralamerican","hispanicnot","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispanicorlatinoorlatino","hispanic or latinoorlatino","hispanicorlatino","hispanicorlat","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                           "hispanicorlatinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "puerrican","his","hislation","hipaniclation","hhispanic","lat","hisp","hispanicorlatinopuertorico","hispanicapersonofcubanpuertoricansouthorcentralamerican","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica",
-                           "hispanicorlatinoapersonofcubanmexicanpuertoricansouthorcentralamericanorspanishcultureororiginregardlessof","latinomerican","twohispaniclatino","hispanicstwo","latinopuerrico",
-                           "hispanicorlatinoapersonofcubanmexicanpuertoricansouthorcentralamericanspanishcultureororiginregardlessof","hila","hla","hispanicstate","hispanicdstate","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessof",
-                           "hisplat","hispw","puertorican","guamanianchamorro","hislatinohispanicorlatino","hispanicoflatino","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispaniclatinospaniclatino","mexicanamermexicanchicano","southamerican","hispanicorlatino","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                           "hispanicorlatinio","spanish","hispanic","hispaniclatino","hislatino","hispanicall","hispanicorlatinohispanicorlatino","hispanicnative","latinoapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofblackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                           "hispanicorlatinoallothers","hisporlat","hispa","latino","asianpacificislander","hispancorlatino","hispaniclatino","iamhispaniclatinoa","latina","latinx","latin"),
-  "native hawaiian or other pacific islander" = c("native hawaiian or other pacific islander","nativehawiianorothrpacificisl",
-                                                  "polynesian","polynese","polynesia","melanesian","melanese","melanesia","micronesia","micronesian","micronese",
-                                                  "tuvalu","vanuatu","samoan","samoa","fijian","fiji","nauru","nauruan","palau","palauan","fillipino",
-                                                  "aasianpacificislander","americanindianpacificislander","anativehawaiianorpacificislander", 
-                                                  "aorpi","ap","api","asainorpacificisland","asianfilipino","nativehawaiianpacislander","tagalogphilippines",
-                                                  "asianfillipino","asianindiannative","asianislandpacific","sopacific","southpacific","malaysingapore",
-                                                  "asiannativehawaiianorasianpacificislander","asiannativehawaiianorpacificislander","pacificislandernativehawaiian",
-                                                  "asiannativehawaiianpacificislander","asianorp","asianorpacificisl","asianorpacificisland","tonga","tongan",
-                                                  "asianorpacificislander","asianpac","asianpacific","asianpacifici","nativehawiiothrpacislander",
-                                                  "asianpacificisland","asianpacificnative","asianpacis","asianpacisl","pacificislandernativehawaiian",
-                                                  "asianpacislander","asianpasificislander","aspi","dnativehawaiianorotherpacificislander","rresstraightislanderatralia",
-                                                  "filipano","filipino","filipinoamerican","gnativehawaiianorotherpacificislander","nativehawaiiannofhispanic",
-                                                  "haw","hawaiian","hawaiianorpacificislander","hawaiianorpacislandr","pacisl","nathawothpacislnd",
-                                                  "hawaiianotherpacificisland","hawaiianpacific","hawaiianpacificisl","nathawothpacislndhispanic",
-                                                  "hawaiianpacificisland","hawaiianpacificislander","hawaiianpacificislands","hawiianothpacisland",
-                                                  "hawaiianpacislanders","hawaiin","hawaiinorpacificislander","nativeorpacisl","hawaiianpacislnd",
-                                                  "hawaiipac","hawiaan","hawiianorpacificislander","hawiianpacisland","nativehawaiianorotherpacificislanderasian",
-                                                  "hawiianpacisnd","hawpacif","hawpacifnathawaiianothpacislander","nativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-                                                  "hawpacifnathawaiianpacislander","hawpi","hipi","hop","hpacificislndr","asianpacificisler",
-                                                  "hpi","islander","knativehawaiianor","nathawaiian","nathawaiianoacislander","maori",
-                                                  "nathawaiianothpacificislander","nathawaiianothpacislander","hawaiipi","hapi",
-                                                  "nathawaiianpacificislander","nathawaiianpacisland","nathawaiianpacislander","hispanicpacificnative",
-                                                  "nathawaiinothpacislandr","nathawaiinthpacislander","nathawaiipacis","nativehawaiianorpacificisler",
-                                                  "nathawothpacislander","nathawothpacislndhislat","nathawpacific","hawaiianpcificislander",
-                                                  "nathawpacificnislat","native hawaiian or other pacific islander","nativehawaiianorpacificislerapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorpacificisls",
-                                                  "nativeamericanalaskannative","nativeamericanoralaskanative","malay","nativehawaiinothpacisland",
-                                                  "nativeamericanoralaskannative","nativehawa","nativehawaiannorpacificislander", 
-                                                  "nativehawaiian","nativehawaiianandpacificislander","nativehawaiianor","nativehawaiianorpacificislerinanofthealpeoplesofhawaiiguamsamoaorpacificisls",
-                                                  "nativehawaiianorasianpacificislander","nativehawaiianorasianpacificislanderasian", 
-                                                  "nativehawaiianoro","nativehawaiianorotherpacific","nativehawaiianorotherpacificislander", 
-                                                  "nativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorotherpacificislanderinanyofthepeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorotherpacificislandernativehawaiianorotherpacificislander", 
-                                                  "nativehawaiianorotherpacificislandernis","nativehawaiianorotherpacificislanderorl", 
-                                                  "nativehawaiianorotherpacificislanderorlatin","nativehawaiianorotherpacisl", 
-                                                  "nativehawaiianorpacif","nativehawaiianorpacific","nativehawaiianorpacificisland", 
-                                                  "nativehawaiianorpacificislandaer","nativehawaiianorpacificislande","hawaiianpacificislanderasian",
-                                                  "nativehawaiianorpacificislander","nativehawaiianorpacificislanderasian", 
-                                                  "nativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", 
-                                                  "nativehawaiianorpacificislanderinanyofthepeoplesofhawaiiguamsamoaorpacificislands", 
-                                                  "nativehawaiianorpacificislandernativehawaiianorpacificislander","nativehawaiianorotherpacificislanderv",
-                                                  "nativehawaiianorpacificislandernis","nativehawaiianorpacificislandernothispanicorl", 
-                                                  "nativehawaiianorpacisl","nativehawaiianorpacislander","nativehawaiianotherpacific", 
-                                                  "nativehawaiianotherpacificislander","nativehawaiianothpacifis","nativehawaiianorotherpacificislanderlatino",
-                                                  "nativehawaiianothpacisland","nativehawaiianpacific","nativehawaiianpacificisland", 
-                                                  "nativehawaiianpacificislande","nativehawaiianpacificislander","pacificnativepacificnative",
-                                                  "nativehawaiianpacificislanderallpersonshavinginanyofthealpeoplesofthehawaiianislandsorpacificislandsincludingthephilippineislandsandsamoa", 
-                                                  "nativehawaiianpacificislanderinanyofthepeoplesofhawaiiguamsamoapacificislands", 
-                                                  "nativehawaiianpacificislndr","nativehawaiianpacifis","nativehawaiianpacisl", 
-                                                  "nativehawaiianpacisland","nativehawaiin","nativehawaiinislander","nativehawaiianorotherpacificislanderapersonhavingoriginsinanyoftheoriginalpeoplesofhawaiiguamsamoaorotherpacificislands",
-                                                  "nativehawaiinorotherpacificislander","nativehawaiinorpacificislander","pacificnativepacific",
-                                                  "nativehawaiinotherpacificislander","nativehawaiinpacificislander","nativehawaiianorrpacificislander",
-                                                  "nativehawaiinpacisland","nativehawaiipacifcisln","nativehawhiteaiianorpacificislander", 
-                                                  "nativehawianpacificislander","nativehawiian","nativehawiianorpacificislander","pacifi",
-                                                  "nativehawiianpacificisland","nativehawiianpacificislander","asianhawaiianpacificislander",
-                                                  "nativhawiiothrpacisldr","nh","nhi","nhopi","nhorpi","nhp","nathawothpacislndlatino",
-                                                  "nhpi","pac","pacif","pacific","pacificisland","pacificislander","americanindianoralaskanativeasianlatino",
-                                                  "pacificislanderhawaiian","pacificislandernofhispanic","pacificislanderornativehawaiian", 
-                                                  "pacificnative","pacificnativeasian","pacificnativeindiannative","hispanicpacificnative",
-                                                  "pacisland","pacislander","philippines","pi","ppacificislander","hispanicpacificnativeasian",
-                                                  "rnativehawaiianorotherpacificislander","snativehawaiianorotherpacificislander",
-                                                  "snativehawaiianorotherpacificislanderv","snativehawaiianorpacificislander", 
-                                                  "snativehawaiianorpacificislanderv"),
-  "white" = c("white","thispanicinformationtwoormoreraces","europeannewzealand","europeannewzealand","europeans","unitedkingdom",
-              "azeri","whitenon","whitenonsasa","whitenofhispanichispanic","whiteite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant",
-              "whitemiddleeastern","fwhite","mwhite","rwhite","germany","germanscottish","cauwhite","caasian","abalatralia",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica","iwhite","whitea","whitenot","ewhitenonhispanicorlatio","whitenislat","european","whitele","swhite","whitee","whitenonhispanicorlation","greekamerican","bmwhite","turkish","bulgarian","italian","greek","couwhite","mediterranean","wm","wf","infowhitehheld", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands","whitepuerrico","statewhite","atralia","polish","gbrwhiteeuropean", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachmentnot", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricant","blackafricanamlatino","nativeamericanalaskanatlatino","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","wit","whiteh","aribac","cauc","ca","whitesouthafrica", 
-              "wtt","zafwhite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanot","whitecanada","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanthispanicorlatino","whitenothislatino","whiteinanofthealpeoplesofeuropemiddleeasrnorthafrica",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent","gbrwhiteirish","whiteunitedkingdom","whitenothispanicoflatino", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","selfwhite","gbrwhite","whitebrazil", 
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackafricanamericaninanyoftheblackracialgroupsofafrica","brawhite","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands",
-              "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafriwhiteinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinent",
-              "whitecode","ewhite","gbrwhitebritish","whitenonhispanic","swhitev","whitte","whtie","whiteor","whitein","whiteallpersonshavinginanyofthealpeopleofeuropenorthafricaorthemiddleeast","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-              "awhite","whiteirishunitedkingdom","whiteie","whiteeuropeanunitedkingdom","whitebritishunitedkingdom","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricaasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "nondiverse","americanwhite","whiteamerican","wihite","whitehdrew","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafrica","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafricanot","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica",
-              "whiteeuropean","whitebritish","while","whie","whiteornonhis","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricaamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricaasianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricaamericanindianoralaskanativeinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment",
-              "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanthispanic",
-              "whitechoosenotto","whitecaian","ukranian","whiteorwhite","whte","wt","whitete","whiteirish","sweden","whiteasperhonofccpreqresponse","whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica",
-              "whiteundisclosed","caucasion","nonminority","whit","whire","uswhite","caucasian","whitewhite","wh","whitenothispanicorigin","whitev","nonhispanicwhite",
-              
-              "meast","meast","meast","meast","meast","meast","arabmiddleeastern","arabian","lebanese","iraqi","middleastern","mideastern","jordanian","mideastrn","middleeastern","westasianarabincludingarabianarmenianiranianisraelilebanesepalestiniansyrianturkishegyptianiraqi",
-              "iraq","greekamerican","saudi","turkish","mideastern","jordanian","persianamerican","middleeastren","lebanese","iraqi","iranianamerican","greek","arabmiddleeastern","whitetwotwo",
-              "arabian","syrian","armenian","arab","afghani","kurdish","mediterranean","iranian","persian","mideast","arabicmiddleeastern","aribac","pakistani","middleeastern","middleeast","arabic"),
-  "two or more races" = c("two or more races","nativeamericanalaskanathispanic","whiteblackorafricanamericanamericanindianoralaskanativetwoormoreraces","whiteblackorafricanamericantwoormoreraces","whitetwo","latinowhitetwoormoreraces",
-                          "bhispanicorlatinowhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreracesorlatino","americanindianoralaskanativeasianblackorafricanamericannativehawaiianorotherpacificislander",
-                          "twoormoreracestwoormoreraces","blackorafricanamericanwhitetwoormoreraces","hispanicorlatinowhitetwoormoreraces","hispanicorlatinotwoormoreraceswhite","allpersonswhowithmoraeoftheabacesnot",
-                          "2ormore","aamericanindianoralaskanativehispanicorlatino","twoormoreracess","hispanicorlatinotwoormoreraces","blackorafricanamericanhispanicorlatinotwoormoreraces","asianhislatino","mixedwhiteasian",
-                          "mixedmixedunitedkingdom","mixedwhiteasianunitedkingdom","mixedwhiteblackafrican","mixedwhiteblackcarribeanunitedkingdom","mixedwhiteblackcarribean","hispanicblackorafricanamericantwoormoreraces",
-                          "africanamericancaucasian","africanamericanhispanic","africanamericanwhite","asiantwoormoreraceswhite","americanindianoralaskanativetwoormoreraces","hispanicorlatinonativehawaiianorotherpacificislander",
-                          "afrihispanic","americanindianalaskannativeasian","whitetwoormoreraceswhitenativeamericanss","blackorafricanamericantwoormoreraceswhite","americanindianoralaskanativetwoormoreraceswhite","whitesingapore",
-                          "americanindianalaskannativeasianmultiracialwhite","americanindianalaskannativeasiantwoormoreraces","asiantwoormoreraces","asianblackorafricanamericantwoormoreraces","hispanicwhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthetwoormoreraces",
-                          "americanindianalaskannativeasianwhite","americanindianalaskannativeblackafricanamerican","blacklatino","americanindianoralaskanativeblackorafricanamericantwoormoreraces","twoormoreraceshislatino",
-                          "americanindianalaskannativeblackafricanamericantwoormoreraces","blackorafricanamericanwhitetwoormoreraces","asianblackorafricanamericantwoormoreraceswhite","blackorafricanamericantwoormoreraces","whitenativehawaiianorotherpacificislanderlatinoamericanindianoralaskanativetwoormoreraces",
-                          "americanindianalaskannativeblackafricanamericantwoormoreraceswhite","americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraceswhite","twora",
-                          "americanindianalaskannativeblackorafricanamerican","americanindianalaskannativecaucasian","americanindianalaskannativeblackorafricanamericantwoormoreraceswhite","twoormoreracesc","asianlatinowhite",
-                          "americanindianalaskannativehispanicorlatino","americanindianalaskannativehispanicorlatinowhite","americanindianoralaskanativeblackorafricanamericantwoormoreraceswhite","twoorm","hispanicwhitetwoormoreraces",
-                          "americanindianalaskannativetwoormoreraceswhite","americanindianalaskannativewhite","americanindianoralaskanativeblackorafricanamericanhispanicorlatinowhite","americanindianoralaskanativehispanicwhite",
-                          "americanindianandwhite","americanindianblack","americanindianlatino","americanindianoralaskanativenativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativehispanic","blackandafricanamericanlatinowhite",
-                          "americanindianoralaskanativeasian","americanindianoralaskanativeasianblackafricanamerican","americanindianoralaskanativenativehawaiianorotherpacificislandertwoormoreraces","blackorafricanamericanlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatino","nativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativeasianblackorafricanamericantwoormoreraceswhite","nativehawaiianorotherpacificislanderlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislandertwoormoreraces","americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislandertwoormoreraceswhite","blackorafricanamericannativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativeasianlatino",
-                          "americanindianoralaskanativeasianblackafricanamericanhispanicorlatinonativehawaiianorpacificislanderwhite","asiannativehawaiianorotherpacificislandertwoormoreraces","hispanicwhitetwo","americanindianoralaskanativeasianlatinonativehawaiianorotherpacificislandertwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislander","americanindianoralaskanativeblackorafricanamericanhispanicorlatinotwoormoreraceswhite","americanindianoralaskanativeblackorafricanamericanhispanicorlatinotwoormoreraces",
-                          "americanindianoralaskanativeasiannativehawaiianorotherpacificislandertwoormoreraces","americanindianoralaskanativeasianblackorafricanamericantwoormoreraceswhite","whitelatio","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislandertwoormoreraceswhite","nativehawaiianorotherpacificislandertwoormoreraceswhite","twosormore","latinotwoormoreraceswhite",
-                          "americanindianoralaskanativeasianblackafricanamericannativehawaiianorpacificislanderwhite","twoormoreracesallpersonswhiteowhitehmorethanoneoftheabovefives","ormoreraces","latinoblackorafricanamericantwoormoreraces",
-                          "americanindianoralaskanativeasianblackafricanamericantwoormoreraces","blackorafricanamericantwoormoreraces","blackorafricanamericantwoormoreraces","ormoreracesapersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasianblackafricanamericantwoormoreraceswhite","asianblackorafricanamericanhispanicorlatinotwoormoreraceswhite","nathawothpacislndhispanic","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislandertwoormoreraceswhite",
-                          "americanindianoralaskanativeasianblackafricanamericanwhite","americanindianoralaskanativeasianblackorafricanamerican","blackorafricanamericanamericanindianoralaskanativetwoormoreraces","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraceswhite",
-                          "whitelatinoblackorafricanamerican","whitelatinoblackorafricanamericanamericanindianoralaskanativetwoormoreraces","whiteblackasiannativeamerican","twoblackorafricanamericanhispaniclatino","blackwhitetwos",
-                          "americanindianoralaskanativeasianblackorafricanamericanhispanicorlatinonativehawaiianorotherpacificislanderwhite","asianindianoralaskanative","twoormoreraceshawaiianpacificislanderasianindianalaskannativeafricanamerican",
-                          "americanindianoralaskanativeasianhispanicorlatino","americanindianoralaskanativeasianhispanicorlatinonativehawaiianorpacificislandertwoormoreraces","twoormoreracesapersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislandertwoormoreraces","americanindianoralaskanativeasianhispanicorlatinonativehawaiianorotherpacificislandertwoormoreraces","latinoblackorafricanamerican",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislandertwoormoreraceswhite","asianblackorafricanamericanhispanicorlatino","personsofmixed","twotwoormoreraces","latinonativehawaiianorotherpacificislander",
-                          "americanindianoralaskanativeasiannativehawaiianorpacificislanderwhite","blackorafricanamericanhispanicorlatinotwoormoreraceswhite","twoormoreracesallpersonswhitehmorethanoneoftheabovesixs","americanindianoralaskanativelatinowhite",
-                          "americanindianoralaskanativeasiantwoormoreraces","americanindianoralaskanativeasiantwoormoreraceswhite","whiteblackorafricanamericanasian","twoormoreracesapersonwhiteoidentifieswhitehmorethanoneofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorotherpacificislanderasianoramericanindianoralaskanative",
-                          "americanindianoralaskanativeasianwhite","americanindianoralaskanativeblackafricanamerican","whiteasiantwoormoreraces","personsofmixedincludingpersonswhitehoneparentinoneofthevisibleminoritygroupslistedabove",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatino","whiteblackorafricanamericanamericanindianoralaskanative","africanamericanamericanindianalaskannative","twoormoreracesallpersonswhiteoidentifwhitehmoraeoftheabaces",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinonativehawaiianorpacificislander","twoormoreracesallpersonswhiteowhitehmorethanoneoftheaboves","latinotwoormoreraces","twobr","americanindianoralaskanativelatinotwoormoreraceswhite",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinotwoormoreraces","nativehawaiianorotherpacificislanderhispanic","whiteamericanindianalaskannativehispanicafricanamerican","americanindianoralaskanativelatinotwoormoreraces",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinotwoormoreraceswhite","twoormoreracesblackorafricanamericanamericanindianoralaskanativetwoormoreraces","blackandafricanamericanamericanindianalaskannativeasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericanhispanicorlatinowhite","twoormoreracesallpersonswhiteowhitehmorethanoneoftheaboves","mtwoormoreraces","blackandafricanamericanamericanindianalaskannativelatinowhite","blackorafricanamericanlatinotwoormoreraceswhite",
-                          "americanindianoralaskanativeblackafricanamericannativehawaiianorpacificislander","twoormoreracesforipedseeaap","asianindianalaskannative","blackandafricanamericanamericanindianalaskannativelatino","americanindianoralaskanativenothispanicotlatino",
-                          "americanindianoralaskanativeblackafricanamericannativehawaiianorpacificislandertwoormoreraces","asianhispanicwhitenofhispanic","blackandafricanamericanasianhispanicwhite","americanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericantwoormoreraces","whiteoormore","asianhispanichawaiianpacificislander","nativeamericanorpacificislander","twob","blackandafricanamericanasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackafricanamericantwoormoreraceswhite","asianhispanicnativehawaiianorotherpacificislander","americanindianalaskannativenativehawaiianorotherpacificislanderwhite","asianlatinotwoormoreraces",
-                          "americanindianoralaskanativeblackafricanamericanwhite","americanindianoralaskanativeblackorafricanamerican","asiannativehawaiianorotherpacificislanderwhitenofhispanic","americanindianoralaskanativeblackorafricanamericanlatinowhite",
-                          "americanindianoralaskanativeblackorafricanamericanhispanicorlatino","blackorafricanamericanamericanindianalaskan","asianwhitenofhispanic","blackandafricanamericanasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackorafricanamericantwoormores","nativehawaiianorotherpacificislanderblackorafricanamericantwoormoreraces","blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativeblackorafricanamericantwoormoreswhite","nativehawaiianorotherpacificislanderblackorafricanamerican","blackandafricanamericanamericanindianalaskannativehispanicwhite","latinoamericanindianoralaskanative",
-                          "americanindianoralaskanativeblackorafricanamericanwhite","americanindianoralaskanativehispanicorlatino","asianwhiteamericanindianalaskannative","blackandafricanamericanasiannativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinonativehawaiianorpacificislander","asianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic","blackandafricanamericanhispanicnativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinonativehawaiianorpacificislandertwoormoreraceswhite","hispanicwhiteasian","asianhispanicnativehawaiianorotherpacificislanderwhite","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativehispanicorlatinotwoormoreraces","whiteamericanindianoralaskanativetwoormoreraces","whiteamericanindianalaskannativeafricanamerican","asianlatinonativehawaiianorotherpacificislander","asianblackorafricanamericanlatino",
-                          "americanindianoralaskanativehispanicorlatinotwoormoreraceswhite","hispanicamericanindianalaskannative","hispanicwhitenofhispanic","blackandafricanamericanamericanindianalaskannativeasianhispanicwhite","nathawothpacislndhislatino","blackandafricanamericanamericanindianalaskannativeasianlatinowhite",
-                          "americanindianoralaskanativehispanicorlatinowhite","americanindianoralaskanativeinanyoftheoriginalpeoplesofnorthandsouthamericaincludingcentralamericaandwhomaintaintribalaffiliationorcommunityattachment","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedstatesofame",
-                          "americanindianoralaskanativenativehawaiianorpacificislander","americanindianoralaskanativeasianblackorafricanamericannativehawaiianorotherpacificislanderwhite","blackandafricanamericanasianlatino","aamericanindianoralaskanativelatino",
-                          "americanindianoralaskanativenativehawaiianorpacificislandertwoormoreraces","americanindianalaskannativeblackorafricanamericantwoormoreraces","blackandafricanamericannativehawaiianorotherpacificislanderwhite","asianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativenativehawaiianorpacificislanderwhite","americanindianoralaskanativeblackorafricanamericanhispanic","blackandafricanamericanamericanindianalaskannativeasianwhite","blackandafricanamericanasianlatinowhite","blackorafricanamericanlatinotwoormoreraces",
-                          "americanindianoralaskanativenothispanicrolatino","americanindianoralaskanativeorlatino","hispanicnativehawaiianorotherpacificislanderwhitenofhispanic","americanindianoralaskanativelatino","latinowhitetwo","americanindianalaskannativeasianlatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativetwoormoreraceswhiteasian","americanindianoralaskanativetwoormoreraceswhiteblackafricanamerican","whiteasianafricanamerican","latinonativehawaiianorotherpacificislanderwhite","blackorafricanamericanlatinowhite","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskanativetwoormores","americanindianoralaskanativetwoormoreswhite","asianblackorafricanamericanhispanicwhite","twowhite","blackandafricanamericannativeamericanorpacificislanderwhite","americanindianoralaskanativeblackorafricanamericanlatino",
-                          "americanindianoralaskanativewhite","americanindianoralaskanativewhiteblackafricanamerican","hispanicwhiteamericanindianalaskannative","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhite","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "americanindianoralaskanativewhiteblackorafricanamerican","americanindianoralaskannativeblackafricanamerican","whiteafricanamericanhispanic","hawaiianpacificislanderhispanicwhite","americanindianalaskannativeasianlatino","americanindianalaskannativeasianlatinowhite",
-                          "americanindianoralaskannativeblackafricanamericantwoormoreraces","americanindianoralaskanativeblackorafricanamericanhispanicwhite","whitehislatino","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "americanindianoralaskannativeblackorafricanamerican","americanindianoralaskannativehispanicorlatino","hispanicwhitehawaiianpacificislander","blackandafricanamericanlatino",
-                          "americanindianoralaskannativetwoormoreraces","americanindianoralaskannativewhitenofhispanic","americanindianoralaskanativenativehawaiianorotherpacificislanderwhite",
-                          "americanindianoralaskannativewhitetwoormoreraces","americanindianorpacificisland","whiteblackorafricanamericanasianindianoralaskanative",
-                          "americanindianwhite","amindalaskanathislat","amindianalaskanativetwoormoreraces","asianblackorafricanamericanhispanic","americanindianoralaskanativehispanicnativehawaiianorotherpacificislander",
-                          "armenianasian","armenianasianamer","asianamericanindianoralaskannative","americanindianoralaskanativeblackorafricanamericannativehawaiianorotherpacificislandertwoormoreraces",
-                          "asianandasianincludespakistanisindians","asianapersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands", 
-                          "asianblack","asianblackafricanamerican","asianblackafricanamericanhispanicorlatino","hispanicafricanamericanasian","whitehawaiianpacificislander",
-                          "asianblackafricanamericanhispanicorlatinotwoormoreraceswhite","blackorafricanamericanhispanictwoormoreraces","whiteafricanamerican","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "asianblackafricanamericanhispanicorlatinowhite","asianblackafricanamericantwoormoreraces","hispanicafricanamericanwhite","eeotwob","americanindianalaskannativeasianlatinowhite",
-                          "asianblackafricanamericantwoormoreraceswhite","asianblackafricanamericanwhite","hawaiianpacificislanderwhiteasian","blackorafricanamericanasianindianoralaskanative",
-                          "asianblackorafricanamerican","asianblackorafricanamericantwoormores","asiantwoormoreracesblackorafricanamerican","whiteafricanamericanasian",
-                          "asianblackorafricanamericanwhite","asiancaucasian","asianchinesewhite","hawaiianpacificislanderasianwhite","whiteafricanamericanamericanindianalaskannative",
-                          "asianeorlatino","asianhislat","asianhispanic","asianhispanicorlatino","hawaiianpacificislanderhispanic","nativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "asianhispanicorlatinonativehawaiianorpacificislander","asianhispanicorlatinotwoormoreraces","hispanichawaiianpacificislander","twoormoreracesallpersonwhitehmorethanoneoftheabovefives",
-                          "asianhispanicorlatinowhite","asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislands", 
-                          "asianinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam","americanindianalaskannativeasianlatino",
-                          "asianindiansubcontinenthispanic","asianindiansubcontinentwhite","americanindianoralaskanativeasianblackorafricanamericanwhite","blackandafricanamericanamericanindianalaskannativeasianlatinowhite",
-                          "asianlatino","asiannativehawaiianorotherpacificislander","asiannativehawaiianorotherpacificislanderwhite","blackandafricanamericanamericanindianalaskannativeasianwhite","blackandafricanamericanasianlatinonativehawaiianorotherpacificislander",
-                          "asiannativehawaiianorpacificislander","asiannativehawaiianorpacificislandertwoormoreraces","hawaiianpacificislanderwhite","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislanderwhite",
-                          "asiannativehawaiianorpacificislanderwhite","asiannativehawaiianpacificislandertwoormoreraces","africanamericanwhitehawaiianpacificislanderamericanindianalaskannative","americanindianalaskannativeasianlatinonativehawaiianorotherpacificislander",
-                          "asiannativehawaiianpacificislanderwhite","asiannofhispanic","hispanicapersonofcubanmexicanpuerricansouthorcentralamericanorspanishcultureorregardlessofwhiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafrica",
-                          "asianorpacificislanderblack","asianorpacificislanderblacknativeamericanoralaskannative","africanamericanasianhispanic","americanindianalaskannativeasianlatino","blackandafricanamericanamericanindianalaskannativeasianlatinonativehawaiianorotherpacificislander",
-                          "asianorpacificislanderhispanic","asianorpacificislandernativeamericanoralaskannative","africanamericanamericanindianalaskannativetwoormoreraces","blackandafricanamericanlatinonativehawaiianorotherpacificislander",
-                          "asianorpacificislandertwoormoreracesnativeamericanoralaskannativewhite","africanamericanamericanindianalaskannativehispanicwhite","americanindianalaskannativeasianlatinowhite",
-                          "asianorpacificislanderwhite","asianorpacificislanderwhitenofhispanic","africanamericanasianhispanicwhite","americanindianoralaskanativeasianblackorafricanamericanlatinonativehawaiianorotherpacificislanderunitedsofame",
-                          "asianpacificnativewhite","asiantwoormoreracesblackafricanamerican","africanamericantwoormoreraces","blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorrpacificislanderwhite",
-                          "asiantwoormores","asiantwoormoreswhite","asianwh","asianwhite","africanamericanhispanicwhiteasianindianalaskannativehawaiianpacificislander","americanindianalaskannativelatinonativehawaiianorotherpacificislander",
-                          "asianwhiteasian","atwo or more races","atwoormoreraces","bhispanicorlatino","africanamericanwhiteasianindianalaskannative","blackandafricanamericanamericanindianalaskannativeasianlatino",
-                          "biracial","bkwhite","blackafricanamericanamericanindianalaskannative","africanamericanwhiteamericanindianalaskannativehispanic",
-                          "blackafricanamericanamericanindianoralaskanative","blackafricanamericanamericanindianoralaskanativetwoormoreraces", 
-                          "blackafricanamericanamericanindianoralaskanativetwoormoreracesorlatino","americanindianoralaskannativewhite",
-                          "blackafricanamericanasian","blackafricanamericanasianjapanese","hispanictwoormoreraceswhite","whitetwoormoreraceswhiteasian",
-                          "blackafricanamericaneuropeanasian","blackafricanamericanhispanic or latino","twowhitetwoasian",
-                          "blackafricanamericanhispanicorlatino","blackafricanamericanhispanicorlatinonativehawaiianorpacificislanderwhite", 
-                          "blackafricanamericanhispanicorlatinotwoormoreraces","blackafricanamericanhispanicorlatinotwoormoreraceswhite", 
-                          "blackafricanamericanhispanicorlatinowhite","blackafricanamericanmultiracial","twoormoreraceswhiteasian",
-                          "blackafricanamericanmultiracialasian","blackafricanamericanmultiracialwhite","whitetwoormoreraceshispanicwhiteasianamericanindianoralaskanative",
-                          "blackafricanamericannativehawaiianorasianpacificislander","blackafricanamericannativehawaiianorpacificislander", 
-                          "blackafricanamericannativehawaiianorpacificislandertwoormoreraces","whitenativehawaiianorotherpacificislanderhispanicamericanindianoralaskanativetwoormoreraces",
-                          "blackafricanamericannofhispanic","blackafricanamericanstatehispanicorlatino","whitetwoormoreraceshispanicwhiteasiannativeamerican",
-                          "blackafricanamericantwo or more races","blackafricanamericantwoormoreraces","whitenativehawaiianorotherpacificislander",
-                          "blackafricanamericantwoormoreraceswhite","blackafricanamericanwhite","whitenativehawaiianorotherpacificislanderblackorafricanamerican",
-                          "blackafricanamericanwhiteamericanindian","blackafricanamericanwhitemultiracial", 
-                          "blackafricanamericanwhitemultiracialamericanindianalaskannative","asianindianoralaskanative",
-                          "blackafricanamericanwhitenativehawaiianorasianpacificislander","whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericanincludingcentralamericanandwhiteomaintaintribalaffiliationorcommunityattachment",
-                          "blackafricanamericanwhitetwoormoreraces","blackafricanamhislat", 
-                          "blackamericanindian","blackandafricanamericanamericanindianalaskannative", 
-                          "blackandafricanamericanamericanindianalaskannativeasianhispanicorlatinonativehawaiianorotherpacificislanderwhite", 
-                          "blackandafricanamericanamericanindianalaskannativewhite","blackandafricanamericanasian", 
-                          "blackandafricanamericanasianwhite","blackandafricanamericanhispanicorlatino", 
-                          "blackandafricanamericanhispanicorlatinowhite","blackandafricanamericannativehawaiianorotherpacificislander", 
-                          "blackandafricanamericanwhite","blackandasian","blackandwhite", 
-                          "blackasian","blackasianpacificislander","blackhispaniwhite","blackorafricanamericanlatinotwoormoreraceswhite",
-                          "blackindiannative","blacknativeamerican","blacknativeamericanoralaskannativewhite", 
-                          "blacknofhispanic","blackorafricanamericanamericanindianalaskannative", 
-                          "blackorafricanamericanamericanindianoralaskanative","blackorafricanamericanamericanindianoralaskanativetwoormores", 
-                          "blackorafricanamericanasian","blackorafricanamericanasianjapanese", 
-                          "blackorafricanamericaneuropeanasian","blackorafricanamericanhawaiianorpacificislander", 
-                          "blackorafricanamericanhispanicorlatino","blackorafricanamericanhispanicorlatinotwoormores", 
-                          "blackorafricanamericanhispanicorlatinowhite","blackorafricanamericanmultiracial", 
-                          "blackorafricanamericanmultiracialasian","blackorafricanamericanmultiracialwhite", 
-                          "blackorafricanamericannativehawaiianorasianpacificislander","africanamericanamericanindianalaskannativeasian",
-                          "blackorafricanamericannativehawaiianorotherpacificislander","africanamericanamericanindianalaskannativeasianwhite",
-                          "blackorafricanamericannativehawaiianorotherpacificislanderwhite","africanamericanamericanindianalaskannativehispanicstate",
-                          "blackorafricanamericannativehawaiianorpacificislander","blackorafricanamericannativehawaiianorpacificislanderwhite", 
-                          "blackorafricanamericantwoormores","blackorafricanamericantwoormoreswhite", 
-                          "blackorafricanamericanwhite","blackorafricanamericanwhiteamericanindian", 
-                          "blackorafricanamericanwhitemultiracial","blackorafricanamericanwhitemultiracialamericanindianalaskannative", 
-                          "blackorafricanamericanwhitenativehawaiianorasianpacificislander","nativeamericanorpacificislander",
-                          "blackorblackericanwhite","blackpacificnative","blackpacificnativeblack", 
-                          "blackwhite","blackwhiteblack","blackwhites","brazilianjapanese","twoormoreracesamericanindianalaskannativeafricanamericanhawaiianpacificislander",
-                          "bw","caucasianafricanamerican","caucasianasian","caucasianhispanic","latinoasiantwoormoreraces",
-                          "cblackorafricanamericanhispanicorlatino","combinationoformorecategories", 
-                          "combinationoftwoormorecategories","diverse","etwoormoreracesorlatino", 
-                          "ewhitelatio","filipinomexican","ftwoormoreraces","ftwoormoreraceshispanicorlatino", 
-                          "ftwosormore","gbrmixed","gnativehawaiianorotherpacificislanderhispanicorla", 
-                          "greekandmexican","hawaiianorpacificislanderwhite","hispanicafricanamerican", 
-                          "hispanicamericanindianoralaskannative","hispanicasian","hispanicblack", 
-                          "hispanicblackindiannative","hispanicblackwhite","hispaniccaucasian","whiteamericanindianalaskannativeasian",
-                          "hispanichispaniwhiteasian","hispanicindiannative","hispaniclatinowhite", 
-                          "hispanicmultiracial","hispanicnativeamericanoralaskannative","twoormorenlatino",
-                          "hispanicorlatino white","hispanicorlatinoamericanindianoralaskanative", 
-                          "hispanicorlatinoasian","hispanicorlatinoasiantwoormores","hispanicorlatinoblackafricanamerican", 
-                          "hispanicorlatinoblackafricanamericantwoormoreraces","hispanicorlatinoblackorafricanamerican", 
-                          "hispanicorlatinoblackorafricanamericantwoormores","hispanicorlatinonativehawaiianorotherpacificislanderwhite", 
-                          "hispanicorlatinonativehawaiianorpacificislander","hispanicorlatinonativehawaiianorpacificislanderwhite", 
-                          "hispanicorlatinootherwhites","hispanicorlatinotwoormore","hispanicorlatinotwoormores", 
-                          "hispanicorlatinotwoormoreswhite","hispanicorlatinowhite","hispanicorlatinowhiteasian","blackandafricanamericanlatinonativehawaiianorotherpacificislanderwhite",
-                          "hispanicorlatinowhiteonly","hispanicorlatinowhites","hispanicorlatinowhitetwoormores","asianblackorafricanamericanlatinowhite",
-                          "hispanicwhite","hispanicwhiteafricannative","hispanicwhiteblack","blackorafricanamericanhispanic",
-                          "hispanicwhiteblackpacificnativeasian","hispanicwhiteindiannative","asianhispanicwhite","twor",
-                          "hispanicwhitepacificnativeasian","hispaniwhite","hispwhite","americanindianoralaskanativenativehawaiianorotherpacificislander",
-                          "iamhispaniclatinoaofcubanmexicanpuertoricancentralorsouthamericanorotherspanishcultureororiginregardlessof","asianhispanicnativehawaiianorrpacificislanderwhite",
-                          "idonotwishtofurnishthisinformationtwoormores","indiannativeasianblackwhite","blackorafricanamericanhispanicwhite","blackandafricanamericannativehawaiianorrpacificislanderwhite",
-                          "indiannativeasianpacificnativewhite","indiannativeblack","indiannativeblackwhite","hispanicnativehawaiianorotherpacificislander","blackandafricanamericanamericanindianalaskannativelatinonativehawaiianorotherpacificislander",
-                          "indiannativepacificnativeblackwhite","indiannativewhite","interracial","hispanicblackorafricanamerican","americanindianalaskannativeasiannativehawaiianorrpacificislanderwhite",
-                          "latinowhite","latinwhite","mix","mixed","mixedbw","mixedtwoormore","hispanicnativehawaiianorotherpacificislander","americanindianalaskannativenativehawaiianorrpacificislanderwhite",
-                          "mixedtwoormoreraces","mixedtwoormores","mixedwhiteblackafricanunitedkingdom","hispanictwoormoreraces","blackandafricanamericanasianhispanicwhite","whitelatinotwoormoreraces",
-                          "morethan1choice","morethanchoice","morethanone","mormore","blackandafricanamericanasianhispanicnativehawaiianorotherpacificislander","blackandafricanamericanasianhispanicnativehawaiianorrpacificislanderwhite",
-                          "mr","mu","mulits","mult","multi","multirac","multiracial","blackandafricanamericanasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "multiracialasiannativehawaiianorasianpacificislander","multiracialasianwhite","blackandafricanamericanhispanicnativehawaiianorotherpacificislander","blackandafricanamericanasiannativehawaiianorrpacificislanderwhite",
-                          "multiracialblackafricanamerican","multiracialblackafricanamericanwhite","blackandafricanamericanasianhispanicwhitenofhispanic","americanindianalaskannativeasianhispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialblackorafricanamerican","multiracialblackorafricanamericanwhite","blackandafricanamericanasiannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "multiracialindiannative","multiracialnativehawaiianorasianpacificislanderblackafricanamericanamericanindianalaskannativeasian","blackandafricanamericanamericanindianalaskannativehispanicwhite",
-                          "multiracialnativehawaiianorasianpacificislanderblackorafricanamericanamericanindianalaskannativeasian","blackandafricanamericanwhitenofhispanic","blackandafricanamericanhispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialnativehawaiianorasianpacificislanderwhiteasian","blackafricanamhispanic","ormoresc","twoormoresc","blackandafricanamericanhispanicwhitenofhispanic",
-                          "multiracialtwoormoreraces","multiracialtwoormores","multiracialwhite","blackandafricanamericanasiannativehawaiianorotherpacificislander","americanindianalaskannativehispanicnativehawaiianorrpacificislanderwhite",
-                          "multiracialwhiteblackafricanamerican","multiracialwhiteblackorafricanamerican","blackandafricanamericanasianwhitenofhispanic","ormoresallpersonswhiteoidentifwhitehmoraeoftheabaces",
-                          "mults","mutliracial","nativeamericanalaskannativetwoormoreraces","blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislander","latinoasian",
-                          "nativeamericanalaskannativetwoormoreraceswhite","nativeamericanalaskannativetwoormores","blackandafricanamericanhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativeamericanalaskannativetwoormoreswhite","nativeamericanalaskannativewhite","blackandafricanamericanasianhispanic","whiteasianhispanic","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorrpacificislanderwhite",
-                          "nativeamericanhispanic","nativeamericanoralaskannativewhite","twoormoreracesallpersonswhitehmorethanoneoftheabovefives","americanindianoralaskanativeasianhispanicnativehawaiianorpacificislerwhite",
-                          "nativeamericanwhite","nativehawaiianorasianpacificislandermultiracialwhiteblackafricanamerican","blackandafricanamericannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorasianpacificislandermultiracialwhiteblackorafricanamerican","blackandafricanamericanamericanindianalaskannativewhitenofhispanic","blackandafricanamericanamericanindianalaskannativenativehawaiianorrpacificislanderwhite",
-                          "nativehawaiianorasianpacificislanderwhite","nativehawaiianorotherpacificislanderinanyofthepeoplesofhawaiiguamsamoaorotherpacificislands","blackandafricanamericannativehawaiianorotherpacificislanderwhite",
-                          "nativehawaiianorotherpacificislanderwhite","nativehawaiianorpacificisland","blackandafricanamericanamericanindianalaskannativenativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorpacificislanderblackafricanamerican","nativehawaiianorpacificislanderblackafricanamericantwoormoreraces","blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorotherpacificislander",
-                          "nativehawaiianorpacificislanderblackorafricanamerican","nativehawaiianorpacificislanderhispanicorlatino","americanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "nativehawaiianorpacificislandertwoormoreraces","nativehawaiianorpacificislandertwoormoreraceswhite","hawaiianpacificislanderafricanamerican","americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "nativehawaiianorpacificislanderwhite","nativehawaiianpacificislanderlatino","twoormoreracespersonswhitehmorethanoneoftheabovefives","hawaiianpacificislanderasianhispanic","americanindianalaskannativelatinowhite",
-                          "nativehawaiianpacificislandertwoormoreraceswhite","nativehawaiianpacislandino","blackandafricanamericanamericanindianalaskannativehispanicwhitenofhispanic","americanindianalaskannativeasianhispanicwhite",
-                          "nativehawaiianwhite","ntwoormoreraces","oneormores","ormore","twoormore","blackandafricanamericanamericanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "ormorenisp","twoormorenisp","ormorenothisp","twoormorenothisp","ormores","twoormores","ormoreselected","ormoresnispanc","twoormoreselected","twoormoresnispanc","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "ormoresnothispanc","ormoresnothispancw312w41a","ormoretwoormoreraces","twoormoresnothispanc","twoormoresnothispancw312w41a","twoormoretwoormoreraces","blackandafricanamericanamericanindianalaskannativeasianhispanicwhitenofhispanic",
-                          "ormoretwoormores","twoormoretwoormores","othercombinationoftwoormorecategories","twoormoreracesallpersonswhitehmorethanoneoftheaboves","whiteasianhawaiianpacificislander","ormoreracespersonwhitehmoraeoftheabovefives","twoormoreracespersonwhitehmoraeoftheabovefives",
-                          "pacificnativeblack","pacificnativeblackwhite","pacificnativewhite","blackandafricanamericanamericanindianalaskannativeasiannativehawaiianorotherpacificislanderwhitenofhispanic","blatinowhiteballpersonsofmexicanpuerricancubancentralorsouthamericanorspanishcultureorandofthewhitelatino",
-                          "rtwoormoreraces","stwoormoreraces","stwoormoreracesv","twoormoreracesv","ttwoormoreraces","blackandafricanamericanamericanindianalaskannativehispanicnativehawaiianorotherpacificislander",
-                          "twnnonindigeno","two or more races","two or more racesallpersonswho","blackandafricanamericanamericanindianalaskannativehispanic","americanindianalaskannativeafricanamericanhispanicwhite",
-                          "two or more racesifyouwhitehtwo or more raceslistedabove","twomore","blackandafricanamericanamericanindianalaskannativeasianwhitenofhispanic","ormoreracesallpersonswhowithmoraeoftheabaces","twoormoreracesallpersonswhowithmoraeoftheabaces",
-                          "twomores","twomr","twoofmores","twoor","twoormor","twoormore","americanindianalaskanativeblackorafricanamericanwhite","americanindianalaskannativehispanicafricanamericanwhiteasianhawaiianpacificislander",
-                          "twoormorefound","twoormorenothispnlatino","twoormoreraces","americanindianoralaskannativeblackorafricanamericantwoormoreraces","americanindianalaskannativeafricanamericanhispanic","americanindianalaskannativenativehawaiianorotherpacificislanderwhite",
-                          "twoormoreracesallpersonswhiteo","twoormoreracesallpersonswhiteowhitehmorethanoneoftheabovesixs","americanindianalaskannativetwoormoreracesafricanamerican","americanindianalaskannativeasiannativehawaiianorotherpacificislanderwhite",
-                          "twoormoreracesallpersonswho","twoormoreracesforipedseeoaap","blackorafricanamericanhispaniclatino","hispanicafricanamericanamericanindianalaskannative","americanindianalaskannativehispanicnativehawaiianorotherpacificislanderwhite",
-                          "twoormoreraceshislat","twoormoreraceshispanic","twoormoreraceshispaniwhite","blackandafricanamericanamericanindianalaskannativeasianhispanic","americanindianalaskannativeafricanamericanhawaiianpacificislander",
-                          "twoormoreraceshispaniwhiteasian","twoormoreraceshispaniwhitenativeamerican","blackandafricanamericanamericanindianalaskannativeasianhispanicnativehawaiianorotherpacificislander",
-                          "twoormoreraceshispaniwhitess","twoormoreracesifyouwhitehtwoormoreraceslistedabove","asianhawaiianpacificislanderhispanic","americanindianoralaskanativeblackorafricanamericannativehawaiianorotherpacificislander",
-                          "twoormoreraceslatino","twoormoreracesn","twoormoreracesnofhispanic","asianindianoralaskannative","hispanicwhiteafricanamerican","americanindianalaskannativeasianafricanamerican",
-                          "twoormoreracesnonhispanic","twoormoreracesorlatino","twoormoreracesorlatinoamericanindianoralaskanativeblackafricanamerican","americanindianalaskannativewhiteafricanamericanhispanic",
-                          "twoormoreracesorlatinoblackafricanamericanamericanindianoralaskanative","blackandafricanamericanamericanindianalaskannativeasian","americanindianalaskannativetwoormoreraces",
-                          "twoormoreracesorlatinoblackafricanamericanamericanindianoralaskanativetwoormoreraces","asianhawaiianpacificislanderwhite","asianafricanamericanamericanindianalaskannative",
-                          "twoormoreracesorlatinoblackorafricanamerican","twoormoreracesp","hispanicnativehawaiianorpacifictwoormoreraces","asianafricanamericanhispanic","americanindianalaskannativeafricanamericanasianwhitehawaiianpacificislanderhispanic",
-                          "twoormoreracespersonswhiteo","twoormoreracespersonwhiteowhitehmorethanoneoftheabovefives","asianhawaiianpacificislanderamericanindianalaskannativewhite","americanindianalaskannativelatino",
-                          "twoormoreraceswhite","twoormoreraceswhitess","twoormoreracesyoumaybyselectingtwoormoreracesabove","asianhawaiianpacificislanderamericanindianalaskannativewhite",
-                          "twoormoreraices","twoormores","twoormoresallpersonswhoidentifywithmorethanoneoftheabovefives","asianhispanicamericanindianalaskannative","americanindianalaskannativeafricanamericanhispanichawaiianpacificislanderasianwhite",
-                          "twoormoresallpersonswhowhitehmorethanoneoftheabovefives","twoormoresapersonwhoidentifieswithmorethanoneofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorotherpacificislanderasianoramericanindianoralaskanative", 
-                          "twoormoreschoosenotto","twoormoresforipedseeoaap","twoormoreswhite","americanindianalaskannativehispanic","asianafricanamericanwhitehawaiianpacificislander","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraces",
-                          "twoors","twos","wai","wandb","wb","whiteafrican","whiteamericanindian","americanindianalaskannativehispanicnativehawaiianorotherpacificislander","americanindianoralaskanativeblackorafricanamericanlatinotwoormoreraceswhite",
-                          "whiteamericanindianalaskanative","whiteamericanindianalaskannative","americanindianalaskannativeasiannativehawaiianorotherpacificislander","ormoreracesamericanindianalaskannative","twoormoreracesamericanindianalaskannative",
-                          "whiteamericanindianalaskannativeblackafricanamerican","whiteamericanindianalaskannativeblackorafricanamerican","asianafricanamericanwhite","twoormoreracespersonwhitehmorethanoneoftheabovefives",
-                          "whiteamericanindianoralaskanative","whiteamericanindianoralaskanativetwoormores","americanindianalaskannativehispanicwhite","americanindianalaskannativewhiteasian",
-                          "whiteamericanindianoralaskannative","whiteamericanindianoralaskannativeasian","americanindianalaskannativeasiannativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteapersonhavingoriginsinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica","americanindianalaskannativehispanicwhitenofhispanic","whitetwoormoreraceshispanicwhitenativeamerican",
-                          "whiteasian","whiteasianindiannative","whiteasianmultiracial","africanamericanwhiteasian","americanindianalaskannativenativehawaiianorotherpacificislander",
-                          "whiteasianorpacificislander","whiteasianss","whiteasiantwoormores","americanindianalaskannativeafricanamerican","americanindianoralaskanativeasianblackorafricanamericanhispanicnativehawaiianorotherpacificislanderunitedstatesofame",
-                          "whiteblack","whiteblackafricanamerican","whiteblackafricanamericanamericanindianoralaskanative","americanindianalaskannativewhiteafricanamerican","asiannativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamericanwhite",
-                          "whiteblackafricanamericanamericanindianoralaskanativetwoormoreraces","americanindianalaskannativeafricanamericanasian","americanindianoralaskanativeasianhispanicnativehawaiianorotherpacificislanderwhite",
-                          "whiteblackafricanamericanasian","whiteblackafricanamericanasianamericanindianoralaskanative","americanindianalaskannativenativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteblackafricanamericanmultiracial","whiteblackafricanamericantwoormoreraces","americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislander",
-                          "whiteblackasian","whiteblackindiannative","whiteblackorafricanamerican","americanindianalaskannativeafricanamericanwhite","americanindianoralaskanativeasiannativehawaiianorotherpacificislanderwhite",
-                          "whiteblackorafricanamericanamericanindianoralaskanativetwoormores","africanamericanwhiteamericanindianalaskannative","asianafricanamerican","asianindianoralaskanativewhite",
-                          "whiteblackorafricanamericanmultiracial","whiteblackorafricanamericantwoormores","americanindianalaskannativeasianhispanic","americanindianalaskanativetwoblackorafricanamericanwhite",
-                          "whiteblackpacificnative","whitecaucasianinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica","americanindianalaskannativewhitenofhispanic",
-                          "whitehiispanic","whitehislat","whitehispanicorlatino","whitehispanicorlatinotwoormores","americanindianalaskannativeasianhispanicnativehawaiianorotherpacificislanderwhitenofhispanic",
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricablackorafricanamericaninanyoftheblackracialgroupsofafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnamamericanindianoralaskanativeinanyofthealpeoplesofnorthandsouthamericaincludingcentralamericaandwhiteomaintaintribalaffiliationorcommunityattachment", 
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislands", 
-                          "whiteinanyofthealpeoplesofeuropethemiddleeasrnorthafricanativehawaiianorotherpacificislanderinanyofthealpeoplesofhawaiiguamsamoaorpacificislandsasianinanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislandsthailandandvietnam", 
-                          "whiteinanyoftheoriginalpeoplesofeuropethemiddleeastornorthafrica","africanamericanamericanindianalaskannativewhite","africanamericanhawaiianpacificislanderwhite",
-                          "whiteindiannative","whitelatino","whitemultiracial","whitemultiracialasian","africanamericanhawaiianpacificislander","americanindianalaskannativehispanicafricanamerican",
-                          "whitemultiracialblackafricanamerican","whitemultiracialblackorafricanamerican","africanamericanhispanicamericanindianalaskannative","americanindianalaskannativehispanicafricanamericanwhite",
-                          "whitenativeamerican","whitenativehawaiianorasianpacificislander","africanamericanasian","americanindianalaskannativeasianhispanicwhitenofhispanic","asianindianoralaskanativeblackorafricanamerican",
-                          "whitenativehawaiianorpacificislander","whitenativehawaiianorpacificislanderasianamericanindianoralaskanative","twoormoreracesafricanamerican","nativehawaiianorotherpacificislanderamericanindianoralaskanative",
-                          "whitenativehawaiianorpacificislanderblackafricanamerican","whitenativehawaiianorpacificislanderhispanicorlatinoamericanindianoralaskanativetwoormoreraces","asianindianoralaskanativeblackorafricanamericanwhite",
-                          "whitenofhispanic","whitepacificnative","whitepacificnativeasian","blackorafricanamericanandhispaniclatino","africanamericanhispanicamericanindianalaskannativewhite","americanindianoralaskanativewhitenot",
-                          "whitetwoormoreraces","whitetwoormoreraceshispanics","whitetwoormoreraceshispanictwoormoreracess","americanindianalaskannativeasianwhitenofhispanic",
-                          "whitetwoormoreraceshispanicwhite","whitetwoormoreraceshispanicwhiteasian","africanamericanasianwhite","hispanicafricanamericanamericanindianalaskannative",
-                          "whitetwoormoreraceshispanicwhitenativeamericans","whitetwoormoreraceslatino","africanamericanhispanicwhite","multiracialtwo","htwo",
-                          "whitetwoormoreracesnativeamerican","whitetwoormoreraceswhite","asianindiansubcontinentblack","multitwos","blackwhitetwos","twosb","nativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamerican",
-                          "whitetwoormoreraceswhitenativeamerican","whitetwoormores","nativehawaiianorotherpacificislanderamericanindianoralaskanativeblackorafricanamericanwhite",
-                          "nativehawaiianorotherpacificislanderblackorafricanamericanwhite"),
-  "NA" = c("NATOEVERYONE","notspecified","memberofvisibleminoritycanada")
-)}
+#===========================DATA==================================
 
+if(!exists("puma_crosswalk")){
+  puma_crosswalk <- rio::import(file="https://usa.ipums.org/usa/resources/volii/PUMA2000_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('pop|land|gisjoin|cpuma00|geoid')) %>% 
+    mutate(stab00 = recode_state(state00), stab10 = recode_state(state10),
+           state_puma00 = get_state_puma(stab00, puma00), state_puma10 = get_state_puma(stab10, puma10)) #%>% 
+}
 
+if(!exists("puma_msa_ref")){
+  puma_msa_ref <- readr::read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% select(-one_of("X8", "X9", "notes", "msa"))
+}
 
-preprocess_names_other_getridofstrregex <- {paste0(
-  c("macro", "staffmark", "stafffmark","information", "informatio", "informati", "informat", "informa", "inform", "infor", "info",
-    "ofor", "ofor", "worker", "fake", "reportingformat", "public", "describe", "description", "desc", "discription", "renglish", "english", "other",
-    "accurate", "ofor", "eem", "eeo", "forms", "form", "applicant", "legal", "employee", "paygapanalysis", "lastfirst", "selfidentification", "taleo", "detail",
-    "promoted", "specify", "iprefernottoprovide",
-    "text", "fnf", "complete", "blackor", "itly", "whatisyour", "corrected", "iparttimeion", "lication", "background", "jacksonlewis", "description",
-    "ifno", "hmlm", "orininator", "former", "localesensitive", "makeyourselection", "upper", "lower",
-    "grp", "current", "applicant", "person", "primary", "candidate", "app", "spriden", "spbpers", "ipeds", "new", "individual", "indiv", "ind", "ming",
-    "reported", "preferred", "optional", "recipient", "legal", "previous", "previou", "secondary", "second", "avisu", "translate", "workforce", "horizon",
-    "start", "candidate", "unitedstatesglobal", "information", "contact", "identified", "original", "origin", "orig", "recruitingworkflowprofile", "label",
-    "wfn", "fixed", "updated", "fields", "donor", "colleague", "legacy", "alpha", "expand", "combined", "dra", "full", "jl", "pleaseselectyour", "further", 
-    "candidate", "candidat", "candid", "candi", "cand", "groupof", "knowna", "dnu", "questioncode", "ofprior",
-    "associate", "fsu", "value", "emp", "adminentered", "reported", "selfentered", "essee", "final", "sterms", "ofindividual", "rtiption", "codemf",
-    "same", "identification", "affiliations", "affiliation", "ination", "used", "translation", "deccription", "definition", "ination", "dentification", "norhispanicorlat", "nisorlat", "nispnc",
-    "category", "voluntaryselfid", "codeaap", "morf", "haassoc", "asofnov", "further", "ming", "cd$", "^hrm", "^loy", "^lfull"), 
-  collapse = "|")}
+if(!exists("df_1_row_per_msa")){
+  df_1_row_per_msa <- puma_msa_ref %>%
+    group_by_at(vars(one_of("state_msa"))) %>% 
+    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort2(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
+}
+if(!exists("df_1_row_per_puma")){
+  df_1_row_per_puma <- puma_msa_ref %>%
+    group_by_at(vars(one_of("state_puma"))) %>% 
+    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort2(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
+}
 
-
-
-turntoracestrregex <- {paste0(
-  c("raceethnicity", "raceethn$", "nativehawaiianotherpacificislander", 
-    "xethnicity", "ethnicgroup", "ethnicity", "ethnicit", "ethnici", 
-    "ethnic", "ethni", "ethno", "ethn", "eth$", "racecodes", "racecode", 
-    "race", "raceno", "twoormoreraces", "africanamerican", "raceance", 
-    "racefor", "racecategory", "racer$", "raceic", "racehr", "eeorace", 
-    "eerace", "lwrace", "racename", "namerace", "raceid", "psrace", 
-    "^srace", "racerace", "racesee", "raceitly", "raceiparttimeion", 
-    "drarace", "inictyname", "racety", "racedscr", "white", "thispanic", 
-    "hispaniclatino", "alrace", "orrace", "ifrace", "twomoreraces", 
-    "racepre$", "racedecr", "raceal", "raceip", "raceraceentity", 
-    "racecd", "racep", "allrace", "finrace", "eprace", "raceer$", 
-    "adprace", "^erace", "asian", "black", "americanindianalaskannative", 
-    "^lrace", "^rce$", "ethrace", "racey$", "racex$", "racecitiy", 
-    "raceand", "andrace", "^prace", "racedistributiongraph", "racestaffmark", 
-    "racedsc", "raceiannative", "raceinev", "loyrace", "raceiy", 
-    "racems", "raceminority", "nativehawaiianorotherpacificislander", 
-    "nativeamerican", "hispanic", "raceming", "furtherinforace", 
-    "crace", "prace", "srace", "racekey", "lrace", "races$", "rcename", 
-    "raceid$"), 
-  collapse="|")}
-
-
-turntogenderstrregex <- {paste0(c("female", "male$", "^male", "adpgender", "genderer$", "gendercodes", 
-                                  "gendercode", "gendery$", "genderx$", "gnder", "gndr", "gender", 
-                                  "sex", "hpigenderr", "^sgender", "^xgender", "psgender", "^lgender", 
-                                  "gendermf", "gendereeo", "genderr$", "genderhr", "aagender", 
-                                  "algender", "genderkey", "genderid", "apgender", "submissiongenderternal", 
-                                  "gendercategory", "eegender", "eeogender", "argender", "^cgender", 
-                                  "pmgender", "mmaleffemale", "^fgender", "^mgender", "hpigender", 
-                                  "genderfield", "gendername", "genders$", "^pgender", "$pgender", 
-                                  "clmntgender", "^epgender", "emgender", "revisedgender", "negender", 
-                                  "genderming", "furthergender", "fieldgender", "genderaap", "genderand", 
-                                  "andgender", "fgender", "gendercd", "mgender", "^egender", "gendergendergender", 
-                                  "gendergender", "namegender"), collapse="|")}
-
-partials <- {c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-               "pacific islander", "indian", "female", "woman", "women", "feminine", "masculine", "white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races", 
-               "female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine", "mannlich")}
-
-
-recode_na_getridofstrregex <- {paste0(
-  c("wishto", "vicepresidents", "vicepresident", "unspecified", 
-    "unreported", "unkown", "unknwon", "unknown", "unitedstatesofamerica", 
-    "united states of america", "undisclosed", "undeclared", "undata", 
-    "unallocated", "transporter", "tostate", "toself", "toanswer", "iidentif$",
-    "thisquestion", "thisinformation", "thisinfo", "testtest", "technologyl", 
-    "technology", "sysco", "supportworkers", "strategy", "specify", 
-    "specialist", "socialwork", "shouldbe", "seniorassociate", "selected", 
-    "security", "sdeclinetov", "rmation", "respiratory", "researchers", 
-    "researcher", "research", "requisition", "rehabilitation", "rathernot", 
-    "questions", "providisinfo", "provided", "provide", "programs", "sidentifv",
-    "program", "professofafricanastudies", "products", "productive", 
-    "production", "product", "priorworker", "presidents", "president", 
-    "presented", "prefernot", "phonescreen", "phoneinterview", "pharmacy", 
-    "personwasmanuallentered", "parttime", "orlatino", "officeservices", 
-    "notspecified", "notself", "notrmation$", "notofhispanicorigin", 
-    "notinsap", "notidentified", "nothispnc$", "nothispanicorlatino", "nothispanicc$","nothispanicnlatino",
-    "nothispanicorlatin$", "nothispanicorlat$", "nothispanicorla$", "nonhispanicorlatio$",
-    "nothispanicorl$", "nothispanicorhispanic", "nothispanicorhispan$", 
-    "nothispanicorhispa$", "nothispanicorhisp$", "nothispanicorhis$", 
-    "nothispaniclatino$", "nothispaniclatin$", "nothispaniclat$", 
-    "nothispanicl$", "nothispanic$", "nothisorlat$", "notentered", 
-    "notanswer", "norhispanicorlat$", "nonhispanicorhispanic$", "nonhispanicorhispan$", 
-    "nonhispanicorhispa$", "nonhispanicorhisp$", "noidentif$", "noapplication", 
-    "nisporlat$", "newjob", "neverinterviewed", "never", "morequalifiedcandidates", 
-    "medical", "marketing", "managersap", "managers", "manager", 
-    "management", "laboratory", "jobfairs", "jobfair", "irespond", 
-    "iprefernot", "iprefer", "interviews", "interviewing", "interviewer", 
-    "interviewee", "interviewed", "interview", "international", "internal", 
-    "inanyofthealpeoplesofthefareastsoutheastasiathesubcontinentincludingfexamplecambodiachinaindiajapankeamalaysiapakistanthephilippineisls", 
-    "inanyofthealpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineisls$", 
-    "inactive", "ielectnotto", "idontanswer", "idonottoprovidethisinformation", 
-    "idonottoanswer", "idonot", "identify", "identified", "identification", 
-    "ichoosenot", "ichoose", "hiring", "generalmanagement", "function", 
-    "fulltime", "extendedprofile", "employing", "employer", "employees", 
-    "employeename", "employee", "employed", "email", "eeob", "dtoidentif$", 
-    "donottoanswer", "donotselectthisoptionifoutoour$", "donotselectthisoptionifouour", 
-    "doesnot", "distributiongraph", "disclosed", "disclose", "directors", 
-    "directorof", "director", "diiweekly", "diibiweekly", "didnot", 
-    "development", "description", "departments", "department", "declinto", 
-    "declined", "decline", "databases", "database", "creativedesign", "missinlank",
-    "corporate", "consulting", "consultants", "consultant", "chosenot", 
-    "choosenotto", "choosenot", "chieffinancialofficer", "centralretail", "notresponse",
-    "businesses", "business", "benefitsadminretail", "behavioralhealth", 
-    "bartenders", "bartender", "available", "atthistime", "associates", "none listed",
-    "associate", "assistants", "assistant", "applicant", "apersonwhiteoidentifieswhitehmoraeofthefollowingasdefinedabovewhiteblackorafricanamericannativehawaiianorpacificislerasianoramericanindianoralaskanative$", 
-    "apersonhavingoriginsinanyoftheoriginalpeoplesofthefareastsoutheastasiaortheindiansubcontinentincludingforexamplecambodiachinaindiajapankoreamalaysiapakistanthephilippineislsthailvietnam$", 
-    "apersonhavingoriginsinanyoftheoriginalpeoplesofeuropemiddleeastornorthafrica$", "applicationreceivedtoolate",
-    "answer$", "anonymized", "advancedpractice", "administrative", "^stoidentifv","^tospecif$","newspapermagazinead",
-    "accounting", "â", "^toidentif$", "^stov$", "^specif$", "^snav$", "universityjobposting","craigslist","monstercom","universitjobposting",
-    "^self$", "^oput$", "^nottom$", "^notto$", "^nottmation", "^nothis$", "notrpted","information", "followstepscompleteeeoinfo","technologl","newspapermagazinead",
-    "^noidentif$", "^noident>\\", "^iself$", "^identif$", "^id$", "donotidentif$","noidentidentif$","simplhired","$rnotdeclared","^hourl$","applicationreceivedolate","temporaroncall",
-    "^fillin$", "^donot$", "^answer$", "^answer", "semimonthly", "wwwindeedcom", "careerfair", "internet", "cidatetakesteps", 
-    "morequalifiedcidate", "technolog$", "monthly","identif$",
-    "followstepscompleteeeoinfo", "followstepstocompleteeeoinfo", "notclassified", "ziprecruiter", "lackseducationrequiredfortheposition", "pharmadiversit$", "americanjobexchange"),
-  collapse = "|")}
-
-recode_na_list <- {list(
-  "NA" = c(" ", ",", "active", "admin", "agency", "aliennonresident", 
-           "american", "anonymized", "answe", "answer1", "answeredhispaniclatinoquestion", 
-           "arbpayroll", "blackafricanamerican", "brazilmonthly", "candidateeeo", 
-           "centralislipny", "choosenotrodisclose", "choosenottodisclose", 
-           "choosenottoidentify", "chosenottodisclose", "chosenottoselfidentify", 
-           "claimingdisabilitystat", "clericalunitclerk", "cocreatepayroll", 
-           "coders", "comalepanyjobboard", "dateofinterview", "declin", "notnoresponse",
-           "decline", "declined", "declinedtoanswer", "declinedtoselfidentify", 
-           "declinedtostate", "declineselfidentification", "declinetoanswer", 
-           "declinetodisclose", "declinetoid", "declinetoidentify", "declinetoselfidentify", 
-           "declinetostate", "declintoself", "demoapplication", "deputyprojectmanager", 
-           "description", "didnotanswer", "didnotdisclose", "didnotintvwell", 
-           "didnotrespond", "didnotselfid", "didnotspecify", "didnotwishtoanswer", 
-           "didntid", "directsourcedlinkedin", "doesindentify", "doesnot", 
-           "doesnotwishtoidentify", "doesnotwishtoprovide", "doesnt", "donotidentify", 
-           "donotselectthisoptionifyoutoyour", "donotselectthisoptionifyouyour", 
-           "donotwishto", "donotwishtoanswer", "duplicate", "eeo", "eeob", 
-           "eeoc", "emailedsurvey", "ethnicorigin", "eval", "EVENTUALLYWEWILLDELETEITBUTWENEEDTHEPLACEHOLDER", 
-           "executive", "external", "fax", "firstname", "fisbiweeklyhourly", 
-           "fissemimonthly", "flsaid", "ft", "ftpt", "fulltime", "functiontesttechnician", 
-           "gender", "grp", "ichoosenotoselfidentify", "ichoosenotprovideinformation", 
-           "ichoosenotselfidentify", "ichoosenottodisclose", "ichoosenottodisclosethisinformation", 
-           "ichoosenottoidentify", "ichoosenottoprovideinformation", "ichoosenottoprovidemy", 
-           "ichoosenottorespond", "ichoosenottoselfid", "ichoosenottoselfidenitfy", 
-           "ichoosenottoselfidentify", "ichoosenottoselfidentifyatthistime", 
-           "ideclinetoanswer", "ideclinetorespond", "ideclinetoselfidentify", 
-           "identifiedasunknown", "idonottoanswer", "idonottoprovidethisinformation", 
-           "idonottoself", "idonotwishtofurnishthisinformation", "idonotwishtoprovidethisinfo", 
-           "idonotwishtoprovidethisinformation", "idonotwishtoselfidentify", 
-           "idonotwishtoselfidentifyatthistime", "idont", "idonttoanswer", 
-           "idontwishtoanswer", "ielectnotto", "ielectnottoselfidentify", 
-           "ignore", "incomplete", "internal", "interviewcancelled", "interviewdate", 
-           "iprefernotanswer", "iprefernottoanswer", "iprefernottodisclose", 
-           "jonesboroar", "lacksrequiredqualifications", "lastname", "management", 
-           "materialcontrolattendant", "miami", "missing", "missingor", 
-           "more", "morequalifiedcandidates", "mtgbankingdivisionadmin", 
-           "mtspayrollus", "multiple", "nainquire", "nameofindividualcompletingform", 
-           "nanon", "nanonnotapplicablenon", "ncsd", "newyorkny", "nhispanic", 
-           "nnotspecified", "noanswer", "noanswerseeinperson", "noanswerselected", 
-           "noapplicablecode", "noapplication", "nodatacollected", "nodisclosure", 
-           "noentify", "noid", "noident", "noidentified", "noidentify", 
-           "noinfo", "noinformation", "nondisclosed", "nondisclosure", "none", 
-           "nonegiven", "nonelisted", "noneprovided", "nonespecified", "nonreported", 
-           "nonresalien", "nonresidentalien", "noreponse", "noresponse", 
-           "norinfo", "nortspecify", "noselection", "noselfid", "notappearinginhrm", 
-           "notapplicable", "notapplicablenon", "notassigned", "notavailable", 
-           "notcaptured", "notcollected", "notcompleted", "notdeclared", 
-           "notdefinedinsap", "notdesignatedinsap", "notdisabledofccp", 
-           "notdisclosed", "notentered", "notgiven", "nothispanic", "notidentified", 
-           "notindicated", "notinformation", "notinsap", "notknown", "notlisted", 
-           "notlistedinsap", "notprovided", "notrecorded", "notreported", 
-           "notreporting", "notreturned", "notself", "notspec", "notspecif", 
-           "notspecified", "notspecifiedinactive", "notspecify", "notspecnotspecified", 
-           "notthisquestion", "null", "nurse", "nursesaide", "nursing", 
-           "nyitbeijing", "nyitnanjing", "nyitvancouver", "octagmktng", 
-           "oldwestburyny", "optedout", "optout", "oput", "orderly", "other", 
-           "parttime", "personal banker", "phonescreeen", "prefernotsay", 
-           "prefernottoanswer", "prefernottodisclose", "prefernottosay", 
-           "prefernottospecify", "prefers", "prefersnottoanswer", "professional", 
-           "professionals", "professor", "provide", "providisinfo", "providisinformation", 
-           "pt", "ptft", "racialcategory", "railcartechnician", "rathernot", 
-           "referral", "referralsource", "refetodisclose", "refused", "rehire", 
-           "reloagent", "requisitionfilledresumenotreviewed", "requisitionsid", 
-           "rmation", "sales", "salesworkers", "sandiego", "sanjose", "sdeclinetov", 
-           "sentemail", "service", "sgother", "snav", "staffnurse", "stov", 
-           "technical", "thisquestion", "totals", "ukn", "unavail", "undata", 
-           "undeclared", "undisclosed", "unknown", "unknowndeclinedtodisclose", 
-           "unknownpersonwasmanuallyentered", "unknwn", "unkown", "unkwn", "", 
-           "unotknow", "unspec", "unspecified", "usbiweekly", "xx")
-)}
-
-
-types <- c('ADDL COMP', 'APPLICANTS', 'NEW HIRES', 'PROMOTIONS', 'TERMINATIONS', 'WORKFORCE')
-
-#============================================================================================================================================================================
-
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' gather_namesplit()
-gather_namesplit <- function(df){
-  df %<>% 
-    namesplit() %>%
-    gather_first_last_name() %>%
-    dplyr::distinct()
-  df
+if(!exists('zip_code_db')|!exists('zip_puma_ref')){
+  # zip_puma_ref <- bind_rows(geocorr::zcta2010_to_puma2012, geocorr::zcta2010_to_puma2000 %>% setNames(gsub('2kName', 'name', names(.)) %>% gsub('2k', '12', .) )) %>% distinct() %>% distinct(puma12, zcta5, .keep_all=T) %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+  zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+  # writexl_open(zip_code_db, "zip_code_db.xlsx")
+  zip_code_db <- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% 
+                    mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%
+                    select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% # filter(!zipcode %in% zipcodeR::zip_code_db$zipcode) %>%
+                    mutate(post_office_city = major_city )
+  ) %>%
+    bind_rows(zipcodeR::zip_code_db, .) %>%
+    as_tibble()
+  
+  # writexl_open(zip_code_db, "zip_code_db.xlsx")
+  
+  # 20227, 20520, 20565 
+  zip_puma_ref %>% filter(grepl('20227|20520|20565', zipcode))
+  setdiff(zip_code_db$zipcode, zip_puma_ref$zcta5)
+  puma_to_censustract_county <- "https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt" %>% read_csv(col_names=T) %>% janitor::clean_names() %>%
+    mutate(state_county = paste0(statefp, countyfp)) %>%
+    left_join(., geocorr::county2014_to_puma2012 %>% mutate(state_county=county14)) %>%
+    select(-matches('afact|pop')) %>%
+    mutate(county = gsub(' [[:alpha:]]{2}$', '', cntyname2))
+  
+  # writexl_open(puma_to_censustract_county, "puma_to_censustract_county.xlsx")
+  
+  if(F){
+    puma_to_censustract_county %>%
+      rowwise() %>% mutate(zip = zipcodeR::search_county(county, stab) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>% paste0(., collapse=", ")) %>% ungroup()
+  }
+  zipcodeR::zcta_crosswalk # ZCTA5 TRACT GEOID
+  zipcodeR::zip_code_db %>% filter(grepl('20227|20520|20565', zipcode))
+  # zipcodeR::search_county("District of Columbia", "DC")
 }
 
 
-#' This function allows you to 
-#' @export
-#' @examples
-#' gather_namesplit_clean(df)
-gather_namesplit_clean <- function(df){
-  df %<>% lapply(., function(x){
-    x <- stringi::stri_enc_toutf8(x) %>%
-      gsub("_", " ", .) %>%
-      gsub("[^,|\\.| |\\-|-|[:alpha:]]", "", .) %>%
-      trimws(., which="both") %>% 
-      as.character() %>% 
-      tolower() %>% 
-      gsub(",", ", ", .) %>%
-      gsub("  ", " ", .) %>%
-      gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
-      trimws() 
-    x
-  }) %>% data.frame(., stringsAsFactors = F) %>%
-    clean_recode() %>%
-    gather_namesplit() %>%
-    recode_races_and_genders() %>% 
-    dplyr::mutate(gender=as.factor(recode_gender_specific(gender))) %>%
-    dplyr::distinct() %>%
-    lapply(., function (x) {
-      x %<>% 
-        gsub("^phd$|^rn$|^md$", "", .) %>%
-        gsub("^jr$|^jr\\.$|jr\\.,| jr\\.| jr$| jr |,jr$|,jr\\.|,jr |^jr\\. ", "junior", .) %>%
-        na_if(., "") %>%
-        as.factor()
-      x
-    }) %>%
-    data.frame() %>% 
-    dplyr::distinct()
-  df
-}
+#=========================FUNCTIONS====================================
 
-#' This function allows you to recode race and gender!
-#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
-#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
-#' @keywords cats
-#' @export
-#' @examples
-#' recode_races_and_genders_regex()
-recode_races_and_genders_regex <- function(df, extragender = NULL, extrarace = NULL) {
-  
-  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
-  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) > 0){
-    genderdf <- lapply(genderdf, recode_gender_regex) 
-  }
-  if(length(racedf) > 0){
-    racedf <- lapply(racedf, recode_race_regex) 
-  }
-  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0){
-    totaldf <- data.frame(df, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0){
-    totaldf <- data.frame(genderdf, stringsAsFactors = F)
-  }
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0){
-    totaldf <- data.frame(racedf, stringsAsFactors = F)
-  } 
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
-  }
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0){
-    totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
-  }
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0){
-    totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
-  } 
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) == 0){
-    totaldf <- dfincase
-  } 
-  
-  totaldf <- tryCatch(totaldf, error = function(e) {dfincase})
-  totaldf
+unique_sep_sort2 <- srhoads::unique_sep_sort #function(v, sep = "; "){sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()}
+
+get_state_puma <- function(st, puma){
+  state_abb <- srhoads::recode_state(st, abb=T)
+  paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
 }
 
 
 
-#' A function
-#' @param #recode_list List of gender categories and codes Defaults to a built-in comprehensive list.
-#' @param #extra Extra categories that weren't able to be recoded. extra = c("nothing", "other", "NA"). Defaults to "nothing".
-#' @keywords cats
-#' @export
-#' @examples
-#' recode_races_and_genders()
-recode_races_and_genders <- function(df, extragender = NULL, extrarace = NULL, extra = NULL) {
-  genderdf <- dplyr::select(df, dplyr::matches("gender|sex"))
-  racedf <- dplyr::select(df, dplyr::matches("race|ethnicity|ethni|ancestry"))
-  if(!is.null(extra)) extragender <- extrarace <- extra
-  if(length(genderdf) > 0){
-    genderdf <- lapply(genderdf, recode_gender_regex) 
-    genderdf <- lapply(genderdf, function (x) recode_gender_j(x, recode_list = gender_list, extra = extragender))
-  }
-  if(length(racedf) > 0){
-    racedf <- lapply(racedf, recode_race_regex) 
-    racedf <- lapply(racedf, function (x) recode_race_j(x, recode_list = race_list, extra = extrarace))
-  }
-  otherdf <- dplyr::select(df,-dplyr::matches("gender|sex|race|ethnicity|ethni|ancestry"))
-  
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(otherdf, genderdf, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, racedf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) == 0 & length(otherdf) > 0) totaldf <- data.frame(df, stringsAsFactors = F)
-  if(length(genderdf) > 0 & length(racedf) == 0 & length(otherdf) == 0) totaldf <- data.frame(genderdf, stringsAsFactors = F)
-  if(length(genderdf) == 0 & length(racedf) > 0 & length(otherdf) == 0) totaldf <- data.frame(racedf, stringsAsFactors = F)
-  
-  totaldf <- tryCatch(totaldf, error = function(e) dfincase)
-  totaldf
-}
+# puma_msa_ref %>% filter(is.na(msa_description)) %>% select(-matches('msa_desc')) %>%
+#   left_join()
 
+# puma_msa_ref %>% writexl_open('puma_msa_ref.xlsx')
+"Users/rhoadss/Downloads/PUMA2000_PUMA2010_crosswalk.xlsx" # has manually added msa x puma codes
 
-# ---------------------------------------------------------------------------------
-#' A function
-#' @export
-#' @examples
-#' clean_recode()
-clean_recode <- function(df, scrub = c("once", "double"), extrarace = NULL, extragender = NULL) {
-  scrub <- match.arg(scrub)
-  df <- clean_dfs(df) 
-  df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender)
-  df <- data.frame(lapply(df, stringi::stri_enc_toutf8), stringsAsFactors = F)
-  
-  if(scrub == "once")return(dplyr::distinct(df))
-  if(scrub == "double"){
-    df <- clean_dfs(df) 
-    df <- recode_races_and_genders(df, extrarace = extrarace, extragender = extragender) 
-    return(df)
+recode_msa_to_puma <- function(s, return_na_if_no_match=T){
+  # if(!exists('puma_msa_ref')){puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv")}
+  v_ <- s %>% strsplit(., ', ') %>% unlist()
+  to <- c(df_1_row_per_msa$state_puma, df_1_row_per_msa$state_puma)
+  from <- c(df_1_row_per_msa$state_msa, df_1_row_per_msa$msa)
+  result <- (to[match(v_, from)]) %>% paste0(., collapse=", ")
+  if(return_na_if_no_match){
+    return(result)
   } else {
-    return(df)
+    return(ifelse(is.na(result), v_, result))
   }
 }
 
-# ---------------------------------------------------------------------------------
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_dfs_process(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1)
-read_dfs_process <- function(filelist, by=10, outpath="AA/data/", prefix="clean_", startdoc=1){
-  mylist <- filelist
-  print(paste0("# of files: ", length(filelist)))
-  docseq <- seq(1, (length(mylist)), by)
-  lapply(docseq[grep(paste0("^", startdoc, "$"), docseq):length(docseq)], function(x){
-    start <- x
-    end <- x + (by - 1)
-    diff <- end - length(mylist)
-    end <- ifelse(diff <= 0, end, end - diff)
-    sublist <- mylist[start:end]
-    sublist <- lapply(sublist, function(xx) xx %>% read_df_all(.) %>% regulars_namesplit())
-    filename <- paste0(outpath, prefix, round5(start), "to", round5(end), ".f")
-    (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct()) %>%
-      feather::write_feather(., filename)
-    # return(nrow(sublist))
-    print("")
-    print(paste0("dim: ", paste0(dim(sublist), collapse=" row "), " col - ", filename))
-    print(sample_n(filter(sublist, !is.na(fLname)), 3))
-    # print(paste0("dim: ", dim(sublist)))
-  }) %>% print(system.time())
-}
-
-#' A function
-#' @export
-#' @examples
-#' try_read_feather(file)
-try_read_feather <- function(file) d <- tryCatch(feather::read_feather(file), error=function(e) NULL)
-
-
-
-#' A function
-#' @export
-#' @examples
-#' load_feather_files()
-load_feather_files <- function (files){
-  loaded <- lapply(files, function (x) 
-  {
-    f <- tryCatch(feather::read_feather(x), 
-                  error = function(e) x ) 
-    f <- tryCatch(plyr::compact(f), 
-                  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), 
-                  error = function(e) f)  
-  })
+recode_puma_to_msa <- function(s, return_na_if_no_match=T){
+  # df_1_row_per_puma <- puma_msa_ref %>%
+  #   group_by(state_puma) %>% 
+  #   summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
   
-  loaded <- tryCatch(dplyr::combine(dplyr::combine(loaded)), 
-                     error = function(e) {
-                       tryCatch(dplyr::combine(loaded), 
-                                error = function(e) loaded)
-                     })
-  loaded <- tryCatch(dplyr::combine(loaded), # not really necessary but just in case
-                     error = function(e) loaded)
-  
-}
-
-#' A function
-#' @export
-#' @examples
-#' read_merge_write_feathers()
-read_merge_write_feathers <- function(filelist = NULL, 
-                                      inpath = NULL,
-                                      pattern = NULL,
-                                      newdir = NULL,
-                                      outpath = "~/",
-                                      filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", .) %>%
-    gsub("__", "_", .) %>%
-    gsub("^_|_$", "", .) %>%
-    gsub("^\\_|\\_$|^_|\\<_", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
-  
-}
-
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_merge_feathers()
-read_merge_feathers <- function(filelist = NULL, 
-                                inpath = NULL,
-                                pattern = NULL, 
-                                recode_extra_na = F) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  loaded <- dplyr::distinct(loaded)
-  
-  if(recode_extra_na){
-    loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  
-  if(!is.null(loaded$name) & !is.null(loaded$gender) & !is.null(loaded$race)){
-    loaded <- dplyr::filter(loaded,# !is.na(name), 
-                            !is.na(gender) | !is.na(race))
-  }
-  loaded
-}
-
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_feathers()
-read_feathers <- function(filelist = NULL, 
-                          inpath = NULL,
-                          pattern = NULL, bind=T,
-                          recode_extra_na = F){
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  loaded <- lapply(filelist, feather::read_feather) 
-  if(bind){
-    loaded <- dplyr::bind_rows(loaded)
-    loaded <- dplyr::distinct(loaded)
-    if(recode_extra_na) loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  loaded
-}
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' load_rdata_files()
-load_rdata_files <- function (files){
-  loaded <- lapply(files, function (x) 
-  {
-    f <- get(load(x))
-    f <- tryCatch(plyr::compact(f), 
-                  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), 
-                  error = function(e) f)  
-  })
-  
-  loaded <- tryCatch(dplyr::combine(dplyr::combine(loaded)), 
-                     error = function(e) {
-                       tryCatch(dplyr::combine(loaded), 
-                                error = function(e) loaded)
-                     })
-  loaded <- tryCatch(dplyr::combine(loaded), # not really necessary but just in case
-                     error = function(e) loaded)
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_rdas()
-read_rdas <- function(filelist = NULL, 
-                      inpath = NULL,
-                      pattern = NULL, bind=F,
-                      recode_extra_na = F){
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  loaded <- lapply(filelist, function(x) get(load(x))) 
-  if(bind){
-    loaded <- dplyr::bind_rows(loaded)
-    loaded <- dplyr::distinct(loaded)
-    if(recode_extra_na) loaded %<>% recode_races_and_genders(., extra = "NA")
-  }
-  loaded
-}
-
-
-
-
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_files_to_rda()
-read_files_to_rda <- function(filelist,
-                              path = "~/",
-                              filename_prefix = "nrg_data", col_types='text'){
-  
-  x <- filelist
-  
-  dir.create(dir_path <- paste0(path, "/", filename_prefix, "_dump") %>% 
-               stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-               stringr::str_replace_all(., "__", "_"))
-  
-  lapply(filelist, function (xx) {
-    
-    data <- tryCatch(feather::read_feather(xx), 
-                     error = function(e) NULL) 
-    
-    if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
-                       error = function(e) NULL) 
-    }
-    
-    if(is.null(data)){
-      data <- tryCatch(read_csv_files(xx), 
-                       error = function(e) NULL) 
-    }
-    
-    filename <- paste0(dir_path, "/", filename_prefix, 
-                       "_", 
-                       gsub("[^[:alnum:]]", "", xx), 
-                       "_", 
-                       "1", "to", nrow(data),
-                       ".rda") %>% 
-      stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-      stringr::str_replace_all(., "__", "_")
-    
-    
-    save(data, file = filename)
-  })
-  
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_rda_merge_write_feathers()
-read_rda_merge_write_feathers <- function(filelist = NULL, 
-                                          inpath = NULL,
-                                          pattern = NULL,
-                                          newdir = NULL,
-                                          outpath = "~/",
-                                          filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", ., perl = T) %>%
-      gsub("__", "_", ., perl = T)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  }
-  
-  loaded <- lapply(rdata, function (x){
-    x <- load(x)
-    x <- get(x)
-  })
-  
-  loaded <- try_combine_compact(loaded)
-  
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", ., perl = T) %>%
-    gsub("__", "_", ., perl = T) %>%
-    gsub("^_|_$", "", ., perl = T) %>%
-    gsub("\\<\\_|\\_\\>", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
-  
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_files_to_feather()
-read_files_to_feather <- function(filelist,
-                                  path = "~/",
-                                  filename_prefix = "nrg_data"){
-  
-  x <- filelist
-  
-  dir.create(dir_path <- paste0(path, "/", filename_prefix, "_dump") %>% 
-               stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-               stringr::str_replace_all(., "__", "_"))
-  
-  lapply(filelist, function (xx) {
-    
-    data <- tryCatch(feather::read_feather(xx), 
-                     error = function(e) NULL) 
-    
-    if(is.null(data)){
-      data <- tryCatch(read_excel_allsheets_files(xx, col_types=col_types), 
-                       error = function(e) NULL) 
-      data <- dplyr::bind_rows(data) #%>% data.frame()
-    }
-    
-    if(is.null(data)){
-      data <- tryCatch(read_csv_files(xx), 
-                       error = function(e) NULL) 
-    }
-    
-    if(is.null(data)){
-      data <- data.frame(data, stringsAsFactors = F)
-    }
-    
-    filename <- paste0(dir_path, "/", filename_prefix, 
-                       "_", 
-                       gsub("[^[:alnum:]]", "", xx), 
-                       "_", 
-                       "1", "to", nrow(data),
-                       ".f") %>% 
-      stringr::str_replace_all(., "\\/\\/", "\\/") %>% 
-      stringr::str_replace_all(., "__", "_")
-    
-    
-    feather::write_feather(data, filename)
-    
-    # data.frame(dir = dir_path, filename = filename)
-  })
-  
-}
-
-##### OLD VERSION:
-# _______grep_all_df <- function(pattern, df, colnames=F, exact=F, ignore.case=F, print=F){ 
-#   if(colnames) grep_all_df_colnames(pattern, df, exact=exact, ignore.case=ignore.case, print=print) 
-#   else grep_all_df_df(pattern, df, exact=exact, ignore.case=ignore.case, print=print)
-# }
-
-#' Samantha Rhoads's function to check if all of something is NA or NULL
-#'
-#' Srhoads wrote this to allow you to check if all of a variable is NA or NULL (old version from 20191210)
-#' @export
-#' @examples
-#' is.nanull_V1()
-is.nanull_V1 <- function(x){
-  all(is.na(x)) | is.null(x)
-}
-
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' pkg()
-#' ## load and/or install package first!
-#' pkg <- function (package1, ...) {
-#'   packages <- c(package1, ...)
-#'   for (package in packages) {
-#'     if (package %in% rownames(installed.packages())) 
-#'       do.call(library, list(package))
-#'     else {
-#'       install.packages(package, 
-#'                        repos = c("https://cloud.r-project.org", 
-#'                                  "http://owi.usgs.gov/R/"), dependencies = NA, 
-#'                        type = getOption("pkgType"))
-#'       do.call(library, list(package))
-#'     }
-#'   }
-#' }
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' pkgu()
-
-
-
-## load and/or install package first, plus check for an update & do the update if there is one!
-pkgu <- function (package1, ...) {
-  packages <- c(package1, ...)
-  for (package in packages) {
-    if (package %in% rownames(installed.packages())) {
-      do.call(library, list(package))
-      update.packages(package)
-    }
-    else {
-      install.packages(package, 
-                       repos = c("https://cloud.r-project.org", 
-                                 "http://owi.usgs.gov/R/"), dependencies = NA, 
-                       type = getOption("pkgType"))
-      do.call(library, list(package))
-      update.packages(package)
-    }
-  }
-}
-
-#' Samantha Rhoads's function to...
-#'
-#' Srhoads wrote this to allow you to...
-#' @export
-#' @examples
-#' extract_dateV1(v)
-extract_dateV1 <- function(v) {
-  c(
-    datepat0=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat14=' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
-    
-    datepat1=' ?(0|1)?([1-9]{1,2}|[1-9]{4})/([0-9]{1,2})/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat2=' ?(0|1)?([1-9]{1,2}|[1-9]{4})-([0-9]{1,2})-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?',
-    datepat3=' ?(0|1)?([1-9]{1,2}|[1-9]{4})\\.([0-9]{1,2})\\.([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat4=' ?(0|1)?[1-9]/([0-9]{1}|[0-9]{2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat5=' ?(0|1)?[1-9]-([0-9]{1}|[0-9]{2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat6=' ?(0|1)?[1-9]\\.([0-9]{1}|[0-9]{2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{2}|[0-9]{4}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?',
-    
-    datepat7=' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat8=' ?(0|1)?([1-9]{4}/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([1-9]{1,2}/([0-9]{1,2})/([0-9]{4}|[0-9]{2,4}) ?',
-    datepat9=' ?(0|1)?([1-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]/([0-9]{1,2}|[0-9]{4}) ?',
-    datepat10=' ?(0|1)?([1-9]{4}|[1-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
-    datepat11=' ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2})/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]/([0-9]{4}|[0-9]{1,2}) ?',
-    datepat12=' ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2})-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]-([0-9]{4}|[0-9]{1,2}) ?',
-    datepat13=' ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2})\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{2}) ?| ?(0|1)?[1-9]\\.([0-9]{4}|[0-9]{1,2}) ?'
-  )
-  # # v %>% stringr::str_extract_all(., paste0('datepath', 1:12))
-  # (patternstr <- paste0('datepat', c(0:7, 9:14)) %>% sapply(get) %>% unlist() %>% paste0(., collapse="|"))
-  # v %>% stringr::str_extract_all(., patternstr)
-  (patternstr <- datepats %>% unlist() %>% paste0(., collapse="|"))
-  v %>% stringr::str_extract_all(., patternstr)
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_dfs_process_by1()
-read_dfs_process_by1 <- function(filelist, outpath="AA/data/", prefix='auto', startdoc=1){
-  mylist <- filelist
-  print(paste0("# of files: ", length(filelist)))
-  lapply(startdoc:length(filelist), function(x){
-    docnum <- x
-    x <- filelist[x]
-    ext <- tools::file_ext(x)
-    print(system.time(sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()))
-    # sublist <- x %>% read_df_all(., bindsheets=T) %>% regulars_namesplit()
-    splitfilename <- rev(unlist(strsplit(x, "/")))[1] %>% alnum()
-    if(prefix=='auto') prefix <- splitfilename
-    filename <- paste0(outpath, round5(docnum), "_", substr(prefix, start=1, stop=100), ext, "_", nrow(sublist), ".f")
-    (sublist <- dplyr::bind_rows(sublist) %>% dplyr::distinct())
-    feather::write_feather(sublist, filename)
-    print("")
-    print(paste0("dim: ", paste0(dim(sublist), collapse=" row "), " col - ", filename))
-    print(sample_n(filter(sublist, !is.na(fLname)), 3))
-  })# %>% print(system.time())
-}
-
-
-# readexcel <- function(file, bindsheets=F){
-#   sheets <- readxl::excel_sheets(file)
-#   d <- lapply(sheets, function(sheet) readxl::read_excel(file, sheet))
-#   names(d) <- sheets
-#   d <- try_combine_compact(d)
-#   d <- drop_empty(d)
-#   if(bindsheets) d <- dplyr::bind_rows(d)
-#   d
-# }
-
-
-#' A function
-#' @export
-#' @examples
-#' read_ydrive_clean_write()
-read_ydrive_clean_write <- read_excel_allsheets <- function(filenames, csv=F, xlsx=F, xls=F, outpath="data/original/", col_types='text') {
-  if(xls|xlsx){
-    filenames <- readxl::excel_sheets(filenames)
-    lapply(filenames, function(f) {
-      print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      d <- tryCatch(readxl::read_excel(filenames, sheet = f, col_types=col_types), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
-      d <- regulars_namesplit(d)
-      feather::write_feather(d, filename)
-    })
-  }
-  if(csv) {
-    lapply(filenames, function(f){ 
-      print(filename <- paste0(outpath, gsub_NSRHOADS(f), ".rda"))
-      d <- tryCatch(read.csv(f), error=function(e) NULL)
-      if(is.list(d)) d %<>% try_combine_compact() %>% dplyr::bind_rows()
-      d <- regulars_namesplit(d)
-      feather::write_feather(d, filename)
-    })
-  }
-}
-
-#' A function
-#' @export
-#' @examples
-#' write_ydrive_originals()
-write_ydrive_originals <- function(fl, outpath="AA/data/"){ # input = list of file names
-  read_ydrive_write(csvfl <- fl[grep("csv$", fl, ignore.case=T)], csv=T)
-  read_ydrive_write(xlsfl <- fl[grep("xls$", fl, ignore.case=T)], xls=T)
-  read_ydrive_write(xlsxfl <- fl[grep("xlsx$", fl, ignore.case=T)], xlsx=T)
-}
-
-#============================================================================================================================================================================
-
-
-#' A function
-#' @export
-#' @examples
-#' select_not_race_gender_cols()
-select_not_race_gender_cols <- function(mylist) {
-  nrg <- purrr::map(mylist,
-                    ~dplyr::select(.x, #dplyr::matches('name|x'), dplyr::contains(dplyr::everything()),
-                                   -dplyr::matches('gender|race|date|time')
-                    ))
-  nrg
-}
-
-#' A function works on both dataframes and LODs (lists of dataframes)
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_nrg_cols()
-select_nrg_cols <- select_nrg_cols_list <- select_nrg_cols_df <- function(mylist, output = c("default", "list", "names"), minuscontainsregex="") {
-  output <- match.arg(output)
-  if(is.data.frame(mylist)){
-    if(output=="default"){output <- "df"}
-    mylist <- list(df = mylist)
-  } else if(output=="default"){
-    output <- "list"
-  }
-  if(is.null(minuscontainsregex)){minuscontainsregex <- ''}
-  if(nchar(minuscontainsregex) %in% c(0, NA)){minuscontainsregex <- 'nothingatalllolpleaseleavethisaloneoknowifeellikethisstringoflettersandcharsisntgonnaappear_ew8ruijfkdsmxemfue98fmhjaksf293490rehui'}
-  mylist <- purrr::map(mylist, ~dplyr::select(.x, 
-                                              dplyr::matches('name|gender|gendr|gndr|gnder|sex|race|ethnic'),
-                                              -dplyr::matches(minuscontainsregex)))
-  if(output == "names"){
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  } else if(output == "list"){
-    return(mylist)
-  } else if(output == "df"){
-    return(mylist[[1]])
+  # print(s)
+  v_ <- s %>% unique() %>% paste0(., collapse=", ") %>% recode_na(., "NA", "") %>% strsplit(., ', ') %>% unlist()
+  # v_ <- s %>% strsplit(., ', ') %>% unlist()
+  to <- df_1_row_per_puma$state_msa
+  from <- df_1_row_per_puma$state_puma
+  result <- (to[match(v_, from)]) %>% paste0(., collapse=", ")
+  if(return_na_if_no_match){
+    return(result)
   } else {
-    return(mylist )
+    return(ifelse(is.na(result), v_, result))
   }
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_name_cols_df()
-select_name_cols_df <- function(df, output = c("df", "names"), minuscontainsregex="") {
-  output <- match.arg(output)
-  if(is.null(minuscontainsregex)){minuscontainsregex <- ''}
-  if(nchar(minuscontainsregex) %in% c(0, NA)){minuscontainsregex <- 'nothingatalllolpleaseleavethisaloneoknowifeellikethisstringoflettersandcharsisntgonnaappear_ew8ruijfkdsmxemfue98fmhjaksf293490rehui'}
-  output <- match.arg(output)
-  df <- dplyr::select(df, 
-                      dplyr::matches('name'),
-                      -dplyr::matches(minuscontainsregex))
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  df
-}
-
-
-# select_gender_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-#   partials <- c("female", "woman", "women", "feminine", "masculine")
-#   cols1 <- 
-#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-#   cols2 <- 
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2) %>% unique()
-#   df <- 
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) #%>% dplyr::distinct()
-#   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
-#   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("gender.", 1:ncol(df))
-#     df
-#   }
-#   df
-# }
-
-
-# select_gender_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-#   partials <- c("female", "woman", "women", "feminine", "masculine")
-#   cols1 <-
-#     dplyr::select(df, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi")) %>% names()
-#   cols2 <-
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-#   # df$PLACEFILLER <- NA
-#   df <-
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::select(- dplyr::matches("gender"))
-#   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
-#   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("gender.", 1:ncol(df))
-#     df
-#   }
-#   df
-# }
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_gender_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  exacts <- c("female", "male", "fem", "man", "woman", "men", "women", "girl", "boy", "feminine", "masculine")
-  partials <- c("female", "woman", "women", "feminine", "masculine")
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  cols1 <- 
-    purrr::map(mylist, ~dplyr::select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols2 <- 
-    purrr::map(mylist, 
-               ~dplyr::select_if(.x, function(xx) {any(xx %in% exacts) | any(grepl(paste0(partials, collapse="|"), xx, ignore.case = T))})) %>% 
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-  mylist <- purrr::map(mylist, ~dplyr::select(.x, dplyr::matches(paste0(cols, collapse="|"))))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-} 
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_race_cols_df <- function(df, output = c("df", "names", "dfnewnames")) {
-  output <- match.arg(output)
-  exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-  partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-                "pacific islander", "indian")
-  cols1 <- 
-    dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
-  cols2 <- 
-    dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-  cols <- c(cols1, cols2) %>% unique()
-  df <- 
-    dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")), -dplyr::matches("name")) #%>% dplyr::distinct()
-  
-  if(length(df) == 0 | ncol(df) == 0)df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-  
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  if(output == "dfnewnames") {
-    names(df) <- paste0("race.", 1:ncol(df))
-    df
-  }
-  df
 }
 
 
 # 
-# select_race_cols_nontrad_df <- function(df, output = c("df", "names", "dfnewnames")) {
-#   output <- match.arg(output)
-#   exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-#               "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander",
-#               "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-#   partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-#                 "pacific islander", "indian")
-#   cols1 <-
-#     dplyr::select(df, dplyr::matches("race|ethnicity|ethnicit|ethnici|ethnic|ethni|ethno|ethn|rce|racial")) %>% names()
-#   cols2 <-
-#     dplyr::select_if(df, function(x) {any(x %in% exacts) | any(grepl(paste0(partials, collapse="|"), x, ignore.case = T))}) %>% names()
-#   cols <- c(cols1, cols2, "PLACEFILLER") %>% unique()
-#   # df$PLACEFILLER <- NA
-#   df <-
-#     dplyr::select(df, dplyr::matches(paste0(cols, collapse="|")),-dplyr::matches("name")) %>% dplyr::select(- dplyr::matches("race"))
+# recode_puma_to_msa <- function(s){
+#   # if(!exists('puma_msa_ref')){
+#   #   puma_msa_ref <- rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_all(tolower) %>% 
+#   #     mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code))
+#   # }
 #   
-#   if(length(df) == 0 | ncol(df) == 0){
-#     df <- data.frame(name = c("jenny", "bob"), gender = c("female", "male"), race = c("asian", "white"), stringsAsFactors = F)
-#   }
+#   df_1_row_per_puma <- puma_msa_ref %>%
+#     group_by(state_puma) %>% 
+#     summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
 #   
-#   if(output == "names")
-#     return(names(df))
-#   if(output == "df")
-#     return(df)
-#   if(output == "dfnewnames") {
-#     names(df) <- paste0("race.", 1:ncol(df))
-#     df
-#   }
-#   df
+#   v_ <- s %>% strsplit(., ', ') %>% unlist()
+#   to <- df_1_row_per_puma$state_msa
+#   from <- df_1_row_per_puma$state_puma
+#   result <- to[match(v_, from)]
+#   ifelse(is.na(result), v_, result) %>% paste0(., collapse=", ")
+# }
+
+# recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178"){
+#   v_ <- s %>% strsplit(., ', ') %>% unlist()
+#   df_1_row_per_zipcode <- geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma")) %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
+#   to <- df_1_row_per_zipcode %>% .$state_puma
+#   from <- df_1_row_per_zipcode$zcta5
+#   result <- to[match(v_, from)]
+#   ifelse(is.na(result), v_, result) %>% paste0(., collapse=", ")
+# }
+
+df_zipcode_puma_ref <- full_join(
+  geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')),
+  geocorr::zcta2010_to_puma2000 %>% mutate(state_puma = get_state_puma(stab, puma2k)) %>% select(matches("zcta|puma"), -matches('name')),
+  by="zcta5",
+  suffix=c("_12", "_2k")
+) %>%
+  mutate(state_puma = ifelse(state_puma_12==state_puma_2k, state_puma_12, paste0(state_puma_12, ", ", state_puma_2k)))
+
+df_1_row_per_zipcode <- df_zipcode_puma_ref %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort2(., ", ") %>% recode_na('')) %>% ungroup()
+
+# puma_ref_with_2k_pumas <- left_join(df_1_row_per_puma, df_zipcode_puma_ref %>% mutate(state_puma=state_puma_12, zcta5=NULL, puma2k=NULL, puma12=NULL) %>% distinct()) %>% distinct()
+
+recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_pumas=T, return_na_if_no_match=T){
+  v_ <- s %>% strsplit(., ', ') %>% unlist()
+  if(include_2000_pumas){
+    df_1_row_per_zipcode
+  } else {
+    df_1_row_per_zipcode <- geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')) %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
+  }
+  to <- df_1_row_per_zipcode %>% .$state_puma
+  from <- df_1_row_per_zipcode$zcta5
+  result <- (to[match(v_, from)]) %>% unique() %>% na.omit()
+  if(return_na_if_no_match){
+    return(result %>% paste0(., collapse=", "))
+  } else {
+    return(ifelse(is.na(result), v_, result) %>% paste0(., collapse=", "))
+  }
+}
+
+# recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178"){
+#   v_ <- s %>% strsplit(., ', ') %>% unlist()
+#   to <- geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% .$state_puma
+#   from <- geocorr::zcta2010_to_puma2012$zcta5
+#   result <- to[match(v_, from)]
+#   ifelse(is.na(result), v_, result) %>% paste0(., collapse=", ")
 # }
 
 
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' select_race_cols_list()
-select_race_cols_list <- function(mylist, output = c("list", "names")) {
-  output <- match.arg(output)
-  exacts <- c("white", "black", "black or african american", "blackorafricanamerican", "hispanic or latino", "hispanicorlatino", "asian",
-              "americanindianoralaskanative", "american indian or alaska native", "nativehawaiianorotherpacificislander", 
-              "native hawaiian or other pacific islander", "twoormoreraces", "two or more races")
-  partials <- c("african", "hispanic", "americanindian", "american indian", "hawaiian", "pacificislander", "hispanic",
-                "pacific islander", "indian")
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  cols1 <- 
-    purrr::map(mylist, ~select(.x, dplyr::matches("gender|sex|female|male|gndr|gendr|male|femini|woman|women|masculi"))) %>%
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols2 <- 
-    purrr::map(mylist, 
-               ~dplyr::select_if(.x, function(xx) {any(xx %in% exacts) | any(grepl(paste0(partials, collapse="|"), xx, ignore.case = T))})) %>% 
-    purrr::map(., ~names(.x)) %>% unlist() %>% unique()
-  cols <- c(cols1, cols2) %>% unique()
-  mylist <- purrr::map(mylist, ~select(.x, dplyr::matches(paste0(cols, collapse="|")),
-                                       -dplyr::matches("name")))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-} 
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols_df <- function(df, output = c("df", "names")){
-  output <- match.arg(output)
-  cnrg <- select_nrg_cols(df, output = "names")
-  cr <- select_nrg_cols(df, output = "names")
-  cg <- select_nrg_cols(df, output = "names")
-  cols <- c(cnrg, cr, cg) %>% unique()
-  df <- dplyr::select(df, dplyr::matches(paste0(cols, collapse="|"))) %>% dplyr::distinct()
-  if(output == "names")
-    return(names(df))
-  if(output == "df")
-    return(df)
-  df
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols_list <- function(mylist, output = c("list", "names")){
-  output <- match.arg(output)
-  cnrg <- select_nrg_cols(mylist, output = "names")
-  cr <- select_nrg_cols(mylist, output = "names")
-  cg <- select_nrg_cols(mylist, output = "names")
-  cols <- c(cnrg, cr, cg) %>% unique()
-  mylist <- tryCatch(dplyr::combine(mylist), 
-                     error = function(e) mylist)
-  mylist <- purrr::map(mylist, ~select(.x, dplyr::matches(paste0(cols, collapse="|"))))
-  if(output == "names")
-    return(purrr::map(mylist, ~names(.x)) %>% unlist() %>% unique())
-  if(output == "list")
-    return(mylist)
-  mylist
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = NULL){
-  type <- match.arg(output)
-  if(type == "list")
-    return(select_name_race_gender_cols_list(dat, output = output))
-  if(type == "df")
-    return(select_name_race_gender_cols_df(dat, output = output))
-  select_name_race_gender_cols_list(dat, output = output)
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-select_name_race_gender_cols <- function(dat, type = c("list", "df"), output = NULL){
-  type <- match.arg(type)
-  if(type == "list")
-    return(select_name_race_gender_cols_list(dat, output = output))
-  if(type == "df")
-    return(select_name_race_gender_cols_df(dat, output = output))
-  select_name_race_gender_cols_list(dat, output = output)
-}
-
-#' A function
-#' @export
-#' @examples
-#' list_to_df_anomalies()
-list_to_df_anomalies <- function(mylist) {
-  mylist <- try_combine_compact(mylist)
-  # nrgdf <- plyr::ldply(mylist)
-  nrgdf <- try_bind(mylist)
-  nrgdf <- data.frame(lapply(nrgdf, function (x) {
-    x <- stringi::stri_enc_toutf8(x)
-    x <- as.character(x)
-    x <- iconv(x)
-    x <- tolower(x)
-    x %<>%
-      gsub("[^_|,| |-|\\-|'|\\.|[:space:]|[:alnum:]]", "", ., perl = T) %>%
-      gsub("\\.|\\_", " ", ., perl = T) %>%
-      gsub("_$|$_", "", ., perl = T) %>%
-      gsub("  ", " ", ., perl = T)
-    x <- trimws(x, which = "both")
-    x <- dplyr::na_if(x, "NA")
-    x <- dplyr::na_if(x, "")
-    x
-  }), stringsAsFactors = F)
-  dplyr::distinct(nrgdf)
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_other()
-preprocess_names_other <- function(x) {
-  names(x) %<>% 
-    gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal|force", "REMOVE",. , perl = T) %>%
-    gsub(preprocess_names_other_getridofstrregex, "", ., perl = T)
-  names(x)
+recode_zipcode_to_city <- function(zipcode=c("36101")){ #zipcodes=c("36101", "60007")
+  ## tryCatch({lapply(zipcodes, function(s) zipcodeR::reverse_zipcode(s) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")) %>% as.character()},  error=function(e){NA})
+  # sapply(zipcodes, function(s){tryCatch({ zipcodeR::reverse_zipcode(s) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")}, error=function(e){NA})}) %>% as.character()
+  tryCatch({zipcodeR::reverse_zipcode(zipcode) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")}, error=function(e) NA)
 }
 
 
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_race()
-preprocess_names_race <- function(x) {
-  names(x) %<>% 
-    gsub(turntoracestrregex, "race", ., perl = T) %>% 
-    gsub("raceracerace|racerace|racename|namerace", "race", ., perl = T)
-  names(x)
-}
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_name()
-preprocess_names_name <- function(x) {
-  names(x) %<>% 
-    gsub("names$|names$|namelfmi|firstnamelastmi|lastnamefirstmi|lastnamesuffixfirstmi|firstlastname|lastnamefirstmi|lastfirstname", "name", ., perl = T) %>%
-    
-    gsub("firstfirst|middlemiddle|middle|^mid|mid$|frist|frst|1st|andfirst|firstand|firest", "first", ., perl = T) %>%
-    gsub("lastmi$|lastmid$|^milast|lastlast|lastmi|blast", "last", ., perl = T) %>%
-    
-    gsub("person$|nameort|nameorlastname|firstlast|lastfirst|firstnamelast|lastnamefirst|namefull|^urname|namedle|^yoname|initials", "name", ., perl = T) %>%
-    gsub("namemiddleinitial|namemi$|namedle|lastnameorfirstname|nameof$|lastnameorfirstname|^eename|^sname|^alname|namescreen", "name", ., perl = T) %>%
-    gsub("lfmname|^urname|^urname|nameofor$", "name", ., perl = T) %>%
-    gsub("firstmi$|frstname|nickname|candfirstname|^miname|^mname|firstnamea$|firstnamemi$|firstname|firstnam|midname|^mname|^mname", "firstname", ., perl = T) %>%  
-    gsub("namelast|candlastname|lastnameb$|lastmi$|^alastname|^slastname|^slastname", "lastname", ., perl = T) %>%  
-    gsub("lastname|fulllastname|^slastname|surname|latename|^astname|^llastname|lastnameort|^hlastname|lname", "lastname", ., perl = T) %>%
-    gsub("firstnamelastmi|firstinitial|lastinitial|lastnamefirstmi|lastnamesuffixfirstmi|firstlastname|lastnamefirstmi|lastfirstname|namemiddleinitial|firstmid|mifirst|firstmi|midfirst", "name", ., perl = T) %>%
-    gsub("namemiddle|nameort$|nameorlastname|firstlast|lastfirst|firstnamelast|lastnamefirst|namemi$|lastnamefirst|firstmiddlelast|firstandlast|lastorfirst|firstorlast|lastandfirst", "name", ., perl = T) %>%
-    gsub("firstname|namefirst|fistname|fullfirstname|lfirstname|fristname|namemid$|firstname|irstname|^ffirstname|nickname|middleinitial|^miname|fname", "firstname", ., perl = T) %>%  
-    gsub("middleinitial|firstnamemi|^miname|^miname|^fname|^mname|forename|firstnameafirstname|^sfirstname|namemi$", "firstname", ., perl = T) %>%  
-    gsub("lastname|namelast|^lname|^lname|fulllastname|^slastname|surname|latename|^astname|^llastname|lastinitial|lastname|lastnam|^llastname", "lastname", ., perl = T) %>%
-    
-    gsub("firstnamefirstnamefirstname|firstnamefirstname", "firstname", ., perl = T) %>%
-    gsub("lastnamelastnamelastname|lastnamelastname", "lastname", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  names(x)
+zipcode_to_puma <- function(zipcode){
+  zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(state_puma = get_state_puma(stab, puma12))
+  result <- zip_puma_ref$state_puma[match(zipcode, zip_puma_ref$zcta5)]
+  paste0(result, collapse=", ")
 }
 
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# state2abb_or_abb2state <- function(v, abb=F){
+#     v_ <- tolower(v)
+#     if(any(!tolower(v) %in% tolower(c(state.abb, state.name)))){
+#         v_ <- gsub('united states', 'us', v_)
+#     }
+#     st1 <- statetoabb(v_) %>% abbtostate()
+#     st2 <- abbtostate(v_)
+#     result <- if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
+#     return(result)
+# }
 
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_gender()
-preprocess_names_gender <- function(x) {
-  names(x) %<>% 
-    gsub(turntogenderstrregex, "gender", ., perl = T) %>%
-    gsub("racesex|ethgender|ethsex|genderrace|sexrace|genderethnicity|gendereth|sexeth|racgender|raceender|genderace", "racegender", ., perl = T) %>%
-    gsub("gendergendergender|gendergender|gendername|namegender", "gender", ., perl = T)
-  names(x)
-}
-#-------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_thorough()
-preprocess_names_thorough <- function(x) {
-  x <- plyr::compact(x)
-  
-  names(x) <- iconv(names(x)) %>% 
-    stringi::stri_enc_toutf8() %>%
-    as.character() %>%
-    trimws(., which = "both") %>%
-    tolower() %>% 
-    gsub("[^[:alpha:]]", "", ., perl = T) %>% 
-    gsub("\\.", "", ., perl = T) 
-  # %>% gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal|force", "REMOVE", ., perl = T)
-  
-  names(x) <- preprocess_names_race(x)
-  names(x) <- preprocess_names_gender(x)
-  names(x) <- preprocess_names_other(x)
-  names(x) <- preprocess_names_name(x)
-  
-  names(x) %<>% 
-    gsub("gendergendergender|gendergender", "gender", ., perl = T) %>%
-    gsub("raceracerace|racerace", "race", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  
-  
-  names(x) <- make.names(names = names(x), unique=T)
-  names(x) <- as.character(names(x))
-  if (is.list(x) & ! is.data.frame(x)) 
-    x <- lapply(X = x, FUN = preprocess_names_thorough)
-  x
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_names_minimal()
-preprocess_names_minimal <- function(x) {
-  x <- plyr::compact(x)
-  names(x) <- iconv(names(x)) %>% 
-    stringi::stri_enc_toutf8() %>%
-    as.character() %>%
-    trimws(., which = "both") %>%
-    tolower() %>% 
-    gsub("[^[:alpha:]]", "", ., perl = T) %>% 
-    gsub("\\.", "", ., perl = T) 
-  # %>% gsub("coursenameid|vacancyname|nameoftraining|divname|fltname|sexperience|sexclude|sexternal", "REMOVE", ., perl = T)
-  names(x) <- preprocess_names_race(x)
-  names(x) <- preprocess_names_gender(x)
-  names(x) <- preprocess_names_name(x)
-  names(x) %<>% gsub("gendergendergender|gendergender", "gender", ., perl = T) %>%
-    gsub("raceracerace|racerace", "race", ., perl = T) %>%
-    gsub("namenamename|namename", "name", ., perl = T)
-  names(x) <- make.names(names = names(x), unique=T)
-  names(x) <- as.character(names(x))
-  if (is.list(x) & ! is.data.frame(x)) x <- lapply(X = x, FUN = preprocess_names_minimal)
-  x
-}
-#' A function
-#' @export
-#' @examples
-#' preprocess_names()
-preprocess_names <- function(x, extent = c("minimal", "thorough")) {
-  extent = match.arg(extent)
-  if(extent == "minimal")
-    return(preprocess_names_minimal(x))
-  if(extent == "thorough")
-    return(preprocess_names_thorough(x))
-  preprocess_names_thorough(x)
-}
-
-
-# ---------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------
-#' A function
-#' @export
-#' @examples
-#' prestep_preprocess_all_cols(mylist, subsets = 2, type = NULL, extent = NULL)
-prestep_preprocess_all_cols <- function(mylist, subsets = 2, type = NULL, extent = NULL) {
-  by <- round(length(mylist) / subsets)
-  if(by < 1){
-    by <- 2
-  }
-  if(by > length(mylist)){
-    by <- length(mylist)
-  }
-  
-  lapply(seq(1, (length(mylist)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - length(mylist)
-           end <- ifelse(diff <= 0, end, end - diff)
-           preprocess_all_cols(mylist[start:end], #type = type, 
-                               extent = extent)
-         } 
-  ) %>%
-    dplyr::bind_rows() %>% 
-    # lapply(., as.factor) %>% 
-    # data.frame() %>% 
-    dplyr::distinct()
-}
-
-# ---------------------------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' prestep_preprocess_data()
-prestep_preprocess_data <- function(mylist, subsets = 2, 
-                                    type = NULL, 
-                                    extent = NULL) {
-  by <- round(length(mylist) / subsets)
-  if(by < 1){
-    by <- 2
-  }
-  if(by > length(mylist)){
-    by <- length(mylist)
-  }
-  
-  lapply(seq(1, (length(mylist)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - length(mylist)
-           end <- ifelse(diff <= 0, end, end - diff)
-           preprocess_data(mylist[start:end], type = type, extent = extent)
-         } 
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    dplyr::distinct()
-}
-
-#' A function
-#' @export
-#' @examples
-#' multistep_preprocess_all_cols(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/")
-multistep_preprocess_all_cols <- function(mylist, type = NULL, subsets = 2, subsubsets = 2, write=F, featherpath = "~/") {
-  write = match.arg(write)
-  by <- round(length(mylist) / subsets)
-  if(by < 1) by <- 2
-  if(by > length(mylist)) by <- length(mylist)
-  if (write)
-    return(lapply(seq(1, (length(mylist)), by), 
-                  function (x) {
-                    start <- x
-                    end <- x + (by - 1)
-                    diff <- end - length(mylist)
-                    end <- ifelse(diff <= 0, end, end - diff)
-                    feather::write_feather(prestep_preprocess_all_cols(mylist[start:end], 
-                                                                       subsets = subsets, 
-                                                                       # subsubsets = subsubsets,
-                                                                       type = type), 
-                                           paste0(featherpath, "block", round4(start), "to", round4(end), ".f"))
-                  }
-    ) %>%  
-      dplyr::bind_rows() %>%  
-      dplyr::distinct())
-  lapply(seq(1, (length(mylist)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - length(mylist)
-           end <- ifelse(diff <= 0, end, end - diff)
-           prestep_preprocess_all_cols(mylist[start:end], 
-                                       subsets = subsets, 
-                                       # subsubsets = subsubsets,
-                                       type = type
-           )
-         }
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    dplyr::distinct()
-}
-
-# ---------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-multistep_gather_join_first_last_name <- function(df, subsets = 2) {
-  by <- round(nrow(df) / subsets)
-  if(by < 1) by <- 2
-  if(by > length(mylist)) by <- length(mylist)
-  lapply(seq(1, (nrow(df)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - nrow(df)
-           end <- ifelse(diff <= 0, end, end - diff)
-           gather_join_first_last_name(df[start:end, ])
-         } 
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
-    dplyr::distinct()
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-multistep_gather_race_and_gender <- function(df, subsets = 2) {
-  by <- round(nrow(df) / subsets)
-  if(by < 1) by <- 2
-  if(by > length(mylist)) by <- length(mylist)
-  lapply(seq(1, (nrow(df)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - nrow(df)
-           end <- ifelse(diff <= 0, end, end - diff)
-           gather_race_and_gender(df[start:end, ])
-         } 
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    dplyr::distinct()
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_all_cols(x, extent = "thorough")
-preprocess_all_cols <- function(x, extent = "thorough") {
-  if(is.list(x)){
-    x <- tryCatch(dplyr::combine(x),
-                  error = function(e) x)
-  }
-  preprocess_names(x, extent = "thorough") %>%
-    select_not_race_gender_cols() %>%
-    list_to_df_anomalies() %>%
-    dplyr::distinct()
-}
-
-# ---------------------------------------------------------------------------------
-# ---------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data_minimal()
-preprocess_data_minimal <- function(x, type = c("lod")) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names(x, extent = "minimal") %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  preprocess_names_minimal(x#, extent = "minimal"
-  ) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.) %>% dplyr::distinct()
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data_thorough()
-preprocess_data_thorough <- function(x, type = c("lod")) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names_thorough(x) %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  preprocess_names_thorough(x) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.) %>% dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' preprocess_data()
-preprocess_data <- function(x, type = c("lod"), extent = NULL) {
-  type = match.arg(type)
-  x <- tryCatch(dplyr::combine(x), 
-                error = function(e) x)
-  if(type == "lod")
-    return(preprocess_names(x, extent = extent) %>% 
-             select_nrg_cols(.) %>% 
-             list_to_df(.) %>% dplyr::distinct())
-  
-  preprocess_names(x, extent = extent) %>% 
-    select_nrg_cols(.) %>% 
-    list_to_df(.)# %>% dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------------
-#' A function
-#' @export
-#' @examples
-#' multistep_recode_race_and_gender(df, subsets = 2)
-multistep_recode_race_and_gender <- function(df, subsets = 2) {
-  mylist <- df
-  by <- round(nrow(mylist) / subsets)
-  if(by < 1) by <- 2
-  if(by > length(mylist)) by <- length(mylist)
-  lapply(seq(1, (nrow(mylist)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - nrow(mylist)
-           end <- ifelse(diff <= 0, end, end - diff)
-           recode_race_and_gender(mylist[start:end, ])
-         } 
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
-    dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' multistep_clean_recode(df, subsets = 2, scrub = NULL, extrarace = NULL, extragender = NULL)
-multistep_clean_recode <- function(df, subsets = 2, scrub = NULL, extrarace = NULL, extragender = NULL) {
-  mylist <- df
-  by <- round(nrow(mylist) / subsets)
-  if(by < 1) by <- 2
-  if(by > length(mylist)) by <- length(mylist)
-  
-  lapply(seq(1, (nrow(mylist)), by), 
-         function (x) {
-           start <- x
-           end <- x + (by - 1)
-           diff <- end - nrow(mylist)
-           end <- ifelse(diff <= 0, end, end - diff)
-           clean_recode(mylist[start:end, ], scrub = scrub, extrarace = extrarace, extragender = extragender)
-         } 
-  ) %>% 
-    dplyr::bind_rows() %>% 
-    # dplyr::filter(!is.na(name), name != "", name != "NA", name != "na", name != " ") %>% 
-    dplyr::distinct()
-}
-# ---------------------------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-multistep_split_files <- function(filelist = NULL,
-                                  inpath = NULL,
-                                  pattern = NULL,
-                                  newdir = NULL,
-                                  subsets = NULL, #subsubsets = 2,
-                                  by = NULL,
-                                  extra = NULL,
-                                  outpath = "~/",
-                                  filename_prefix = "DEFAULTNAME") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
-  }
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  lapply(filelist, function (xx) {
-    mylist <- get(load(xx))
-    mylist <- tryCatch(get(load(xx)), 
-                       error = function(e) feather::read_feather(xx))  
-    if(is.list(mylist) & !is.data.frame(mylist)){
-      mylist <- try_compact(mylist)    
-      mylist <- try_combine(mylist)    
+revgeo <- function(lonlat='-86.3, 32.4', ..., output=c('all', 'zip', 'city', 'county', 'state')[1]){
+  lonlat_ <- trimws(unlist(strsplit(as.character(lonlat), split=',')))
+  if(length(lonlat_)!=2){
+    lonlat_ <- trimws(unlist(strsplit(as.character(lonlat), split=' ')))
+    if(!is.null(c(...))){
+      lonlat_ <- trimws(unlist(strsplit(as.character(c(lonlat_, c(...))),split=',') ) )
     }
-    if(is.null(by)) by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 2
-    if(by > length(mylist)) by <- length(mylist)
-    lapply(seq(1, (length(mylist)), by), function (x) {
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      time <- system.time(snippet <- mylist[start:end])
-      filename <- paste0(dir_path, "/", filename_prefix, "_", 
-                         gsub("[^[:alnum:]]", "", xx), "_", 
-                         round4(start), "to", round4(end), ".f") %>% 
-        gsub("\\/\\/", "\\/",. ) %>% gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>% gsub("^\\_|\\_$|^_", "", .)
-      feather::write_feather(snippet, filename)
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
   }
-  )
-}
-
-#---------------------------------------------------------------------------------------------------------------------------------
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-regulars <- function (x, extra = NULL, extent = "thorough"){
-  trycomb <- try_combine(x)
-  trycomp <- try_compact(x)
-  
-  if(is.list(trycomp)) x <- try_compact(x)
-  if(is.list(trycomb)) x <- try_combine(x)
-  
-  x %<>%
-    preprocess_data(., extent = "thorough") %>%
-    #  dplyr::select_if(not_all_na) %>%
-    dplyr::distinct()
-  
-  x %<>%
-    dealwith_racegender_variable() %>%
-    dplyr::distinct()
-  
-  x <- tryCatch(x, error = function(e) dfincase)
-  
-  if(is.null(x) | length(x) == 0) x <- dfincase
-  
-  # In case you have no race columns in this subset
-  if(is.null(x$gender)|is.null(x$name)|is.null(x$race))x <- dplyr::bind_rows(x, dfincase)
-  
-  x %<>%
-    gather_race_and_gender(.) %>%
-    dplyr::distinct()
-  
-  x %<>%
-    recode_races_and_genders(extrarace = extra, extragender = extra)  %>%
-    dplyr::distinct()
-  
-  x %<>%
-    gather_join_first_last_name(.) %>%
-    dplyr::distinct()
-  
-  x %<>%
-    recode_na() %>%
-    dplyr::distinct()
-  
-  x %<>%
-    clean_recode(., scrub = "once") %>%
-    dplyr::distinct()
-  #-------
-  x %<>%
-    dplyr::mutate(gender_r = race,
-                  race_g = gender) %>%
-    dplyr::distinct()
-  
-  x %<>%
-    gather_race_and_gender(.) %>%
-    dplyr::distinct()
-  
-  if(!is.null(x$gender) & !is.null(x$race)){
-    x %<>%
-      dplyr::mutate(gender_r = race,
-                    race_g = gender) %>%
-      dplyr::distinct()
-    
-    x %<>%
-      gather_race_and_gender(.) %>%
-      dplyr::distinct()
-    
-    x %<>% dplyr::mutate(gender = recode_gender_specific(gender, extra = extra),
-                         race = recode_race_specific(race, extra = extra))
-  }
-  
-  if(!is.null(x$gender) & is.null(x$race)){
-    x %<>% dplyr::mutate(race_g = gender) %>% dplyr::distinct()
-    x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
-    x %<>% dplyr::mutate(race = recode_race_specific(race, extra = extra))
-  }
-  
-  if(is.null(x$gender) & !is.null(x$race)){
-    x %<>% dplyr::mutate(gender_r = race) %>% dplyr::distinct()
-    x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
-    x %<>% dplyr::mutate(gender = recode_gender_specific(gender, extra = extra))
-  }
-  
-  x %<>% dplyr::distinct()
-  #-------
-  x %<>%
-    recode_races_and_genders() %>%
-    recode_races_and_genders() %>%
-    dplyr::select_if(not_all_na)  %>%
-    dplyr::distinct()
-  # if(!is.null(x$name)) x <- dplyr::filter(x, !is.na(name))
-  if(!is.null(x$gender) & !is.null(x$race)) x <- dplyr::filter(x, !is.na(gender) | !is.na(race))
-  x
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-featherdump_regulars_filelist_fun <- function(filelist = NULL,
-                                              inpath = NULL,
-                                              pattern = NULL,
-                                              newdir = NULL,
-                                              subsets = 2, subsubsets = 2,
-                                              extra = NULL,
-                                              outpath = "~/",
-                                              filename_prefix = "DEFAULTNAME") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  lapply(filelist, function (xx) 
-  {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f),  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
-    mylist <- f
-    
-    by <- round(length(mylist) / subsets)
-    
-    if(by < 1) by <- 2
-    if(by > length(mylist))by <- length(mylist)
-    
-    lapply(seq(1, (length(mylist)), by), function(x){
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      
-      time <- system.time(snippet <- regulars(mylist[start:end], 
-                                              extra = extra))
-      
-      filename <- paste0(dir_path, "/", filename_prefix, 
-                         "_", 
-                         gsub("[^[:alnum:]]", "", xx), 
-                         "_", 
-                         round4(start), "to", round4(end),
-                         ".f") %>% 
-        gsub("\\/\\/", "\\/",. ) %>% 
-        gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
-        gsub("^\\_|\\_$|^_", "", .)
-      
-      feather::write_feather(snippet, filename)
-      print(paste0(dim(snippet), " -- ", filename))
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
-  }
-  )
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' load_save_rdata()
-load_save_rdata <- function(filelist = NULL,
-                            inpath = NULL,
-                            pattern = NULL,
-                            newdir = NULL,
-                            subsets = 2, subsubsets = 2,
-                            extra = NULL,
-                            outpath = "~/",
-                            filename_prefix = "DEFAULTNAME") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", ., perl = T) %>%
-      gsub("__", "_", ., perl = T)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", ., perl = T) %>%
-                 gsub("__", "_", ., perl = T))
-  }
-  
-  lapply(filelist, function (xx) 
-  {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f),  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
-    mylist <- f
-    save(mylist, file = paste0(dir_path, "/", filename_prefix, 
-                               gsub("[^[:alnum:]]", "", xx), ".rda") %>% 
-           gsub("\\/\\/", "\\/",. , perl = T) %>% gsub("__", "_",. , perl = T) %>%
-           gsub("^_|_$|\\<_|_\\>", "", ., perl = T) %>% gsub("\\<\\_|\\_\\>", "", .))
-    
+  URL <- paste0("http://photon.komoot.de/reverse?lon=", lonlat_[1], "&lat=", lonlat_[2], "")
+  # URL <- "photon.komoot.io/reverse?lon=10&lat=52"
+  res <- tryCatch({
+    jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() # lapply(bind_rows) %>% bind_cols()
+  }, error=function(e){
+    URL <- paste0("http://photon.komoot.io/reverse?lon=", lonlat_[1], "&lat=", lonlat_[2], "")
+    jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() # lapply(bind_rows) %>% bind_cols()
   })
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-featherdump_anomalies_fun <- function(filelist = NULL,
-                                      inpath = NULL,
-                                      pattern = "\\.",
-                                      outpath = "~",
-                                      newdir = NULL,
-                                      subsets = 2, subsubsets = 2,
-                                      path = "~/",
-                                      filename_prefix = "anomalies") {
   
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
+  if(output=='zip'){
+    res <- res$properties_postcode
+  } else if(output=='city'){
+    res <- res$properties_city
+  } else if(output=='county'){
+    res <- res$properties_county
+  } else if(output=='state'){
+    res <- res$properties_state
   }
   
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  lapply(filelist, function (xx)
-  {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f),
-                  error = function(e) f)
-    f <- tryCatch(dplyr::combine(f),
-                  error = function(e) f)
-    mylist <- f
-    
-    by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 2
-    if(by > length(mylist)) by <- length(mylist)
-    
-    lapply(seq(1, (length(mylist)), by), function (x){
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      
-      snippet <- anomalies(mylist[start:end])
-      
-      filename <- paste0(dir_path, "/", filename_prefix,
-                         "_",
-                         gsub("[^[:alnum:]]", "", xx),
-                         "_",
-                         round4(start), "to", round4(end),
-                         ".f") %>%
-        gsub("\\/\\/", "\\/",. ) %>%
-        gsub("__", "_",. ) %>%
-        gsub("^_|_$", "", .) %>%
-        gsub("^\\_|\\_$|^_|\\<_", "", .)
-      
-      feather::write_feather(snippet, filename)
-      
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
-  }
-  )
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-featherdump_anomalies_filelist_fun <- function(filelist = NULL,
-                                               inpath = NULL,
-                                               pattern = NULL,
-                                               newdir = NULL,
-                                               subsets = 2, subsubsets = 2,
-                                               extra = NULL,
-                                               outpath = "~/",
-                                               filename_prefix = "DEFAULTNAME") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  lapply(filelist, function (xx) 
-  {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f), 
-                  error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), 
-                  error = function(e) f)  
-    mylist <- f
-    
-    by <- round(length(mylist) / subsets)
-    
-    if(by < 1) by <- 2
-    if(by > length(mylist)) by <- length(mylist)
-    
-    lapply(seq(1, (length(mylist)), by), function(x) {
-      
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      
-      time <- system.time(snippet <- anomalies(mylist[start:end]))
-      
-      filename <- paste0(dir_path, "/", filename_prefix, 
-                         "_", 
-                         gsub("[^[:alnum:]]", "", xx), 
-                         "_", 
-                         round4(start), "to", round4(end),
-                         ".f") %>% 
-        gsub("\\/\\/", "\\/",. ) %>% 
-        gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
-        gsub("^\\_|\\_$|^_", "", .)
-      
-      feather::write_feather(snippet, filename)
-      print(time)
-      print(paste0(dim(snippet), " -- ", filename))
-      # data.frame(dir = dir_path, filename = filename)
-    }
-    )
-  }
-  )
+  res
 }
 
 
-#' A function to read excel files
-#' @export
-#' @examples
-#' read_excels(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text')
-read_excels <- function(filelist, bindsheets=F, bindrows=F, simplif=T, col_types='text'){
-  d <- lapply(filelist, function(x) try_read_excel(x, bindsheets=bindsheets, col_types=col_types))
-  if(simplif) d <- try_combine_compact(d) %>% drop_empty()
-  if(bindrows) d <- dplyr::bind_rows(d)
-  d
+# rusps::validate_address_usps(street='1156 Susan Way', city="Sunnyvale", state="CA", username='448JL0000161')
+zipcode_to_puma <- function(zipcode){
+  zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(state_puma = get_state_puma(stab, puma12))
+  result <- zip_puma_ref$state_puma[match(zipcode, zip_puma_ref$zcta5)]
+  paste0(result, collapse=", ")
 }
 
-#' A read files into list of list function
-#'
-#' This function allows you to read a list of files into a list of lists of data if the data is in excel (xlsx or xls format)
-#' @export
-#' @examples
-#' data_lol(path='data', skip1='APPLICANTS_FAC-STAFF')
-data_lol <- function(path='data', skip1='APPLICANTS_FAC-STAFF', col_types='text'){
-  dirs <- list.dirs(path, recursive=T) %>% .[-grep(paste0(path, "$"), .)]
-  data <- 
-    lapply(dirs, function(l){
-      files <- list.files(l, recursive=T, full.names=T)
-      l %<>%
-        list.files(., recursive=T, full.names=T) %>%
-        read_excels(., bindsheets = T, col_types=col_types)
-      names(l) <- basename(files)
-      l
-    }) %>% setNames(., basename(dirs))
-  if(!is.null(skip1)){
-    s1dfname <- select_list(data$data_files, skip1) %>% names()
-    s1df <- list.files(path=path, pattern=skip1, recursive=T, full.names = T) %>% readexcel(., bindsheets=T, skip=1, col_types=col_types)
-    data$data_files[[s1dfname]] <- s1df
-  }
-  data
-}
-# data_lol <- function(pattern='data'){
-#   dirs <- list.dirs(pattern, recursive=T) %>% .[-grep(paste0(pattern, "$"), .)]
-#   data <- lapply(dirs, function(l){
-#     files <- list.files(l, recursive=T, full.names=T)
-#     l %<>% 
-#       list.files(., recursive=T, full.names=T) %>% 
-#       read_excels(., bindsheets = T)
-#     names(l) <- basename(files)
-#     l
-#   }) %>% setNames(., basename(dirs))
-# }
-
-
-
-
-
-
-
-
-
-
-#============================================================================================================================================================================
-
-
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' read_rdas()
-#' read_rdas <- function(filelist = NULL, 
-#'                       inpath = NULL,
-#'                       pattern = NULL) {
-#'   if(is.null(filelist)){
-#'     files <- list.files(inpath, pattern)
-#'     filelist <- paste0(inpath, "/", files) %>%
-#'       gsub("\\/\\/", "\\/", ., perl = T) %>%
-#'       gsub("__", "_", ., perl = T)
-#'   }
-#'   
-#'   loaded <- lapply(filelist, function (x){
-#'     x <- load(x)
-#'     x <- get(x)
-#'   })
-#'   loaded
-#' }
-
-
-
-
-# pkg2 <- function (package1=NULL, ..., pipes=T, dependencies=NA, githubrepo=NULL,
-#                   repos = c("https://cloud.r-project.org", "http://owi.usgs.gov/R/"),
-#                   type = getOption("pkgType")) {
-#   if(is.null(package1)) package1 <- "tidyverse"
-#   packages <- unique(c(package1, ...))
-#   if(pipes) packages <- unique(c(packages, "magrittr"))
-#   for (package in packages) {
-#     if (package %in% rownames(installed.packages())) {do.call(library, list(package)); cat(paste0("\n", package, " loaded (bc u already have it)\n"))}
-#     else {
-#       tryCatch(install.packages_wrapper(package,
-#                                         dependencies=dependencies,
-#                                         githubrepo=githubrepo,
-#                                         repos = repos, type = type),
-#                error=function(e) cat(paste0("\n", package, ": can't install (1st try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package, githubrepo=githubrepo); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (2nd try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package, dependencies=dependencies); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (3rd try)\n")))
-#       
-#       tryCatch({install.packages_wrapper(package); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (4th try)\n")))
-#       
-#       tryCatch({devtools::install_github(package); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (5th try)\n")))
-#       
-#       tryCatch({devtools::install_github(package,
-#                                          dependencies=dependencies,
-#                                          githubrepo=githubrepo,
-#                                          repos = repos, type = type); library(package)},
-#                error=function(e) cat(paste0(package, ": can't install (6th try)\n")))
-#       
-#       tryCatch(do.call(library, list(package)), error=function(e) cat(paste0(package, ": can't load\n")))
+# revgeo <- function(lonlat='-86.3, 32.4', ..., output=c('all', 'zip', 'city', 'county', 'state')[1]){
+#   lonlat_ <- trimws(unlist(strsplit(as.character(lonlat), split=',')))
+#   if(length(lonlat_)!=2){
+#     lonlat_ <- trimws(unlist(strsplit(as.character(lonlat), split=' ')))
+#     if(!is.null(c(...))){
+#       lonlat_ <- trimws(unlist(strsplit(as.character(c(lonlat_, c(...))),split=',') ) )
 #     }
 #   }
+#   URL <- paste0("http://photon.komoot.de/reverse?lon=", lonlat_[1], "&lat=", lonlat_[2], "")
+#   res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() # lapply(bind_rows) %>% bind_cols()
+#   
+#   if(output=='zip'){
+#     res <- res$properties_postcode
+#   } else if(output=='city'){
+#     res <- res$properties_city
+#   } else if(output=='county'){
+#     res <- res$properties_county
+#   } else if(output=='state'){
+#     res <- res$properties_state
+#   }
+#   res
 # }
+cat("L243_FLAG ")
 
-
-
-
-#' A function
-#' @export
-#' @examples
-#' read_merge_write_feathers()
-read_merge_write_feathers <- function(filelist = NULL, 
-                                      inpath = NULL,
-                                      pattern = NULL,
-                                      newdir = NULL,
-                                      outpath = "~/",
-                                      filename_prefix = "DEFAULT") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
+recode_state_to_zipcode <- function(state_abb="hi"){ # {city="pennington"; state_abb="sd"}
+  # catn('city'); print(city); catn('state_abb'); print(state_abb)
+  if(length(state_abb)>1|length(state_abb)>1){cat('\nALERT: Did you forget to make your dataframe rowwise() before running recode_city_state_to_zipcode()??\n')}
+  if(nchar(state_abb)>2|lookslike_number(state_abb)){
+    state_abb <- recode_state(state_abb)
+  }
+  # if(!exists('zip_code_db')){# zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip = zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))); zip_code_db <<- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% mutate(post_office_city = major_city )) %>% bind_rows(zipcodeR::zip_code_db, .) %>% as_tibble()}
+  result_0 <- tryCatch({
+    zipcodeR::search_state(state_abb) %>% mutate_all(as.character) %>% mutate_at(vars(one_of('zipcode')), function(v) pad_leading_0s(v, 5)) %>% .$zipcode %>% unique()# %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+  }, error=function(e) {print(e); NA}) # summarize(state_puma = paste0(sort(unique(state_puma)), collapse=", "))#group_by(primary_city, state) %>% 
+  
+  # if(is.na(result)){ # city="milton"; state_abb="ga"
+  result_1 <- tryCatch({
+    geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+      filter(tolower(stab)==tolower(state_abb)) %>% .$zipcode %>% unique()# %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+  }, error=function(e) {print(e); NA})
+  # }
+  # if(is.na(result)){
+  # pkg('usa')
+  result_2 <- tryCatch({
+    city_str <- city
+    result <- usa::zipcodes %>% filter(tolower(state)==tolower(state_abb)) %>% as_tibble() %>% 
+      mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+      select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort()# %>%  paste0(., collapse=", ") %>% recode_na('')
+    result
+  }, error=function(e) {print(e); NA})
+  # }
+  
+  result <- c(result_0, result_1, result_2) %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+  
+  if(is.na(result)|length(result)==0){
+    result <- tryCatch({
+      pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+      city_str <- city
+      data(zip_codes)
+      result <- zip_codes %>% filter(tolower(state)==tolower(state_abb)) %>% as_tibble() %>% 
+        mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+        select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      result
+    }, error=function(e) {print(e); NA})
   }
   
-  if(is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  } 
-  
-  if(!is.null(newdir)) {
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-  }
-  
-  loaded <- lapply(filelist, feather::read_feather) 
-  loaded <- dplyr::bind_rows(loaded)
-  
-  filename <- paste0(dir_path, "/", filename_prefix, "_1to", length(filelist), ".f") %>%
-    gsub("\\/\\/", "\\/", .) %>%
-    gsub("__", "_", .) %>%
-    gsub("^_|_$", "", .) %>%
-    gsub("^\\_|\\_$|^_|\\<_", "", .)
-  
-  feather::write_feather(loaded, filename)
-  
-  # data.frame(dir = dir_path, filename = filename)
+  return(result)
 }
 
 
 
 
-#' A function
-#' @export
-#' @examples
-#' read_feathers_recode_write()
-read_feathers_recode_write <- function(filelist = NULL, 
-                                       inpath = NULL,
-                                       pattern = NULL,
-                                       outpath = "",
-                                       newdir = NULL) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  if (is.null(newdir)){
-    loaded <- lapply(filelist, function (file) {
-      print("old:")
-      print(dim(x1 <- feather::read_feather(file)))
-      x <- clean_dfs(x1)
-      x <- recode_races_and_genders(x)
-      x <- dplyr::distinct(x)
-      
-      if(!is.null(x$name) & !is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, # !is.na(name), 
-                           !is.na(race) | !is.na(gender))
-      }
-      if(!is.null(x$name) & !is.null(x$gender) & is.null(x$race)){
-        x <- dplyr::filter(x,  # !is.na(name), 
-                           !is.na(gender))
-      }
-      if(!is.null(x$name) & is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x,  # !is.na(name), 
-                           !is.na(race))
-      }
-      x2 <- x
-      print(dim(feather::write_feather(x, file)))
-    }) 
-  } 
-  if (!is.null(newdir)){
-    dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                 gsub("\\/\\/", "\\/", .) %>%
-                 gsub("__", "_", .))
-    loaded <- lapply(filelist, function (file) {
-      print("old:")
-      print(dim(x1 <- feather::read_feather(file)))
-      x <- clean_dfs(x1)
-      x <- recode_races_and_genders(x)
-      x <- dplyr::distinct(x)
-      
-      if(!is.null(x$name) & !is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(race) | !is.na(gender))
-      }
-      if(!is.null(x$name) & !is.null(x$gender) & is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(gender))
-      }
-      if(!is.null(x$name) & is.null(x$gender) & !is.null(x$race)){
-        x <- dplyr::filter(x, #!is.na(name), 
-                           !is.na(race))
-      }
-      
-      filename <- gsub("[^[:alnum:]]", "", file)
-      print(dim(feather::write_feather(x, paste0(dir_path,  "/",filename, ".f") %>%
-                                         gsub("\\/\\/", "/", .))))
-    })
-    # print(data.frame("originalrows" = nrow(x1), 
-    #                  "newrows" = nrow(x)))
-  }
+state_puma_extra_df <- data.frame(stringsAsFactors = FALSE, # tbl(con, "puma_dictionary") %>% select(matches("state_puma|state")) %>% filter(state %in% c('pr')|state_puma %in% c('LA-77777')) %>% as_tibble() %>% datapasta::df_paste()
+                                  state = c("la", 
+                                            "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", 
+                                            "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr", "pr"),
+                                  state_puma = c("LA-77777", 
+                                                 "PR-00100", "PR-00101", "PR-00102", "PR-00200", "PR-00201", "PR-00202", "PR-00300", "PR-00301", "PR-00302", "PR-00400", "PR-00401", "PR-00402", "PR-00403", "PR-00500", 
+                                                 "PR-00501", "PR-00502", "PR-00503", "PR-00600", "PR-00601", "PR-00602", "PR-00700", "PR-00701", "PR-00801", "PR-00802", "PR-00803", "PR-00804", "PR-00805", "PR-00806", 
+                                                 "PR-00900", "PR-00901", "PR-00902", "PR-01001", "PR-01002", "PR-01003", "PR-01004", "PR-01100", "PR-01101", "PR-01102", "PR-01200", "PR-01300", "PR-01400", "PR-01500", 
+                                                 "PR-01600", "PR-01700", "PR-01800", "PR-01900", "PR-02000", "PR-02100", "PR-02200", "PR-02300", "PR-02400", "PR-02500", "PR-02600"))
+
+# sp_a <- geocorr::puma2000_to_puma2012 %>% select(matches("stab|puma"), -matches('name')) %>% distinct() %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% mutate(state_puma_2k = get_state_puma(stab, puma2k)) %>% select(matches('state_puma')) %>% unlist() %>% unique()
+# sp_b <- read_csv("https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt") %>% select(matches('state|puma')) %>% distinct() %>% mutate(state = recode_state(STATEFP)) %>% mutate(state_puma = get_state_puma(state, PUMA5CE)) %>%  .$state_puma %>% unique()
+# sp_c <- tbl(con, "puma_dictionary") %>% select(matches("state_puma")) %>% as_tibble() %>% .$state_puma %>% unique()
+# setdiff(sp_c, sp_a) %>% length()
+# setdiff(sp_c, c(sp_a, sp_b)) %>% length()
+# setdiff(sp_c, c(sp_a, sp_b, state_puma_extra_df$state_puma)) %>% length()
+# length(sp_a)
+# length(sp_b)
+# length(sp_c)
+
+if(!exists("state_puma_reference")){
+  sp_a <- geocorr::puma2000_to_puma2012 %>% select(matches("stab|puma"), -matches('name')) %>% distinct() %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(state=stab, state_puma) %>% distinct() #%>% unlist() %>% unique()
+  sp_b <- read_csv("https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt") %>% select(matches('state|puma')) %>% distinct() %>% mutate(state = recode_state(STATEFP)) %>% mutate(state_puma = get_state_puma(state, PUMA5CE)) %>% select(state, state_puma) %>% distinct()
+  state_puma_reference <- bind_rows(sp_a, sp_b, state_puma_extra_df) %>% distinct()
+  # tryCatch({
+  #   puma_dictionary <- tbl(con, "puma_dictionary") %>% select(matches("state|state_puma")) %>% as_tibble() %>% group_by(state) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('', 'NA')) %>% ungroup() 
+  # }, 
+  # error=function(e){
+  #   con <- tryCatch({RPostgreSQL::dbConnect(DBI::dbDriver("PostgreSQL"), dbname="postgres", host="diversity-planning-data.postgres.database.azure.com", port=5432, user="diversityplanner@diversity-planning-data", password="jacksonlewisdatascience1!")}, error=function(e){ catn("Method 1 failed, so using method 2"); RPostgreSQL::dbConnect(RPostgres::Postgres(), dbname="postgres", host="diversity-planning-data.postgres.database.azure.com", port=5432, user="diversityplanner@diversity-planning-data", password="jacksonlewisdatascience1!")})
+  #   puma_dictionary <- tbl(con, "puma_dictionary") %>% select(matches("state|state_puma")) %>% as_tibble() %>% group_by(state) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('', 'NA')) %>% ungroup() 
+  # })
+}
+
+if(!exists("df_1_state_per_row_puma_ref")){
+  df_1_state_per_row_puma_ref <- state_puma_reference %>% group_by(state) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('', 'NA')) %>% ungroup() 
+}
+
+recode_state_to_puma <- function(state_abb="WY"){
+  state_pumas_str <- df_1_state_per_row_puma_ref %>% filter(state %in% toupper(state_abb)) %>% .$state_puma
+  return(state_pumas_str)
 }
 
 
-
-#' A function
-#' @export
-#' @examples
-#' ()
-regulars_anomalies <- function(x, extra = NULL, extent = "thorough"){
-  reg <- data.frame(regulars(x, extra = extra), stringsAsFactors = F)
-  anom <- data.frame(anomalies(x), stringsAsFactors = F)
-  all <- dplyr::bind_rows(reg, anom) %>% dplyr::distinct()
+if(!exists("df_1_state_per_row_msa_ref")){
+  df_1_state_per_row_msa_ref <- puma_msa_ref %>% select(matches("state_msa|^state$")) %>% group_by(state) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('', 'NA')) %>% ungroup() 
 }
 
-#' A function
-#' @export
-#' @examples
-#' ()
-featherdump_regulars_anomalies <- function(filelist = NULL,
-                                           inpath = NULL,
-                                           pattern = NULL,
-                                           newdir = NULL,
-                                           subsets = 2, subsubsets = 2,
-                                           extra = NULL,
-                                           outpath = "~/",
-                                           filename_prefix = "DEFAULTNAME") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                                   gsub("\\/\\/", "\\/", .) %>%
-                                   gsub("__", "_", .))
-  
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                                    gsub("\\/\\/", "\\/", .) %>%
-                                    gsub("__", "_", .))
-  lapply(filelist, function (xx) {
-    f <- get(load(xx))
-    f <- tryCatch(plyr::compact(f), error = function(e) f)      
-    f <- tryCatch(dplyr::combine(f), error = function(e) f)  
-    mylist <- f
-    by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 2
-    if(by > length(mylist)) by <- length(mylist)
-    lapply(seq(1, (length(mylist)), by), function (x) {
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      time <- system.time(snippet <- regulars_anomalies(mylist[start:end], extra = extra))
-      filename <- paste0(dir_path, "/", filename_prefix,  "_", 
-                         gsub("[^[:alnum:]]", "", xx),  "_", 
-                         round4(start), "to", round4(end), ".f") %>% 
-        gsub("\\/\\/", "\\/",. ) %>% 
-        gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>%
-        gsub("^\\_|\\_$|^_", "", .)
-      feather::write_feather(snippet, filename)
-      print(paste0(dim(snippet), " -- ", filename))
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
+recode_state_to_msa <- function(state_abb="WY"){
+  STATE_ABB_STR <- state_abb
+  state_msa_str <- df_1_state_per_row_msa_ref %>% filter(state_abb %in% toupper(STATE_ABB_STR)) %>% .$msa_code
+  return(state_msa_str)
+}
+
+
+cat("L348_FLAG ")
+# city="milton"       ;state_abb="ga" 
+# city="mt. pleasant" ;state_abb="sc"
+# city="new fairview" ;state_abb="tx"
+
+recode_city_state_to_zipcode <- function(city="kona", state_abb="hi"){ # {city="st. marys"; state_abb="pa"}; #{city="bedford park"; state_abb="il"}
+  # catn('city'); print(city); catn('state_abb'); print(state_abb)
+  if(length(city)>1|length(state_abb)>1){cat('\nALERT: Did you forget to make your dataframe rowwise() before running recode_city_state_to_zipcode()??\n')}
+  if(tolower(city) != 'remote'&tolower(city) != '.*'){
+    # if(!exists('zip_code_db')){
+    #   # zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip = zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+    #   zip_code_db <<- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% mutate(post_office_city = major_city )) %>% bind_rows(zipcodeR::zip_code_db, .) %>% as_tibble()
+    # }
+    city <- gsub("\\.", "", city)
+    result <- tryCatch({
+      zipcodeR::search_city(tools::toTitleCase(city), state_abb) %>% mutate_all(as.character) %>% mutate_at(vars(one_of('zipcode')), function(v) pad_leading_0s(v, 5)) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+    }, error=function(e) {print(e); NA}) # summarize(state_puma = paste0(sort(unique(state_puma)), collapse=", "))#group_by(primary_city, state) %>% 
+    
+    if((is.na(result)|nchar(result)<=5)&!is.na(state_abb)){
+      result_ <- tryCatch({
+        CityName <- gsub(' ','%20', city) %>% gsub("\\.", "", .) #remove space for URLs
+        URL <- paste0("http://photon.komoot.io/api/?q=", CityName, "?state=", state_abb)
+        (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% filter(grepl(paste0(abbtostate(state_abb),"|^",state_abb, "$"), properties_state, ignore.case=T)) %>% select(matches('city|state|zip|post'), everything()))
+        result_ <- res %>% drop_na(properties_postcode) %>% filter(!duplicated(properties_postcode)) %>% slice(1:3) %>% mutate(zipcode = na_if_(as.character(srhoads::zipcode5(properties_postcode)))) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('', 'NA') %>% gsub('c\\(\\\"|\\\"|\\)|\\(', "", .) %>% unique_sep_sort2(., ", ")
+        result_
+      }, error=function(e) {print(e); NA})
+      
+      if(!is.na(result_)&!is.na(result)){
+        result <- paste0(result, ", ", result_) %>% unique_sep_sort(., ', ') %>% na_if('NA')
+      } else if(is.na(result)|result=="") {
+        result <- result_
+      }
+    } else if(is.na(state_abb)){
+      result_ <- tryCatch({
+        CityName <- gsub(' ','%20', city) %>% gsub("\\.", "", .) #remove space for URLs
+        URL <- paste0("http://photon.komoot.io/api/?q=", CityName)
+        (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% select(matches('city|state|zip|post'), everything()))
+        result_ <- res %>% drop_na(properties_postcode) %>% filter(!duplicated(properties_postcode)) %>% slice(1) %>% mutate(zipcode = na_if_(as.character(srhoads::zipcode5(properties_postcode)))) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('', 'NA') %>% gsub('c\\(\\\"|\\\"|\\)|\\(', "", .) %>% unique_sep_sort2(., ", ")
+        result_
+      }, error=function(e) {print(e); NA})
+      
+      if(!is.na(result_)&!is.na(result)){
+        result <- paste0(result, ", ", result_) %>% unique_sep_sort(., ', ') %>% na_if('NA')
+      } else if(is.na(result)|result=="") {
+        result <- result_
+      }
     }
-    )
-  }
-  )
-}
 
-
-
-
-
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-merge_many_write_many <- function(filelist = NULL,
-                                  inpath = NULL,
-                                  pattern = NULL,
-                                  newdir = NULL,
-                                  subsets = NULL,
-                                  by = 1000000,
-                                  extra = NULL,
-                                  namegenderonly = F,
-                                  Ng = F,
-                                  Nr = F,
-                                  fullnamegenderonly = F,
-                                  nameraceonly = F,
-                                  firstnameonly = F,
-                                  firstnamegenderonly=F,
-                                  firstnameraceonly=F,
-                                  recode_extra_na = F,
-                                  outpath = "~/",
-                                  filename_prefix = "") {
-  
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>%
-      gsub("__", "_", .)
-  }
-  
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%
-                                   gsub("\\/\\/", "\\/", .) %>%
-                                   gsub("__", "_", .))
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>%
-                                    gsub("\\/\\/", "\\/", .) %>%
-                                    gsub("__", "_", .))
-  df <- read_merge_feathers(filelist = filelist, inpath = inpath, pattern = pattern)
-  dfname <- "nrg"
-  
-  if(Ng) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      na.omit() %>%
-      dplyr::mutate(lastname = toupper(lastname),
-                    gender = as.factor(gender),
-                    name = paste0(firstname, " ", lastname)) %>%
-      select(name, gender) %>% dplyr::distinct()
-    print(dfname <- "Ng")
-  }
-  
-  if(Nr) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      na.omit() %>%
-      dplyr::mutate(lastname = toupper(lastname),
-                    race = as.factor(race),
-                    name = paste0(firstname, " ", lastname)) %>%
-      select(name, race) %>% dplyr::distinct()
-    print(dfname <- "Nr")
-  }
-  
-  if(firstnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|gender")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-    print(dfname <- "fng")
-  }
-  if(firstnameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|race")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-    print(dfname <- "fnr")
-  }
-  if(namegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(gender)) %>%
-      dplyr::distinct()
-    print(dfname <- "ng")
-  }
-  if(fullnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("^name$|gender")) %>% 
-      dplyr::filter(!is.na(name), !is.na(gender)) %>%
-      dplyr::distinct()
-    print(dfname <- "fullnameg")
-  }
-  if(nameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(race) ) %>%
-      dplyr::distinct()
-    print(dfname <- "nr")
-  }
-  if(recode_extra_na) df %<>% recode_races_and_genders(., extra = "NA")
-  if(!is.null(subsets)) by <- round(nrow(df) / subsets)
-  if(by < 1) by <- 1000000
-  if(by > nrow(df)) by <- nrow(df)
-  lapply(seq(1, (nrow(df)), by), function (x) {
-    start <- x
-    end <- x + (by - 1)
-    diff <- end - nrow(df)
-    end <- ifelse(diff <= 0, end, end - diff)
-    time <- system.time(snippet <- df[start:end, ])
-    filename <- cleanpath(paste0(dir_path, "/", filename_prefix, 
-                                 "_", alnum(dfname), "_", 
-                                 round4(start), "-", round4(end), ".f"))
-    feather::write_feather(snippet, filename)
-    print(paste0(dim(snippet), " -- ", filename))
-    print(time)
-    # data.frame(dir = dir_path, filename = filename)
-  }
-  )
-}
-
-split_originals <- function(filelist, by=1000, outpath="~/"){
-  mylist <- read_rdas(filelist) %>% tryCatch_combine_compact()
-  lapply(seq(1, (length(mylist)), by), function(x){
-    start <- x
-    end <- x + (by - 1)
-    diff <- end - length(mylist)
-    end <- ifelse(diff <= 0, end, end - diff)
-    fname <-paste0(outpath, "csv_", start, "to", end, ".rda")
-    data <- mylist[start:end]
-    save(data, file=fname)
-    paste0("length: ", length(data), " | ", fname)
-  })
-}
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' ()
-extract_vars <- function(df,
-                         namegenderonly = F,
-                         Ng = F,
-                         Nr = F,
-                         Nrg=F,
-                         fullnamegenderonly = F,
-                         nameraceonly = F,
-                         firstnameonly = F,
-                         firstnamegenderonly=F,
-                         firstnameraceonly=F,
-                         recode_extra_na = F) {
-  if(Nrg) df %<>% dplyr::select(name=fLname, dplyr::matches("race|gender")) %>% filter(!is.na("name"), !is.na("race")|!is.na("gender")) %>% dplyr::distinct() 
-  if(Ng) df %<>% dplyr::select(name=fLname, dplyr::matches("gender")) %>% na.omit() %>% dplyr::distinct() 
-  if(Nr) df %<>% dplyr::select(name=fLname, dplyr::matches("race")) %>% na.omit() %>% dplyr::distinct() 
-  
-  if(firstnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|gender")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-  }
-  if(firstnameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("firstname|race")) %>% 
-      na.omit() %>%
-      dplyr::distinct()
-  }
-  if(namegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|gender")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(gender)) %>%
-      dplyr::distinct()
-  }
-  if(fullnamegenderonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("^name$|gender")) %>% 
-      dplyr::filter(!is.na(name), !is.na(gender)) %>%
-      dplyr::distinct()
-  }
-  if(nameraceonly) {
-    df %<>% 
-      dplyr::select(dplyr::matches("name|race")) %>% 
-      dplyr::filter(!is.na(name) | !is.na(firstname) | !is.na(lastname), !is.na(race) ) %>%
-      dplyr::distinct()
-  }
-  if(recode_extra_na) df %<>% recode_races_and_genders(., extra = "NA")
-  
-  dplyr::distinct(df)
-}
-
-
-
-#' A function
-#' @export
-#' @examples
-#' recode_list()
-recode_list <- function(gender=T, race=T, na=F){
-  recodelist <- list("NA" = c("N/A"))
-  if(gender) recodelist <- combine.lists(gender_list_short, recodelist)
-  if(race) recodelist <- c(recodelist, race_list_short)
-  recodelist
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' regulars_namesplit()
-regulars_namesplit <- function (x, extra = NULL, extent = "thorough"){
-  if(is.data.frame(x) | !is.list(x)) x %<>% list()
-  trycomb <- try_combine(x)
-  trycomp <- try_compact(x)
-  if(is.list(trycomp)) x <- try_compact(x)
-  if(is.list(trycomb)) x <- try_combine(x)
-  
-  x %<>% drop_empty()
-  
-  fldf <- data.frame(firstname="samantha", lastname="rhoads", name="samantha rhoads", gender="female", stringsAsFactors = F)
-  x %<>% lapply(., function(xx) dplyr::bind_rows(data.frame(xx), fldf))
-  
-  # x %<>% drop_empty()
-  
-  x %<>% preprocess_data(., extent = "thorough") %>% dplyr::distinct()
-  x %<>% dealwith_racegender_variable() %>% dplyr::distinct()
-  
-  x %<>% tryCatch(., error = function(e) dfincase)
-  if(is.null(x) | length(x) == 0) x <- dfincase
-  if(is.null(x$name)|is.null(x$gender)|is.null(x$race)) x %<>% dplyr::bind_rows(., dfincase) %>% filter(!is.na(race)|!is.na(gender))
-  
-  x %<>% gather_race_and_gender() %>% dplyr::distinct()
-  x %<>% recode_races_and_genders() #extrarace = extra, extragender = extra) 
-  x %<>% dplyr::distinct()
-  
-  x %<>% gather_join_first_last_namesplit(.) %>% dplyr::distinct()
-  
-  x %<>% recode_na() %>% dplyr::distinct() %>% clean_recode(., scrub = "once") %>% dplyr::distinct()
-  #-------
-  x %<>% dplyr::mutate(gender_r = race,
-                       race_g = gender) %>% dplyr::distinct()
-  
-  x %<>% gather_race_and_gender(.) %>% dplyr::distinct()
-  
-  x %<>% dplyr::mutate(gender = recode_gender_specific(gender),#, extra = extra),
-                       race = recode_race_specific(race))#, extra = extra)) 
-  x %<>% dplyr::distinct()
-  #-------
-  x %<>%
-    recode_races_and_genders() %>%
-    recode_races_and_genders(., extrarace = extra, extragender = extra) %>%
-    dplyr::select_if(not_all_na)  %>%
-    dplyr::distinct() %>% 
-    data.frame(., stringsAsFactors = F)
-  
-  x$name %<>% 
-    # gsub("   |  ", " ", .) %>%
-    # trimws(., which="both") %>%
-    gsub("^,|,$|^ ,|, $|'$", "", .)
-  
-  x %<>% namesplit()
-  
-  names(x) %<>% 
-    gsub("^fn_orig", "firstname_fn_orig", .) %>%
-    gsub("^ln_orig", "firstname_ln_orig", .)
-  
-  x %<>% gather_first_last_name()
-  # if(!is.null(x$firstname)) x$firstname <- ifelse(x$firstname == x$lastname, stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$lastname & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$lastname & grepl(",",x$name), stringr::word(x$name, -1), x$firstname)
-  x$firstname <- ifelse(x$firstname == x$name & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$firstname <- ifelse(x$firstname==stringr::word(x$name, -1) & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, 1), x$firstname)
-  x$lastname <- ifelse(x$lastname == x$name & grepl(" ",x$name) & !grepl(",",x$name), stringr::word(x$name, -1), x$lastname)
-  
-  x$firstname <- na_if(x$firstname, "")
-  x$lastname <- na_if(x$lastname, "")
-  
-  x$firstname <- stringr::word(x$firstname, -1, sep=",") %>% trimws()
-  
-  
-  x %<>% dplyr::mutate(fLname = ifelse(!is.na(firstname) & !is.na(lastname), paste0(firstname, " ", toupper(lastname)), 
-                                       ifelse(!is.na(firstname) & is.na(lastname), firstname, 
-                                              ifelse(is.na(firstname) & !is.na(lastname), toupper(lastname), NA))))
-  dplyr::distinct(x) %>% 
-    dplyr::filter(!is.na(race)|!is.na(gender), !is.na(name)|!is.na(firstname)|!is.na(lastname))
-}
-
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' read_extract_merge()
-read_extract_merge <- function(filelist = NULL, inpath = NULL, pattern = NULL,
-                               Ng=F, Nr=F, Nrg=F) {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
-  }
-  lapply(
-    filelist, function (xx) feather::read_feather(xx) %>% extract_vars(., Ng=Ng, Nr=Nr, Nrg=Nrg)
-  ) %>% dplyr::bind_rows() %>% dplyr::distinct()
-}
-
-
-#' A function
-#'
-#' This function allows you to 
-#' @export
-#' @examples
-#' write_namesplit()
-write_namesplit <- function(filelist = NULL,
-                            inpath = NULL, pattern = NULL,
-                            newdir = NULL,
-                            extension="feather",
-                            subsets = 2, subsubsets = 2,
-                            extra = NULL,
-                            outpath = "~/", filename_prefix = "") {
-  if(is.null(filelist)){
-    files <- list.files(inpath, pattern)
-    filelist <- paste0(inpath, "/", files) %>%
-      gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .)
-  }
-  if(is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", filename_prefix, "_dump") %>%gsub("\\/\\/", "\\/", .) %>%gsub("__", "_", .))
-  if(!is.null(newdir)) dir.create(dir_path <- paste0(outpath, "/", newdir) %>% gsub("\\/\\/", "\\/", .) %>% gsub("__", "_", .))
-  lapply(filelist, function (xx) {
-    mylist <- get(load(xx))
-    if(!is.list(mylist) | is.data.frame(mylist) | tibble::is_tibble(mylist)) mylist %<>% list()
-    mylist <- tryCatch(plyr::compact(mylist), error = function(e) mylist)      
-    mylist <- tryCatch(dplyr::combine(mylist), error = function(e) mylist)  
-    by <- round(length(mylist) / subsets)
-    if(by < 1) by <- 1
-    if(by > length(mylist)) by <- length(mylist)
-    lapply(seq(1, (length(mylist)), by), function(x){
-      start <- x
-      end <- x + (by - 1)
-      diff <- end - length(mylist)
-      end <- ifelse(diff <= 0, end, end - diff)
-      time <- system.time(snippet <- regulars_namesplit(mylist[start:end], extra = extra))
-      filename <- paste0(dir_path, "/", filename_prefix, "_", 
-                         gsub("-", "to", xx) %>% gsub("[^[:alnum:]]", "", .), "_", 
-                         round4(start), "to", round4(end)) %>% 
-        gsub("\\/\\/", "\\/",. ) %>% gsub("__", "_",. ) %>%
-        gsub("^\\_|_$|^_|_$|\\<_", "", .) %>% gsub("^\\_|\\_$|^_", "", .)
-      if(extension=="feather") feather::write_feather(snippet, paste0(filename, ".f"))
-      if(extension=="csv") write.csv(snippet, paste0(filename, ".csv"))
-      if(extension=="both"){ 
-        feather::write_feather(snippet, paste0(filename, ".f"))
-        write.csv(snippet, paste0(filename, ".csv"))
+    if(is.na(result)|nchar(result)<=5){
+      result_ <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city, "\\b"), zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+      
+      if(!is.na(result_)&!is.na(result)){
+        result <- paste0(result, ", ", result_) %>% unique_sep_sort(., ', ') %>% na_if('NA')
+      } else if(is.na(result)|result=="") {
+        result <- result_
       }
-      print("")
-      print(paste0(paste0(dim(snippet), collapse=" row "), " col - ", filename))
-      # print(filename)
-      # print(paste0("dim: ", dim(snippet)))
-      print(time)
-      # data.frame(dir = dir_path, filename = filename)
     }
-    )
+    
+    if(is.na(result)){ #here
+      result <- tryCatch({
+        # pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+        city_str <- city %>% gsub('\\b(S|m)(t)\\b', '\\1.*\\2 ', ., ignore.case=T) %>% strip_punct(replacewith = ".*") %>% paste0("\\b", ., "\\b") %>% trimws_()
+        result <- zip_codes %>% 
+          mutate(city_state = paste0(city, ', ', state)) %>%
+          filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      # xmlToList <- XML::xmlToList
+      pkg('XML') 
+      result <- tryCatch({ # remotes::install_github("hansthompson/rusps")
+        rusps::validate_address_usps(street='1 1st St', city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zip=Zip5) %>% drop_na(zip) %>% .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e){NA})
+    }
+    if(is.na(result)){ # city="milton"; state_abb="ga"
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city, "\\b"), zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), "\\b"), zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), ""), zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      city_stripped <- trimws_(gsub("\\b(mt|ft|pt|st|west|south|north|east|sw|ne|nw|se|mount|fort|port|saint|township|new|lake of the|city(| of))\\b", "", tolower(city)))
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city_stripped), zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(paste0("\\b", city_stripped), pum_aname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      addrs <- c('1000 1st','1000 2nd', '1000 3rd', '1000 4th', '1000 5th', '1000 Park', '1000 Main', '1000 Oak', '1000 Pine', '7499 Donna')
+      for(addr in addrs){
+        if(is.na(result)){
+          result <- tryCatch({
+            rusps::validate_address_usps(street=addr, city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+              mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+              select(zipcode=Zip5) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+          }, error=function(e){NA})
+        }
+      }
+    }
+    if(is.na(result)){
+      result <- tryCatch({
+        pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+        city_str <- city
+        data(zip_codes)
+        result <- zip_codes %>% 
+          mutate(city_state = paste0(city, ', ', state)) %>%
+          filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      # pkg('usa')
+      result <- tryCatch({
+        city_str <- city
+        result <- usa::zipcodes %>% 
+          mutate(city_state = paste0(city, ', ', state)) %>%
+          filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    if(is.na(result)){
+      result <- tryCatch({
+        CityName <- gsub(' ','%20', city) #remove space for URLs
+        URL <- paste0("http://photon.komoot.io/api/?q=", CityName, "?state=", state_abb)
+        (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% filter(grepl(paste0(abbtostate(state_abb),"|^",state_abb, "$"), properties_state, ignore.case=T)) %>% select(matches('city|state|zip|post'), everything()))
+        result <- res  %>% mutate(zipcode = na_if_(as.character(srhoads::zipcode5(properties_postcode)))) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    #here    
+    if(is.na(result)){
+      # pkg('usa')
+      result <- tryCatch({
+        city_str <- city %>% gsub('\\b(St)\\b', 'S.*t ', ., ignore.case=T) %>% strip_punct(replacewith = ".*") %>% paste0("\\b", ., "\\b") %>% trimws_()
+        result <- usa::zipcodes %>% 
+          mutate(city_state = paste0(city, ', ', state)) %>%
+          filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){ # city="milton"; state_abb="ga"
+      city_str <- city %>% gsub('\\b(St)\\b', 'S.*t ', ., ignore.case=T) %>% strip_punct(replacewith = ".*") %>% paste0("\\b", ., "\\b") %>% trimws_()
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+          filter(tolower(stab)==tolower(state_abb), 
+                 grepl(city_str, zipname, ignore.case=T)
+          ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    
+    if(is.na(result)|nchar(result)<=5){
+      CityName <- city %>% gsub("\\.|new", "", ., ignore.case=T) %>% trimws_() %>% gsub(' ','%20', .) #remove space for URLs
+      result_ <- tryCatch({
+        URL <- paste0("http://photon.komoot.io/api/?q=", CityName, "?state=", state_abb)
+        (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% filter(grepl(paste0(abbtostate(state_abb),"|^",state_abb, "$"), properties_state, ignore.case=T)) %>% select(matches('city|state|zip|post'), everything()))
+        if(!"properties_postcode" %in% names(res)){
+          URL <- paste0("http://photon.komoot.io/api/?q=", res$properties_county[[1]], "?state=", state_abb) %>% gsub(' ','%20', .)
+          (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% filter(grepl(paste0(abbtostate(state_abb),"|^",state_abb, "$"), properties_state, ignore.case=T)) %>% select(matches('city|state|zip|post'), everything()))
+        }
+        result_ <- res %>% drop_na(properties_postcode) %>% filter(!duplicated(properties_postcode)) %>% slice(1:3) %>% mutate(zipcode = na_if_(as.character(srhoads::zipcode5(properties_postcode)))) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('', 'NA') %>% gsub('c\\(\\\"|\\\"|\\)|\\(', "", .) %>% unique_sep_sort2(., ", ")
+        result_
+      }, error=function(e) {print(e); NA})
+      
+      if(!is.na(result_)&!is.na(result)){
+        result <- paste0(result, ", ", result_) %>% unique_sep_sort(., ', ') %>% na_if('NA')
+      } else if(is.na(result)|result=="") {
+        result <- result_
+      }
+    } else {
+      CityName <- city
+    }
+    
+    if(is.na(result)){ #here
+      result <- tryCatch({
+        # pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+        city_str <- CityName %>% gsub('\\b(S|m)(t)\\b', '\\1.*\\2 ', ., ignore.case=T) %>% strip_punct(replacewith = ".*") %>% paste0("\\b", ., "\\b") %>% trimws_()
+        result <- zip_codes %>% 
+          mutate(city_state = paste0(city, ', ', state)) %>%
+          filter(state %in% toupper(state_abb)) %>%
+          filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+        result
+      }, error=function(e) {print(e); NA})
+    }
+    
+    result <- unique_sep_sort2(result)
+    
+  } else {
+    result <- NA
   }
-  )
+  return(result)
+}
+
+
+# recode_city_state_to_zipcode <- function(city="reseda", state_abb="ca"){ # {city="pennington"; state_abb="sd"}
+#   # catn('city'); print(city); catn('state_abb'); print(state_abb)
+#   if(length(city)>1|length(state_abb)>1){cat('\nALERT: Did you forget to make your dataframe rowwise() before running recode_city_state_to_zipcode()??\n')}
+#   if(tolower(city) != 'remote'&tolower(city) != '.*'){
+#     # zip_code_db <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% mutate(major_city = primary_city)
+#     # if(!exists('zip_code_db')){
+#     #   # zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip = zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+#     #   zip_code_db <<- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% mutate(post_office_city = major_city )) %>% bind_rows(zipcodeR::zip_code_db, .) %>% as_tibble()
+#     # }
+#     result <- tryCatch({
+#       zipcodeR::search_city(tools::toTitleCase(city), state_abb) %>% mutate_all(as.character) %>% mutate_at(vars(one_of('zipcode')), function(v) pad_leading_0s(v, 5)) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#     }, error=function(e) {print(e); NA}) # summarize(state_puma = paste0(sort(unique(state_puma)), collapse=", "))#group_by(primary_city, state) %>% 
+#     
+#     if(is.na(result)){
+#       # xmlToList <- XML::xmlToList
+#       pkg('XML') 
+#       result <- tryCatch({
+#         # remotes::install_github("hansthompson/rusps")
+#         rusps::validate_address_usps(street='1 1st St', city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+#           mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#           select(zip=Zip5) %>% drop_na(zip) %>% .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e){NA})
+#     }
+#     
+#     # if(is.na(result)){
+#     #   result <- tryCatch({
+#     #     rusps::validate_address_usps(street='1000 1st Ave', city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+#     #       mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#     #       select(zip=Zip5) %>% drop_na(zip) %>%
+#     #       .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#     #   }, error=function(e){NA})
+#     # }
+#     # if(is.na(result)){
+#     #   addrs <- c('1000 1st','1000 2nd', '1000 3rd', '1000 4th', '1000 5th', '1000 Park', '1000 Main', '1000 Oak', '1000 Pine', '7499 Donna')
+#     #   for(addr in addrs){
+#     #     if(is.na(result)){
+#     #       result <- tryCatch({
+#     #         rusps::validate_address_usps(street=addr, city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+#     #           mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#     #           select(zip=Zip5) %>% drop_na(zip) %>%
+#     #           .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#     #       }, error=function(e){NA})
+#     #     }
+#     #   }
+#     # }
+#     
+#     # if(is.na(result)){
+#     #     result <- tryCatch({
+#     #         zipcodeR::search_city(city, state_abb) %>% mutate_all(as.character) %>% mutate_at(vars(one_of('zip')), function(v) pad_leading_0s(v, 5)) %>%
+#     #             .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#     #     }, error=function(e) {print(e); NA})
+#     # }
+#     
+#     # if(is.na(result)){
+#     #     # city="kansas city"; state_abb="mo"
+#     #     result <- tryCatch({
+#     #         options(tigris_use_cache = TRUE)
+#     #         tigris::zctas(state=state_abb, year=2017, starts_with='07') %>% as_tibble() %>% janitor::clean_names() %>% select(matches('state|puma|name')) %>%
+#     #             filter(grepl(city, namelsad10, ignore.case=T))%>%
+#     #             .$zip %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#     #     }, error=function(e) {print(e); NA})
+#     # }
+#     
+#     if(is.na(result)){
+#       # city="milton"; state_abb="ga"
+#       result <- tryCatch({
+#         geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+#           filter(tolower(stab)==tolower(state_abb), 
+#                  grepl(paste0("\\b", city, "\\b"), zipname, ignore.case=T)
+#           ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e) {print(e); NA})
+#     }
+#     
+#     if(is.na(result)){
+#       result <- tryCatch({
+#         geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+#           filter(tolower(stab)==tolower(state_abb), 
+#                  grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), "\\b"), zipname, ignore.case=T)
+#           ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e) {print(e); NA})
+#     }
+#     
+#     if(is.na(result)){
+#       result <- tryCatch({
+#         geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+#           filter(tolower(stab)==tolower(state_abb), 
+#                  grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), ""), zipname, ignore.case=T)
+#           ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e) {print(e); NA})
+#     }
+#     if(is.na(result)){
+#       city <- tolower(city)
+#       city_stripped <- trimws_(gsub("\\b(mt|ft|pt|st|west|south|north|east|sw|ne|nw|se|mount|fort|port|saint|township|new|lake of the|city(| of))\\b", "", city))
+#       result <- tryCatch({
+#         geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+#           filter(tolower(stab)==tolower(state_abb), 
+#                  grepl(paste0("\\b", city_stripped), zipname, ignore.case=T)
+#           ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e) {print(e); NA})
+#     }
+#     
+#     if(is.na(result)){
+#       result <- tryCatch({
+#         geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% rename(zipcode=zcta5) %>% select(matches('stab|puma|name|zip')) %>%
+#           filter(tolower(stab)==tolower(state_abb), 
+#                  grepl(paste0("\\b", city_stripped), pum_aname, ignore.case=T)
+#           ) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#       }, error=function(e) {print(e); NA})
+#     }
+#     
+#     if(is.na(result)){
+#       addrs <- c('1000 1st','1000 2nd', '1000 3rd', '1000 4th', '1000 5th', '1000 Park', '1000 Main', '1000 Oak', '1000 Pine', '7499 Donna')
+#       for(addr in addrs){
+#         if(is.na(result)){
+#           result <- tryCatch({
+#             rusps::validate_address_usps(street=addr, city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+#               mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#               select(zipcode=Zip5) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#           }, error=function(e){NA})
+#         }
+#       }
+#     }
+#     
+#     if(is.na(result)){
+#       result <- tryCatch({
+#         pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+#         city_str <- city
+#         data(zip_codes)
+#         result <- zip_codes %>% 
+#           mutate(city_state = paste0(city, ', ', state)) %>%
+#           filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+#           mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#           select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#         result
+#       }, error=function(e) {print(e); NA})
+#     }
+#     
+#     if(is.na(result)){
+#       # pkg('usa')
+#       result <- tryCatch({
+#         city_str <- city
+#         result <- usa::zipcodes %>% 
+#           mutate(city_state = paste0(city, ', ', state)) %>%
+#           filter_if(is.factorchar, any_vars(grepl(paste0(city_str, '.*', state_abb), ., ignore.case=T))) %>% as_tibble() %>% 
+#           mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+#           select(zipcode=zip) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#         result
+#       }, error=function(e) {print(e); NA})
+#       # zip_codes %>% 
+#       #   mutate(city_state = paste0(city, ', ', state)) %>%
+#       #   filter_if(is.factorchar, any_vars(grepl(paste0('pennington', '.*', 'SD'), ., ignore.case=T)))
+#     }
+#     
+#     if(is.na(result)){
+#       result <- tryCatch({
+#         CityName <- gsub(' ','%20', city) #remove space for URLs
+#         URL <- paste0("http://photon.komoot.io/api/?q=", CityName, "?state=", state_abb)
+#         (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names())
+#         result <- res %>% filter(grepl(abbtostate(state_abb), properties_state)) %>% mutate(zipcode = as.character(srhoads::zipcode5(properties_postcode))) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+#         result
+#       }, error=function(e) {print(e); NA})
+#     }
+#       # library(RJSONIO)
+#       # nrow <- nrow(test)
+#       # counter <- 1
+#       # test$lon[counter] <- 0
+#       # test$lat[counter] <- 0
+#       # while (counter <= nrow){
+#       # CityName <- gsub(' ','%20', city) #remove space for URLs
+#       #   url <- paste(
+#       #     "http://nominatim.openstreetmap.org/search?city="
+#       #     , CityName
+#       #     , "&state="
+#       #     , abbtostate(state_abb)
+#       #     , "&countrycodes="
+#       #     , "US"
+#       #     , "&limit=9&format=json&addressdetails=1&polygon_svg=0"
+#       #     , sep="")
+#       #   url <- paste("http://nominatim.openstreetmap.org/search?city=", "Sunnyvale", "&state=", "CA", "&countrycodes=", "US", "&limit=9&format=json&addressdetails=1&polygon_svg=0", sep="")
+#       #   (x <- jsonlite::fromJSON(url))
+#       #   # revgeo::revgeo(x$lon, x$lat)
+#       #   d <- revgeo(paste0(x$lon, ', ', x$lat))
+#       #   d
+#       #   # if(is.vector(x)){
+#       #   #   test$lon[counter] <- x[[1]]$lon
+#       #   #   test$lat[counter] <- x[[1]]$lat    
+#       #   # }
+#       #     # counter <- counter + 1
+#       #   # }
+#       # }
+#       
+#       # URL <- paste0("http://photon.komoot.de/reverse?lon=", lonlat_[1], "&lat=", lonlat_[2], "")
+#       # URL <- paste0("http://photon.komoot.de/reverse?lon=", "")
+#       # res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() # lapply(bind_rows) %>% bind_cols()
+#       # URL <- "http://photon.komoot.io/api/?q=sunnyvale?state=CA"
+#     } else {
+#       result <- NA
+#     }
+#     return(result)
+#   }
+
+
+
+
+
+
+
+
+
+
+geocode_zipcode <- function(v, return_vec_latlon=T){
+  # {  if(!require(zipcode)) {install.packages("https://cran.r-project.org/src/contrib/Archive/zipcode/zipcode_1.0.tar.gz", type="source", repos=NULL); .rs.restartR(); library(zipcode)}   }
+  library(zipcode); data(zipcode)
+  zipcode$latlon <- gsub('NA, NA', NA, paste0(zipcode$latitude, ', ', zipcode$longitude))
+  if(return_vec_latlon){
+    result <- zipcode$latlon[match(v, zipcode$zip)]
+  } else {
+    result <- dplyr::left_join(tibble(zip=v), zipcode)
+  }
+  return(result)
+}
+
+recode_city_state_to_puma_state <- function(city, state_abb){
+  if(tolower(city) != 'remote'){
+    
+    if(!exists('zip_code_db')){
+      zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip = zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+      zip_code_db <<- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% 
+                         mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%
+                         select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>%
+                         # filter(!zipcode %in% zipcodeR::zip_code_db$zipcode) %>%
+                         mutate(post_office_city = major_city )
+      ) %>%
+        bind_rows(zipcodeR::zip_code_db, .) %>%
+        as_tibble()
+    }
+    # zip_code_db <- zipcodeR::zip_code_db
+    # zip_code_db <- zip_code_db_github
+    # zip_code_db %>% filter(zipcode=='36101')
+    # zipcodeR::zip_code_db %>% filter(zipcode=='36101')
+    # zip_code_db_github %>% filter(zipcode=='36101')
+    # zipcodeR::geocode_zip("36101")
+    # 
+    # res <- ggmap::revgeocode(c(-86.3, 32.4), output="more")
+    # pkg('revgeo')
+    # (what <- revgeo::revgeo(-86.3, 32.4, output='hash'))
+    # (what <- revgeo::revgeo(-86.3, 32.4, output='frame'))
+    # (what <- revgeo::revgeo(-40.6, 73.9, output='frame'))
+    # (what <- revgeo::revgeo(-40.6342, 73.9143, output='frame'))
+    # revgeo(longitude=-77.0229529, latitude=38.89283435)
+    # what
+    # 
+    # res = 
+    # rawToChar(res$content)
+    # res <- jsonlite::fromJSON(rawToChar(httr::GET("http://photon.komoot.de/reverse?lon=-86.3&lat=32.4")$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() # lapply(bind_rows) %>% bind_cols()
+    # res
+    # 
+    # revgeo(lonlat='-86.3, 32.4', 'zip')
+    
+    
+    BING_API_KEY = "AiwaE_mkhXssMiIuUtG6k2a02Cs9TWeo3npZTs3ZyZLQnDxiRrxHeFfSkNeCE_8t"
+    # rowwise() %>%
+    # mutate(common_city_list=strsplit(acceptable_cities, ', ') %>% sapply(blob::vec_cast.blob)  ) %>% # mutate(common_city_list=strsplit(acceptable_cities, ', ') %>% as.vector() ) %>% # mutate(common_city_list=acceptable_cities %>% sapply(as.vector) ) %>%
+    # ungroup()
+    
+    #  hexToText <- function(msg){
+    #      hex <- sapply(seq(1, nchar(as.character(msg)), by=2), function(x) substr(msg, x, x+1))
+    #      hex <- subset(hex, !hex == "00")
+    #      gsub('[^[:print:]]+', '', rawToChar(as.raw(strtoi(hex, 16L))))
+    #  }
+    #  
+    #  zipcodeR::zip_code_db %>% as_tibble()
+    #  zip_code_db %>% slice(nrow(.)-20:nrow(.)) %>% .$common_city_list %>% .[1]
+    #  zip_code_db %>% slice(1:10) %>% .$common_city_list %>% .[1]
+    #  # rawToChar()
+    #  myblob <- zip_code_db %>% slice(1:10) %>% .$common_city_list %>% .[1]
+    #  myblob_ <- zip_code_db %>% slice(1:10) %>% .$common_city_list %>% .[[1]]
+    #  
+    #  myblob <- zip_code_db %>% .$common_city_list %>% .[length(.)]
+    #  
+    #  (myblob <- zip_code_db %>% .$common_city_list %>% .[24])
+    #  (myblob_ <- zip_code_db %>% .$common_city_list %>% .[[24]])
+    #  
+    #  (myblob <- zipcodeR::zip_code_db %>% .$common_city_list %>% .[24])
+    #  (myblob_ <- zipcodeR::zip_code_db %>% .$common_city_list %>% .[[24]])
+    #  
+    #  (myblob <- zip_code_db %>% .$common_city_list %>% rev() %>% .[24])
+    #  (myblob_ <- zip_code_db %>% .$common_city_list %>% rev() %>% .[[24]])
+    #  
+    #  (myblobs <- zip_code_db %>% .$common_city_list %>% .[c(1:10, (length(.)-30):length(.))])
+    #  rawToChar(myblobs[[1]] %>% .[.!='00'])
+    #  sapply(myblobs, function(x) x %>% .[.!='00'] %>% rawToChar())
+    # # (myblob_ <- zip_code_db %>% .$common_city_list %>% .[1] %>% hexToText()) #%>% .[[50]]
+    #  # blob::validate_blob(myblob) %>% rawToChar()
+    #  blob::is_blob(myblob)
+    #  library(blob)
+    #  vec_restore
+    #  vctrs::vec_restore(myblob, to=character())
+    #  # vctrs::vec_cast(myblob, to=character())
+    #  rawToBits(myblob_)
+    #  rawConnectionValue(myblob_)
+    #  myblob_ %>% .[.!='00'] %>% rawToChar()
+    #  myblob_ %>% .[.!='00'] %>% rawToChar()
+    #  
+    #  zipcodeR::zip_code_db %>% as_tibble() %>% select(1:5) %>% lapply(class)
+    #  zipcodeR::zip_code_db %>% as_tibble() %>% select(1:5) %>% lapply(class)
+    #  str(myblob)
+    #  class(myblob)
+    #  class(myblob_)
+    #  rawToChar(myblob_)
+    #  
+    #  zipcodeR::zip_code_db %>% slice(1:10) %>% .$common_city_list %>% class()
+    #  # blob::as_blob(zip_code_db %>% drop_na(acceptable_cities) %>% select(1:3))
+    #  blob::vec_cast.blob(c('sam', 'cat'))
+    #  # zip_code_db %>% drop_na(acceptable_cities) %>% .$common_city_list %>% .[1:10]
+    #  # full_join(zipcodeR::zip_code_db, zip_code_db %>% select(-matches('lng|lat'))) %>% as_tibble()
+    
+    result <- tryCatch({
+      zipcodeR::search_city(tools::toTitleCase(city), state_abb) %>% mutate_at(vars(one_of('zipcode')), function(v) pad_leading_0s(v, 5)) %>%
+        left_join(., zip_puma_ref, by='zip', suffix=c('', '_y')) %>%
+        mutate(state_puma = paste0(state, '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+        .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+    }, error=function(e) {print(e); NA}) # summarize(state_puma = paste0(sort(unique(state_puma)), collapse=", "))#group_by(primary_city, state) %>% 
+    
+    if(is.na(result)){
+      result <- tryCatch({
+        rusps::validate_address_usps(street='1 1st St', city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zip=Zip5) %>% drop_na(zip) %>%
+          left_join(., zip_puma_ref, by='zip', suffix=c('', '_y')) %>%
+          mutate(state_puma = paste0(toupper(stab), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e){NA})
+    }
+    
+    if(is.na(result)){
+      result <- tryCatch({
+        rusps::validate_address_usps(street='1 1st Ave', city=city, state=state_abb, username='448JL0000161') %>% as_tibble() %>% 
+          mutate_all(., function(v) recode_na(as.character(v), 'NA')) %>% #.$Zip5 %>% na.omit()
+          select(zip=Zip5) %>% drop_na(zip) %>%
+          left_join(., zip_puma_ref, by='zip', suffix=c('', '_y')) %>%
+          mutate(state_puma = paste0(toupper(stab), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e){NA})
+    }
+    
+    if(is.na(result)){
+      result <- tryCatch({
+        zipcodeR::search_city(city, state_abb) %>% mutate_at(vars(one_of('zip')), function(v) pad_leading_0s(v, 5)) %>%
+          left_join(., zip_puma_ref, by='zip', suffix=c('', '_y')) %>%
+          mutate(state_puma = paste0(toupper(state_abb), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      # city="kansas city"; state_abb="mo"
+      result <- tryCatch({
+        tigris::pumas(state=state_abb) %>% as_tibble() %>% janitor::clean_names() %>% select(matches('state|puma|name')) %>%
+          filter(grepl(city, namelsad10, ignore.case=T))%>%
+          mutate(state_puma = paste0(toupper(state_abb), '-', pumace10) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      # city="milton"; state_abb="ga"
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% select(matches('state|puma|name|zip')) %>%
+          mutate(state = recode_state(state)) %>%
+          filter(grepl(paste0("\\b", city, "\\b"), zipname, ignore.case=T), tolower(state_abb)==tolower(state)) %>%
+          mutate(state_puma = paste0(toupper(state), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      # city="Boston"; state_abb="ma"
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% select(matches('state|puma|name|zip')) %>%
+          mutate(state = recode_state(state)) %>%
+          filter(grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), "\\b"), zipname, ignore.case=T), tolower(state_abb)==tolower(state)) %>%
+          mutate(state_puma = paste0(toupper(state), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+    if(is.na(result)){
+      # city="milton"; state_abb="ga"
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% select(matches('state|puma|name|zip')) %>%
+          mutate(state = recode_state(state)) %>%
+          filter(grepl(paste0("\\b", city %>% strip_punct(replacewith = ".*"), ""), zipname, ignore.case=T), tolower(state_abb)==tolower(state)) %>%
+          mutate(state_puma = paste0(toupper(state), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    # city="Narcoossee"; state_abb="FL"
+    if(is.na(result)){
+      city <- tolower(city)
+      city_stripped <- trimws_(gsub("\\b(mt|ft|pt|st|west|south|north|east|sw|ne|nw|se|mount|fort|port|saint|township|city(| of))\\b", "", city))
+      # city="milton"; state_abb="ga"
+      result <- tryCatch({
+        geocorr::zcta2010_to_puma2012 %>% janitor::clean_names() %>% mutate_all(function(v) tolower(iconv(enc2utf8(v)))) %>% select(matches('state|puma|name|zip')) %>%
+          mutate(state = recode_state(state)) %>%
+          filter(grepl(paste0("\\b", city_stripped), zipname, ignore.case=T), tolower(state_abb)==tolower(state)) %>%
+          mutate(state_puma = paste0(toupper(state), '-', puma12) %>% gsub('.*-NA$|^NA-.*', '', .) %>% recode_na('')) %>%
+          .$state_puma %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+      }, error=function(e) {print(e); NA})
+    }
+    
+  } else {
+    result <- NA
+  }
+  return(result)
 }
 
 
@@ -3262,238 +1025,457 @@ write_namesplit <- function(filelist = NULL,
 
 
 
-#' A function
-#' @export
-#' @examples
-#' samtokens()
-samtokens <- function(df, nmin=2,nmax=3,
-                      xv='firstname',
-                      yv='gender',
-                      sample=nrow(df)){
-  df$x <- df[[xv]]
-  df$y <- df[[yv]]
-  df %<>% 
-    sample_n(., sample) %>% 
-    select(x, y) %>%  
-    na.omit() %>% 
-    dplyr::distinct() %>%
-    dplyr::mutate(id=paste0("doc", 1:nrow(.)),
-                  y=as.factor(as.numeric(as.factor(y))),
-                  x = x %>%
-                    trimws(., which="both") %>%
-                    paste0(" ", ., " ")
-    ) %>% dplyr::distinct() 
+if(recreate_msa_puma_ref<-F){
   
-  tryCatch(if(!require("quanteda")) install.packages("quanteda"), error=function(e) print("Couldn't install/access `quanteda` package"))
+  "https://www.uspto.gov/web/offices/ac/ido/oeip/taf/cls_cbsa/cbsa_countyassoc.htm"
   
-  df$x %<>%
-    quanteda::tokens(., ngrams=nmin:nmax,
-                     what="character",
-                     remove_separators=F,
-                     concatenator = "") %>%
-    lapply(., function(x) {
-      x <- gsub(" ", "_", x)
-      x <- paste0(x, collapse=" ")
-    }) %>% data.frame(., stringsAsFactors = F) %>% t() %>%
-    .[,1] %>% as.character()%>% unlist()
-  return(df)
+  state_pumas_missing_msas <- c(
+    "AK-00400", "AL-00300", "AL-00400", "AL-00700", "AL-00901", "AL-00902", "AL-00903", "AL-00904", "AL-00905", "AL-01000", "AL-01300", "AL-02200", "AL-02300", "AR-00400", "AR-00800", "AR-01500", "AR-01900", "AZ-00300", 
+    "CA-00100", "CA-00200", "CA-00300", "CA-00400", "CA-00500", "CA-00600", "CA-00700", "CA-02402", "CA-00800", "CA-00900", "CA-01000", "CA-01100", "CA-01101", "CA-01102", "CA-01103", "CA-01201", "CA-01202", "CA-01401", "CA-01402", "CA-01403", "CA-01500", "CA-01501", "CA-01502", "CA-02401", "CA-01503", "CA-01504", "CA-01505", "CA-01506", "CA-01601", "CA-01602", "CA-01800", "CA-02001", "CA-02002", "CA-02101", "CA-02102", "CA-02103", "CA-02104", "CA-02105", "CA-02106", "CA-02107", "CA-02108", "CA-02201", "CA-02202", "CA-02203", "CA-02204", "CA-02205", "CA-02206", "CA-02207", "CA-02300", "CA-02301", "CA-02302", "CA-02303", "CA-02304", "CA-02305", "CA-02306", "CA-02403", "CA-02404", "CA-02405", "CA-02406", "CA-02407", "CA-02408", "CA-02409", "CA-02410", "CA-02601", "CA-02602", "CA-02701", "CA-02702", "CA-02703", "CA-02704", "CA-02705", "CA-02706", "CA-02707", "CA-02708", "CA-02709", "CA-03501", "CA-03502", "CA-02710", "CA-02711", "CA-02712", "CA-02713", "CA-02714", "CA-02801", "CA-02802", "CA-02900", "CA-03001", "CA-03002", "CA-03200", "CA-03300", "CA-03301", "CA-03302", "CA-03401", "CA-03402", "CA-03503", "CA-03600", "CA-03800", "CA-03901", "CA-03902", "CA-03903", "CA-04000", "CA-04100", "CA-04200", "CA-04300", "CA-05419", "CA-04401", "CA-04402", "CA-04403", "CA-04404", "CA-04405", "CA-04406", "CA-04407", "CA-04500", "CA-04600", "CA-04700", "CA-04800", "CA-04900", "CA-05000", "CA-05100", "CA-05200", "CA-05300", "CA-05401", "CA-05402", "CA-05403", "CA-05404", "CA-05405", "CA-05406", "CA-05407", "CA-05408", "CA-05409", "CA-05410", "CA-05411", "CA-05412", "CA-05413", "CA-05414", "CA-05415", "CA-05416", "CA-05417", "CA-05418", "CA-05420", "CA-05421", "CA-05422", "CA-05423", "CA-05424", "CA-05600", "CA-05700", "CA-05701", "CA-05702", "CA-05703", "CA-05800", "CA-05900", "CA-06000", "CA-06104", "CA-06105", "CA-06106", "CA-06107", "CA-06108", "CA-06109", "CA-06110", "CA-06111", "CA-06112", "CA-06113", "CA-06114", "CA-06115", "CA-06116", "CA-06117", "CA-06118", "CA-06119", "CA-06120", "CA-06121", "CA-06122", "CA-06123", "CA-06124", "CA-06125", "CA-06602", "CA-06126", "CA-06200", "CA-06300", "CA-06400", "CA-06500", "CA-06601", "CA-06801", "CA-06802", "CA-06900", "CA-07000", "CA-07100", "CA-07200", "CA-07300", "CA-07400", "CA-07601", "CA-07602", "CA-07603", "CA-07604", "CA-07605", "CA-07606", "CA-07607", "CA-07700", "CA-07801", "CA-07802", "CA-07900", "CA-08001", "CA-08002", "CA-08003", "CA-08004", "CA-08005", "CA-08107", "CA-08108", "CA-08109", "CA-08110", "CA-08111", "CA-08112", "CA-08113", "CA-08114", "CA-08115", "CA-08116", "CA-08200", 
+    "CO-00101", "CO-00200", "CO-00400", "CO-00501", "CO-00502", "CO-00900", "CO-00901", "CO-00902", "CO-00903", "CO-00904", "CO-00905", "CO-01000", "CT-00200", "CT-00400", "CT-00500", "CT-00600", "CT-00800", "CT-01000", "CT-01200", "CT-01400", "CT-01600", "CT-01700", "CT-01800", "CT-01900", "CT-02000", "CT-02100", "CT-02200", "CT-02300", "CT-02400", "CT-02500", "FL-00200", "FL-00300", "FL-00400", "FL-00600", "FL-00701", "FL-00702", "FL-00800", "FL-00900", "FL-01001", "FL-01002", "FL-01200", "FL-01300", "FL-01400", "FL-01501", "FL-01502", "FL-01600", "FL-01700", "FL-01801", "FL-01802", "FL-01901", "FL-01902", "FL-01903", "FL-02001", 
+    "FL-02002", "FL-02003", "FL-02104", "FL-02201", "FL-02202", "FL-02203", "FL-02204", "FL-02205", "FL-02206", "FL-02207", "FL-02401", "FL-02402", "FL-02403", "FL-02404", "FL-02501", "FL-02502", "FL-02503", "FL-02601", "FL-02602", "FL-02603", "FL-02604", "FL-02605", "FL-02606", "FL-02607", "FL-02608", "FL-02701", "FL-02702", "FL-02703", "FL-02704", "FL-02705", "FL-02706", "FL-02707", "FL-02708", "FL-02801", "FL-02802", "FL-02901", "FL-02902", "FL-03000", "FL-03100", "FL-03200", "FL-03300", "FL-03400", "FL-03501", "FL-03502", "FL-03503", "FL-03504", "FL-03505", "FL-03506", "FL-03507", "FL-03508", "FL-03509", "FL-03601", "FL-03602", "FL-03603", "FL-03604", "FL-03605", "FL-03606", "FL-03607", "FL-03608", "FL-03609", "FL-03610", "FL-03611", "FL-03612", "FL-03613", "FL-03701", "FL-03702", "FL-03800", "FL-03901", "FL-03902", "FL-03903", "FL-04001", "FL-04002", "FL-04003", "FL-04004", "FL-04005", "FL-04006", "FL-04007", "FL-04008", "FL-04009", "FL-04010", "FL-04011", "FL-04012", "FL-04013", "FL-04014", "FL-04015", "FL-04016", "FL-04017", "FL-04018", "FL-04019", "FL-04020", "MN-02100", "FL-12100", 
+    "GA-00400", "GA-01000", "GA-01101", "GA-01102", "GA-01103", "GA-01104", "GA-01105", "GA-01106", "GA-01107", "GA-01200", "GA-01201", "GA-01202", "GA-01203", "GA-01204", "GA-01205", "GA-01206", "GA-01300", "GA-01301", "GA-01302", "GA-01303", "GA-01304", "GA-01305", "GA-01401", "GA-01402", "GA-01501", "GA-01502", "GA-01503", "GA-01504", "GA-01505", "GA-02000", "GA-03000", "GA-03100", "GA-03500", "HI-00200", "IA-00100", "IA-00200", "IA-00300", "IA-01900", "IA-02300", "ID-00700", "ID-00900", "ID-01000", 
+    "IL-00101", "IL-00102", "IL-00103", "IL-00104", "IL-00200", "IL-00300", "IL-00400", "IL-00500", "IL-00600", "IL-00700", "IL-01000", "IL-01101", "IL-01102", "IL-01201", "IL-01202", "IL-01400", "IL-01600", "IL-01700", "IL-01800", "IL-02400", "IL-02500", "IL-02600", "IL-02700", "IL-02800", "IL-02900", "IL-03001", "IL-03002", "IL-03003", "IL-03004", "IL-03006", "IL-03101", "IL-03103", "IL-03104", "IL-03201", "IL-03206", "IL-03301", "IL-03302", "IL-03303", "IL-03304", "IL-03305", "IL-03402", "IL-03403", "IL-03404", "IL-03405", "IL-03406", "IL-03505", "IL-03506", "IL-03507", "IL-03508", "IL-03509", "IL-03510", "IL-03511", "IL-03512", "IL-03513", "IL-03514", "IL-03515", "IL-03516", "IL-03517", "IL-03518", "IL-03519", 
+    "IN-00100", "IN-00201", "IN-00202", "IN-00203", "IN-00400", "IN-00600", "IN-00800", "IN-01000", "IN-01400", "IN-01500", "IN-01800", "IN-01901", "IN-01902", "IN-02001", "IN-02002", "IN-03400", "IN-03700", "IN-03800", "KS-00100", "KS-00200", "KS-00800", "KS-00900", "KS-01000", "KS-01200", "KS-01300", "KS-01401", "KS-01402", "KS-01403", "KS-01500", "KS-01600", "KY-00100", "KY-00200", "KY-00600", "KY-00700", "KY-00800", "KY-00900", "KY-01000", "KY-01100", "KY-02200", "LA-00102", "LA-01000", "LA-01401", "LA-01402", "LA-01803", "LA-01804", "LA-01901", "LA-01902", "LA-01903", "LA-01904", "LA-02001", "LA-02002", "LA-77777", 
+    "MA-00500", "MA-00600", "MA-00700", "MA-00800", "MA-00900", "MA-01100", "MA-01200", "MA-02900", "MA-01500", "MA-01700", "MA-01800", "MA-02000", "MA-02100", "MA-02200", "MA-02300", "MA-02500", "MA-02600", "MA-02700", "MA-03000", "MA-03100", "MA-03200", "MA-03600", "MA-03700", "MA-03800", "MA-04100", "MA-04300", "MA-04400", "MA-04600", "MD-00300", "MD-00806", "ME-00100", "ME-00200", "ME-00400", "ME-00500", "MI-00100", "MI-00200", "MI-00300", "MI-00400", "MI-00500", "MI-00600", "MI-00800", "MI-00900", "MI-01000", "MI-01200", "MI-01300", "MI-01401", "MI-01402", "MI-01403", "MI-01600", "MI-01700", "MI-01800", "MI-02100", "MI-02200", "MI-02301", "MI-02302", "MI-02500", "MI-02501", "MI-02502", "MI-02503", "MI-02504", "MI-02505", "MI-02506", "MI-02507", "MI-02508", "MI-02601", "MI-02602", "MI-02700", "MI-02900", "MI-03000", "MI-03200", "MI-03400", "MI-03500", "MI-03600", "MI-03701", "MI-03702", "MI-03703", "MI-03704", "MI-03705", "MI-03706", "MI-03707", "MI-03708", "MI-03801", "MI-03802", "MI-03803", "MI-03804", "MI-03805", "MI-03806", "MI-03807", "MI-03900", "MI-04000", "MI-04101", "MI-04102", "MI-04103", "MI-04104", "MN-00200", "MN-00700", "MN-00800", "MN-01001", "MN-01002", "MN-01100", "MN-01203", "MN-01601", "MN-01602", "MN-02000", "MO-00100", "MO-00300", "MO-00700", "MO-01200", "MO-01400", "MO-01500", "MO-01601", "MO-01602", "MO-01704", "MO-01705", "MO-01706", "MO-01707", "MO-01708", "MO-01900", "MO-02000", "MO-02100", "MO-02300", "MO-02400", "MO-02500", "MO-02600", "MS-00400", "MS-00500", "MS-00600", "MS-00700", "MS-00800", "MS-01400", "MS-01500", "MS-01600", "MS-01700", "MS-02200", "MS-02300", 
+    "MT-00100", "MT-00300", "NC-00100", "NC-00200", "NC-00201", "NC-00202", "NC-00600", "NC-00800", "NC-00901", "NC-00902", "NC-00903", "NC-00904", "NC-00905", "NC-01000", "NC-01200", "NC-01300", "NC-01601", "NC-01602", "NC-01700", "NC-01800", "NC-02200", "NC-02400", "NC-02600", "NC-02601", "NC-02602", "NC-02701", "NC-02702", "NC-02703", "NC-02801", "NC-02802", "NC-03000", "NC-03100", "NC-03700", "NC-03800", "NC-03900", "NC-04900", "NC-05100", "ND-00200", "NE-00100", "NE-00400", "NE-00500", "NH-00100", "NH-00200", "NH-00400", "NH-00500", "NH-01100", "NJ-00200", "NM-00300", "NM-00400", "NM-00601", "NM-00602", "NM-00603", "NM-00604", "NM-00605", "NM-00800", "NM-01000", "NM-01100", "NM-01200", "NV-00100", "NV-00300", "NV-00400", "NV-00501", "NV-00502", "NV-00503", "NV-00504", "NV-00505", "NV-00506", "NV-00507", "NV-00508", "NV-00509", "NV-00510", "NV-00511", "NY-00100", "NY-00200", "NY-00700", "NY-00801", "NY-00802", "NY-00803", "NY-00804", "NY-01001", "NY-01002", "NY-01003", "NY-01004", "NY-01005", "NY-01100", "NY-01200", "NY-01401", "NY-01402", "NY-01501", "NY-01502", "NY-01600", "NY-01601", "NY-01602", "NY-01603", "NY-01604", "NY-01605", "NY-01800", "NY-02000", "NY-02100", "NY-02500", "NY-02600", "NY-02601", "NY-02602", "NY-02700", "NY-02800", "NY-02900", "NY-03000", "NY-03400", "NY-03501", "NY-03502", "NY-03503", "NY-03504", "NY-03505", "NY-03506", "NY-03601", "NY-03602", "NY-04201", "NY-04202", "NY-04203", "NY-04204", "NY-04205", "NY-04206", "NY-04207", "NY-04208", "NY-04209", "NY-04210", "NY-04211", "NY-04212", "NY-04301", "NY-04302", "NY-04303", "NY-04304", "NY-04305", "NY-04306", "NY-04307", "NY-04308", "NY-04309", "NY-04310", "NY-04311", "NY-04312", 
+    "OH-00100", "OH-00201", "OH-00202", "OH-00301", "OH-00302", "OH-00303", "OH-00501", "OH-00502", "OH-00601", "OH-00602", "OH-00603", "OH-00604", "OH-00605", "OH-00606", "OH-00607", "OH-00608", "OH-00609", "OH-00610", "OH-00611", "OH-00612", "OH-00700", "OH-00701", "OH-00702", "OH-00703", "OH-00800", "OH-01101", "OH-01102", "OH-01103", "OH-01201", "OH-01202", "OH-01300", "OH-01800", "OH-02000", "OH-02100", "OH-02201", "OH-02202", "OH-02203", "OH-02300", "OH-02400", "OH-02600", "OH-02700", "OH-02900", "OH-03000", "OH-03001", "OH-03002", "OH-03101", "OH-03102", "OH-03103", "OH-03104", "OH-03105", "OH-03106", "OH-03107", "OH-03108", "OH-03109", "OH-03400", "OH-03600", "OH-04301", "OH-04302", "OH-04401", "OH-04402", "OH-04403", "OH-04404", "OH-04500", "OH-04501", "OH-04502", "OH-04503", "OH-04800", "OH-05000", "OH-05200", "OK-00400", "OK-00500", "OK-01400", "OK-01500", "OK-00600", "OK-00700", "OK-00701", "OK-00702", "OK-01000", "OK-01100", "OK-01200", "PA-04108", "OK-01600", "OK-01700", "OR-00100", "OR-00200", "OR-00300", "OR-00701", "OR-00702", "OR-00900", "OR-01000", "OR-01101", "OR-01102", "OR-01304", "OR-01306", "OR-01307", "OR-01308", "OR-01309", "OR-01310", "OR-01311", "OR-01312", "OR-01313", "PA-00100", "PA-00200", "PA-00300", "PA-00400", "PA-00700", "PA-00901", "PA-00902", "PA-00903", "PA-01100", "PA-01300", "PA-01500", "PA-01703", "PA-02101", "PA-02102", "PA-02103", "PA-02201", "PA-02202", "PA-02300", "PA-02400", "PA-02501", "PA-02502", "PA-02600", "PA-02700", "PA-02900", "PA-03500", "PA-03600", "PA-03800", "PA-03801", "PA-03802", "PA-03901", "PA-03902", "PA-03903", "PA-03904", "PA-04003", "PA-04004", "PA-04005", "PA-04006", "PA-04101", "PA-04102", "PA-04103", "PA-04104", "PA-04105", "PA-04106", "PA-04107", "PA-04109", "PA-04110", "PA-04111", "PA-04201", "PA-04202", "PA-04203", "PA-04204", "PA-04301", "PA-04302", "PA-04303", 
+    "PR-00100", "PR-00200", "PR-00300", "PR-00400", "PR-00500", "PR-00600", "PR-00700", "PR-00900", "PR-01003", "PR-01004", "PR-01100", "PR-01200", "PR-01300", "PR-01400", "PR-01500", "PR-01600", "PR-01700", "PR-01800", "PR-01900", "PR-02000", "PR-02100", "PR-02200", "PR-02300", "PR-02400", "PR-02500", "PR-02600", "RI-00100", "RI-00200", "RI-00500", "RI-00600", "RI-00700", "SC-00100", "SC-00201", "SC-00202", "SC-00500", "SC-00600", "SC-01000", "SC-01001", "SC-01002", "SC-01100", "SC-01200", "SC-01300", "SC-01600", "SC-01700", "SC-01800", "SC-01900", "SC-02000", "SC-02101", "SC-02102", "SC-02200", "SC-02300", "SD-00200", "SD-00300", "SD-00400", "SD-00700", "TN-00200", "TN-00501", "TN-00502", "TN-00700", "TN-00800", "TN-00801", "TN-00802", "TN-01301", "TN-01302", "TN-01600", "TN-02000", "TN-02200", "TN-02201", "TN-02202", "TN-02203", "TN-02204", "TN-02205", "TN-02400", "TN-02500", "TN-02800", "TN-02900", "TN-03101", "TN-03102", "TN-03103", "TN-03104", "TN-03105", "TX-01000", "TX-01300", "TX-01500", "TX-01800", "TX-01900", "TX-02000", "TX-02103", "TX-02104", "TX-02201", "TX-02202", "TX-03300", "TX-03503", "TX-03504", "TX-03505", "TX-03600", "TX-03701", "TX-03702", "TX-03703", "TX-03900", "TX-04000", "TX-04300", "TX-05401", "TX-05402", "TX-05601", "TX-05602", "TX-05603", "TX-05604", "TX-05605", "TX-05606", "TX-05607", "TX-05608", "TX-05609", "TX-05610", "TX-05611", "TX-05900", "TX-06200", "TX-06400", "TX-06600", "TX-06704", "TX-06800", "TX-06900", "UT-00100", "UT-00200", "UT-00301", "UT-00302", "UT-00400", "UT-00501", "UT-00502", "UT-00503", "UT-00504", "UT-00505", "UT-00506", "UT-00507", "UT-00601", "UT-00602", "UT-00603", "UT-00700", "UT-13001", 
+    "VA-00100", "VA-00200", "VA-00301", "VA-00302", "VA-00303", "VA-00304", "VA-00305", "VA-00400", "VA-00501", "VA-00502", "VA-00600", "VA-00700", "VA-00800", "VA-00900", "VA-01000", "VA-01100", "VA-01200", "VA-01300", "VA-01400", "VA-01500", "VA-01600", "VA-01700", "VA-01800", "VA-01900", "VA-02000", "VA-02100", "VA-02200", "VA-02300", "VA-02400", "VA-02500", "VA-02600", "VA-02700", "VA-02801", "VA-02802", "VA-02803", "VA-02900", "VA-03000", "VA-03100", "VA-03200", "VA-03300", "VA-03400", "VA-03500", "VA-51097", "VT-00200", "VT-00300", "VT-00400", "WA-00100", "WA-00200", "WA-00300", "WA-00400", "WA-00500", "WA-00601", "WA-00602", "WA-00700", "WA-00800", "WA-00901", "WA-00902", "WA-01001", "WA-01002", "WA-01003", "WA-01004", "WA-01005", "WA-01100", "WA-01201", "WA-01202", "WA-01300", "WA-01401", "WA-01402", "WA-01403", "WA-01404", "WA-01500", "WA-01600", "WA-01701", "WA-01702", "WA-01801", "WA-01802", "WA-01803", "WA-01804", "WA-01805", "WA-01900", "WA-02001", "WA-02002", "WA-02003", "WA-02004", "WA-02005", "WA-02006", "WA-02007", "WA-02008", "WA-02009", "WA-02101", "WA-02102", "WA-02200", "WA-10800", "WA-11300", "WA-11900", 
+    "WI-00400", "WI-00500", "WI-00600", "WI-01001", "WI-01100", "WI-01200", "WI-01400", "WI-01601", "WI-01700", "WI-01800", "WI-01900", "WI-02001", "WI-02002", "WI-02003", "WI-02004", "WY-00100", "WI-02101", "WI-02102", "WI-02201", "WI-02202", "WI-02203", "WI-02300", "WI-50000", "WV-00200", "WV-00500", "WV-00600", "WV-01100", "WV-01300", "WY-00200", "WY-00500")   #setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma)
+  
+  puma_msa_ref_0 <-  rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_all(tolower) %>% 
+    mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code))
+  
+  found_missing_msa_state_pumas <- bind_rows(
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% state_pumas_missing_msas)) %>% left_join(., mutate(puma_msa_ref_0, state_puma00=state_puma)) %>% filter(!is.na(msa_code)),
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% state_pumas_missing_msas)) %>% left_join(., mutate(puma_msa_ref_0, state_puma10=state_puma)) %>% filter(!is.na(msa_code))
+  ) %>% distinct() %>%
+    select(matches("state_puma|msa_code")) %>%
+    gather(., "twastwas", "state_puma", matches("state_puma")) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    filter(state_puma %in% state_pumas_missing_msas  ) %>%
+    arrange(state_puma) %>% 
+    mutate(
+      puma_code =  substr(state_puma, 4, 20),
+      state_abb = substr(state_puma, 1, 2),
+      state_name = abbtostate(state_abb),
+      state_fips_code = recode_state(state_name, to_fips=T))
+  
+  still_missing <- c("AZ-00300", "CA-00200", "CA-01100", "CA-02300", "CA-03300", "CA-05700", "FL-12100", "HI-00200", "IA-00100", "IL-00104", "IL-00300", "IL-00600", "IL-00700", "IL-02400", "KS-01000", "KY-00100", "KY-00700", "KY-00800", "LA-77777", "MI-00100", "MI-00200", "MI-00300", "MI-00400", "MI-00500", "MI-01000", "MI-02500", "MS-00800", "NC-05100", "NH-00100", "NH-00500", "NM-01000", "NM-01200", "NY-00100", "NY-02600", "OH-00800", "OK-00701", "OK-00702", "OR-00100", "PA-01500", "PA-03800", "SD-00300", "VA-03500", "VA-51097", "VT-00300", "WA-01600", "WA-10800", "WA-11300", "WA-11900", "WI-01700", "WI-50000")
+  
+  
+  puma_msa_ref <-  bind_rows(puma_msa_ref_0, found_missing_msa_state_pumas) %>%
+    bind_rows(., data.frame(stringsAsFactors = FALSE,
+                            state_puma = c("AZ-00300","CA-00200",
+                                           "CA-01100","CA-02300","CA-03300","CA-05700","FL-12100",
+                                           "HI-00200","IA-00100","IL-00104","IL-00300","IL-00600",
+                                           "IL-00700","IL-02400","KS-01000","KY-00100","KY-00700",
+                                           "KY-00800","LA-77777","MI-00100","MI-00200",
+                                           "MI-00300","MI-00400","MI-00500","MI-01000","MI-02500",
+                                           "MS-00800","NC-05100","NH-00100","NH-00500","NM-01000",
+                                           "NM-01200","NY-00100","NY-02600","OH-00800","OK-00701",
+                                           "OK-00702","OR-00100","PA-01500","PA-03800",
+                                           "SD-00300","VA-03500","VA-51097","VT-00300","WA-01600",
+                                           "WA-10800","WA-11300","WA-11900","WI-01700","WI-50000"),
+                            msa_code = c("38060, 43320","21700",
+                                         "39780","21700","46380","46020","29380","25900","43580",
+                                         "44580","39500","16660","16460, 20820, 34500","36860",
+                                         "26740","37140, 34660, 32460","43700","30940, 40080",
+                                         "35380","26340, 27020","21540, 31940, 42300","10980",
+                                         "15620, 45900","45900","10940","25880",
+                                         "17380, 26940, 24740","22180, 31300, 29900","17200","17200, 28300",
+                                         "17580, 38780","16100, 26020","36300","27460",
+                                         "11780","10220","10220, 20460","25840",
+                                         "32740, 47620, 36340","43740, 27780","10100, 47980","19260, 32300",
+                                         "19260, 32300","17200","10140, 38820, 43220","21260",
+                                         "10140, 43220","38820","48020, 48580","48580")
+    )) %>%
+    mutate(state_abb = ifelse(!is.na(state_abb), state_abb, substr(state_puma, 1, 2)),
+           puma_code = ifelse(!is.na(puma_code), puma_code, substr(state_puma, 4, 20)),
+           state_fips_code = ifelse(!is.na(state_fips_code), state_fips_code, recode_state(state_abb, to_fips=T)),
+           state_name = ifelse(!is.na(state_name), state_name, tolower(abbtostate(state_abb)))
+    ) %>%
+    separate(msa_code, into=paste0('msa_code_', 1:100), sep=", ") %>% select_if(not_all_na) %>% gather(., 'twastwas', 'msa_code', matches('^msa_code_\\d')) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    separate(puma_code, into=paste0('puma_code_', 1:100), sep=", ") %>% select_if(not_all_na) %>% gather(., 'twastwas', 'puma_code', matches('^puma_code_\\d')) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    distinct()
+  
+  
+  
+  cbsa_to_csa <- "https://public.opendatasoft.com/explore/dataset/core-based-statistical-areas-cbsas-and-combined-statistical-areas-csas/export/"
+  # "https://public.opendatasoft.com/explore/dataset/core-based-statistical-areas-cbsas-and-combined-statistical-areas-csas/download/?format=xls&timezone=America/New_York&lang=en&use_labels_for_header=true" %>% rio::import()
+  msa_to_county <- c(
+    "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2009/historical-delineation-files/list1.txt",
+    "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2003/historical-delineation-files/03mfips.txt")
+  geographic_delineation_files <- "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/"
+  cbsa_to_county_crosswalk <- read_csv("https://data.nber.org/cbsa-csa-fips-county-crosswalk/cbsa2fipsxw.csv")
+  cbsa_category_with_county_fips <- "https://www.uspto.gov/web/offices/ac/ido/oeip/taf/cls_cbsa/cbsa_countyassoc.htm"
+  msa_2007_2011 <- read_table("https://www2.census.gov/programs-surveys/susb/technical-documentation/msa_codes_2007_to_2011.txt", skip=3) %>% janitor::clean_names() %>% separate(names(.), into=paste0('x', 1:10), sep="  ") %>% select_if(not_all_na) %>% mutate_all(trimws_)
+  msa_2017_2021 <- read_table("https://www2.census.gov/programs-surveys/susb/technical-documentation/msa_codes_2017_to_2021.txt", skip=3) %>% janitor::clean_names()
+  naics_msa_etc_code_files <- "https://www2.census.gov/programs-surveys/susb/technical-documentation/"
+  micro_metro_statistical_areas <- rio::import("https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2020/delineation-files/list1_2020.xls", skip=2) %>% janitor::clean_names() %>% as_tibble() %>%
+    mutate(msa_description = paste(cbsa_title, metropolitan_micropolitan_statistical_area) %>% gsub("Micropolitan Statistical Area", "MicroSA", .) %>% gsub("Metropolitan Statistical Area", "MSA", .), metropolitan_micropolitan_statistical_area=NULL,
+           stab = statetoabb(state_name),
+           state_msa = get_state_puma(stab, cbsa_code)) %>%
+    group_by(cbsa_code, msa_description) %>%
+    summarize_all(., function(v) paste0(sort(unique(v)), collapse='; ') %>% recode_na('')) %>% ungroup() %>%
+    distinct() %>%
+    mutate(msa_description = paste0(msa_description, " - ", gsub(" County", "", county_county_equivalent)))
+  micro_metro_statistical_areas %>% sumry(10)
+  
+  
+  bind_rows(
+    read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% filter(!is.na(msa_description)),
+    
+    read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% filter(is.na(msa_description)) %>%
+      mutate(msa_description=NULL) %>%
+      left_join(., select(micro_metro_statistical_areas, state_msa, msa_description)) %>%
+      print(n=nrow(.))
+  ) %>%
+    arrange(state_msa, state_puma) %>%
+    writexl_open()
+  
+  
+  micro_metro_statistical_areas %>% filter_all(any_vars(grepl("27500|36980|28700|34980|37140", .)))
+  micro_metro_statistical_areas %>% filter_all(any_vars(grepl(paste_regex(leftovers), .))) %>% select(matches('msa|csa')) %>% print(n=nrow(.)) %>% writexl_open()
+  
+  geocorr::county2010_to_puma2000 %>%
+    select(-matches("afact|intp|pop")) %>% distinct() %>%
+    group_by(PUMA2kName) %>%
+    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup() %>%
+    mutate(state_puma = get_state_puma(stab, puma2k)) %>%
+    writexl_open()
+  
+  geocorr::puma2000_to_puma2012
+  puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv")
+  puma_msa_ref %>% filter(is.na(msa_description))
+  
+  puma_msa_ref_0 <-  rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>%
+    mutate_if(is.character, function(v){
+      stringi::stri_trans_general(str=v, id="Latin-ASCII") # great!
+    })  %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_at(vars(-matches('msa_title|puma_name')), tolower) %>% 
+    mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code), state_msa = get_state_puma(state_abb, msa_code), msa_title = paste0(msa_title, " MSA"))
+  
+  bind_rows(
+    puma_msa_ref %>% filter(!state_msa %in% puma_msa_ref_0$state_msa) ,
+    
+    puma_msa_ref %>% filter(state_msa %in% puma_msa_ref_0$state_msa) %>%
+      mutate(msa_description = NULL) %>%
+      left_join(., distinct(select(puma_msa_ref_0, msa_description=msa_title, state_msa))) %>% distinct() %>%
+      # mutate(msa_description = paste0(msa_description, " MSA")) %>%
+      # arrange(desc(nchar(msa_description))) %>%
+      # select(matches('msa')) %>% distinct() %>%
+      print(n=nrow(.))
+  ) %>% 
+    arrange(state_msa, state_puma) %>%
+    writexl_open()
+  
+  puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv")
+  puma_msa_ref %>% filter(is.na(msa_description)) %>% select(-matches('msa_desc')) %>%
+    left_join(., mutate(puma_msa_ref_0, msa_description=msa_title, state_msa = get_state_puma(state_abb, msa_code), state_puma=NULL, msa_description=msa_title)) %>%
+    bind_rows(puma_msa_ref %>% filter(!is.na(msa_description)), .) %>%
+    arrange(state_puma, state_msa) %>%
+    select(1:5) %>% distinct() %>%
+    group_by(state_puma) %>% fill(., puma_description, .direction="updown") %>% ungroup() %>% 
+    group_by(state_msa) %>% fill(., msa_description, .direction="updown") %>% ungroup() %>% 
+    distinct() %>%
+    writexl_open()
+  
+  puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% arrange(state_puma, state_msa) %>% writexl_open()
+  
+  more_puma_cbsa_ref <- EEOALL1R_2 %>% select(matches('geoname|state_msa')) %>% distinct() %>% filter(!is.na(geoname)) %>%
+    mutate_if(is.character, function(v){
+      stringi::stri_trans_general(str=v, id="Latin-ASCII") # great!
+    }) %>% print(n=nrow(.)) %>%
+    mutate(city = gsub(', .*',"", geoname) %>% trimws_(),
+           state = substr(state_msa, 1, 2))
+  
+  more_puma_cbsa_ref %>% filter(state_msa %in% c("WA-21260"))
+  
+  puma_msa_ref %>% filter(is.na(msa_description)) %>% select(-matches('msa_desc')) %>%
+    left_join(., select(more_puma_cbsa_ref, state_msa, msa_description=geoname)) %>%
+    bind_rows(puma_msa_ref %>% filter(!is.na(msa_description)), .) %>%
+    mutate_if(is.character, function(v){
+      stringi::stri_trans_general(str=v, id="Latin-ASCII") # great!
+    }) %>%
+    arrange(state_puma, state_msa) %>%
+    select(1:5) %>% distinct() %>%
+    group_by(state_puma) %>% fill(., puma_description, .direction="updown") %>% ungroup() %>% 
+    group_by(state_msa) %>% fill(., msa_description, .direction="updown") %>% ungroup() %>% 
+    distinct() %>%
+    writexl_open()
+  
+  puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv")
+  puma_dictionary <- tbl(con, 'puma_dictionary') %>% as_tibble() %>%
+    mutate(puma_description = gsub('.*\\d: ', '', code_description))
+  puma_msa_ref %>% select(-matches('puma_desc')) %>%
+    left_join(., mutate(puma_dictionary, state=NULL)) %>%
+    select(state, puma_description, msa_description, state_puma, state_msa) %>%
+    mutate_if(is.character, function(v){
+      stringi::stri_trans_general(str=v, id="Latin-ASCII") # great!
+    }) %>%
+    distinct() %>%
+    arrange(state_puma, state_msa) %>%
+    writexl_open()
+  # filter(nchar(puma_description)<19)
+  
+  
+  puma_msa_ref %>% filter(is.na(puma_description)) %>% select(-matches('msa_desc')) %>%
+    left_join(., mutate(puma_msa_ref_0, msa_description=msa_title, state_msa = get_state_puma(state_abb, msa_code), state_puma=NULL, msa_description=msa_title)) %>%
+    bind_rows(puma_msa_ref %>% filter(!is.na(msa_description)), .) %>%
+    arrange(state_puma, state_msa) %>%
+    select(1:5) %>% distinct() %>%
+    group_by(state_puma) %>% fill(., puma_description, .direction="updown") %>% ungroup() %>% 
+    group_by(state_msa) %>% fill(., msa_description, .direction="updown") %>% ungroup() %>% 
+    distinct() %>%
+    writexl_open()
+  
+  
+  puma_crosswalk <- rio::import(file="https://usa.ipums.org/usa/resources/volii/PUMA2000_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('pop|land|gisjoin|cpuma00|geoid')) %>% 
+    mutate(stab00 = recode_state(state00), stab10 = recode_state(state10),
+           state_puma00 = get_state_puma(stab00, puma00), state_puma10 = get_state_puma(stab10, puma10)) #%>% 
+  
+  found_missing_msa_state_pumas <- bind_rows(
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% state_pumas_missing_msas)) %>% left_join(., mutate(puma_msa_ref_0, state_puma00=state_puma)) %>% filter(!is.na(msa_code)),
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% state_pumas_missing_msas)) %>% left_join(., mutate(puma_msa_ref_0, state_puma10=state_puma)) %>% filter(!is.na(msa_code))
+  ) %>% distinct() %>%
+    select(matches("state_puma|msa_code")) %>%
+    gather(., "twastwas", "state_puma", matches("state_puma")) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    filter(state_puma %in% state_pumas_missing_msas  ) %>%
+    arrange(state_puma) %>% 
+    mutate(
+      puma_code =  substr(state_puma, 4, 20),
+      state_abb = substr(state_puma, 1, 2),
+      state_name = abbtostate(state_abb),
+      state_fips_code = recode_state(state_name, to_fips=T))
+  
+  still_missing <- c("AZ-00300", "CA-00200", "CA-01100", "CA-02300", "CA-03300", "CA-05700", "FL-12100", "HI-00200", "IA-00100", "IL-00104", "IL-00300", "IL-00600", "IL-00700", "IL-02400", "KS-01000", "KY-00100", "KY-00700", "KY-00800", "LA-77777", "MI-00100", "MI-00200", "MI-00300", "MI-00400", "MI-00500", "MI-01000", "MI-02500", "MS-00800", "NC-05100", "NH-00100", "NH-00500", "NM-01000", "NM-01200", "NY-00100", "NY-02600", "OH-00800", "OK-00701", "OK-00702", "OR-00100", "PA-01500", "PA-03800", "SD-00300", "VA-03500", "VA-51097", "VT-00300", "WA-01600", "WA-10800", "WA-11300", "WA-11900", "WI-01700", "WI-50000")
+  
+  
+  puma_msa_ref <-  bind_rows(puma_msa_ref_0, found_missing_msa_state_pumas) %>%
+    bind_rows(., data.frame(stringsAsFactors = FALSE,
+                            state_puma = c("AZ-00300","CA-00200",
+                                           "CA-01100","CA-02300","CA-03300","CA-05700","FL-12100",
+                                           "HI-00200","IA-00100","IL-00104","IL-00300","IL-00600",
+                                           "IL-00700","IL-02400","KS-01000","KY-00100","KY-00700",
+                                           "KY-00800","LA-77777","MI-00100","MI-00200",
+                                           "MI-00300","MI-00400","MI-00500","MI-01000","MI-02500",
+                                           "MS-00800","NC-05100","NH-00100","NH-00500","NM-01000",
+                                           "NM-01200","NY-00100","NY-02600","OH-00800","OK-00701",
+                                           "OK-00702","OR-00100","PA-01500","PA-03800",
+                                           "SD-00300","VA-03500","VA-51097","VT-00300","WA-01600",
+                                           "WA-10800","WA-11300","WA-11900","WI-01700","WI-50000"),
+                            msa_code = c("38060, 43320","21700",
+                                         "39780","21700","46380","46020","29380","25900","43580",
+                                         "44580","39500","16660","16460, 20820, 34500","36860",
+                                         "26740","37140, 34660, 32460","43700","30940, 40080",
+                                         "35380","26340, 27020","21540, 31940, 42300","10980",
+                                         "15620, 45900","45900","10940","25880",
+                                         "17380, 26940, 24740","22180, 31300, 29900","17200","17200, 28300",
+                                         "17580, 38780","16100, 26020","36300","27460",
+                                         "11780","10220","10220, 20460","25840",
+                                         "32740, 47620, 36340","43740, 27780","10100, 47980","19260, 32300",
+                                         "19260, 32300","17200","10140, 38820, 43220","21260",
+                                         "10140, 43220","38820","48020, 48580","48580")
+    )) %>%
+    mutate(state_abb = ifelse(!is.na(state_abb), state_abb, substr(state_puma, 1, 2)),
+           puma_code = ifelse(!is.na(puma_code), puma_code, substr(state_puma, 4, 20)),
+           state_fips_code = ifelse(!is.na(state_fips_code), state_fips_code, recode_state(state_abb, to_fips=T)),
+           state_name = ifelse(!is.na(state_name), state_name, tolower(abbtostate(state_abb)))
+    ) %>%
+    mutate_at(vars(matches('^state(_abb|name|$)')), function(v) tolower(v)) %>%
+    separate(msa_code, into=paste0('msa_code_', 1:100), sep=", ") %>% select_if(not_all_na) %>% gather(., 'twastwas', 'msa_code', matches('^msa_code_\\d')) %>% select(-one_of('twastwas')) %>% distinct() %>% drop_na(msa_code) %>%
+    separate(state_puma, into=paste0('state_puma_', 1:100), sep=", ") %>% select_if(not_all_na) %>% gather(., 'twastwas', 'state_puma', matches('^state_puma_\\d')) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    mutate(state_msa = get_state_puma(state_abb, msa_code)) %>%
+    distinct() %>%
+    transmute(puma_code=NULL, msa_code=NULL, state=state_abb, state_name=NULL, state_fips_code=NULL, puma_description=puma_name, msa_description=msa_title, state_msa=state_msa, state_puma=state_puma) %>%
+    mutate_at(vars(matches("description")), function(v) {
+      v %>%
+        gsub('--', '-', .) %>% gsub(' & ', '+', .) %>% gsub(', ', '/', .) %>% gsub('\\.', '', .) %>% 
+        gsub('Southwest', 'SW', .) %>% gsub('Southeast', 'SE', .) %>% gsub('North(\\)|\\+| )', 'N\\1', .) %>% gsub('South(\\)|\\+| )', 'S\\1', .) %>% gsub('Northeast', 'NE', .) %>% gsub('Northwest', 'NW', .) %>% gsub('East(\\)|\\+| )', 'E\\1', .) %>% gsub('West(\\)|\\+| )', 'W\\1', .) %>% #gsub('Counties|County', 'Cnt', .) %>% gsub('Cities|City', 'Cit', .) %>% 
+        gsub(' (,|;)', '\\1', .) %>%
+        gsub(', &', ' &', .)
+    }) %>%
+    arrange(state_puma) %>% distinct()
+  write.csv(puma_msa_ref, "puma_msa_dictionary.csv")
+  
+  
+  
+  
+  read.table_fromClipboard("state_puma	cbsa (manual)
+AZ-00300	38060, 43320
+CA-00200	21700
+CA-01100	39780
+CA-02300	21700
+CA-03300	46380
+CA-05700	46020
+FL-12100	29380
+HI-00200	25900
+IA-00100	43580
+IL-00104	44580
+IL-00300	39500
+IL-00600	16660
+IL-00700	16460, 20820, 34500
+IL-02400	36860
+KS-01000	26740
+KY-00100	37140, 34660, 32460
+KY-00700	43700
+KY-00800	30940, 40080
+LA-77777	35380
+MI-00100	26340, 27020
+MI-00200	21540, 31940, 42300
+MI-00300	10980
+MI-00400	15620, 45900
+MI-00500	45900
+MI-01000	10940
+MI-02500	25880
+MS-00800	17380, 26940, 24740
+NC-05100	22180, 31300, 29900
+NH-00100	17200
+NH-00500	17200, 28300
+NM-01000	17580, 38780
+NM-01200	16100, 26020
+NY-00100	36300
+NY-02600	27460
+OH-00800	11780
+OK-00701	10220
+OK-00702	10220, 20460
+OR-00100	25840
+PA-01500	32740, 47620, 36340
+PA-03800	43740, 27780
+SD-00300	10100, 47980
+VA-03500	19260, 32300
+VA-51097	19260, 32300
+VT-00300	17200
+WA-01600	10140, 38820, 43220
+WA-10800	21260
+WA-11300	10140, 43220
+WA-11900	38820
+WI-01700	48020, 48580
+WI-50000	48580
+  ") %>% janitor::clean_names() %>%
+    setNames(c("state_puma", 'msa'))
+  # puma_dictionary <- tbl(con, "puma_dictionary") %>% select(matches("state|state_puma")) %>% as_tibble() 
+  # puma_msa_ref <- rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_all(tolower) %>% 
+  #   mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code))
+  # 
+  still_missings <- tbl(con, "puma_dictionary") %>% filter(state_puma %in% still_missing) %>% as_tibble() %>% print(n=nrow(.))# %>% .$state_puma %>% edit()
+  manual_puma_msa_list <- list(
+    "AZ-00300", "CA-00200", "CA-01100", "CA-02300", "CA-03300", 
+    "CA-05700", "FL-12100", "HI-00200", "IA-00100", "IL-00104", "IL-00300", 
+    "IL-00600", "IL-00700", "IL-02400", "KS-01000", "KY-00100", "KY-00700", 
+    "KY-00800", "LA-77777", "MI-00100", "MI-00200", "MI-00300", "MI-00400", 
+    "MI-00500", "MI-01000", "MI-02500", "MS-00800", "NC-05100", "NH-00100", 
+    "NH-00500", "NM-01000", "NM-01200", "NY-00100", "NY-02600", "OH-00800", 
+    "OK-00701", "OK-00702", "OR-00100", "PA-01500", "PA-03800", "SD-00300", 
+    "VA-03500", "VA-51097", "VT-00300", "WA-01600", "WA-10800", "WA-11300", 
+    "WA-11900", "WI-01700", "WI-50000")
+  
+  c("AZ-00300", "CA-00200", "CA-01100", "CA-02300", "CA-03300", 
+    "CA-05700", "FL-12100", "HI-00200", "IA-00100", "IL-00104", "IL-00300", 
+    "IL-00600", "IL-00700", "IL-02400", "KS-01000", "KY-00100", "KY-00700", 
+    "KY-00800", "LA-77777", "MI-00100", "MI-00200", "MI-00300", "MI-00400", 
+    "MI-00500", "MI-01000", "MI-02500", "MS-00800", "NC-05100", "NH-00100", 
+    "NH-00500", "NM-01000", "NM-01200", "NY-00100", "NY-02600", "OH-00800", 
+    "OK-00701", "OK-00702", "OR-00100", "PA-01500", "PA-03800", "SD-00300", 
+    "VA-03500", "VA-51097", "VT-00300", "WA-01600", "WA-10800", "WA-11300", 
+    "WA-11900", "WI-01700", "WI-50000")
+  
+  "https://www.uspto.gov/web/offices/ac/ido/oeip/taf/cls_cbsa/cbsa_countyassoc.htm"
+  "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2015/delineation-files/list1.xls"
+  # poo <- tigris::combined_statistical_areas()
+  cbsas_df <- rio::import("https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2015/delineation-files/list1.xls", skip=2) %>% janitor::clean_names() %>% as_tibble() %>%
+    mutate(state = statetoabb(state_name),
+           description = paste0(cbsa_title, ", ", metropolitan_division_title, ", ", csa_title,", ",county_county_equivalent) %>% gsub("NA, |, NA", "", .)) #%>%
+  # mutate(description = paste0(cbsa_title, ", ", metropolitan_micropolitan_statistical_area, ", ",metropolitan_division_title, ", ", csa_title,", ",county_county_equivalent, ", ", state_name)) %>% writexl_open()
+  cbsas_df %>% mutate(description = paste0(cbsa_title, ", ", metropolitan_micropolitan_statistical_area, ", ",metropolitan_division_title, ", ", csa_title,", ",county_county_equivalent, ", ", state_name)) %>% 
+    # filter_if(is.factorchar, any_vars(grepl('humbol', ., ignore.case=T)))
+    filter(grepl('(hamilton|suwan|madison|taylor|lafay).*florida', description, ignore.case=T))
+  
+  cbsas_df %>% mutate(description = paste0(cbsa_title, ", ", metropolitan_micropolitan_statistical_area, ", ",metropolitan_division_title, ", ", csa_title,", ",county_county_equivalent, ", ", state_name)) %>% 
+    filter(agrep("IA-00100: Sioux/Clay/Dickinson/O'Brien/Lyon/Emmet/Palo Alto+Osceola Counties 2010-2019", description, ignore.case=T))
+  
+  LOCATIONS <- cbsas_df %>% mutate(description = paste0(cbsa_title, ", ", metropolitan_micropolitan_statistical_area, ", ",metropolitan_division_title, ", ", csa_title,", ",county_county_equivalent, ", ", state_name)) %>% .$description
+  agrep("IA-00100: Sioux/Clay/Dickinson/O'Brien/Lyon/Emmet/Palo Alto+Osceola Counties 2010-2019", LOCATIONS, max.distance = .75, value=T)
+  
+  results_list <- list()
+  for(i in 1:nrow(still_missings)){ # {i<-1}
+    row_to_search <- still_missings[i, ] %>% mutate(description = gsub('20\\d{2}.*|county|counties', '', description, ignore.case=T) %>% trimws_()) %>% 
+      mutate_if(is.factorchar, function(v) replace_na(v, "o") %>% gsub("^$", "o", .))
+    cbsas_df_state <- cbsas_df %>% filter(tolower(state)==tolower(row_to_search$state)) %>% select(matches("_code|DFVAR_TO|simil"), everything()) %>% 
+      mutate(description = gsub("counties|county", "", description, ignore.case=T) %>% trimws_()) %>% 
+      mutate_if(is.factorchar, function(v) replace_na(v, "o") %>% gsub("^$", "o", .))
+    result_indiv <- fuzzy_match_rank(s=row_to_search$description, df=cbsas_df_state, dfvar="description") %>% mutate(input = row_to_search$description) %>% select(matches("_code|DFVAR_TO|simil|input"))
+    results_list[[row_to_search$description]] = result_indiv
+  }
+  results_list %>% lapply(., function(d) select(d, -matches("input")))
+  # fuzzy_match_rank(s="Sioux/Clay/Dickinson/O'Brien/Lyon/Emmet/Palo Alto+Osceola Counties", df=cbsas_df, dfvar="county_county_equivalent")
+  results_list$`Adams, Pike, Brown, Schuyler & Mason` %>% print(n=nrow(.)) %>% filter(grepl("adams|pike|brown|schuyler|mason", DFVAR_TO_COMPARE, ignore.case=T))
+  results_list$`Clark, Jasper, Crawford, Lawrence, Richland, Clay & Wayne` %>% print(n=nrow(.)) %>% filter(grepl("Clark|jasper|craw|lawr|rich|clay|wayne", DFVAR_TO_COMPARE, ignore.case=T))
+  results_list$`Central Kansas--Hutchinson City` %>% print(n=nrow(.)) %>% filter(grepl("hutch", DFVAR_TO_COMPARE, ignore.case=T))
+  
+  results_list_ecolab <- list()
+  for(i in 1:nrow(missingmsa)){ # {i<-1}
+    row_to_search <- missingmsa[i, ] %>% mutate(state=state_abb, description = gsub('20\\d{2}.*|county|counties', '', city, ignore.case=T) %>% trimws_()) %>% 
+      mutate_if(is.factorchar, function(v) replace_na(v, "o") %>% gsub("^$", "o", .))
+    cbsas_df_state <- cbsas_df %>% filter(tolower(state)==tolower(row_to_search$state)) %>% select(matches("_code|DFVAR_TO|simil"), everything()) %>% 
+      mutate(description = gsub("counties|county", "", description, ignore.case=T) %>% trimws_()) %>% 
+      mutate_if(is.factorchar, function(v) replace_na(v, "o") %>% gsub("^$", "o", .))
+    result_indiv <- fuzzy_match_rank(s=row_to_search$description, df=cbsas_df_state, dfvar="description") %>% mutate(input = row_to_search$description) %>% select(matches("_code|DFVAR_TO|simil|input"))
+    results_list_ecolab[[row_to_search$description]] = result_indiv
+  }
+  results_list_ecolab %>% lapply(., function(d) select(d, -matches("input")))
+  
+  
+  puma_msa_ref_idk <- puma_msa_ref %>%
+    # full_join(., transmute(glptools::MSA_PUMA, state_fips_code=STATEFIP, msa_code=MSA, puma_code=pad_leading_0s(PUMA, length=5), year=NULL)) %>% distinct() %>%
+    bind_rows(., transmute(glptools::MSA_PUMA, state_fips_code=STATEFIP, msa_code=MSA, puma_code=pad_leading_0s(PUMA, length=5), year=NULL, state_abb=recode_state(STATEFIP), state_puma=get_state_puma(state_abb, puma_code))) %>%
+    arrange(desc(nchar(puma_name))) %>% filter(!duplicated(state_puma))
+  # glptools::MSA_zip
+  puma_msa_ref_idk %>% filter(state_puma %in% still_missing)
+  # remotes::install_github("greaterlouisvilleproject/glptools")
+  # # glptools::MSA_PUMA
+  # # puma_msa_ref %>% filter(grepl("MS.*0", state_puma))
+  # # puma_dictionary <- tbl(con, "puma_dictionary") %>% select(matches("state|state_puma")) %>% as_tibble() 
+  setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma) %>% length()
+  setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma)# %>% datapasta::vector_paste()
+  setdiff(
+    puma_dictionary$state_puma,
+    bind_rows(glptools::MSA2012_PUMA, glptools::MSA_PUMA) %>% transmute(., state_fips_code=STATEFIP, msa_code=MSA, puma_code=pad_leading_0s(PUMA, length=5), year=NULL, state_abb=recode_state(STATEFIP), state_puma=get_state_puma(state_abb, puma_code)) %>% .$state_puma %>% unique()
+  ) %>% length()
+  # rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_all(tolower) %>% mutate(stab = recode_state(state_fips_code)) %>% mutate()
+  
+  puma_msa_ref <- rio::import(file="https://usa.ipums.org/usa/resources/volii/MSA2013_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('population')) %>% mutate_all(tolower) %>% 
+    mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code)) 
+  # glptools::MSA2012_PUMA
+  puma_crosswalk <- rio::import(file="https://usa.ipums.org/usa/resources/volii/PUMA2000_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('pop|land|gisjoin|cpuma00|geoid')) %>% 
+    mutate(stab00 = recode_state(state00), stab10 = recode_state(state10),
+           state_puma00 = get_state_puma(stab00, puma00), state_puma10 = get_state_puma(stab10, puma10)) #%>% 
+  # filter(stab00 != stab10) %>% print(n=nrow(.))
+  # filter_at(vars(matches('state_puma')), any_vars(grepl("MS.*006", .)))
+  found_missing_msa_state_pumas <- bind_rows(
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma))) %>% left_join(., mutate(puma_msa_ref, state_puma00=state_puma)) %>% filter(!is.na(msa_code)),
+    puma_crosswalk %>% filter_at(vars(matches('state_puma')), any_vars(. %in% setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma))) %>% left_join(., mutate(puma_msa_ref, state_puma10=state_puma)) %>% filter(!is.na(msa_code))
+  ) %>% distinct() %>%
+    select(matches("state_puma|msa_code")) %>%
+    gather(., "twastwas", "state_puma", matches("state_puma")) %>% select(-one_of('twastwas')) %>% distinct() %>%
+    filter(state_puma %in% setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma)  ) %>%
+    arrange(state_puma) %>% 
+    mutate(
+      puma_code =  substr(state_puma, 4, 20),
+      state_abb = substr(state_puma, 1, 2),
+      state_name = abbtostate(state_abb),
+      state_fips_code = recode_state(state_name, to_fips=T))
+  
+  found_missing_msa_state_pumas %>%
+    group_by(state_puma) %>%
+    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
+  # filter_all(any_vars(. %in%  setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma) ))
+  # puma_crosswalk %>% filter(state_puma10 %in% setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma)) %>% left_join(., mutate(puma_msa_ref, state_puma00=state_puma)) %>% filter(!is.na(msa_code))
+  # puma_crosswalk %>% filter(state_puma00 %in% setdiff(puma_dictionary$state_puma, puma_msa_ref$state_puma)) %>% left_join(., mutate(puma_msa_ref, state_puma10=state_puma)) %>% filter(!is.na(msa_code))
+  # found_missing_msa_state_pumas$state_puma %>% datapasta::vector_paste()
+  
+  puma_msa_ref <-  bind_rows(puma_msa_ref, found_missing_msa_state_pumas)
+  
 }
 
 
-# clean_str_strip_NAs_1 <- function(v, sep=", "){
-#   if(is.null(sep)) return(v)
-#   (sep1 <- gsub(" ", "", sep))
-#   # (v <- gsub(paste0(sep, " "), sep, v))
-#   (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1) %>% gsub("\\|\\|", "|", .) %>% gsub("\\| \\|", "|", .))
-#   v %>% gsub(sep, sep1, .) %>% gsub(getrid, "", .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .)
-# }
-
-# trimpunct_(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
-
-
-# remove_space_btwn_identical_punct <- function(v) v %>%
-#   strsplit(., "(?<=[[:punct:]])", perl=T) %>% 
-#   lapply(.,function(s) s %>% trimws_() %>% 
-#            paste0(., collapse="")) %>%
-#   unlist() %>% add_space_after_punct()
-# remove_space_btwn_identical_punct(c("S;'P", "s..p", "s . . p", "s. .p", "s. . p", "s . .p", "s;.p", "s; .p", ",.s..p''", ",.s . . p''", ",.s. .p''", ",.s. . p''", ",.s . .p''", ",.s;.p''", ",.s; .p''"))
-
-
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' dtmfunc()
-#' dtmfunc <- function(df=d, corp=df$x, id=df$id, term_count_min=2){
-#'   tryCatch(if(!require("text2vec")) install.packages("text2vec"), error=function(e) print("Couldn't install/access `text2vec` package"))
-#'   tryCatch(if(!require("devtools")) install.packages('devtools'), error=function(e) print("Couldn't install/access `devtools` package"))
-#'   tryCatch(if(!require("text2vec")) devtools::install_github('dselivanov/text2vec'), error=function(e) print("Couldn't install/access `text2vec` package"))
-#'   it = text2vec::itoken(as.character(corp),  
-#'                         tokenizer = text2vec::word_tokenizer, 
-#'                         ids = id)
-#'   vocab <- text2vec::create_vocabulary(it) %>%
-#'     text2vec::prune_vocabulary(., term_count_min=term_count_min)
-#'   vectorizer = text2vec::vocab_vectorizer(vocab)
-#'   dtm_all = text2vec::create_dtm(it, vectorizer)
-#'   dtm_all
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' tokdtmfunc()
-#' tokdtmfunc <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2){
-#'   d <- samtokens(df=df, xv=xv, yv=yv, nmin=nmin, nmax=nmax)
-#'   dtm_all <- dtmfunc(df=d, corp=d$x, id=d$id, term_count_min=term_count_min)
-#'   list("dtm"=dtm_all, "df"=d)
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' cvglmnet()
-#' cvglmnet <- function(x = dtm_all, y = d$y, 
-#'                      family = 'binomial', alpha = 0,
-#'                      type.measure = "auc", nfolds = 5,
-#'                      thresh = 1e-3, maxit = 1e3){
-#'   
-#'   tryCatch(if(!require("glmnet")) install.packages("glmnet"), error=function(e) print("Couldn't install/access `glmnet` package"))
-#'   
-#'   m <- glmnet::cv.glmnet(x=x, y=y, 
-#'                          family=family, alpha=alpha, 
-#'                          type.measure=type.measure,
-#'                          nfolds=nfolds, thresh=thresh, 
-#'                          maxit=maxit)
-#'   # print(paste("max AUC =", round(max(m$cvm), 4)))
-#'   print(paste("mean AUC =", round(mean(m$cvm), 4)))
-#'   print("     ")
-#'   return(list(m, plot(m)))
-#'   # print(plot(m))
-#' }
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' tok_cvglmnet()
-#' tok_cvglmnet <- function(df=fgsam, xv='firstname', yv='gender', nmin=2,nmax=3,term_count_min=2,
-#'                          family = 'binomial', alpha = 0,
-#'                          type.measure = "auc", nfolds = 5,
-#'                          thresh = 1e-3, maxit = 1e3){
-#'   xy <- tokdtmfunc(df=df, xv=xv, yv=yv, nmin=nmin,nmax=nmax,term_count_min=term_count_min)
-#'   mod <- cvglmnet(x = xy$dtm, y = xy$df$y, 
-#'                   family = family, alpha = alpha,
-#'                   type.measure = type.measure, nfolds = nfolds,
-#'                   thresh = thresh, maxit = maxit)
-#'   
-#' }
-
-
-
-
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_()
-#' df_paste_ <- function(df){
-#'   vector_paste((substitute(df)))
-#'   df_paste(df)
-#' }
-#' 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_2()
-#' df_paste_2 <- function(df){
-#'   vector_paste(c("'____'", substitute(df), "'____'"))
-#'   df_paste(df)
-#' }
-#' 
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' df_paste_lod()
-#' df_paste_lod <- function(lod){
-#'   lapply(seq_along(lod), 
-#'          function(y, n, i) {vector_paste(n[[i]]); df_paste(y[[i]])}, 
-#'          y=lod, n=names(lod))
-#' }
-#' 
-
-
-#' #' A function
-#' #'
-#' #' This function allows you to 
-#' #' @export
-#' #' @examples
-#' #' parse_excel_date()
-#' parse_excel_date <- function(v){
-#'   # v %>% janitor::excel_numeric_to_date(as.numeric(as.character(v)), date_system = "modern")
-#'   v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30")
-#' }
-
-
-
-# if(EVALME <- F){
-#   "([0-9]{4}|[0-9]{1,2})" -> DATEREGEX
-#   "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
-#   "([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_SLASH
-#   "([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DOT
-#   "([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_NOSEP
-#   
-#   
-#   fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
-#   twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
-#   twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
-#   twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
-#   
-#   extract_eightDigitDate <- function(string, sep=c("-", "\\.", "/", "")){
-#     fourDigitYr <- fourDigitYr_1900sOr2000s <- "\b?(19|20)([0-9]{2})"
-#     twoDigitMonth <- "(\b?(0|1)([0-9]{1}))"
-#     twoDigitMonth <- "(\b?(0)([0-9]{1})|\b?(1)([0-2]{1}))"
-#     twoDigitDay <- "(\b?(0)([0-9]{1})|\b?(1)([0-9]{1})|\b?(2)([0-9]{1})|30|31)"
-#     
-#     lapply(sep, function(sepi){
-#       REGEXPATS <- paste0(fourDigitYr, sepi, twoDigitMonth, sepi, twoDigitDay)
-#       REGEXPATS2 <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
-#       REGEXPATS_1_2 <- paste0(paste0("(", REGEXPATS, ")"), "|", paste0("(", REGEXPATS2, ")"))
-#       stringr::str_extract_all(string, REGEXPATS_1_2)
-#     })
-#     # lapply(sep, function(sepi){
-#     #   REGEXPATS <- paste0(twoDigitMonth, sepi, twoDigitDay, sepi, fourDigitYr)
-#     #   stringr::str_extract_all(string, REGEXPATS)
-#     # })
-#   } 
-#   
-#   
-#   # " ?(19|20)([0-9]{2})"
-#   
-#   STR4 <- "20201130 11302020 012020 202001 2020-11-17 11-30-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
-#   string <- STR4
-#     
-#   # "([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2})" -> DATEREGEX -> DATEREGEX_DASH
-#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", fourDigitYr)
-#   STR2 <- "20200117 01172020 012020 202001 2020-01-17 01-17-2020 01-2020 2020-01 2020/01/17 01/17/2020 01/2020 2020/01 2020.01.17 01.17.2020 01.2020 2020.01"
-#   STR3 <- "20201117 11172020 012020 202001 2020-11-17 11-17-2020 01-2020 2020-01 2020/11/17 11/17/2020 01/2020 2020/01 2020.11.17 11.17.2020 01.2020 2020.01"
-#   stringr::str_extract_all(STR2, fourDigitYr)
-#   stringr::str_extract_all(STR2, twoDigitMonth)
-#   stringr::str_extract_all(STR3, twoDigitMonth)
-#   stringr::str_extract_all(STR3, twoDigitDay)
-#   
-#   # gsub("", DATEREGEX, )
-#   stringr::str_extract_all("20190117 01172019 012019 201901 2019-01-17 01-17-2019 01-2019 2019-01 2019/01/17 01/17/2019 01/2019 2019/01 2019.01.17 01.17.2019 01.2019 2019.01", DATEREGEX)
-# }

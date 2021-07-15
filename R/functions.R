@@ -1828,16 +1828,21 @@ combine.lists <- function(list1, list2){
 #' @export
 #' @examples
 #' alnum_period(x)
-alnum_period <- function(x) gsub("[^\\.|[:alnum:]]", "", x)
+alnum_period <- function(x){ gsub("[^\\.|[:alnum:]]", "", x)}
 
 
-#' This function allows you to 
+#' This function allows you to extract alphanumeric characters from a string
 #' @export
 #' @examples
 #' alnum(x)
-alnum <- function(x) gsub("[^[:alnum:]]", "", x)
+alnum <- function(x){ gsub("[^[:alnum:]]", "", x)}
 
-
+#' Samantha Rhoads's function to extract numeric characters from a string
+#' @export
+#' @examples
+#' extract_digits(x)
+extract_digits <- digits <- function(x){gsub("[^[:digit:]]", "", x)}
+    
 #' This function allows you to 
 #' @export
 #' @examples
@@ -2936,7 +2941,7 @@ datatable2 <- function(x, vars = NULL, opts = NULL, caption=NULL, extensions = l
   names_x <- names(x)
   if (is.null(vars)) stop("'vars' must be specified!")
   pos <- match(vars, names_x)
-  if (any(map_chr(x[, pos], typeof) == "list"))
+  if (any(purrr::map_chr(x[, pos], typeof) == "list"))
     stop("list columns are not supported in datatable2()")
   
   pos <- pos[pos <= ncol(x)] + 1
@@ -3108,26 +3113,18 @@ get_states <- function(return_which=c('both', 'name', 'abb', 'fips')[1]){
 #' @export
 #' @examples
 #' statetoabb(v)
-statetoabb <- function (v) {
+statetoabb <- function (v, state_names_abbs_df=get_states(return_which='both')) {
+  # st=c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", 
+  #      "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
+  #      "District of Columbia",'Washington DC', "US Virgin Islands",'United States Virgin Islands','Virgin Islands', "Puerto Rico",'American Samoa', "Northern Mariana Islands", "Guam")
+  # ab=c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", 
+  #      "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", 
+  #      "DC", "DC", "VI", "VI", "VI", "PR", "AS", "AP", "GU")
+  state_names_abbs_df <- dplyr::distinct(state_names_abbs_df, state_names, .keep_all=T)
   v_ <- strip_punct(tolower(v), replacewithspace=F)
-  st <- c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
-          "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", 
-          "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", 
-          "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", 
-          "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", 
-          "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", 
-          "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
-          "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", 
-          "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
-          "District of Columbia",'Washington DC', "US Virgin Islands",'United States Virgin Islands','Virgin Islands', "Puerto Rico",'American Samoa'
-  ) %>% tolower() %>% strip_punct(., replacewithspace=F)
-  ab <- c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
-          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", 
-          "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
-          "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
-          "UT", "VT", "VA", "WA", "WV", "WI", "WY", 
-          "DC", "DC", "VI", "VI", "VI", "PR", "AS")
-  result <- ab[match(v_, st)]
+  from <- st <- tolower(state_names_abbs_df$state_names) %>% strip_punct(., replacewithspace=F)
+  to <- ab <- toupper(state_names_abbs_df$state_abbs)
+  result <- to[match(v_, from)]
   ifelse(is.na(result), v, result)
 }
 
@@ -3136,12 +3133,12 @@ statetoabb <- function (v) {
 #' @export
 #' @examples
 #' abbtostate(v)
-abbtostate <- function (v) {
+abbtostate <- function (v, state_names_abbs_df=get_states(return_which='both')) {
   v_ <- strip_punct(tolower(v), replacewithspace=F)
-  state_names_abbs_df <- get_states(return_which='both')
-  st <- state_names_abbs_df$state_names
-  ab <- state_names_abbs_df$state_abbs %>% tolower() %>% strip_punct(., replacewithspace=F)
-  result <- st[match(v_, ab)]
+  state_names_abbs_df <- dplyr::distinct(state_names_abbs_df, state_abbs, .keep_all=T)
+  to <- st <- state_names_abbs_df$state_names
+  from <- ab <- tolower(state_names_abbs_df$state_abbs) %>% strip_punct(., replacewithspace=F)
+  result <- to[match(v_, from)]
   ifelse(is.na(result), v, result)
 }
 
@@ -3149,21 +3146,21 @@ abbtostate <- function (v) {
 #' @export
 #' @examples
 #' state2abb_or_abb2state(v, abb=F)
-state2abb_or_abb2state <- function(v, abb=F){
+state2abb_or_abb2state <- function(v, abb=F, state_names_abbs_df=get_states(return_which='both')){
   v_ <- tolower(v)
-  state_names_abbs_df <- get_states(return_which='both')
-  # state_names <- c(state.name[order(nchar(state.name), state.name, decreasing=T)], 'District of Columbia', 'Washington DC', 'Puerto Rico', 'US Virgin Islands', 'United States Virgin Islands', 'Virgin Islands', 'American Samoa')
-  addl_states <- c("S Carolina", "N Carolina", "W Virginia", "N Hampshire", "S Dakota", "N Dakota", "N Mexico", "N Jersey", "N York")
-  # state_names <- c(state_names, addl_states)
-  # state_abbs <- c(state.abb, 'DC', 'PR', 'VI', 'AS')
-  if(any(!tolower(v) %in% tolower(c(state.abb, state.name)))){v_ <- gsub('united states', 'us', v_)}
-  st1 <- statetoabb(v_) %>% abbtostate()
-  st2 <- abbtostate(v_)
-  result <- if(!abb) ifelse(is.na(st1), st2, st1) else statetoabb(ifelse(is.na(st1), st2, st1))
+  # state_names_abbs_df <- get_states(return_which='both')
+  # # state_names <- c(state.name[order(nchar(state.name), state.name, decreasing=T)], 'District of Columbia', 'Washington DC', 'Puerto Rico', 'US Virgin Islands', 'United States Virgin Islands', 'Virgin Islands', 'American Samoa')
+  # addl_states <- c("S Carolina", "N Carolina", "W Virginia", "N Hampshire", "S Dakota", "N Dakota", "N Mexico", "N Jersey", "N York")
+  ## state_names <- c(state_names, addl_states)
+  ## state_abbs <- c(state.abb, 'DC', 'PR', 'VI', 'AS')
+  if(any(!tolower(v) %in% tolower(c(state_names_abbs_df$state_names, state_names_abbs_df$state_abbs)))){v_ <- gsub('united states', 'us', v_)}
+  st1 <- statetoabb(v_, state_names_abbs_df=state_names_abbs_df) %>% abbtostate(., state_names_abbs_df=state_names_abbs_df)
+  st2 <- abbtostate(v_, state_names_abbs_df=state_names_abbs_df)
+  result <- if(!abb){ ifelse(is.na(st1), st2, st1)} else {statetoabb(ifelse(is.na(st1), st2, st1), state_names_abbs_df=state_names_abbs_df)}
   
-  if(any(!(result %in% unlist(state_names_abbs_df) ) )){
-    state_names_abbs_df
-  }
+  # if(any(!(result %in% unlist(state_names_abbs_df) ) )){
+  #   state_names_abbs_df2 <- state_names_abbs_df %>% tibble::add_row(state_names=c("Cali", "Mariana Islands"), state_abbs=c("CA", "MP"), state_fips=c("06", "69"))
+  # }
     
   return(result)
 }
@@ -3208,15 +3205,35 @@ extract_state <- function(v, keep_which=c('all', 'first', 'last')[1], return_inp
 #' @export
 #' @examples
 #' recode_state(v, abb=T, to_fips=F)
-recode_state <- function(v, abb=T, to_fips=F){
+recode_state <- function(v, abb=T, to_fips=F, state_names_abbs_df=get_states(return_which='both')){
   if(all(is.numeric(v))|all(lookslike_number(v))){
-    state_fips_df <- get_states()
-    # state_fips_df <- data.frame(stringsAsFactors = FALSE, state = c("AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY","AS","GU","MP","PR","UM","VI"),
-                                # state_code = c("01","02","04","05","06","08","09","10","11","12","13","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","44","45","46","47","48","49","50","51","53","54","55","56","60","66","69","72","74","78"))
-    # state_fips_df$state[match(v, state_fips_df$state_code)] # as.numeric(state_fips_df$state)[match(v, as.numeric(state_fips_df$state_code))] # as.numeric(state_fips_df$state_code)[match(v, as.numeric(state_fips_df$state))]
-    v <- state_fips_df$state_abbs[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_fips_df$state_fips)))]
+    v <- state_names_abbs_df$state_abbs[match(readr::parse_number(as.character(v)), readr::parse_number(as.character(state_names_abbs_df$state_fips)))]
   }
-  result <- state2abb_or_abb2state(v, abb=abb)
+  result <- state2abb_or_abb2state(v, abb=abb, state_names_abbs_df=state_names_abbs_df)
+  
+  if(any(!(result %in% unlist(state_names_abbs_df) ) )){
+    state_names_abbs_df2 <- state_names_abbs_df %>% tibble::add_row(state_names=c("Cali", "Mariana Islands", "Virgin Islands"), state_abbs=c("CA", "MP", "VI"), state_fips=c("06", "69", "78"))
+    result <- state2abb_or_abb2state(result, abb=abb, state_names_abbs_df=state_names_abbs_df2)
+    
+    if(any(!(result %in% unlist(state_names_abbs_df) ) )){
+      state_names_abbs_df2 <- dplyr::bind_rows(state_names_abbs_df2, 
+                                               mutate(state_names_abbs_df2, state_names=gsub("(W|E|S|N)(est|ast|outh|orth(ern|))", "\\1", state_names)),
+                                               ) %>% 
+        bind_rows(.,
+                  mutate(state_names_abbs_df2, state_names=gsub(" ", "", state_names))
+                  ) %>% distinct()
+      result <- gsub("(W|E|S|N)(est|ast|outh|orth(ern|))", "\\1", strip_punct(result))
+      result <- state2abb_or_abb2state(result, abb=abb, state_names_abbs_df=state_names_abbs_df2)
+    }
+  }
+  
+  if(to_fips){
+    result <- state2abb_or_abb2state(result, abb=T, state_names_abbs_df=state_names_abbs_df2)
+    state_fips_df <- dplyr::distinct(state_names_abbs_df2, state_abbs, .keep_all=T)
+    from <- state_fips_df$state_abbs
+    to <- state_fips_df$state_fips
+    result <- to[match(result, from)]
+  }
   return(result)
 }
 
@@ -4545,6 +4562,7 @@ system_open <- open_system <- function(paths){
 #' @examples
 #' writexl_open(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F)
 writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F){
+  if(!grepl("xls(x|)$", path, ignore.case=T)){path <- paste0(path, ".xlsx")}
   writexl::write_xlsx(x, path=path, col_names=col_names, format_headers=format_headers, use_zip64=use_zip64)
   system(paste0('open ', path))
   return(x)
@@ -4789,6 +4807,21 @@ naics_to_sector <- function(v, return_description=F){
 }
 
 
+#' Samantha Rhoads's function to make state-puma out of state and puma
+#' @export
+#' @examples
+#' get_state_puma(st=c("CA"), puma=c("00100"), return_na_if_no_match=T, puma_nchar=5)
+get_state_puma <- function(st=c("CA"), puma=c("00100"), return_na_if_no_match=T, puma_nchar=5){
+  if(any(nchar(st)>2|grepl("\\d", st))){state_abb <- recode_state(st, abb=T)} else {state_abb <- toupper(state_abb)}
+  if(any(nchar(puma)!=puma_nchar)){
+    if(any((nchar(puma)>puma_nchar)|grepl("[[:alpha:]|[:punct:]]", puma))){puma <- extract_digits(puma)} else if(any(nchar(puma)<puma_nchar)){puma <- pad_leading_0s(puma, length=puma_nchar)}
+  }
+  state_pumas <- paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
+  if(return_na_if_no_match){
+    return(ifelse(nchar(state_pumas)!=8, NA, state_pumas))
+  }
+}
+
 #' Samantha Rhoads's function to bind rows of object if they're dataframes
 #' @export
 #' @examples
@@ -4868,15 +4901,29 @@ monthYear_to_dateRangeStr <- function(v = c('2020-01, 2020-02, 2020-03', '2020-0
   error=function(e){v})
 }
 
-#' Samantha Rhoads's function to 
+# source("https://raw.githubusercontent.com/tidyverse/dplyr/master/R/colwise-funs.R")
+# source("https://raw.githubusercontent.com/tidyverse/dplyr/master/R/colwise-mutate.R")
+# list2 <- list
+# names2 <- names
+# is_quosure <- rlang#:#:is_quosure
+# call2 <- rlang#:#:call2
+# 
+# summarize_all_paste_unique_sort <- function(.tbl, .funs, ...){
+#   lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
+#   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
+#   summarise(.tbl, !!!funs)
+# }
+
+#' Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep
 #' @export
 #' @examples
 #' unique_sep_sort(v, sep = "; ")
-unique_sep_sort <- function (v, sep = "; ") {
-  splitv <- strsplit(v, sep)
-  uniqv <- lapply(splitv, function(x) sort(unique(x)))
-  lapply(uniqv, function(s) paste0(s, collapse = sep)) %>% 
-    dplyr::combine() %>% as.character()
+unique_sep_sort <- unique_sep_sort2 <- function (v, sep = "; ") {
+  # splitv <- strsplit(v, sep)
+  # uniqv <- lapply(splitv, function(x) sort(unique(x)))
+  # lapply(uniqv, function(s) paste0(s, collapse = sep)) %>% dplyr::combine() %>% as.character()
+  splitv <- sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()
+  splitv
 }
 
 #' Samantha Rhoads's function to 
@@ -4887,6 +4934,31 @@ paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep) {
   v_ <- paste0(v, collapse=collapse)
   unique_sep_sort(v_, sep=sep)
 }
+
+#' Samantha Rhoads's function to summarize_all remaining columns in a grouped df by pasting their unique values
+#' @export
+#' @examples
+#' summarize_all_paste0(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F)
+summarize_all_paste0 <- function(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
+  # lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
+  # funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
+  # summarise(.tbl, !!!funs)
+  d <- dplyr::summarize_all(.tbl, function(v){ 
+    v_ <- paste0(sort(unique(v)), collapse=collapse)
+    
+    if(unique_sep_sort_str){
+      v_ <- unique_sep_sort(v_, sep=collapse)
+    }
+    if(length(recode_na_vals)>0){
+      v_ <- recode_na(v_, recode_na_vals)
+    }
+  })
+  if(ungroup){
+    d <- ungroup(d)
+  }
+  return(d)
+}
+
 
 #' Samantha Rhoads's function to 
 #' @export
