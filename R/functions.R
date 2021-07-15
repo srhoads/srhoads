@@ -3228,8 +3228,8 @@ recode_state <- function(v, abb=T, to_fips=F, state_names_abbs_df=get_states(ret
   }
   
   if(to_fips){
-    result <- state2abb_or_abb2state(result, abb=T, state_names_abbs_df=state_names_abbs_df2)
-    state_fips_df <- dplyr::distinct(state_names_abbs_df2, state_abbs, .keep_all=T)
+    result <- state2abb_or_abb2state(result, abb=T, state_names_abbs_df=state_names_abbs_df)
+    state_fips_df <- dplyr::distinct(state_names_abbs_df, state_abbs, .keep_all=T)
     from <- state_fips_df$state_abbs
     to <- state_fips_df$state_fips
     result <- to[match(result, from)]
