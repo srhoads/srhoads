@@ -4582,7 +4582,7 @@ split_by_index <- function(d, index=c(5, 10, 15)){
   split(d, cumsum(1:nrow(d) %in% index)) 
 }
 
-#' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you tell the shell to open the file (in Excel); fxn returns the dataframe object
+#' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you tell the shell to open the file (in Excel); fxn returns the dataframe object!
 #' @export
 #' @examples
 #' writexl_open(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F)
