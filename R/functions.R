@@ -4557,6 +4557,31 @@ system_open <- open_system <- function(paths){
   return(paths)
 }
 
+
+#' Samantha Rhoads's function to get the column letter of a number
+#' @export
+#' @examples
+#' get_column_letter(v)
+get_column_letter <- function(v){
+  ab <- toupper(letters)
+  st <- as.character(1:length(ab))
+  result <- ab[match(v, st)]
+  if(is.na(result)){
+    ab <- c(ab, lapply(ab, function(s) paste0(s, ab)) %>% unlist())
+    st <- as.character(1:length(ab))
+    result <- ab[match(v, st)]
+  }
+  return(result)
+}
+
+#' Samantha Rhoads's function to split a dataframe by specified row indeces (numbers)
+#' @export
+#' @examples
+#' split_by_index(d, index=c(5, 10, 15))
+split_by_index <- function(d, index=c(5, 10, 15)){
+  split(d, cumsum(1:nrow(d) %in% index)) 
+}
+
 #' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you tell the shell to open the file (in Excel); fxn returns the dataframe object
 #' @export
 #' @examples
@@ -4564,8 +4589,30 @@ system_open <- open_system <- function(paths){
 writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F){
   if(!grepl("xls(x|)$", path, ignore.case=T)){path <- paste0(path, ".xlsx")}
   writexl::write_xlsx(x, path=path, col_names=col_names, format_headers=format_headers, use_zip64=use_zip64)
-  system(paste0('open ', path))
+  system(paste0('open "', path, '"'))
   return(x)
+}
+
+
+#' Samantha Rhoads's function to write to Excel just like writexl::write_xlsx (same args) but you can specify Excel formulas to be written based on your current columns
+#' @export
+#' @examples
+#' writexl_with_formulas(x, path = tempfile(fileext = ".xlsx"), formula="=total - white", newcol="minority", col_names = T, format_headers = T, use_zip64 = F, write=F)
+writexl_with_formulas <- function(x, path = tempfile(fileext = ".xlsx"), formula="=total - white", newcol="minority", col_names = T, format_headers = T, use_zip64 = F, write=F){
+  formula_matched_names <- stringr::str_extract_all(formula, paste0("\\b", names(x), "\\b", collapse="|")) %>% unlist()
+  excel_ref_df <- dplyr::tibble("cols"=formula_matched_names) %>%
+    dplyr::rowwise() %>% dplyr::mutate(col_num = which(colnames(x)==cols), col_letter = get_column_letter(col_num)) %>% dplyr::ungroup() %>%
+    split(., .$cols)
+  new_formula <- formula
+  for (each in excel_ref_df){
+    new_formula %<>% gsub(each$cols, each$col_letter, .)
+  }
+  # excel_formula <- hi
+  x[[newcol]] <- x %>% dplyr::mutate(row_num = (1:nrow(.))+1) %>% dplyr::rowwise() %>% dplyr::mutate(newcol = gsub("(\\b[[:upper:]]{1,2})(\\b)", paste0("\\1", row_num, "\\2"), new_formula) %>% writexl::xl_formula()) %>% .$newcol
+  if(write){
+    writexl_open(x, path)
+  }
+  x
 }
 
 
@@ -4812,7 +4859,7 @@ naics_to_sector <- function(v, return_description=F){
 #' @examples
 #' get_state_puma(st=c("CA"), puma=c("00100"), return_na_if_no_match=T, puma_nchar=5)
 get_state_puma <- function(st=c("CA"), puma=c("00100"), return_na_if_no_match=T, puma_nchar=5){
-  if(any(nchar(st)>2|grepl("\\d", st))){state_abb <- recode_state(st, abb=T)} else {state_abb <- toupper(state_abb)}
+  if(any(nchar(st)>2|grepl("\\d", st))){state_abb <- recode_state(st, abb=T)} else {state_abb <- toupper(st)}
   if(any(nchar(puma)!=puma_nchar)){
     if(any((nchar(puma)>puma_nchar)|grepl("[[:alpha:]|[:punct:]]", puma))){puma <- extract_digits(puma)} else if(any(nchar(puma)<puma_nchar)){puma <- pad_leading_0s(puma, length=puma_nchar)}
   }
@@ -5016,29 +5063,7 @@ fillr_by_at <- function(d, by_var='occ_code', at_var='occ_description'){
   ungroup(mutate(d1, AT_VAR=NULL))
 }
 
-#' Samantha Rhoads's function to get the column letter of a number
-#' @export
-#' @examples
-#' get_column_letter(v)
-get_column_letter <- function(v){
-  ab <- toupper(letters)
-  st <- as.character(1:length(ab))
-  result <- ab[match(v, st)]
-  if(is.na(result)){
-    ab <- c(ab, lapply(ab, function(s) paste0(s, ab)) %>% unlist())
-    st <- as.character(1:length(ab))
-    result <- ab[match(v, st)]
-  }
-  return(result)
-}
 
-#' Samantha Rhoads's function to split a dataframe by specified row indeces (numbers)
-#' @export
-#' @examples
-#' split_by_index(d, index=c(5, 10, 15))
-split_by_index <- function(d, index=c(5, 10, 15)){
-  split(d, cumsum(1:nrow(d) %in% index)) 
-}
 ###################################################################################################################################################
 
 

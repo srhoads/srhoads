@@ -62,10 +62,10 @@ if(!exists('zip_code_db')|!exists('zip_puma_ref')){
 
 unique_sep_sort2 <- srhoads::unique_sep_sort #function(v, sep = "; "){sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()}
 
-# get_state_puma <- function(st, puma){
-#   state_abb <- srhoads::recode_state(st, abb=T)
-#   paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
-# }
+get_state_puma <- function(st, puma){
+  state_abb <- srhoads::recode_state(st, abb=T)
+  paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
+}
 
 
 
@@ -134,16 +134,48 @@ recode_puma_to_msa <- function(s, return_na_if_no_match=T){
 #   ifelse(is.na(result), v_, result) %>% paste0(., collapse=", ")
 # }
 
-df_zipcode_puma_ref <- full_join(
-  geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')),
-  geocorr::zcta2010_to_puma2000 %>% mutate(state_puma = get_state_puma(stab, puma2k)) %>% select(matches("zcta|puma"), -matches('name')),
-  by="zcta5",
-  suffix=c("_12", "_2k")
-) %>%
-  mutate(state_puma = ifelse(state_puma_12==state_puma_2k, state_puma_12, paste0(state_puma_12, ", ", state_puma_2k)))
+if(!exists("df_zipcode_puma_ref")){
+  df_zipcode_puma_ref <- full_join(
+    geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')),
+    geocorr::zcta2010_to_puma2000 %>% mutate(state_puma = get_state_puma(stab, puma2k)) %>% select(matches("zcta|puma"), -matches('name')),
+    by="zcta5",
+    suffix=c("_12", "_2k")
+  ) %>%
+    add_row(zcta5 = c("80201", "48901", "59620", "57854", "33101", "73019", "91388", "94013", "94101", "95705"), state_puma_12=c("CO-00812", "MI-01802", "MT-00300", "ND-00100", "FL-08611", "OK-00900", "CA-03722", "CA-08102", "CA-07503", "CA-06707")) %>%
+    group_by(state_puma_12) %>% fill(., matches("puma|zcta"), .direction="downup") %>% ungroup() %>%
+    mutate(state_puma = ifelse(state_puma_12==state_puma_2k, state_puma_12, paste0(state_puma_12, ", ", state_puma_2k))) %>%
+    {
+      df_zipcode_puma_ref <- .
+      d_addl <- rio::import("https://udsmapper.org/wp-content/uploads/2020/09/Zip_to_zcta_crosswalk_2020.xlsx") %>% janitor::clean_names() %>% as_tibble() %>% # %>% filter(zip_join_type=="Spatial join to ZCTA")
+        filter(!zip_code %in% c(df_zipcode_puma_ref$zcta5)) %>%
+        select(zcta5=zcta, matches("type|name|state|zip|zcta")) %>%
+        # filter(!zcta5 %in% c(df_zipcode_puma_ref$zcta5)) %>%
+        left_join(., mutate(df_zipcode_puma_ref, state=substr(state_puma, 1, 2)), by=c("zcta5", "state"), suffix=c("", "_y")) %>%
+        mutate(zcta5 = zip_code) %>% 
+        select(one_of(names(df_zipcode_puma_ref))) %>%
+        distinct() %>%
+        drop_na()
+      bind_rows(df_zipcode_puma_ref, d_addl) %>% distinct() %>%
+        mutate_all(., function(v) recode_na(v, "", "NA", "na", "99999")) %>%
+        group_by(state_puma_12) %>% fill(., matches("puma|zcta"), .direction="downup") %>% ungroup() %>% distinct()
+    }
+  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("CO-00812", .))) %>% print(n=nrow(.))
+  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("80201|48901|59620", .))) %>% print(n=nrow(.))
+  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58854", .))) %>% print(n=nrow(.))
+  df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("85412|86949|75531|92669|95705|00807|34757|32010|83678", .))) %>% print(n=nrow(.))
+  df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("33101|34757|65045|73019|91388|94013|94101|95705", .))) %>% print(n=nrow(.))
+  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58109|75261|20310|82071", .))) %>% print(n=nrow(.))
+  # d_addl %>% filter_all(any_vars(grepl("58109", .))) %>% print(n=nrow(.))
+  # df_zipcode_puma_ref %>% filter(is.na(puma12))
+  
+  
+}
 
-df_1_row_per_zipcode <- df_zipcode_puma_ref %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort2(., ", ") %>% recode_na('')) %>% ungroup()
-
+if(!exists("df_1_row_per_zipcode")){
+  # df_1_row_per_zipcode <- df_zipcode_puma_ref %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort2(., ", ") %>% recode_na('')) %>% ungroup()
+  df_1_row_per_zipcode <- df_zipcode_puma_ref %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup() %>% mutate_all(function(v) unique_sep_sort2(v, ", "))
+  # df_1_row_per_zipcode %>% filter_all(any_vars(grepl("58109|75261|20310|82071", .))) %>% print(n=nrow(.))
+}
 # puma_ref_with_2k_pumas <- left_join(df_1_row_per_puma, df_zipcode_puma_ref %>% mutate(state_puma=state_puma_12, zcta5=NULL, puma2k=NULL, puma12=NULL) %>% distinct()) %>% distinct()
 
 recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_pumas=T, return_na_if_no_match=T){
@@ -151,7 +183,8 @@ recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_
   if(include_2000_pumas){
     df_1_row_per_zipcode
   } else {
-    df_1_row_per_zipcode <- geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')) %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
+    # df_1_row_per_zipcode <- geocorr::zcta2010_to_puma2012 %>% mutate(state_puma = get_state_puma(stab, puma12)) %>% select(matches("zcta|puma"), -matches('name')) %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
+    df_1_row_per_zipcode <- df_1_row_per_zipcode %>% mutate(state_puma = state_puma_12)
   }
   to <- df_1_row_per_zipcode %>% .$state_puma
   from <- df_1_row_per_zipcode$zcta5
@@ -807,8 +840,163 @@ recode_city_state_to_zipcode <- function(city="kona", state_abb="hi"){ # {city="
 
 
 
+# city="tuscaloosa"; state_abb="al"
+geocode_city <- function(city="Orange County", state_abb=NA, country_code="US", return_which=c("latlonstate", "latlon", "county", "everything", "state|city|postcode|country|name|county|street|coordinates")[1], return_n_results=1){
+  sapply(1:length(city), function(i){ # {i<-1} #{city="94087"; state_abb="ca"}
+    
+    CityName <- gsub(" ", "%20", city[i]) %>% gsub("\\.", "", .)
+    StateAbb <- state_abb[i]
+    CountryCode <- country_code[i]
+    
+    if(!is.nanull(StateAbb)){
+      StateName <- state_abb[i] %>% abbtostate() %>% gsub(" ", "%20", .) %>% gsub("\\.", "", .)
+      URL <- paste0("http://photon.komoot.io/api/?q=", CityName, "?state=", StateName)
+    } else {
+      URL <- paste0("http://photon.komoot.io/api/?q=", CityName)
+    }
+    
+    if(grepl("\\d{5}", substr(CityName, 1, 5))){
+      URL <- paste0(URL, "?postcode=", CityName)
+    } #else {
+      # URL <- paste0(URL, "?city=", CityName)
+    # }
+    
+    result <- tryCatch({
+      (res <- jsonlite::fromJSON(rawToChar(httr::GET(URL)$content))$features %>% .[c('properties', 'geometry')] %>% unlist(., recursive=F) %>% as_tibble() %>% janitor::clean_names() %>% select(matches('city|state|zip|post'), everything(), -matches("properties_extent$")))
+      if(nrow(res)>0){
+        result_ <- res %>% drop_na(matches("geometry_coordinates")) %>% rowwise() %>% mutate_at(vars(one_of("geometry_coordinates")), function(v) as.character(paste0(unlist(paste0(v, collapse=", ")), collapse="; "))) %>% ungroup()
+      } else {
+        result_ <- tibble(properties_state=NA, properties_city=NA, properties_postcode=NA, properties_country=NA, properties_countrycode=NA, properties_name=NA, properties_county=NA, properties_street=NA, geometry_coordinates=NA)
+      }
+      
+      if(!is.nanull(StateAbb)){
+        result_ <- result_ %>% # filter_at(vars(one_of("properties_state")), grepl(paste0(abbtostate(state_abb),"|^",state_abb, "$"), ., ignore.case=T)) %>% 
+          filter_at(vars(matches("properties_state")), any_vars(grepl(paste0(abbtostate(StateAbb),"|^",StateAbb, "$"), ., ignore.case=T)))
+      }
+      
+      if(!is.nanull(CountryCode)){
+        result_ <- result_ %>% filter_at(vars(matches("properties_country")), any_vars(. %in% CountryCode))
+      }
+      
+      result_ %<>%
+        select(matches(paste0(unique(c(return_which, "state|city|postcode|countrycode|name|county|street|coordinates")), collapse="|"))) %>% 
+        group_by_at(vars(one_of("properties_city", "properties_state"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="down") %>% 
+        group_by_at(vars(one_of("properties_name", "properties_state"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="down") %>%
+        group_by_at(vars(one_of("properties_county", "properties_state"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="down") %>% 
+        ungroup() %>% distinct()
+      
+      result_1 <- result_ %>% slice(1) %>% mutate_at(vars(one_of("geometry_coordinates")), function(v) as.character(paste0(unlist(v), collapse=", ")))
+      cat(URL, ":\n")
+      print(result_1 %>% data.frame() %>% setNames(gsub("properties_", "", names(.))))
+      
+      if(return_which=="latlon"){
+        final_result <- paste0(unlist(result_1$geometry_coordinates), collapse=", ")
+      } else if(return_which=="county"){
+        final_result <- result_ %>% drop_na(properties_county) %>% select(-matches("osm|country|district|street|type")) %>% 
+          slice(1) %>%
+          .$properties_county
+      } else if(return_which=="everything"){
+        final_result_a <- result_ %>% select(-matches("osm|district|type|country$")) %>% distinct()# %>% 
+          # group_by_at(vars(one_of("properties_name"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% 
+          # group_by_at(vars(one_of("properties_city"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% 
+          # group_by_at(vars(one_of("properties_county"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% ungroup() %>% distinct()
+        final_result <- final_result_a %>% slice(1:return_n_results) %>%
+          group_by() %>%
+          summarize_all(., function(v) paste0(v, collapse='; ')) %>% ungroup() %>%
+          # mutate_all(., function(v) paste0(names(.), "::", paste0(v, collapse="; ")) %>% paste0(., collapse="; ")) %>%
+          unlist() %>%
+          paste0(names(.), "::", .) %>%
+          paste0(., collapse=";\n;")
+          # slice(1) %>%
+          # .$properties_county
+      } else if(return_which=="lonlatstate"){
+        result_1 <- unite(result_1, "resultsvar", matches("properties_state|geometry_coordinates"), sep="; ")
+        final_result <- paste0(unlist(result_1$resultsvar), collapse=", ")
+      } else {
+        final_result_a <- result_ %>% select(matches(return_which)) %>% distinct() %>% 
+          filter_at(vars(matches(return_which)), any_vars(!is.na(.))) %>%
+          mutate_at(vars(matches("properties_state")), function(v) srhoads::state2abb_or_abb2state(v, abb=T))
+        
+        # USA # https://www.infoplease.com/us/geography/extreme-points-united-states-50-states
+        # MAX LON: -66 w
+        # MIN LON: 172.27 e
+        # 172.27 <= USA_LON <= -66.57
+        # 18.55 <= USA_LAT <= 71.387
+        
+        if(grepl("zip|post", return_which)){
+          city <- gsub("\\.", "", city) %>% gsub("^New York City$", "New York", ., ignore.case=T)
+          final_results_best <- tryCatch({
+            zipcodeR::search_city(tools::toTitleCase(city), state_abb) %>% select(matches(paste0(return_which, "|zipcode$|(lat|lng)$"))) %>% mutate_all(as.character) %>% distinct() %>%
+              drop_na() %>%
+              setNames(recode(names(.),
+                              "major_city"="properties_city",
+                              "zipcode"="properties_postcode",
+                              "state"="properties_state",
+                              "county"="properties_county"#,
+                              # ""=""
+                              )) %>%
+              # mutate(properties_countrycode = ifelse(as.numeric(lng)>=-172.27 & as.numeric(lng)<=-66.57 & as.numeric(lat)>=18.55 & as.numeric(lat)<=71.387, "US", NA),
+              #        properties_name = final_result_decent[['properties_name']][1],
+              #        properties_street = final_result_decent[['properties_street']][1]#,
+              #        # properties_state = abbtostate(properties_state)
+              #        ) %>% 
+              unite(., "geometry_coordinates", c(matches("lng"), matches("lat")), sep=", ", na.rm=T) %>%
+              select(matches("properties_|geometry_")) %>%
+              # select(matches("properties_postcode$")) %>% drop_na() %>%
+              mutate_at(vars(one_of('properties_postcode')), function(v) pad_leading_0s(v, 5)) # %>% .$zipcode %>% unique() %>% sort() %>%  paste0(., collapse=", ") %>% recode_na('')
+          }, error=function(e) {NULL}) # summarize(state_puma = paste0(sort(unique(state_puma)), collapse=", "))#group_by(primary_city, state) %>% 
+          
+          if(!is.null(final_results_best)){
+            final_result_a <- full_join(final_results_best, final_result_a, by="properties_postcode", suffix=c("", "_y")) %>%
+              {
+                x <- .
+                x <- tryCatch({ mutate(x, geometry_coordinates = ifelse(!is.na(geometry_coordinates), geometry_coordinates, geometry_coordinates_y))}, error=function(e) x)
+                x <- tryCatch({ mutate(x,  properties_county = ifelse(!is.na(properties_county), properties_county, properties_county_y))}, error=function(e) x)
+                x <- tryCatch({ mutate(x, properties_state = ifelse(!is.na(properties_state), properties_state, properties_state_y))}, error=function(e) x)
+                x <- tryCatch({ mutate(x, properties_city = ifelse(!is.na(properties_city), properties_city, properties_city_y))}, error=function(e) x)
+                x
+              } %>%
+              select(-matches("_y$")) %>%
+              distinct_at(vars(matches("city|state|county|postcode")), .keep_all=T)
+              # unite(., "properties_county", matches("county"), sep="; ", na.rm=T) %>%
+              # unite(., "properties_city", matches("city"), sep="; ", na.rm=T) %>% 
+              # unite(., "properties_state", matches("state"), sep="; ", na.rm=T) %>% 
+              # mutate_at(vars(matches("properties_(city|county|state)")), function(v)  unique_sep_sort(v, "; ")) %>%
+              # mutate(properties_county = unique_sep_sort(properties_county, "; ")) %>%
+              # distinct()
+          }
+        }
+          # group_by_at(vars(one_of("properties_name"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% 
+          # group_by_at(vars(one_of("properties_city"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% 
+          # group_by_at(vars(one_of("properties_county"))) %>% fill(., matches("state|city|postcode|country|name|county|street|coordinates"), .direction="downup") %>% 
+          # ungroup() %>% distinct()
+        # # final_result <- final_result_a %>% slice(1:return_n_results) %>%
+        # #   group_by() %>%
+        # #   summarize_all(., function(v) paste0(v, collapse='; ')) %>% ungroup() %>%
+        # #   unlist() %>%
+        # #   paste0(names(.), "::", .) %>%
+        # #   paste0(., collapse=";\n;")
+        final_result <- final_result_a %>% slice(1:return_n_results) %>%
+          jsonlite::toJSON()
+      }
+      
+      # print(final_result)
+      
+      final_result %>% gsub("character\\(0\\)", "", .)  %>% recode_na("", "NA", "character(0)")
+    },
+    error=function(e){
+      # NA
+      structure("[]", class = "json")
+    })
+    return(result)
+  })
+  # }
+}
 
 
+recode_city_to_county <- function(city="Orange County", state_abb=NA, country_code="US", return_which="county") {
+  geocode_city(city=city, state_abb=state_abb, country_code=country_code, return_which=return_which)
+}
 
 
 
