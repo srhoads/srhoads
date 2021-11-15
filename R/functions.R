@@ -2041,10 +2041,14 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 #' @examples
 #' trimws_(v, which='both', doublespace=T)
 trimws_ <- function(v, which='both', doublespace=T){
-  if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)}
-  if(which=="left"){v <- gsub("^([[:space:]]| ){1,100}", "", v)}
-  if(which=="right"){v <- gsub("([[:space:]]| )${1,100}", "", v)}
-  if(doublespace) {v <- gsub('(   |  |[[:space:]][[:space:]]){1,100}', ' ', v)}
+  if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)} 
+  else if(which=="left"){v <- gsub("^([[:space:]]| ){1,100}", "", v)}
+  else if(which=="right"){v <- gsub("([[:space:]]| )${1,100}", "", v)}
+  if(doublespace) {
+    v <- gsub('(   |  ){1,100}', ' ', v)
+    v <- gsub('([[:space:]])[[:space:]]){1,100}', '\\1', v)
+  }
+  # if(doublespace) {v <- gsub('(   |  |[[:space:]][[:space:]]){1,100}', ' ', v)}
   v <- trimws(v, which=which)
   v
 }
