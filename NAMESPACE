@@ -3,6 +3,7 @@
 export(.callback2)
 export(DT_NAs_red_background)
 export(abbtostate)
+export(add_escape_characters)
 export(add_space_after_punct)
 export(add_space_between_punct)
 export(add_space_btwn_lower_upper_letters)

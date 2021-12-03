@@ -4611,6 +4611,7 @@ writexl_with_formulas <- function(x, path = tempfile(fileext = ".xlsx"), formula
   for (each in excel_ref_df){
     new_formula %<>% gsub(each$cols, each$col_letter, .)
   }
+  if(!grepl("^\\=", new_formula)){new_formula <- paste0("=", new_formula)}
   # excel_formula <- hi
   x[[newcol]] <- x %>% dplyr::mutate(row_num = (1:nrow(.))+1) %>% dplyr::rowwise() %>% dplyr::mutate(newcol = gsub("(\\b[[:upper:]]{1,2})(\\b)", paste0("\\1", row_num, "\\2"), new_formula) %>% writexl::xl_formula()) %>% .$newcol
   if(write){
@@ -5067,11 +5068,19 @@ fillr_by_at <- function(d, by_var='occ_code', at_var='occ_description'){
   ungroup(mutate(d1, AT_VAR=NULL))
 }
 
-
 ###################################################################################################################################################
 
 
 # MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
+
+#' Samantha Rhoads's function to add escape characters to a string
+#' @export
+#' @examples
+#' add_escape_characters(v)
+add_escape_characters <- function(v){
+  gsub("(\\W)", "\\\\\\1", v)
+}
+
 ###################################################################################################################################################
 
 

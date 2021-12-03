@@ -1,6 +1,9 @@
 library(srhoads); pkg('tidyverse', 'magrittr')
 if(!"geocorr" %in% installed.packages()){devtools::install_github("jjchern/geocorr")}
 if(!"usa" %in% installed.packages()){install.packages("usa")}
+if(!"rio" %in% installed.packages()){install.packages("rio")}
+# if(!"tigris" %in% installed.packages()){install.packages("tigris")}
+if(!"zipcodeR" %in% installed.packages()){install.packages("zipcodeR")}
 #===========================DATA==================================
 
 if(!exists("puma_crosswalk")){
