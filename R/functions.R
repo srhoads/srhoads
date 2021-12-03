@@ -3449,7 +3449,6 @@ col_types <- function(type="c"){
 }
 
 
-
 # 09/11/2019 (SEPTEMBER 11, 2019) 09112019 #######################################################################################################################
 
 
@@ -5080,6 +5079,23 @@ fillr_by_at <- function(d, by_var='occ_code', at_var='occ_description'){
 add_escape_characters <- function(v){
   gsub("(\\W)", "\\\\\\1", v)
 }
+
+#' Samantha Rhoads's function to re-try running something multiple times (a designated number of `n_attempts`) if it fails until it succeeds.
+#' @export
+#' @examples
+#' retry_fxn(FUN=function(){"hi"}, n_attempts=5)
+retry_fxn <- function(FUN=function(){"hi"}, n_attempts=5){
+    r <- NULL
+    attempt <- 1
+    while( is.null(r) && attempt <= n_attempts ) {
+        attempt <- attempt + 1
+        try({
+            r <- FUN(); 
+            return(r)
+        })
+    } 
+}
+
 
 ###################################################################################################################################################
 
