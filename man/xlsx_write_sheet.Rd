@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{xlsx_write_sheet}
 \alias{xlsx_write_sheet}
-\title{Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `xlsx` package but not putting in dependencies or referencing it directly)}
+\title{Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `XLConnect` package but not putting in dependencies or referencing it directly)}
 \usage{
 xlsx_write_sheet(
   x,
@@ -11,12 +11,13 @@ xlsx_write_sheet(
   col.names = T,
   row.names = F,
   append = T,
-  overwrite = T
+  overwrite = T,
+  open_file = F
 )
 }
 \description{
-Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `xlsx` package but not putting in dependencies or referencing it directly)
+Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `XLConnect` package but not putting in dependencies or referencing it directly)
 }
 \examples{
-xlsx_write_sheet(x, file, sheetName, col.names=TRUE, row.names=TRUE, append=T, overwrite=T)
+xlsx_write_sheet(x, file, sheetName, col.names=T, row.names=F, append=T, overwrite=T, open_file=F)
 }

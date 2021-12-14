@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{sort_str_by_nchar}
 \alias{sort_str_by_nchar}
-\title{Srhoads wrote this to allow you to...}
+\title{Srhoads wrote this to allow you to sort a string, separated by a given separator, by number of characters}
 \usage{
-sort_str_by_nchar(v, desc = T)
+sort_str_by_nchar(v, desc = T, sep = "; ")
 }
 \description{
-Srhoads wrote this to allow you to...
+Srhoads wrote this to allow you to sort a string, separated by a given separator, by number of characters
 }
 \examples{
-sort_str_by_nchar()
+sort_str_by_nchar(v, desc = T, sep="; ")
 }

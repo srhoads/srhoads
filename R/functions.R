@@ -2479,12 +2479,18 @@ depth <- function(this,thisdepth=0){
 #' A function
 #' @export
 #' @examples
-#' lookslike_number(v, include_decimal=F)
-lookslike_number <- function(v, include_decimal=F){
-  if(include_decimal){
+#' lookslike_number(v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F)
+lookslike_number <- function (v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F) {
+  if (include_decimal) {
     v <- gsub("[\\.|[:digit:]]", "", v) %>% na_if(., "")
   } else {
     v <- gsub("[[:digit:]]", "", v) %>% na_if(., "")
+  }
+  if(include_comma){v <- gsub(",", "", v) %>% na_if(., "")}
+  if(include_dash){v <- gsub("-", "", v) %>% na_if(., "")}
+  if(include_space){v <- gsub("[ |[:space:]]", "", v) %>% na_if(., "")}
+  if(include_all_punct){
+    v <- gsub("[\\(|\\)|[:punct:]]", "", v) %>% na_if(., "")
   }
   ifelse(is.na(v), T, F)
 }
@@ -2818,17 +2824,23 @@ sort_str_by_alpha <- function(v, desc=F){
              paste0(., collapse="; ")) %>% unlist()
 }
 
-#' Srhoads wrote this to allow you to...
+#' Srhoads wrote this to allow you to sort a string, separated by a given separator, by number of characters
 #' @export
 #' @examples
-#' sort_str_by_nchar()
-sort_str_by_nchar <- function(v, desc=T){
-  if(!desc) rev <- function(v) v
-  strsplit(v, "; ") %>%
-    lapply(., function(s) s[rev(order(nchar(s), s))] %>% 
-             paste0(., collapse="; ")) %>% unlist()
+#' sort_str_by_nchar(v, desc = T, sep="; ")
+sort_str_by_nchar <- function (v, desc = T, sep="; ") {
+  if (!desc) {rev <- function(v) v}
+  strsplit(v, sep) %>% lapply(., function(s) s[rev(order(nchar(s), s))] %>% paste0(., collapse = sep)) %>% unlist()
 }
 
+#' Srhoads wrote this to allow you to sort a vector by number of characters
+#' @export
+#' @examples
+#' sort_str_by_nchar(v, desc = T)
+sort_vec_by_nchar <- function(v, desc = T){
+  if (!desc) {rev <- function(v) v}
+  v[rev(order(nchar(v), v))]
+}
 
 clean_str_strip_NAs_1 <- function(v, sep=", "){
   if(is.null(sep)) return(v)
@@ -4620,24 +4632,53 @@ writexl_with_formulas <- function(x, path = tempfile(fileext = ".xlsx"), formula
 }
 
 
-#' Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `xlsx` package but not putting in dependencies or referencing it directly)
+#' Samantha Rhoads's function to write a dataframe as an Excel sheet to currently existing Excel file (uses `XLConnect` package but not putting in dependencies or referencing it directly)
 #' @export
 #' @examples
-#' xlsx_write_sheet(x, file, sheetName, col.names=TRUE, row.names=TRUE, append=T, overwrite=T)
-xlsx_write_sheet <- function(x, file, sheetName, col.names=T, row.names=F, append=T, overwrite=T){
-  pkg('xlsx')
-  wb <- #xlsx::
-    loadWorkbook(file)
-  if(any(grepl(sheetName, names(#xlsx::
-    getSheets(wb))))&overwrite){
-    # xlsx::
-    removeSheet(wb, sheetName)
-    cat('\ncurrent sheet removed before overwriting\n')
-    # xlsx::
-    saveWorkbook(wb, file=file)
+#' xlsx_write_sheet(x, file, sheetName, col.names=T, row.names=F, append=T, overwrite=T, open_file=F)
+xlsx_write_sheet <- function(x, file, sheetName, col.names=T, row.names=F, append=T, overwrite=T, open_file=F){
+  pkg('XLConnect')
+  # devtools::install_version("XLConnectJars", version = "0.2-12", repos = "http://cran.us.r-project.org") 
+  # devtools::install_version("XLConnect", version = "0.2-12", repos = "http://cran.us.r-project.org")
+  if(file.exists(file)){
+    wb <- #XLConnect::
+      loadWorkbook(file)
+  } else{
+    wb <- #XLConnect::
+      loadWorkbook(file, create=T)
   }
-  # xlsx::
-  write.xlsx2(x=x, file=file, sheetName=sheetName, col.names=col.names, row.names=row.names, append=append)
+  if(any(grepl(sheetName, (#xlsx::
+    getSheets(wb))))&overwrite){
+    # XLConnect::
+    clearSheet(wb, sheetName)
+    # XLConnect::
+    writeWorksheet(wb, x, sheetName, startRow=1, startCol=1, header=T)
+    cat('\ncurrent sheet cleared before overwriting\n')
+  }
+  if(is.data.frame(x)){
+    x <- as.data.frame(x)
+    # if(any("xl_formula" %in% unlist(sapply(x, class)))){XLConnect::setCellFormula()}
+  } else {
+    x <- lapply(x, function(d) as.data.frame(d))
+  }
+  
+  for(colnum in 1:ncol(x)){
+    colname <- names(x)[colnum]
+    colvec <- x[[colnum]]
+    if(any("xl_formula" %in% class(colvec))){
+      for(rownum in 1:length(colvec)){ #{colnum=40}
+        cellvalue <- gsub("^=", "",as.character(colvec[rownum]))
+        # XLConnect::
+        setCellFormula(wb, sheetName, row=rownum+1, col=colnum, formula=cellvalue)
+      }
+    }
+  }
+  saveWorkbook(wb, file)
+  
+  # write.xlsx2(x=x, file=file, sheetName=sheetName, col.names=col.names, row.names=row.names, append=append, keepFormulas=T, forceFormulaRefresh=T)
+  if(open_file){system_open(file)}
+  # forceFormulaRefresh(file, output = file, verbose = T)
+  x
 }
 
 
@@ -5095,6 +5136,42 @@ retry_fxn <- function(FUN=function(){"hi"}, n_attempts=5){
         })
     } 
 }
+
+#' Samantha Rhoads's function to re-try running something multiple times (a designated number of `n_attempts`) if it fails until it succeeds.
+#' @export
+#' @examples
+#' retry_fxn(x, path=tempfile(fileext=".html"))
+dt_open <- function(x, path=tempfile(fileext=".html")){
+  if(!grepl("xls(x|)$", path, ignore.case=T)){path <- paste0(path, ".html")}
+  if(is.data.frame(x)){widget <- DT::datatable(x)} else if("datatables" %in% class(x)){widget <- x}
+  htmlwidgets::saveWidget(widget, path, selfcontained=TRUE, libdir=NULL, background="white", title=class(widget)[[1]], knitrOptions=list())
+  system(paste0('open "', path, '"'))
+  return(x)
+}
+
+
+#' Samantha Rhoads's function to force recode something that looks like it might be a date into a more consistent date structure.
+#' @export
+#' @examples
+#' retry_fxn(x, path=tempfile(fileext=".html"))
+recode_date <- function(v){
+  v_ <- v %>% gsub("[[:alpha:]]|\\(|\\)|\\\n", " ", .) %>% trimws_() 
+  v_new <- sapply(v_, function(vs) {
+    v_0 <- vs %>% extract_date() %>% sapply(function(s) {
+      s %>% trimws_() %>% sort_str_by_nchar() %>% .[1]
+    }) %>% as.character() %>% as.date.varioustypes() %>% as.character()
+    v_1 <- vs %>% as.character() %>% srhoads::excelToDateIf5DigitStrAndManyDigitTime() %>% srhoads::as.date.varioustypes() %>% as.character() %>% recode_na("NA", "NULL", "")
+    v_1 <- tryCatch(v_1 %>% lubridate::date() %>% as.character(), error=function(e) tryCatch(extract_date(vs) %>% unlist() %>% .[1] %>% trimws_(), error=function(e) NA))
+    
+    v_2 <- c(v_1, v_0) %>% na.omit() %>% unique() %>% sort_str_by_nchar() %>% .[1] #paste0(., collapse=" ~ ")
+    v_3 <- ifelse(is.null(v_2), NA, v_2) %>% recode_na("NA", "NULL", "") %>% as.date.varioustypes()
+    v_3
+    v_4 <- tryCatch({tryCatch({if(lubridate::date(v_3)<"1999-12-31"){NA} else {v_3}}, error=function(e){v_3})}, error=function(e) NA)
+    v_4
+  }) 
+  # })
+}
+
 
 
 ###################################################################################################################################################

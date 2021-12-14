@@ -4,11 +4,18 @@
 \alias{lookslike_number}
 \title{A function}
 \usage{
-lookslike_number(v, include_decimal = F)
+lookslike_number(
+  v,
+  include_decimal = F,
+  include_comma = F,
+  include_dash = F,
+  include_space = F,
+  include_all_punct = F
+)
 }
 \description{
 A function
 }
 \examples{
-lookslike_number(v, include_decimal=F)
+lookslike_number(v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F)
 }
