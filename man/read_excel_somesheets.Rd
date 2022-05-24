@@ -2,19 +2,26 @@
 % Please edit documentation in R/functions.R
 \name{read_excel_somesheets}
 \alias{read_excel_somesheets}
-\title{A function}
+\title{A function to read multiple excel files and either all or selective sheets from them.}
 \usage{
 read_excel_somesheets(
   fns = NULL,
   keepshtvec = NULL,
   na = c("NA", "None", "N/A", "-", ""),
   col_types = "text",
-  skip = 0
+  skip = 0,
+  col_names = T,
+  range = NULL,
+  trim_ws = T,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  progress = readxl_progress(),
+  .name_repair = "unique"
 )
 }
 \description{
-A function
+A function to read multiple excel files and either all or selective sheets from them.
 }
 \examples{
-read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types='text', skip=0)
+read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique")
 }

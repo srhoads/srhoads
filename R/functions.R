@@ -3,15 +3,17 @@
 # --------------------------------------------
 if(installIfNeeded <- F){
   tryCatch({
-    if(!require("devtools")) install.packages("devtools")
-    library(devtools); cat("devtools dependency imported\n")
-  }, error=function(e) print("Couldn't install/import `devtools` package")
-  )
+    PKG="devtools"; if(!PKG %in% installed.packages()){install.packages(PKG)}
+    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
+  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
   tryCatch({
-    if(!require("tidyverse")) install.packages("tidyverse")
-    library(tidyverse); cat("tidyverse dependency imported\n")
-  }, error=function(e) print("Couldn't install/import `tidyverse` package")
-  )
+    PKG="tidyverse"; if(!PKG %in% installed.packages()){install.packages(PKG)}
+    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
+  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
+  tryCatch({
+    PKG="reticulate"; if(!PKG %in% installed.packages()){cat(paste0("Installing missing package: `", PKG, "`...\n")); install.packages(PKG)}
+    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
+  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
 }
 # --------------------------------------------
 # if("magrittr" %in% installed.packages()){
@@ -2440,23 +2442,24 @@ parse_excel_date <- function(v){
 
 
 
-#' A function
+#' A function to read multiple excel files and either all or selective sheets from them.
 #' @export
 #' @examples
-#' read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types='text', skip=0)
-read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types='text', skip=0){
-  if(is.null(fns)) (fns <- list.files(pattern="\\.xlsx", recursive=T, full.names=T))
-  if(is.null(keepshtvec)) keepshtvec <- lapply(fns, function(v) readxl::excel_sheets(v)) %>% unlist() %>% unique()
-  (fnshtlst <- lapply(fns, function(s) readxl::excel_sheets(s)) %>% setNames(fns))
-  (keepshts <- lapply(fnshtlst, function(v) v[(v %in% keepshtvec)==T]))
-  
-  lapply(1:length(keepshts), function(i){
+#' read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique")
+read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique") {
+  if (is.null(fns)) {(fns <- list.files(pattern = "\\.xlsx", recursive = T, full.names = T))}
+  if (is.null(keepshtvec)) {keepshtvec <- lapply(fns, function(v) readxl::excel_sheets(v)) %>% unlist() %>% unique()}
+  fnshtlst <- lapply(fns, function(s) readxl::excel_sheets(s)) %>% setNames(fns)
+  if(is.numeric(keepshtvec)){
+    keepshts <- as.list(fns) %>% setNames(fns) %>% lapply(., function(x) {keepshtvec})
+  } else {
+    (keepshts <- lapply(fnshtlst, function(v) {v[(v %in% keepshtvec) == T]}))
+  }
+  lapply(1:length(keepshts), function(i) {
     f <- names(keepshts[i])
     shts <- keepshts[[i]]
-    (d <- lapply(shts, function(sht) readxl::read_excel(f, sheet=sht, skip = skip,  na = na, 
-                                                        col_types = col_types)) %>% setNames(shts))
+    (d <- lapply(shts, function(sht) {readxl::read_excel(f, sheet=sht, skip=skip, na=na, col_types=col_types, col_names=col_names, range=range, trim_ws=trim_ws, n_max=n_max, guess_max=guess_max, .name_repair=.name_repair, progress=progress)}) %>% setNames(shts))
   }) %>% setNames(fns)
-  
 }
 
 #' A function
@@ -3362,15 +3365,22 @@ split_before_capital <- function(x, sep=" ", loosly=F){ if(!loosly) gsub('([[:lo
 #' This function allows you to load and/or install package first; you can specifify if you want it unloaded (or even loaded at all tbh. Setting import=F is a good way to check if the package is installed on your machine, without actually doing anything with it.)
 #' @export
 #' @examples
-#' pkg(package1, ..., dependencies=NA, import=T, unload=F)
-pkg <- function(package1, ..., dependencies=NA, import=T, unload=F) {
+#' pkg(package1, ..., dependencies=NA, import=T, unload=F, url=NULL, version=NULL, repos=NULL)
+pkg <- function(package1, ..., dependencies=NA, import=T, unload=F, url=NULL, version=NULL, repos=NULL) {
     packages <- c(package1, ...)
+    if((is.null(repos)|all(is.na(repos)))){repos<-c("https://cloud.r-project.org", "http://owi.usgs.gov/R/", "https://cran.rstudio.com/")}
     for (package in packages) {
         if (package %in% rownames(installed.packages())) {
             if(import){do.call(library, list(package))}
             if(unload){try(unloadNamespace(package))}
         } else {
-            install.packages(package, repos=c("https://cloud.r-project.org", "http://owi.usgs.gov/R/", "https://cran.rstudio.com/"), dependencies=dependencies, type=getOption("pkgType"))
+          if((is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
+            install.packages(package, repos=repos, dependencies=dependencies, type=getOption("pkgType"))
+          } else if(!(is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
+            install.packages(url, repos=NULL)
+          } else if((is.null(url)|all(is.na(url))) & !(is.null(version)|all(is.na(version))) ){
+            devtools::install_version(package, version=version, repos=repos)
+          }
             if(import){do.call(library, list(package))}
             if(unload){try(unloadNamespace(package))}
         }
@@ -4601,11 +4611,56 @@ split_by_index <- function(d, index=c(5, 10, 15)){
 #' @export
 #' @examples
 #' writexl_open(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F)
-writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F){
+writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_headers=T, use_zip64=F, open_file=T){
   if(!grepl("xls(x|)$", path, ignore.case=T)){path <- paste0(path, ".xlsx")}
   writexl::write_xlsx(x, path=path, col_names=col_names, format_headers=format_headers, use_zip64=use_zip64)
-  system(paste0('open "', path, '"'))
+  if(open_file){system(paste0('open "', path, '"'))}
   return(x)
+}
+
+
+#' Samantha Rhoads's function to write to Excel with some common dataframe special formatting
+#' @export
+#' @examples
+#' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
+writexl_open_formatted <- function(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
+  # library(openxlsx)
+  pkg('openxlsx')
+  if(!file.exists(filename)|is.data.frame(df)|is.data.table(df)|is.list(df)){
+    writexl::write_xlsx(df, filename)
+  }
+  wb = #openxlsx::
+    loadWorkbook(filename)
+  wbdf = if(!is.data.frame(df)){readxl::read_excel(filename)} else {df}
+  freeze_before_colnum <- grep("^(NAME CLEAN|ID|EmpGroup)$", names(wbdf)) %>% max() %>% {.+1}
+  LabelStyle <- #openxlsx::
+    createStyle(halign = "center", border = c("bottom"), borderStyle = "thin", textDecoration = "bold", 
+                wrapText=T, valign="center"# fgFill = "#2020FF", fontColour = "white"
+    )
+  # openxlsx::
+  addFilter(wb, 1, row=1, cols=1:ncol(wbdf))
+  # openxlsx::
+  addStyle(wb, sheet=1, style=LabelStyle, rows=1, cols=1:ncol(wbdf))
+  # freezePane(wb, 1, firstRow=T, firstCol=T)
+  tryCatch({#openxlsx::
+    freezePane(wb, 1, firstActiveRow=2, firstActiveCol=freeze_before_colnum)}, error=function(e){#openxlsx::
+      freezePane(wb, 1, firstActiveRow=2, firstActiveCol=1)})
+  
+  width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
+  width_vec2 <- names(wbdf) %>% sapply(., function(x){
+    xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
+    # xw <- map_chr(strsplit(x, " |[[:space:]]|-|\\."), ~ .[which.max(nchar(.))])
+    xw+1+colwidthplus
+  })
+  width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(max_colwidth, n, na.rm=T)})
+  # openxlsx::
+  setColWidths(wb, sheet=1, cols=1:ncol(wbdf), widths=width_vec)
+  
+  # openxlsx::
+  saveWorkbook(wb, filename, overwrite=TRUE)
+  if(open_file){system_open(filename)}
+  unload_pkg("openxlsx")
+  wbdf
 }
 
 
@@ -5031,7 +5086,7 @@ paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep) {
 #' @export
 #' @examples
 #' summarize_all_paste0(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F)
-summarize_all_paste0 <- function(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
+summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
   # lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
   # funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
   # summarise(.tbl, !!!funs)
@@ -5172,7 +5227,21 @@ recode_date <- function(v){
   # })
 }
 
+#' Samantha Rhoads's function to strip accents from characters
+#' @export
+#' @examples
+#' strip_accents(v, id="Latin-ASCII")
+strip_accents <- function(v, id="Latin-ASCII"){
+  iconv(stringi::stri_trans_general(str=v, id=id))
+}
 
+#' Samantha Rhoads's function to take a numeric range and split/bin it by the number of groups you want
+#' @export
+#' @examples
+#' bin_range(v, n_groups=10)
+bin_range <- function(v, n_groups=10){
+  split(v,{cut(v,seq(min(v, na.rm=T)-1,max(v, na.rm=T),length.out=n_groups))})
+}
 
 ###################################################################################################################################################
 

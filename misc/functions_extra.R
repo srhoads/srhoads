@@ -3,65 +3,105 @@ if(!"geocorr" %in% installed.packages()){devtools::install_github("jjchern/geoco
 if(!"usa" %in% installed.packages()){install.packages("usa")}
 if(!"rio" %in% installed.packages()){install.packages("rio")}
 # if(!"tigris" %in% installed.packages()){install.packages("tigris")}
-if(!"zipcodeR" %in% installed.packages()){install.packages("zipcodeR")}
+# if(!"zipcodeR" %in% installed.packages()){install.packages("zipcodeR")}
+if(!"zipcodeR" %in% installed.packages()){devtools::install_github("gavinrozzi/zipcodeR")}
+# try({source("~/srhoads/misc/functions_extra.R")}, silent=T)
+# con <- RPostgres::dbConnect(RPostgres::Postgres(), user = 'diversityplanner@diversity-planning-data',password = 'jacksonlewisdatascience1!',dbname = 'postgres',host = 'diversity-planning-data.postgres.database.azure.com',port = 5432,sslmode = 'require')
 #===========================DATA==================================
 
-if(!exists("puma_crosswalk")){
-  puma_crosswalk <- rio::import(file="https://usa.ipums.org/usa/resources/volii/PUMA2000_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('pop|land|gisjoin|cpuma00|geoid')) %>% 
-    mutate(stab00 = recode_state(state00), stab10 = recode_state(state10),
-           state_puma00 = get_state_puma(stab00, puma00), state_puma10 = get_state_puma(stab10, puma10)) #%>% 
-}
-
-if(!exists("puma_msa_ref")){
-  puma_msa_ref <- readr::read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% select(-one_of("X8", "X9", "notes", "msa"))
-}
-
-if(!exists("df_1_row_per_msa")){
-  df_1_row_per_msa <- puma_msa_ref %>%
-    group_by_at(vars(one_of("state_msa"))) %>% 
-    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
-}
-if(!exists("df_1_row_per_puma")){
-  df_1_row_per_puma <- puma_msa_ref %>%
-    group_by_at(vars(one_of("state_puma"))) %>% 
-    summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
-}
-
-if(!exists('zip_code_db')|!exists('zip_puma_ref')){
-  # zip_puma_ref <- bind_rows(geocorr::zcta2010_to_puma2012, geocorr::zcta2010_to_puma2000 %>% setNames(gsub('2kName', 'name', names(.)) %>% gsub('2k', '12', .) )) %>% distinct() %>% distinct(puma12, zcta5, .keep_all=T) %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
-  zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
-  # writexl_open(zip_code_db, "zip_code_db.xlsx")
-  zip_code_db <- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% 
-                    mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%
-                    select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% # filter(!zipcode %in% zipcodeR::zip_code_db$zipcode) %>%
-                    mutate(post_office_city = major_city )
-  ) %>%
-    bind_rows(zipcodeR::zip_code_db, .) %>%
-    as_tibble()
+if(LOAD_DATASETS<-T){
   
-  # writexl_open(zip_code_db, "zip_code_db.xlsx")
-  
-  # 20227, 20520, 20565 
-  zip_puma_ref %>% filter(grepl('20227|20520|20565', zipcode))
-  setdiff(zip_code_db$zipcode, zip_puma_ref$zcta5)
-  puma_to_censustract_county <- "https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt" %>% read_csv(col_names=T) %>% janitor::clean_names() %>%
-    mutate(state_county = paste0(statefp, countyfp)) %>%
-    left_join(., geocorr::county2014_to_puma2012 %>% mutate(state_county=county14)) %>%
-    select(-matches('afact|pop')) %>%
-    mutate(county = gsub(' [[:alpha:]]{2}$', '', cntyname2))
-  
-  # writexl_open(puma_to_censustract_county, "puma_to_censustract_county.xlsx")
-  
-  if(F){
-    puma_to_censustract_county %>%
-      rowwise() %>% mutate(zip = zipcodeR::search_county(county, stab) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>% paste0(., collapse=", ")) %>% ungroup()
+  # census_geo_reference_files <- "https://www2.census.gov/geo/docs/maps-data/data/rel/"
+  # state_place_ref_url <- "https://www2.census.gov/geo/docs/maps-data/data/rel2020/place/tab20_place20_place10_natl.txt"
+  # zipcode_to_msa_crosswalk_url <- "https://www.dol.gov/owcp/regs/feeschedule/fee/fee11/fs11_gpci_by_msa-zip.xls"
+  # zipcode_to_msa_crosswalk_fewer_url <- "https://www2.census.gov/geo/docs/maps-data/data/rel/zcta_cbsa_rel_10.txt"
+  # state_place_shapefile_url <- "https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_01_place_500k.zip"
+  # state_place_shapefile_urls <- {state_fips=c("01", "02", "03", "04"); paste0("https://www2.census.gov/geo/tiger/GENZ2018/shp/cb_2018_", state_fips, "_place_500k.zip")}
+  if(!exists("county_set_county_fips_ref")){
+    county_set_county_fips_ref <- "https://www2.census.gov/programs-surveys/demo/reference-files/eeo/time-series/eeo-county-sets-2010.xls" %>% rio::import(., skip=3) %>% as_tibble() %>% janitor::clean_names() %>%
+      setNames(names(.) %>% recode("x2010_cs_code"="cbsafp", "fips_state_code"="state_fips", "fips_county_code"="county_fips")) %>% drop_rows_all_na() %>%
+      fill(., one_of("cbsafp", "x2010_total_cs_population", "x2010_county_set_name", "x1"), .direction="down") %>%
+      drop_na(cbsafp) %>%
+      mutate(geoid_counties = paste0(state_fips, county_fips))
   }
-  zipcodeR::zcta_crosswalk # ZCTA5 TRACT GEOID
-  zipcodeR::zip_code_db %>% filter(grepl('20227|20520|20565', zipcode))
-  # zipcodeR::search_county("District of Columbia", "DC")
+  if(!exists("state_place_ref")){
+    state_place_ref <- readr::read_delim("https://www2.census.gov/geo/docs/maps-data/data/rel2020/place/tab20_place20_place10_natl.txt", delim="|") %>% janitor::clean_names()
+  }
+  if(!exists("urban_area_crosswalk")){
+    urban_area_crosswalk <- readr::read_delim("https://www2.census.gov/geo/docs/maps-data/data/rel/ua_ua00_rel_10.txt", delim=",") %>% janitor::clean_names()
+    urban_are_msa_ref <- "https://www2.census.gov/geo/docs/maps-data/data/rel/ua_cbsa_rel_10.txt" %>% readr::read_delim(., delim=",") %>% janitor::clean_names()
+    msa_crosswalk <- "https://www2.census.gov/geo/docs/maps-data/data/rel/ua_cbsa_rel_10.txt" %>% readr::read_delim(., delim=",") %>% janitor::clean_names()
+  }
+  if(!exists("puma_crosswalk")){
+    puma_crosswalk <- rio::import(file="https://usa.ipums.org/usa/resources/volii/PUMA2000_PUMA2010_crosswalk.xls", which=1) %>% as_tibble() %>% janitor::clean_names() %>% select(-matches('pop|land|gisjoin|cpuma00|geoid')) %>% 
+      mutate(stab00 = recode_state(state00), stab10 = recode_state(state10),
+             state_puma00 = get_state_puma(stab00, puma00), state_puma10 = get_state_puma(stab10, puma10)) #%>% 
+  }
+  
+  if(!exists("puma_msa_ref")){
+    puma_msa_ref <- readr::read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% 
+      add_row(state="vt", puma_description="SW Vermont-Rutland/Bennington+Addison Counties 2010-2019", msa_description="BENNINGTON, VT (MICRO)", state_puma="VT-00400", state_msa="VT-13540", msa=13540, type="Micro Area") %>%
+      mutate(far_away = ifelse(msa=="15540"&grepl("Bennington", puma_description), T, F)) %>%
+      select(-one_of("X8", "X9", "notes", "msa")) %>% select(-matches("^\\.\\.\\.\\d$"))
+    # readr::read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv") %>% filter_if(is.factorchar, any_vars(grepl("B.*ngton", .))) %>% filter(state=="vt")
+  }
+  
+  
+  if(!exists("zip_msa_ref_fewer")){
+    # zip_msa_ref_fewer <- readr::read_csv("https://www2.census.gov/geo/docs/maps-data/data/rel/zcta_cbsa_rel_10.txt") %>% select(-one_of("X8", "X9", "notes", "msa"), -matches("(PCT|POP|LAND|AREA|MHU|PT|MEMI|ZHU)$")) %>% janitor::clean_names() %>% rename(zip=zcta5, msa=cbsa) %>% distinct()
+    zip_msa_ref_fewer <- rio::import("https://www.dol.gov/owcp/regs/feeschedule/fee/fee11/fs11_gpci_by_msa-zip.xls", skip=10) %>% janitor::clean_names() %>% select(-one_of("X8", "X9", "notes", "msa"), -matches("(PCT|POP|LAND|AREA|MHU|PT|MEMI|ZHU|gpci_\\d)$")) %>% distinct() %>% as_tibble() %>% select_if(not_all_na) %>% rename(zip=zip_code, msa=msa_no)# %>% rename(zip=zcta5, msa=cbsa)
+  }
+  
+  
+  if(!exists("df_1_row_per_msa_multi_puma")){
+    df_1_row_per_msa_multi_puma <- puma_msa_ref %>%
+      group_by_at(vars(one_of("state_msa"))) %>% 
+      summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
+  }
+  
+  if(!exists("df_1_row_per_puma_multi_msa")){
+    df_1_row_per_puma_multi_msa <- puma_msa_ref %>%
+      group_by_at(vars(one_of("state_puma"))) %>% 
+      summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% unique_sep_sort(., ", ") %>% recode_na('', 'NA')) %>% ungroup()
+  }
+  
+  if(!exists('zip_code_db')|!exists('zip_puma_ref')){
+    # zip_puma_ref <- bind_rows(geocorr::zcta2010_to_puma2012, geocorr::zcta2010_to_puma2000 %>% setNames(gsub('2kName', 'name', names(.)) %>% gsub('2k', '12', .) )) %>% distinct() %>% distinct(puma12, zcta5, .keep_all=T) %>% select(-matches('intpt|pop10|afact')) %>% mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+    zip_puma_ref <- geocorr::zcta2010_to_puma2012 %>% select(-matches('intpt|pop10|afact')) %>%
+      add_row(zcta5=c("00968"), puma12=c("00803"), stab=c("pr")) %>% 
+      mutate(zip=zcta5, zipcode=zcta5) %>% mutate_all(function(v) tolower(iconv(enc2utf8(v))))
+    # writexl_open(zip_code_db, "zip_code_db.xlsx")
+    zip_code_db <- (zip_code_db_github <- read_csv('https://raw.githubusercontent.com/DataUSA/datausa-tutorials/master/commuting_viz_tutorial/csv/zip_code_database.csv') %>% 
+                      mutate(major_city=primary_city, zipcode=pad_leading_0s(zip), lat=latitude, lng=longitude, common_city_list=acceptable_cities %>% blob::vec_cast.blob() ) %>%
+                      select(-one_of(setdiff(names(.), names(zipcodeR::zip_code_db)))) %>% # filter(!zipcode %in% zipcodeR::zip_code_db$zipcode) %>%
+                      mutate(post_office_city = major_city )
+    ) %>%
+      bind_rows(zipcodeR::zip_code_db, .)
+      as_tibble()
+    
+    # writexl_open(zip_code_db, "zip_code_db.xlsx")
+    
+    # 20227, 20520, 20565 
+    zip_puma_ref %>% filter(grepl('20227|20520|20565', zipcode))
+    setdiff(zip_code_db$zipcode, zip_puma_ref$zcta5)
+    puma_to_censustract_county <- "https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt" %>% read_csv(col_names=T) %>% janitor::clean_names() %>%
+      mutate(state_county = paste0(statefp, countyfp)) %>%
+      left_join(., geocorr::county2014_to_puma2012 %>% mutate(state_county=county14)) %>%
+      select(-matches('afact|pop')) %>%
+      mutate(county = gsub(' [[:alpha:]]{2}$', '', cntyname2))
+    
+    # writexl_open(puma_to_censustract_county, "puma_to_censustract_county.xlsx")
+    
+    if(F){
+      puma_to_censustract_county %>%
+        rowwise() %>% mutate(zip = zipcodeR::search_county(county, stab) %>% drop_na(zipcode) %>% .$zipcode %>% unique() %>% sort() %>% paste0(., collapse=", ")) %>% ungroup()
+      zipcodeR::zcta_crosswalk # ZCTA5 TRACT GEOID
+      zipcodeR::zip_code_db %>% filter(grepl('20227|20520|20565', zipcode))
+      # zipcodeR::search_county("District of Columbia", "DC")
+    }
+  }
+  
 }
-
-
 #=========================FUNCTIONS====================================
 
 # unique_sep_sort <- srhoads::unique_sep_sort #function(v, sep = "; "){sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()}
@@ -71,10 +111,18 @@ get_state_puma <- function(st, puma){
   paste0(replace_na(state_abb, ''), '-', replace_na(puma, '')) %>% gsub('^-|-$', '', .)
 }
 
+mutate_demographic_pct_cols <- function(d, count_colname_indicator="_n$", group_colname_indicator="^(female|male|amind|amer_ind|asian|black|hisp|nhopi|twoplus|two|white|nonhisp|minority)_", total_colname_indicator="total"){
+  DIVERSITY_COUNT_COLNAMES <- d %>% select(matches(count_colname_indicator), -matches(total_colname_indicator)) %>% names()
+  for(DIVERSITY_COUNT_COLNAME in DIVERSITY_COUNT_COLNAMES){
+    TOTAL_COUNT_COLNAME <- gsub(group_colname_indicator, paste0(total_colname_indicator, "_"), DIVERSITY_COUNT_COLNAME)
+    newcol=gsub(count_colname_indicator, "_pct", DIVERSITY_COUNT_COLNAME)
+    d[[newcol]] <- d[[DIVERSITY_COUNT_COLNAME]] / d[[TOTAL_COUNT_COLNAME]]
+  }
+  d
+}
 
 
-# puma_msa_ref %>% filter(is.na(msa_description)) %>% select(-matches('msa_desc')) %>%
-#   left_join()
+# puma_msa_ref %>% filter(is.na(msa_description)) %>% select(-matches('msa_desc')) %>% left_join()
 
 # puma_msa_ref %>% writexl_open('puma_msa_ref.xlsx')
 "Users/rhoadss/Downloads/PUMA2000_PUMA2010_crosswalk.xlsx" # has manually added msa x puma codes
@@ -82,8 +130,8 @@ get_state_puma <- function(st, puma){
 recode_msa_to_puma <- function(s, return_na_if_no_match=T){
   # if(!exists('puma_msa_ref')){puma_msa_ref <- read_csv("https://raw.githubusercontent.com/srhoads/census/main/puma_msa_dictionary.csv")}
   v_ <- s %>% strsplit(., ', ') %>% unlist()
-  to <- c(df_1_row_per_msa$state_puma, df_1_row_per_msa$state_puma)
-  from <- c(df_1_row_per_msa$state_msa, df_1_row_per_msa$msa)
+  to <- c(df_1_row_per_msa_multi_puma$state_puma, df_1_row_per_msa_multi_puma$state_puma)
+  from <- c(df_1_row_per_msa_multi_puma$state_msa, df_1_row_per_msa_multi_puma$msa)
   result <- (to[match(v_, from)]) %>% paste0(., collapse=", ")
   if(return_na_if_no_match){
     return(result)
@@ -92,16 +140,17 @@ recode_msa_to_puma <- function(s, return_na_if_no_match=T){
   }
 }
 
-recode_puma_to_msa <- function(s, return_na_if_no_match=T){
-  # df_1_row_per_puma <- puma_msa_ref %>%
+recode_puma_to_msa <- function(s, return_na_if_no_match=T, keep_far_away=T){
+  df_1_row_per_puma_multi_msa_X <- if(keep_far_away){df_1_row_per_puma_multi_msa}else{df_1_row_per_puma_multi_msa %>% filter(far_away==F)}
+  # df_1_row_per_puma_multi_msa <- puma_msa_ref %>%
   #   group_by(state_puma) %>% 
   #   summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
   
   # print(s)
   v_ <- s %>% unique() %>% paste0(., collapse=", ") %>% recode_na(., "NA", "") %>% strsplit(., ', ') %>% unlist()
   # v_ <- s %>% strsplit(., ', ') %>% unlist()
-  to <- df_1_row_per_puma$state_msa
-  from <- df_1_row_per_puma$state_puma
+  to <- df_1_row_per_puma_multi_msa_X$state_msa
+  from <- df_1_row_per_puma_multi_msa_X$state_puma
   result <- (to[match(v_, from)]) %>% paste0(., collapse=", ")
   if(return_na_if_no_match){
     return(result)
@@ -118,13 +167,13 @@ recode_puma_to_msa <- function(s, return_na_if_no_match=T){
 #   #     mutate(state_abb = statetoabb(state_name), state_puma = get_state_puma(state_abb, puma_code))
 #   # }
 #   
-#   df_1_row_per_puma <- puma_msa_ref %>%
+#   df_1_row_per_puma_multi_msa <- puma_msa_ref %>%
 #     group_by(state_puma) %>% 
 #     summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup()
 #   
 #   v_ <- s %>% strsplit(., ', ') %>% unlist()
-#   to <- df_1_row_per_puma$state_msa
-#   from <- df_1_row_per_puma$state_puma
+#   to <- df_1_row_per_puma_multi_msa$state_msa
+#   from <- df_1_row_per_puma_multi_msa$state_puma
 #   result <- to[match(v_, from)]
 #   ifelse(is.na(result), v_, result) %>% paste0(., collapse=", ")
 # }
@@ -145,9 +194,9 @@ if(!exists("df_zipcode_puma_ref")){
     by="zcta5",
     suffix=c("_12", "_2k")
   ) %>%
-    add_row(zcta5 = c("80201", "48901", "59620", "57854", "33101", "73019", "91388", "94013", "94101", "95705"), state_puma_12=c("CO-00812", "MI-01802", "MT-00300", "ND-00100", "FL-08611", "OK-00900", "CA-03722", "CA-08102", "CA-07503", "CA-06707")) %>%
+    add_row(zcta5 = c("80201", "48901", "59620", "57854", "33101", "73019", "91388", "94013", "94101", "95705", "00969"), state_puma_12=c("CO-00812", "MI-01802", "MT-00300", "ND-00100", "FL-08611", "OK-00900", "CA-03722", "CA-08102", "CA-07503", "CA-06707", "PR-00969")) %>%
     group_by(state_puma_12) %>% fill(., matches("puma|zcta"), .direction="downup") %>% ungroup() %>%
-    mutate(state_puma = ifelse(state_puma_12==state_puma_2k, state_puma_12, paste0(state_puma_12, ", ", state_puma_2k))) %>%
+    mutate(state_puma = ifelse(state_puma_12==state_puma_2k, state_puma_12, ifelse(is.na(state_puma_2k)&!is.na(state_puma_12), state_puma_12, paste0(state_puma_12, ", ", state_puma_2k))), state_puma=ifelse(!is.na(state_puma), state_puma, state_puma_12)) %>% distinct() %>%
     {
       df_zipcode_puma_ref <- .
       d_addl <- rio::import("https://udsmapper.org/wp-content/uploads/2020/09/Zip_to_zcta_crosswalk_2020.xlsx") %>% janitor::clean_names() %>% as_tibble() %>% # %>% filter(zip_join_type=="Spatial join to ZCTA")
@@ -163,15 +212,17 @@ if(!exists("df_zipcode_puma_ref")){
         mutate_all(., function(v) recode_na(v, "", "NA", "na", "99999")) %>%
         group_by(state_puma_12) %>% fill(., matches("puma|zcta"), .direction="downup") %>% ungroup() %>% distinct()
     }
-  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("CO-00812", .))) %>% print(n=nrow(.))
-  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("80201|48901|59620", .))) %>% print(n=nrow(.))
-  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58854", .))) %>% print(n=nrow(.))
-  df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("85412|86949|75531|92669|95705|00807|34757|32010|83678", .))) %>% print(n=nrow(.))
-  df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("33101|34757|65045|73019|91388|94013|94101|95705", .))) %>% print(n=nrow(.))
-  # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58109|75261|20310|82071", .))) %>% print(n=nrow(.))
-  # d_addl %>% filter_all(any_vars(grepl("58109", .))) %>% print(n=nrow(.))
-  # df_zipcode_puma_ref %>% filter(is.na(puma12))
   
+  if(F){
+    # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("CO-00812", .))) %>% print(n=nrow(.))
+    # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("80201|48901|59620", .))) %>% print(n=nrow(.))
+    # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58854", .))) %>% print(n=nrow(.))
+    df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("85412|86949|75531|92669|95705|00807|34757|32010|83678", .))) %>% print(n=nrow(.))
+    df_zipcode_puma_ref %>% filter_at(vars(matches("zcta|zip|post")), any_vars(grepl("33101|34757|65045|73019|91388|94013|94101|95705", .))) %>% print(n=nrow(.))
+    # df_zipcode_puma_ref %>% filter_all(any_vars(grepl("58109|75261|20310|82071", .))) %>% print(n=nrow(.))
+    # d_addl %>% filter_all(any_vars(grepl("58109", .))) %>% print(n=nrow(.))
+    # df_zipcode_puma_ref %>% filter(is.na(puma12))
+  }
   
 }
 
@@ -180,9 +231,9 @@ if(!exists("df_1_row_per_zipcode")){
   df_1_row_per_zipcode <- df_zipcode_puma_ref %>% group_by(zcta5) %>% summarize_all(., function(v) paste0(sort(unique(v)), collapse=', ') %>% recode_na('')) %>% ungroup() %>% mutate_all(function(v) unique_sep_sort(v, ", "))
   # df_1_row_per_zipcode %>% filter_all(any_vars(grepl("58109|75261|20310|82071", .))) %>% print(n=nrow(.))
 }
-# puma_ref_with_2k_pumas <- left_join(df_1_row_per_puma, df_zipcode_puma_ref %>% mutate(state_puma=state_puma_12, zcta5=NULL, puma2k=NULL, puma12=NULL) %>% distinct()) %>% distinct()
+# puma_ref_with_2k_pumas <- left_join(df_1_row_per_puma_multi_msa, df_zipcode_puma_ref %>% mutate(state_puma=state_puma_12, zcta5=NULL, puma2k=NULL, puma12=NULL) %>% distinct()) %>% distinct()
 
-recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_pumas=T, return_na_if_no_match=T){
+recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_pumas=T, return_na_if_no_match=T, collapse=", "){
   v_ <- s %>% strsplit(., ', ') %>% unlist()
   if(include_2000_pumas){
     df_1_row_per_zipcode
@@ -196,7 +247,7 @@ recode_zipcode_to_puma <- function(s="20175, 20176, 20177, 20178", include_2000_
   if(return_na_if_no_match){
     return(result %>% paste0(., collapse=", "))
   } else {
-    return(ifelse(is.na(result), v_, result) %>% paste0(., collapse=", "))
+    return(ifelse(is.na(result), v_, result) %>% paste0(., collapse=collapse))
   }
 }
 
@@ -213,6 +264,10 @@ recode_zipcode_to_city <- function(zipcode=c("36101")){ #zipcodes=c("36101", "60
   ## tryCatch({lapply(zipcodes, function(s) zipcodeR::reverse_zipcode(s) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")) %>% as.character()},  error=function(e){NA})
   # sapply(zipcodes, function(s){tryCatch({ zipcodeR::reverse_zipcode(s) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")}, error=function(e){NA})}) %>% as.character()
   tryCatch({zipcodeR::reverse_zipcode(zipcode) %>% drop_na(major_city) %>% .$major_city %>% unique() %>% paste0(., collapse="; ")}, error=function(e) NA)
+}
+
+recode_zipcode_to_state <- function(zipcode=c("36101")){ #zipcodes=c("36101", "60007")
+  tryCatch({zipcodeR::reverse_zipcode(zipcode) %>% .$state %>% unique() %>% paste0(., collapse="; ")}, error=function(e) NA)
 }
 
 
@@ -327,7 +382,7 @@ recode_state_to_zipcode <- function(state_abb="hi"){ # {city="pennington"; state
   
   if(is.na(result)|length(result)==0){
     result <- tryCatch({
-      pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+      pkg('noncensus', url='https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
       city_str <- city
       data(zip_codes)
       result <- zip_codes %>% filter(tolower(state)==tolower(state_abb)) %>% as_tibble() %>% 
@@ -463,6 +518,7 @@ recode_city_state_to_zipcode <- function(city="kona", state_abb="hi"){ # {city="
     if(is.na(result)){ #here
       result <- tryCatch({
         # pkg('noncensus'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz', repos=NULL)
+        pkg("noncensus", url="https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz'); # install.packages('https://cran.r-project.org/src/contrib/Archive/noncensus/noncensus_0.1.tar.gz", repos=NULL); data("zip_codes")
         city_str <- city %>% gsub('\\b(S|m)(t)\\b', '\\1.*\\2 ', ., ignore.case=T) %>% strip_punct(replacewith = ".*") %>% paste0("\\b", ., "\\b") %>% trimws_()
         result <- zip_codes %>% 
           mutate(city_state = paste0(city, ', ', state)) %>%
@@ -998,9 +1054,20 @@ geocode_city <- function(city="Orange County", state_abb=NA, country_code="US", 
 
 
 recode_city_to_county <- function(city="Orange County", state_abb=NA, country_code="US", return_which="county") {
-  geocode_city(city=city, state_abb=state_abb, country_code=country_code, return_which=return_which)
+  result <- geocode_city(city=city, state_abb=state_abb, country_code=country_code, return_which=return_which)
+  # result <- ifelse(return_which=="county"&result=="[]"&tolower(city)=="washington"&tolower(state_abb)=="dc", "Washington County", result)
+  result
 }
 
+
+recode_county_name_to_fips_code <- function(county_name="Monterey", state="CA"){
+  state_county <- paste0(state, ", ", county_name) %>% gsub(" County$", "", .)
+  tryCatch({
+    rerddap::fipscounty(state_county)
+  }, error=function(e){
+    NA
+  })
+}
 
 
 

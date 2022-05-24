@@ -8,7 +8,7 @@ summarize_all_paste0(
   .tbl,
   .funs,
   ...,
-  collapse = ", ",
+  collapse = "; ",
   unique_sep_sort_str = T,
   recode_na_vals = c("", "NA"),
   ungroup = F

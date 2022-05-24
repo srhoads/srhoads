@@ -9,7 +9,8 @@ writexl_open(
   path = tempfile(fileext = ".xlsx"),
   col_names = T,
   format_headers = T,
-  use_zip64 = F
+  use_zip64 = F,
+  open_file = T
 )
 }
 \description{

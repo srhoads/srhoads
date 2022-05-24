@@ -1030,21 +1030,46 @@ def unique(list1):
             unique_list.append(x) 
     return unique_list
 
-def list_remove(l, remove_list=['']):
-    l_copy = list(l.copy()) if type(l)==str else l.copy()
-    for remove_str in remove_list:
-        l_copy.remove(remove_str) if remove_str in l_copy else None
-    return l_copy
+# def list_remove(l, remove_list=['']):
+#     l_copy = list(l.copy()) if type(l)==str else l.copy()
+#     for remove_str in remove_list:
+#         l_copy.remove(remove_str) if remove_str in l_copy else None
+#     return l_copy
 
-def list_select_matches(l, patterns=['9570', '9760'], invert=False):
+def list_remove(l, values=['VALUETOREMOVE']):
+    l0 = l.copy()
+    if isinstance(values, str):
+        values = [values]
+    for value in values:
+        while value in l0:
+            l0.remove(value)
+    return l0
+
+def list_select_matches(l, patterns=['9570', '9760'], invert=False, exact=True):
     l_copy = list(l.copy()) if type(l)==str else l.copy()
-    if invert:
-        for pattern in patterns:
-            l_copy.remove(pattern) if pattern in l_copy else None
+    if exact:
+        if invert:
+            for pattern in patterns:
+                l_copy.remove(pattern) if pattern in l_copy else None
+        else:
+            l_copy = [pattern for pattern in patterns if pattern in l_copy]
     else:
-        l_copy = [pattern for pattern in patterns if pattern in l_copy]
+        if invert:
+            None
+        else:
+            l_copy2 = []
+            for s in l_copy:
+                l_copy2 = l_copy2 + [s for pattern in patterns if pattern in s]
+            l_copy = l_copy2.copy()
     return l_copy
     
+def split_string_vec(string_pre_form='blah, blah', by=','):
+    strings_pre = string_pre_form if type(string_pre_form)==list else [p.strip() for p in str(string_pre_form).split(by)]
+    strings = []
+    for string in strings_pre:
+        if (string != ""):
+            strings.append(string) # print(string_pre_form, " --> ", strings)  
+    return(strings)
 
 def df_select_matches(df, pattern="", ignore_case=True, invert=False):
     flags = re.IGNORECASE if ignore_case else False
@@ -1061,7 +1086,21 @@ def df_get_preferred_column(df, patterns=["emp.*id", ".*emp.*id.*|identif|emp.*n
     print("newcolname:", newcolname) if verbose else None
     df_copydesiredcolumn = [fillmissingwith]*len(df_copy) if len(newcolname)==0 else df_copy[newcolname[0]]
     return df_copydesiredcolumn
-       
+
+def df_mutate_at(df, pattern, fun, verbose=False):
+    dfObj = df.copy()
+    relevant_cols = dfObj.columns[dfObj.columns.str.contains(pattern)]
+    print('#applying df_mutate_at() to...',fun,'relevant_cols=', relevant_cols.tolist()) if verbose else None
+    modDfObj = dfObj.apply(lambda x: fun(x) if x.name in relevant_cols else x)
+    return modDfObj
+
+def df_mutate_if(df, pattern='object', fun=None, verbose=False):
+    dfObj = df.copy()
+    relevant_cols = dfObj.select_dtypes(include=[pattern]).columns
+    print('#applying df_mutate_if() to...',fun,'relevant_cols=', relevant_cols.tolist()) if verbose else None
+    modDfObj = dfObj.apply(lambda x: fun(x) if x.name in relevant_cols else x)
+    return modDfObj
+
 def rename_columns(df=None, prestrings=['', '', ''], newstrings=['', '', ''], exact=False):
     df_copy = df.copy()
     for i in range(0, len(prestrings)): # i = 1
@@ -1159,6 +1198,13 @@ def state_abb_to_region(pdcolumn):
     pdcolumn = pd.Series([s.strip() for s in pdcolumn]).str.upper()
     newcolumn = pdcolumn.replace(states_dict, regex=False)
     return newcolumn
+
+def sql_list_colnames(cursor, table_name="clientmanagement_client"):
+    select_column_names_str = "select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='" + table_name + "'"
+    cursor.execute(select_column_names_str)
+    colnamesplusdata = cursor.fetchall() #[desc[0] for desc in cursor.description]
+    colnames = [x[3] for x in colnamesplusdata]
+    return colnames
 
 def crosswalk_occp_codes(pdcolumn):
     # newcolumn = pdcolumn.apply(str).str.replace('^(3850|3860)$', '3870', regex=True)
