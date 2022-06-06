@@ -15,7 +15,7 @@ read_excel_somesheets(
   trim_ws = T,
   n_max = Inf,
   guess_max = min(1000, n_max),
-  progress = readxl_progress(),
+  progress = readxl::readxl_progress(),
   .name_repair = "unique"
 )
 }
@@ -23,5 +23,5 @@ read_excel_somesheets(
 A function to read multiple excel files and either all or selective sheets from them.
 }
 \examples{
-read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique")
+read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique")
 }

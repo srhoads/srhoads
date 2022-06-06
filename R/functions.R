@@ -4623,43 +4623,61 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 #' @export
 #' @examples
 #' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
-writexl_open_formatted <- function(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
+writexl_open_formatted <- function(df=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2]){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
   # library(openxlsx)
-  pkg('openxlsx')
+  if(!exists("loadWorkbook")){
+    load_unload_openxlsx <- T
+    pkg('openxlsx')
+  } else {
+    load_unload_openxlsx <- F
+  }
+  if(is.nanull(filename)){
+    filename=tempfile(fileext = ".xlsx")
+  }
   if(!file.exists(filename)|is.data.frame(df)|is.list(df)){
     writexl::write_xlsx(df, filename)
   }
+  sheetnames <- readxl::excel_sheets(filename)
   wb = #openxlsx::
     loadWorkbook(filename)
-  wbdf = if(!is.data.frame(df)){readxl::read_excel(filename)} else {df}
-  freeze_before_colnum <- grep("^(NAME CLEAN|ID|EmpGroup)$", names(wbdf)) %>% max() %>% {.+1}
-  LabelStyle <- #openxlsx::
-    createStyle(halign = "center", border = c("bottom"), borderStyle = "thin", textDecoration = "bold", 
-                wrapText=T, valign="center"# fgFill = "#2020FF", fontColour = "white"
-    )
-  # openxlsx::
-  addFilter(wb, 1, row=1, cols=1:ncol(wbdf))
-  # openxlsx::
-  addStyle(wb, sheet=1, style=LabelStyle, rows=1, cols=1:ncol(wbdf))
-  # freezePane(wb, 1, firstRow=T, firstCol=T)
-  tryCatch({#openxlsx::
-    freezePane(wb, 1, firstActiveRow=2, firstActiveCol=freeze_before_colnum)}, error=function(e){#openxlsx::
-      freezePane(wb, 1, firstActiveRow=2, firstActiveCol=1)})
-  
-  width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
-  width_vec2 <- names(wbdf) %>% sapply(., function(x){
-    xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
-    # xw <- map_chr(strsplit(x, " |[[:space:]]|-|\\."), ~ .[which.max(nchar(.))])
-    xw+1+colwidthplus
-  })
-  width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(max_colwidth, n, na.rm=T)})
-  # openxlsx::
-  setColWidths(wb, sheet=1, cols=1:ncol(wbdf), widths=width_vec)
-  
+  for (sheetname in sheetnames){
+    wbdf = if(!is.data.frame(df)){readxl::read_excel(filename, sheet=sheetname)} else {df}
+    # activeSheet(wb) <- sheetname
+    if(is.numeric(freeze_after_col)){
+      freeze_before_colnum <- freeze_after_col + 1
+    } else if(lookslike_number(freeze_after_col)){
+      freeze_before_colnum <- as.numeric(freeze_after_col) + 1
+    } else {
+      freeze_before_colnum <- grep(freeze_after_col, names(wbdf)) %>% max() %>% {.+1}
+    }
+    LabelStyle <- #openxlsx::
+      createStyle(halign = "center", border = c("bottom"), borderStyle = "thin", textDecoration = "bold", 
+                  wrapText=T, valign="center"# fgFill = "#2020FF", fontColour = "white"
+      )
+    # openxlsx::
+    addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
+    # openxlsx::
+    addStyle(wb, sheet=sheetname, style=LabelStyle, rows=1, cols=1:ncol(wbdf))
+    # freezePane(wb, 1, firstRow=T, firstCol=T)
+    tryCatch({#openxlsx::
+      freezePane(wb, sheet=sheetname, firstActiveRow=2, firstActiveCol=freeze_before_colnum)}, error=function(e){#openxlsx::
+        freezePane(wb, sheet=sheetname, firstActiveRow=2, firstActiveCol=1)})
+    
+    width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
+    width_vec2 <- names(wbdf) %>% sapply(., function(x){
+      xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
+      # xw <- map_chr(strsplit(x, " |[[:space:]]|-|\\."), ~ .[which.max(nchar(.))])
+      xw+1+colwidthplus
+    })
+    width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(maxcolwidth, n, na.rm=T)})
+    # openxlsx::
+    setColWidths(wb, sheet=sheetname, cols=1:ncol(wbdf), widths=width_vec)
+    
+  }
   # openxlsx::
   saveWorkbook(wb, filename, overwrite=TRUE)
   if(open_file){system_open(filename)}
-  unload_pkg("openxlsx")
+  if(load_unload_openxlsx){unload_pkg("openxlsx")}
   wbdf
 }
 

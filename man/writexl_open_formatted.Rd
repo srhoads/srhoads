@@ -6,10 +6,11 @@
 \usage{
 writexl_open_formatted(
   df = NULL,
-  filename,
+  filename = NULL,
   open_file = T,
-  max_colwidth = 50,
-  colwidthplus = 0
+  maxcolwidth = 50,
+  colwidthplus = 0,
+  freeze_after_col = c("^(EEID|eeid)$", 1)[2]
 )
 }
 \description{
