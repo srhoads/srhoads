@@ -1,8 +1,8 @@
 ##******************************************************************************
 ######--------ways of importing py files/reloading them #### import functions.py file to get ur defs (works for reimporting too)--------######
 # functions = (open('functions.py').read()); exec(functions.read())
-###----or full path...----------------------------------------------------------------------
-# functions = open('Users/srhoads/GitHub/namegender/functions.py'); exec(functions.read())
+## or...
+# exec(open('functions.py').read())
 ###----or from raw github url:--------------------------------------------------------------
 # import urllib.request; exec(urllib.request.urlopen('https://raw.githubusercontent.com/srhoads/srhoads/master/python/functions.py').read())
 ##******************************************************************************
@@ -251,7 +251,34 @@ if IMPORT_MODULES:
     # load feather: X = feather.read_dataframe("/Users/srhoads/Documents/GitHub/name_race_gender/model/FILE.feather")
     # (nrg4 = nrg.sample(3000)); (nrg4 = nrg)
 
-#=================================================================================================================
+##20220606=================================================================================================================
+    def list_to_dict(lst):
+        # res_dct = {lst[i]: lst[i + 1] for i in range(0, len(lst), 2)}
+        # return res_dct
+        it = iter(lst)
+        res_dct = dict(zip(it, it))
+        return res_dct
+
+    def recode_from_dict(pdcolumn, recode_dict={"to":["from", "fromval2"], "":["NAN", "NONE", "X", "NaN", "nan", None, np.NaN, np.nan, np.NAN], "new":"oldval"}):
+        # pdcolumn.replace({"^(NAN|None|NaN)$":""})
+        pdcolumn = pd.Series(pdcolumn) if not 'pandas.core.series.Series' in str(type(pdcolumn)) else pdcolumn
+        # pdcolumn = pd.Series(pdcolumn.unique().tolist() + ["idk", "", np.nan, "NAN", "nan", "None", None, "from"])
+        newcolumn = pdcolumn.copy()
+        for k, v in recode_dict.items():
+            v = [v] if not "list" in str(type(v)) else v
+            replace_dict = {s:k for s in v}
+            newcolumn.replace(replace_dict, inplace=True)
+        return(newcolumn)
+
+    def recode_na(pdcolumn, recode_list=["None", None, "NAN", "nan", "NaN"], use_numpy_nan=False):
+        if use_numpy_nan:
+            from numpy import nan, NAN, NaN
+            recode_list = unique(recode_list + [nan, NAN, NaN])
+        recode_dict = {np.nan:recode_list}
+        newcolumn = recode_from_dict(pdcolumn, recode_dict)
+        return(newcolumn)
+
+##=================================================================================================================
 
 def var99(myarray, var=.99):
     from sklearn.feature_selection import VarianceThreshold
@@ -282,7 +309,7 @@ def toupper(vec):
     vec = [s.upper for s in vec]
     return vec
 
-def report(results, n_top=5):
+def report_ml_model(results, n_top=5):
     for i in range(1, n_top + 1):
         candidates = np.flatnonzero(results['rank_test_score'] == i)
         for candidate in candidates:
@@ -292,7 +319,7 @@ def report(results, n_top=5):
                   results['std_test_score'][candidate]))
             print("Parameters: {0}".format(results['params'][candidate]))
 
-def scores(model, x_test, y_test, cv=10, accuracy=True, auc_cv=True, accuracy_cv=True, confmat=True, printmodel=False):
+def scores_ml_model(model, x_test, y_test, cv=10, accuracy=True, auc_cv=True, accuracy_cv=True, confmat=True, printmodel=False):
     y_pred = model.predict(x_test) # y_pred includes your predictions
     if printmodel: print(model)
     if accuracy: print("Test-Data prediction accuracy: {:.5f}".format(model.score(x_test, y_test)))
@@ -1122,6 +1149,15 @@ def find_nearest(array, value):
     array = np.asarray(array)
     idx = (np.abs(array - value)).argmin()
     return array[idx]
+
+def recode_from_dict(pdcolumn, recode_dict={"to":["from", "fromval2"], "":["NAN", "NONE", "X", "NaN", "nan", None, np.NaN, np.nan, np.NAN], "new":"oldval"}):
+    pdcolumn = pd.Series(pdcolumn) if not 'pandas.core.series.Series' in str(type(pdcolumn)) else pdcolumn
+    newcolumn = pdcolumn.copy()
+    for k, v in recode_dict.items():
+        v = [v] if not "list" in str(type(v)) else v
+        replace_dict = {s:k for s in v}
+        newcolumn.replace(replace_dict, inplace=True)
+    return(newcolumn)
 
 def recode_0s_pad_str(s="1234", length=4, empty_if_all_0s=True, only_numbers=False):
     s = str(s).strip()

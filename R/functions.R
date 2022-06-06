@@ -2445,8 +2445,8 @@ parse_excel_date <- function(v){
 #' A function to read multiple excel files and either all or selective sheets from them.
 #' @export
 #' @examples
-#' read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique")
-read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl_progress(), .name_repair="unique") {
+#' read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique")
+read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique") {
   if (is.null(fns)) {(fns <- list.files(pattern = "\\.xlsx", recursive = T, full.names = T))}
   if (is.null(keepshtvec)) {keepshtvec <- lapply(fns, function(v) readxl::excel_sheets(v)) %>% unlist() %>% unique()}
   fnshtlst <- lapply(fns, function(s) readxl::excel_sheets(s)) %>% setNames(fns)
@@ -4626,7 +4626,7 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 writexl_open_formatted <- function(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
   # library(openxlsx)
   pkg('openxlsx')
-  if(!file.exists(filename)|is.data.frame(df)|is.data.table(df)|is.list(df)){
+  if(!file.exists(filename)|is.data.frame(df)|is.list(df)){
     writexl::write_xlsx(df, filename)
   }
   wb = #openxlsx::
