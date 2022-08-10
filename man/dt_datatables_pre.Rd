@@ -4,7 +4,7 @@
 \alias{dt_datatables_pre}
 \title{Srhoads wrote this to allow you to...}
 \usage{
-dt_datatables_pre(df, pageLength = nrow(df))
+dt_datatables_pre(df, pageLength = nrow(df), open_file = F)
 }
 \description{
 Srhoads wrote this to allow you to...

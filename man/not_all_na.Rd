@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{not_all_na}
 \alias{not_all_na}
-\title{A function}
+\title{A function to see whether there are any non-NA values; can go inside `select_if()`}
 \usage{
 not_all_na(x)
 }
 \description{
-A function
+A function to see whether there are any non-NA values; can go inside `select_if()`
 }
 \examples{
 not_all_na(x)

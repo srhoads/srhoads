@@ -48,7 +48,7 @@ docu <- function(fxn=""){
 #' @export
 #' @examples
 #' recode_race(v)
-recode_race <- function(v){
+recode_race <- function(v, full_names=F){
   v0 <- gsub("[[:space:]]| ", "", tolower(v)) %>% gsub("2(\\+|ormore|plus).*", "twoormoreraces", .) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .) %>% gsub("no(n|t)his.*lat.*", "", .)
   v1 <- recode(v0, "white"="1", "blackorafricanamerican"="2", "hispanicorlatino"="3", "asian"="4", "americanindianoralaskanative"="5", "nativehawaiianorotherpacificislander"="6", "twoormoreraces"="7")
   
@@ -89,15 +89,27 @@ recode_race <- function(v){
       }
     }
   }
+  
+  if(full_names){
+    v1 <- recode(v1, "1"="White", "2"="Black or African American", "3"="Hispanic or Latino", "4"="Asian", "5"="American Indian or Alaska Native", "6"="Native Hawaiian or Other Pacific Islander", "7"="Two or More Races")
+  }
   v1
 }
 
+
+recode_minority <- function(v="subrace"){
+  recode_list <- list("POC"=c("POC", "Other POC", "Black", "Hispanic", "Asian", "Nat. Am.", "Nat. Haw.", "Two or More", "Two or More Races", "Canada Visible Minority", "Black or African American", "Native Hawaiian or Other Pacific Islander", "American Indian or Alaska Native", "Hispanic or Latino", "2", "3", "4", "5", "6", "7"),
+                      "White"=c("White", "Non-POC", "Caucasian", "Canada White", "W", "1"),
+                      "Canada Aboriginal"=c("Canada Aboriginal"),
+                      "Unknown"=c("Unknown"))
+  recode_from_list(v, recode_list=recode_list)
+}
 
 #' Samantha Rhoads's function to recode gender more quickly than prior versions!!
 #' @export
 #' @examples
 #' recode_gender(v)
-recode_gender <- function(v){
+recode_gender <- function(v, full_names=F){
   v0 <- gsub("[[:space:]]| ", "", tolower(v)) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .)
   v1 <- recode(v0, "male"="1", "female"="2", "nonbinary"="3", "unknown"="NA")
   
@@ -125,25 +137,29 @@ recode_gender <- function(v){
       #   
       #   
       if(any(grepl("[[:alpha:]]", v1))){
-            v1 <- recode(v1, "m"="1", "f"="2", "n"="3", "her"="2", "g"="2", "his"="1")
-            
-            if(any(grepl("[[:alpha:]]", v1))){
-              gendertext <- c("man|mal", "fe", "3", "unk")
-              v1 <- ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3",
-                           ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2",
-                                  ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1",
-                                         v1)))#))))
-            }
-            #     if(any(grepl("[[:alpha:]]", v1))){
-            #       v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
-            #                    ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
-            #                           ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
-            #                                  ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
-            #                           )))
-            #     }
+        v1 <- recode(v1, "m"="1", "f"="2", "n"="3", "her"="2", "g"="2", "his"="1")
+        
+        if(any(grepl("[[:alpha:]]", v1))){
+          gendertext <- c("man|mal", "fe", "3", "unk")
+          v1 <- ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3",
+                       ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2",
+                              ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1",
+                                     v1)))#))))
+        }
+        #     if(any(grepl("[[:alpha:]]", v1))){
+        #       v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
+        #                    ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
+        #                           ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
+        #                                  ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
+        #                           )))
+        #     }
       }
     }
   }
+  if(full_names){
+    v1 <- recode(v1, "1"="Male", "2"="Female", "3"="Non-Binary")
+  }
+  
   v1
 }
 
@@ -309,11 +325,17 @@ dfincase <- {data.frame(name=c('charlene teters', 'sandra sunrising osawa'),
 
 ### functions.R #================================================================================================================================
 
-#' A function
+#' A function to see whether there are any non-NA values; can go inside `select_if()`
 #' @export
 #' @examples
 #' not_all_na(x)
 not_all_na <- function(x){any(!is.na(x)) }
+
+#' A function to see whether all values are NA; can go inside `select_if()`
+#' @export
+#' @examples
+#' all_na(x)
+all_na <- function(x){all(is.na(x)) }
 
 #' A function that can go inside `select_if()` and checks if all items in a vector are identical or not, returns TRUE if they're not all identical
 #' @export
@@ -321,13 +343,20 @@ not_all_na <- function(x){any(!is.na(x)) }
 #' not_all_same()
 not_all_same <- function(x){length(unique(x))>1}
 
+#' A function to select the unique columns in a dataframe
+#' @export
+#' @examples
+#' select_unique_columns(d)
+select_unique_columns <- function(d){
+  d[!duplicated(as.list(d))]
+}
+
 
 #' A function to do grep() but pasting a vec instead of just a string
 #' @export
 #' @examples
 #' grep_(pattern, v, exact=F, ignore.case=F, value=F)
 grep_ <- function(pattern, v, exact=F, ignore.case=F, value=F) grep(paste_regex(pattern, exact=exact), v, ignore.case=ignore.case, value=value)
-
 
 #' A function to find matching string anywhere in a dataframe
 #' @export
@@ -1844,7 +1873,7 @@ alnum <- function(x){ gsub("[^[:alnum:]]", "", x)}
 #' @examples
 #' extract_digits(x)
 extract_digits <- digits <- function(x){gsub("[^[:digit:]]", "", x)}
-    
+
 #' This function allows you to 
 #' @export
 #' @examples
@@ -2611,7 +2640,21 @@ summary_factor <- function(x, maxsum=7){
 #' @export
 #' @examples
 #' sumry(x, maxsum=7)
-sumry <- function(x, maxsum=7) if (is.data.frame(x)) summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) else summary(if(is.character(x)) as.factor(x) else x, maxsum)
+sumry <- function(x, maxsum=7) {
+  if (is.data.frame(x)) {
+    # x[["____________"]] <- paste0("Total Columns Summarized:", ncol(x), "; Total # of Rows")
+    x[["____________"]] <- paste0("Total # of Rows")
+    # x <- dplyr::select(x, one_of("____________"), everything())
+    if(all(is.na(maxsum))){
+      maxsum <- nrow(x)
+    }
+    x_sumry <- summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) 
+    x[["____________"]] <- NULL
+    return(x_sumry)
+  } else {
+    summary(if(is.character(x)) as.factor(x) else x, maxsum)
+  }
+}
 
 #' Samantha Rhoads's function to...
 #' @export
@@ -3180,7 +3223,7 @@ state2abb_or_abb2state <- function(v, abb=F, state_names_abbs_df=get_states(retu
   # if(any(!(result %in% unlist(state_names_abbs_df) ) )){
   #   state_names_abbs_df2 <- state_names_abbs_df %>% tibble::add_row(state_names=c("Cali", "Mariana Islands"), state_abbs=c("CA", "MP"), state_fips=c("06", "69"))
   # }
-    
+  
   return(result)
 }
 
@@ -3237,10 +3280,10 @@ recode_state <- function(v, abb=T, to_fips=F, state_names_abbs_df=get_states(ret
     if(any(!(result %in% unlist(state_names_abbs_df) ) )){
       state_names_abbs_df2 <- dplyr::bind_rows(state_names_abbs_df2, 
                                                mutate(state_names_abbs_df2, state_names=gsub("(W|E|S|N)(est|ast|outh|orth(ern|))", "\\1", state_names)),
-                                               ) %>% 
+      ) %>% 
         bind_rows(.,
                   mutate(state_names_abbs_df2, state_names=gsub(" ", "", state_names))
-                  ) %>% distinct()
+        ) %>% distinct()
       result <- gsub("(W|E|S|N)(est|ast|outh|orth(ern|))", "\\1", strip_punct(result))
       result <- state2abb_or_abb2state(result, abb=abb, state_names_abbs_df=state_names_abbs_df2)
     }
@@ -3367,24 +3410,24 @@ split_before_capital <- function(x, sep=" ", loosly=F){ if(!loosly) gsub('([[:lo
 #' @examples
 #' pkg(package1, ..., dependencies=NA, import=T, unload=F, url=NULL, version=NULL, repos=NULL)
 pkg <- function(package1, ..., dependencies=NA, import=T, unload=F, url=NULL, version=NULL, repos=NULL) {
-    packages <- c(package1, ...)
-    if((is.null(repos)|all(is.na(repos)))){repos<-c("https://cloud.r-project.org", "http://owi.usgs.gov/R/", "https://cran.rstudio.com/")}
-    for (package in packages) {
-        if (package %in% rownames(installed.packages())) {
-            if(import){do.call(library, list(package))}
-            if(unload){try(unloadNamespace(package))}
-        } else {
-          if((is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
-            install.packages(package, repos=repos, dependencies=dependencies, type=getOption("pkgType"))
-          } else if(!(is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
-            install.packages(url, repos=NULL)
-          } else if((is.null(url)|all(is.na(url))) & !(is.null(version)|all(is.na(version))) ){
-            devtools::install_version(package, version=version, repos=repos)
-          }
-            if(import){do.call(library, list(package))}
-            if(unload){try(unloadNamespace(package))}
-        }
+  packages <- c(package1, ...)
+  if((is.null(repos)|all(is.na(repos)))){repos<-c("https://cloud.r-project.org", "http://owi.usgs.gov/R/", "https://cran.rstudio.com/")}
+  for (package in packages) {
+    if (package %in% rownames(installed.packages())) {
+      if(import){do.call(library, list(package))}
+      if(unload){try(unloadNamespace(package))}
+    } else {
+      if((is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
+        install.packages(package, repos=repos, dependencies=dependencies, type=getOption("pkgType"))
+      } else if(!(is.null(url)|all(is.na(url))) & (is.null(version)|all(is.na(version))) ){
+        install.packages(url, repos=NULL)
+      } else if((is.null(url)|all(is.na(url))) & !(is.null(version)|all(is.na(version))) ){
+        devtools::install_version(package, version=version, repos=repos)
+      }
+      if(import){do.call(library, list(package))}
+      if(unload){try(unloadNamespace(package))}
     }
+  }
 }
 
 
@@ -3709,7 +3752,7 @@ excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"..
 #' Samantha Rhoads's function to extract the date from a string, but doesn't turn it into a date!
 #' @export
 #' @examples
-#' extract_date()
+#' extract_date(v)
 extract_date <- function(v) {
   datepats <- c(
     datepat00=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{2,4})?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
@@ -3735,6 +3778,14 @@ extract_date <- function(v) {
   v %>% stringr::str_extract_all(., patternstr)
 }
 
+
+#' Samantha Rhoads's function to extract the 4-digit year from a string, and stores it as a character!
+#' @export
+#' @examples
+#' extract_year(v)
+extract_year <- function(v){
+  v %>% as.character() %>% gsub(".*(\\d{4}).*", "\\1", .) %>% select_matches("\\d{4}")
+}
 
 #' Srhoads wrote this to allow you to...
 #' @export
@@ -3823,15 +3874,20 @@ select_vec <- function(v, pattern, ignore.case=T, everything=F){
 #' @export
 #' @examples
 #' dt_datatables_pre()
-dt_datatables_pre <- function(df, pageLength=nrow(df)){
+dt_datatables_pre <- function(df, pageLength=nrow(df), open_file=F){
   # cat("dt_datatables_pre()\n")
-  df %>%
+  # Update? (Yes/no/cancel) y
+  # DT :
+  #   Version 0.20 installed in /Library/Frameworks/R.framework/Versions/4.1/Resources/library 
+  #   Version 0.23 available at https://cran.rstudio.com
+  x <- df %>%
     DT::datatable(.,
                   # caption=shiny::HTML("<code>formula</code> is encoded as <code>y ~ x</code>, or dependent variable (<code>y</code>) predicted by independent variable (<code>x</code>)"),
                   escape=F,
                   rownames=F,
                   # extensions = "Buttons",
                   # filter = list(position = 'top', clear = F),
+                  # height="550%",
                   options = list(#search = list(regex=T, caseInsensitive = T),
                     pageLength = pageLength,
                     dom = 'BfrtipSR',
@@ -3846,6 +3902,14 @@ dt_datatables_pre <- function(df, pageLength=nrow(df)){
                       "}")),
                   class = 'cell-border stripe table-hover table-condensed compact'
     )
+  if(open_file){
+    path <- tempfile(fileext=".html")
+    if(!grepl("xls(x|)$", path, ignore.case=T)){path <- paste0(path, ".html")}
+    if(is.data.frame(x)){widget <- DT::datatable(x)} else if("datatables" %in% class(x)){widget <- x}
+    htmlwidgets::saveWidget(widget, path, selfcontained=TRUE, libdir=NULL, background="white", title=class(widget)[[1]], knitrOptions=list())
+    system(paste0('open "', path, '"'))
+  }
+  return(x)
 }
 
 
@@ -4193,7 +4257,7 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
           BOTHDFS$NEW %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% #setNames(paste0(ii, " (NEW)")) %>%
             {if(ncol(.)>0) setNames(., paste0(ii, " (NEW)")) else .} #slice(1:MAXNROW)
         )
-      ) %>% dplyr::bind_cols() %>% sumry(., min(nrow(unique(.)), 21))
+      ) %>% dplyr::bind_cols() %>% sumry(., min(nrow(unique(.)), 21, na.rm=T))
       ugh
     }) 
     
@@ -4233,8 +4297,7 @@ compare_two_lods <- function(list1 = list(df = dfsampler()), list2 =  list(df = 
 #' @export
 #' @examples list1=list(nvc=NursesVC); list2=list(nvc=NursesVC2); exampleOfColumnName="EEID"; print_only_differences=T
 #' compare_two_lods_enhanced(list1 = list(df1 = dfsampler()), list2 =  list(df2 = dfsampler(which="short")), exampleOfColumnName="^name$")
-compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  list(df = dfsampler(which="short")), 
-                                      exampleOfColumnName="^name$", print_only_differences=T){
+compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  list(df = dfsampler(which="short")), exampleOfColumnName="^name$", print_only_differences=T){
   
   list1 %<>% .[sort(names(.))]
   list2 %<>% .[sort(names(.))]
@@ -4243,7 +4306,7 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
   
   (MAXLISTLENGTH <- max(length(list1), length(list2)))
   
-  RETURN0 <- lapply(1:MAXLISTLENGTH, function(i){ # i <- 1
+  RETURN0 <- lapply(1:MAXLISTLENGTH, function(i){ #{i=1}
     dfname_of_interest <- BOTHLISTNAMES[i]
     # BOTHDATASETS <- list(OLD = list1[[i]], NEW = list2[[i]])
     # BOTHDATASETS <- list(OLD = list1[[dfname_of_interest]], NEW = list2[[dfname_of_interest]])
@@ -4265,22 +4328,35 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
     } else {
       BOTHDFS <- BOTHDATASETS
     }
+    
+    
+    BOTHDFS <- tryCatch({
+      BOTHDFS %>%
+        lapply(., function(d){
+          d$nrows_in_dataset_comparison <- NA
+          d$nrows_in_dataset_comparison[1] <- nrow(d)
+          d %>% select(one_of("nrows_in_dataset_comparison"), everything())
+        })
+      }, error=function(e){print(e); BOTHDFS})
+    
     BOTHLISTDFNAMES <- BOTHDFS %>% purrr::map(names) %>% unlist() %>% unique()
     
-    lapply(BOTHLISTDFNAMES, function(ii){ # ii <- "lastname"      #    ii <- "gender"
+    BOTHCOMPARISON <- lapply(BOTHLISTDFNAMES, function(ii){ # ii <- "lastname"      #    ii <- "gender"
       ugh <- list(
         hcOLD = (
-          BOTHDFS$OLD %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% 
+          BOTHDFS$OLD %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% mutate_if(is.factorchar, function(v){replace_na(v, "")}) %>% .[1:MAXNROW, ] %>% data.frame() %>% 
             # {if(ncol(.)==0) {.[[ii]] <- NA; .} else .} #slice(1:MAXNROW)
             {if(ncol(.)>0) setNames(., paste0(ii, " (OLD)")) else .}#slice(1:MAXNROW)
         ),
         hcNEW = (
-          BOTHDFS$NEW %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% .[1:MAXNROW, ] %>% data.frame() %>% #setNames(paste0(ii, " (NEW)")) %>%
+          BOTHDFS$NEW %>% data.frame() %>% dplyr::select(dplyr::one_of(ii)) %>% mutate_if(is.factorchar, function(v){replace_na(v, "")}) %>% .[1:MAXNROW, ] %>% data.frame() %>% #setNames(paste0(ii, " (NEW)")) %>%
             {if(ncol(.)>0) setNames(., paste0(ii, " (NEW)")) else .} #slice(1:MAXNROW)
         )
       ) %>% dplyr::bind_cols() %>% sumry(., min(nrow(unique(.)), 21))
       ugh
     }) 
+    
+    BOTHCOMPARISON
     
   }) %>% 
     setNames(BOTHLISTNAMES) 
@@ -4288,9 +4364,9 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
   RETURN <- tryCatch({
     RETURN0 %>%
       {
-        comparedData <- . # comparedData <- RETURN0
-        purrr::map(1:length(RETURN0), function(i){ # i <- 1
-          comparedColNames <- comparedData[[i]] %>% purrr::map(., function(x){  # x <- comparedData[[i]][[4]]
+        comparedData <- . # {comparedData <- RETURN0}
+        purrr::map(1:length(RETURN0), function(i){ # {i=1}
+          comparedColNames <- comparedData[[i]] %>% purrr::map(., function(x){  # {x <- comparedData[[i]][[1]]}
             if(is.null(colnames(x))){
               new_colnames0 <- paste0(F, " bc col missing from one of OR BOTH of the dfs")
             } else {
@@ -4304,6 +4380,10 @@ compare_two_lods_enhanced <- function(list1 = list(df = dfsampler()), list2 =  l
             paste0(new_colnames0, " (identical=", cols_identical_or_no, ")")
           }) %>% unlist()
           comparedData[[i]] %<>% setNames(comparedColNames)
+          try({
+            nrows_in_dataset_comparison_colname <- comparedData[[i]] %>% names() %>% select_matches("nrows_in_dataset_comparison") %>% .[[1]]
+            comparedData[[i]][[nrows_in_dataset_comparison_colname]] <- comparedData[[i]][[nrows_in_dataset_comparison_colname]] %>% .[6,]
+          })
           comparedData[[i]]
         }) %>% setNames(names(comparedData))
       }
@@ -4372,7 +4452,7 @@ set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", ch
       d <- d %>% setNames(dNewNames) %>% slice(-(1:colnames_rownum))
     }
   }
-return(d %>% setNames(make.unique(names(.))))
+  return(d %>% setNames(make.unique(names(.))))
 }
 
 
@@ -4623,7 +4703,7 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 #' @export
 #' @examples
 #' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
-writexl_open_formatted <- function(df=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2]){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
+writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], clean_colnames=F, autofilter=T){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
   # library(openxlsx)
   if(!exists("loadWorkbook")){
     load_unload_openxlsx <- T
@@ -4634,14 +4714,15 @@ writexl_open_formatted <- function(df=NULL, filename=NULL, open_file=T, maxcolwi
   if(is.nanull(filename)){
     filename=tempfile(fileext = ".xlsx")
   }
-  if(!file.exists(filename)|is.data.frame(df)|is.list(df)){
+  if(!file.exists(filename)|is.data.frame(x)|is.list(x)){
+    df <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .))} else {x}
     writexl::write_xlsx(df, filename)
   }
   sheetnames <- readxl::excel_sheets(filename)
   wb = #openxlsx::
     loadWorkbook(filename)
   for (sheetname in sheetnames){
-    wbdf = if(!is.data.frame(df)){readxl::read_excel(filename, sheet=sheetname)} else {df}
+    wbdf = if(!is.data.frame(x)){readxl::read_excel(filename, sheet=sheetname)} else {x}
     # activeSheet(wb) <- sheetname
     if(is.numeric(freeze_after_col)){
       freeze_before_colnum <- freeze_after_col + 1
@@ -4654,8 +4735,9 @@ writexl_open_formatted <- function(df=NULL, filename=NULL, open_file=T, maxcolwi
       createStyle(halign = "center", border = c("bottom"), borderStyle = "thin", textDecoration = "bold", 
                   wrapText=T, valign="center"# fgFill = "#2020FF", fontColour = "white"
       )
-    # openxlsx::
-    addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
+    if(autofilter){# openxlsx::
+      addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
+    }
     # openxlsx::
     addStyle(wb, sheet=sheetname, style=LabelStyle, rows=1, cols=1:ncol(wbdf))
     # freezePane(wb, 1, firstRow=T, firstCol=T)
@@ -4678,7 +4760,8 @@ writexl_open_formatted <- function(df=NULL, filename=NULL, open_file=T, maxcolwi
   saveWorkbook(wb, filename, overwrite=TRUE)
   if(open_file){system_open(filename)}
   if(load_unload_openxlsx){unload_pkg("openxlsx")}
-  wbdf
+  # wbdf
+  x
 }
 
 
@@ -4831,82 +4914,82 @@ pad_occp <- function(v){
 crosswalk_occp_codes <- function(v, remove_comma_sep=F){
   v %>% # HOLISTIC CROSSWALK: 'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
     dplyr::recode(., # 2000-2004 codes # https://usa.ipums.org/usa/volii/c2ssoccup.shtml
-           '0030'='0010',
-           '0130'='0135, 0136, 0137',
-           '0200'='0205',
-           '0210'='0205',
-           '0320'='4465, 0335, 0440, 0705',
-           '0400'='0440',
-           '0430'='0335, 0440, 0705',
-           
-           '0560'='0565, 3945',
-           '0620'='0630, 0640, 0650',
-           '0720'='0725',
-           '0730'='0735, 0705, 0750',
-           '1000'='1005, 1006',
-           '1107'='0705, 1108, 1065, 1022, 1032',
-           
-           '1040'='1050',
-           '1100'='1105',
-           '1110'='1106, 1007, 1031, 1032',
-           '1210'='1240',
-           '1230'='1240',
-           '1500'='1520',
-           '1510'='1530',
-           '1810'='0735',
-           '1830'='1860',
-           '1940'='1935', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '1950'='1970', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '1960'='1935, 1970',
-           '2020'='2015, 2016, 2025',
-           '2110'='2100',
-           '2140'='2145',
-           '2150'='2170, 2180, 2862',
-           '2820'='2825',
-           '3130'='3255, 3256, 3258',
-           '3240'='3245',
-           '3410'='3420',
-           '3530'='3535',
-           '3650'='3645, 3646, 3647, 3648, 3649, 3655',
-           '3830'='3840',
-           '3920'='3930',
-           '3950'='3955',
-           '4550'='9050, 9415',
-           '4960'='4965',
-           '5130'='5165',#, 4400', 
-           '5200'='5420',#{fuzzy_match_occps("Gaming/Gamblind Cage Workers",.05); fuzzy_match_occps("Brokerage Clerks",.05)}
-           
-           '5210'='5350',
-           '5830'='5940, 5165',
-           '5930'='5940', #???	'Office and Administrative Support Workers, All Other'
-           '6000'='6005',
-           '6020'='6050',
-           '6350'='6355',
-           '6500'='6220',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '6510'='6515',
-           '6750'='6765', '6760'='6765',
-           '6920'='6800',
-           '7050'='7100',
-           '7110'='7100',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '7310'='7315',
-           '7520'='7630',
-           '7550'='7640', # ???? 'Manufactured Building and Mobile Home Installers' #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-           '7620'='7630',
-           '7710'='7750',#, 7140', #??? 'Aircraft Structure, Surfaces, Rigging, and Systems Assemblers'
-           '8060'='8100', #??? 'Model Makers and Patternmakers, Metal and Plastic'	
-           '8230'='8256',
-           '8240'='8256, 8255',
-           '8260'='8255',
-           '8840'='8990','8900'='8990','8960'='8990',
-           '8965'='7905, 8990',
-           '9330'='9300',
-           '9340'='9420',
-           'bbbb'='0000') %>% 
+                  '0030'='0010',
+                  '0130'='0135, 0136, 0137',
+                  '0200'='0205',
+                  '0210'='0205',
+                  '0320'='4465, 0335, 0440, 0705',
+                  '0400'='0440',
+                  '0430'='0335, 0440, 0705',
+                  
+                  '0560'='0565, 3945',
+                  '0620'='0630, 0640, 0650',
+                  '0720'='0725',
+                  '0730'='0735, 0705, 0750',
+                  '1000'='1005, 1006',
+                  '1107'='0705, 1108, 1065, 1022, 1032',
+                  
+                  '1040'='1050',
+                  '1100'='1105',
+                  '1110'='1106, 1007, 1031, 1032',
+                  '1210'='1240',
+                  '1230'='1240',
+                  '1500'='1520',
+                  '1510'='1530',
+                  '1810'='0735',
+                  '1830'='1860',
+                  '1940'='1935', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+                  '1950'='1970', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+                  '1960'='1935, 1970',
+                  '2020'='2015, 2016, 2025',
+                  '2110'='2100',
+                  '2140'='2145',
+                  '2150'='2170, 2180, 2862',
+                  '2820'='2825',
+                  '3130'='3255, 3256, 3258',
+                  '3240'='3245',
+                  '3410'='3420',
+                  '3530'='3535',
+                  '3650'='3645, 3646, 3647, 3648, 3649, 3655',
+                  '3830'='3840',
+                  '3920'='3930',
+                  '3950'='3955',
+                  '4550'='9050, 9415',
+                  '4960'='4965',
+                  '5130'='5165',#, 4400', 
+                  '5200'='5420',#{fuzzy_match_occps("Gaming/Gamblind Cage Workers",.05); fuzzy_match_occps("Brokerage Clerks",.05)}
+                  
+                  '5210'='5350',
+                  '5830'='5940, 5165',
+                  '5930'='5940', #???	'Office and Administrative Support Workers, All Other'
+                  '6000'='6005',
+                  '6020'='6050',
+                  '6350'='6355',
+                  '6500'='6220',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+                  '6510'='6515',
+                  '6750'='6765', '6760'='6765',
+                  '6920'='6800',
+                  '7050'='7100',
+                  '7110'='7100',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+                  '7310'='7315',
+                  '7520'='7630',
+                  '7550'='7640', # ???? 'Manufactured Building and Mobile Home Installers' #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
+                  '7620'='7630',
+                  '7710'='7750',#, 7140', #??? 'Aircraft Structure, Surfaces, Rigging, and Systems Assemblers'
+                  '8060'='8100', #??? 'Model Makers and Patternmakers, Metal and Plastic'	
+                  '8230'='8256',
+                  '8240'='8256, 8255',
+                  '8260'='8255',
+                  '8840'='8990','8900'='8990','8960'='8990',
+                  '8965'='7905, 8990',
+                  '9330'='9300',
+                  '9340'='9420',
+                  'bbbb'='0000') %>% 
     dplyr::recode(., # 2012, codes
-           '0330'='0335', '0950'='0960', '1060'='1065', '1930'='1935', '2430'='2435', '2540'='2545', 
-           '3535'='3545', '4300'='4330', '4460'='4461', '4610'='3602', '5030'='5040', '5620'='9645', '5800'='1108',
-           '6830'='6835', '6910'='6850', '7900'='7905', '8840'='8990', 
-           '9000'='9005', '9340'='9430', '9360'='9365', '9500'='9570', '9560'='9570', '9730'='6850') %>% 
+                  '0330'='0335', '0950'='0960', '1060'='1065', '1930'='1935', '2430'='2435', '2540'='2545', 
+                  '3535'='3545', '4300'='4330', '4460'='4461', '4610'='3602', '5030'='5040', '5620'='9645', '5800'='1108',
+                  '6830'='6835', '6910'='6850', '7900'='7905', '8840'='8990', 
+                  '9000'='9005', '9340'='9430', '9360'='9365', '9500'='9570', '9560'='9570', '9730'='6850') %>% 
     gsub('^(3850|3860)$', '3870', .) %>% gsub('^(4050|4060)$', '4055', .) %>% gsub('^(4410|4430)$', '4435', .) %>% 
     gsub('^(6100|6110)$', '6115', .) %>% gsub('^(6300|6310|6320)$', '6305', .) %>% gsub('^(6420|6430)$', '6410', .) %>% 
     gsub('^(6930|6940)$', '6950', .) %>% gsub('^(7600|7630)$', '7640', .) %>% gsub('^(7920|7930|7940)$', '7925', .) %>% 
@@ -4914,17 +4997,17 @@ crosswalk_occp_codes <- function(v, remove_comma_sep=F){
     gsub('^(8360|8400|8410|8420)$', '8365', .) %>% gsub('^(8430|8440|8460)$', '8465', .) %>% gsub('^(8520|8550)$', '8555', .) %>% 
     gsub('^(8860|8900)$', '8965', .) %>% gsub('^(9230|9260)$', '9265', .) %>% gsub('^(9740|9750)$', '9760', .) %>%
     dplyr::recode(., 
-           '0050'='0051, 0052', '0100'='0101, 0102', '0430'='0335, 0440, 0705', '0740'='0705, 0750', '0840'='0845, 0960', '1107'='0705, 1108, 1065, 1022, 1032', 
-           '1020'='1021, 1022', '1030'='1031, 1032', '1300'='1305, 1306', '1540'='1541, 1545', '1550'='1551, 1555', '1740'='1745, 1750', '1820'='1821, 1822, 1825', 
-           '1965'='1935, 1970', '2000'='2001, 2002, 2003, 2004, 2005, 2006', '2010'='2011, 2012, 2013, 2014', '2160'='2170, 2180, 2862', '2200'='2205, 2545',
-           '2340'='2350, 2360', '2550'='2435, 2555', '2630'='2631, 2632, 2633, 2634, 2635, 2636, 2640', '2720'='2721, 2722, 2723', '2750'='2751, 2752', 
-           '2760'='2755, 2770', '2800'='2805, 2865', '2860'='2861, 2865', '2900'='2905, 5040', '2960'='2905, 2970', '3060'='3090, 3100',# 3065, 3070', 
-           '3260'='3270, 3261', 
-           '3320'='3321, 3322, 3323, 3324, 3330', '3400'='3401, 3402', '3420'='3421, 3422, 3423, 3424, 3430, 3545', '3510'='3515, 3550', '3540'='1980, 3550',
-           '3600'='3601, 3603, 3605', '3730'='3725', '3800'='3801, 3802', '3955'='3946, 3960', '4250'='4251, 4252, 4255', '4320'='4330, 9005',
-           '4520'='4521, 4522, 4525', '4620'='4621, 4622', '4650'='4461, 4655', '5520'='5521, 5522', '5700'='5710, 5720, 5730, 5740', '6440'='6441, 6442',
-           '6820'='6825, 6835', '6840'='6850, 6950', '8965'='7905, 8990', '9120'='9121, 9122, 9141', '9140'='9141, 9142', '9200'='9210, 9265', '9420'='9365, 9430',
-           '9520'='9570, 9760, 6850, 6825', '9820'='1555, 9825') %>%
+                  '0050'='0051, 0052', '0100'='0101, 0102', '0430'='0335, 0440, 0705', '0740'='0705, 0750', '0840'='0845, 0960', '1107'='0705, 1108, 1065, 1022, 1032', 
+                  '1020'='1021, 1022', '1030'='1031, 1032', '1300'='1305, 1306', '1540'='1541, 1545', '1550'='1551, 1555', '1740'='1745, 1750', '1820'='1821, 1822, 1825', 
+                  '1965'='1935, 1970', '2000'='2001, 2002, 2003, 2004, 2005, 2006', '2010'='2011, 2012, 2013, 2014', '2160'='2170, 2180, 2862', '2200'='2205, 2545',
+                  '2340'='2350, 2360', '2550'='2435, 2555', '2630'='2631, 2632, 2633, 2634, 2635, 2636, 2640', '2720'='2721, 2722, 2723', '2750'='2751, 2752', 
+                  '2760'='2755, 2770', '2800'='2805, 2865', '2860'='2861, 2865', '2900'='2905, 5040', '2960'='2905, 2970', '3060'='3090, 3100',# 3065, 3070', 
+                  '3260'='3270, 3261', 
+                  '3320'='3321, 3322, 3323, 3324, 3330', '3400'='3401, 3402', '3420'='3421, 3422, 3423, 3424, 3430, 3545', '3510'='3515, 3550', '3540'='1980, 3550',
+                  '3600'='3601, 3603, 3605', '3730'='3725', '3800'='3801, 3802', '3955'='3946, 3960', '4250'='4251, 4252, 4255', '4320'='4330, 9005',
+                  '4520'='4521, 4522, 4525', '4620'='4621, 4622', '4650'='4461, 4655', '5520'='5521, 5522', '5700'='5710, 5720, 5730, 5740', '6440'='6441, 6442',
+                  '6820'='6825, 6835', '6840'='6850, 6950', '8965'='7905, 8990', '9120'='9121, 9122, 9141', '9140'='9141, 9142', '9200'='9210, 9265', '9420'='9365, 9430',
+                  '9520'='9570, 9760, 6850, 6825', '9820'='1555, 9825') %>%
     gsub('(3730|3735)', '3725', .) %>%
     gsub('(3065|3070)', '3090, 3100', .) %>%
     gsub('(6821)', '9570, 9760, 6850, 6825', .) %>%
@@ -5199,15 +5282,15 @@ add_escape_characters <- function(v){
 #' @examples
 #' retry_fxn(FUN=function(){"hi"}, n_attempts=5)
 retry_fxn <- function(FUN=function(){"hi"}, n_attempts=5){
-    r <- NULL
-    attempt <- 1
-    while( is.null(r) && attempt <= n_attempts ) {
-        attempt <- attempt + 1
-        try({
-            r <- FUN(); 
-            return(r)
-        })
-    } 
+  r <- NULL
+  attempt <- 1
+  while( is.null(r) && attempt <= n_attempts ) {
+    attempt <- attempt + 1
+    try({
+      r <- FUN(); 
+      return(r)
+    })
+  } 
 }
 
 #' Samantha Rhoads's function to re-try running something multiple times (a designated number of `n_attempts`) if it fails until it succeeds.

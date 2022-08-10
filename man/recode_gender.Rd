@@ -4,7 +4,7 @@
 \alias{recode_gender}
 \title{Samantha Rhoads's function to recode gender more quickly than prior versions!!}
 \usage{
-recode_gender(v)
+recode_gender(v, full_names = F)
 }
 \description{
 Samantha Rhoads's function to recode gender more quickly than prior versions!!

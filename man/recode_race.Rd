@@ -4,7 +4,7 @@
 \alias{recode_race}
 \title{Samantha Rhoads's function to recode race more quickly than prior versions!!}
 \usage{
-recode_race(v)
+recode_race(v, full_names = F)
 }
 \description{
 Samantha Rhoads's function to recode race more quickly than prior versions!!

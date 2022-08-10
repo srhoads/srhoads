@@ -4,9 +4,12 @@
 \alias{retry_fxn}
 \title{Samantha Rhoads's function to re-try running something multiple times (a designated number of `n_attempts`) if it fails until it succeeds.}
 \usage{
-retry_fxn(FUN = function() {
-    "hi"
-}, n_attempts = 5)
+retry_fxn(
+  FUN = function() {
+     "hi"
+ },
+  n_attempts = 5
+)
 }
 \description{
 Samantha Rhoads's function to re-try running something multiple times (a designated number of `n_attempts`) if it fails until it succeeds.

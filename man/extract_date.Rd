@@ -10,5 +10,5 @@ extract_date(v)
 Samantha Rhoads's function to extract the date from a string, but doesn't turn it into a date!
 }
 \examples{
-extract_date()
+extract_date(v)
 }

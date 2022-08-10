@@ -5,12 +5,14 @@
 \title{Samantha Rhoads's function to write to Excel with some common dataframe special formatting}
 \usage{
 writexl_open_formatted(
-  df = NULL,
+  x = NULL,
   filename = NULL,
   open_file = T,
   maxcolwidth = 50,
   colwidthplus = 0,
-  freeze_after_col = c("^(EEID|eeid)$", 1)[2]
+  freeze_after_col = c("^(EEID|eeid)$", 1)[2],
+  clean_colnames = F,
+  autofilter = T
 )
 }
 \description{
