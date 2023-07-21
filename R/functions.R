@@ -48,21 +48,84 @@ docu <- function(fxn=""){
 #' @export
 #' @examples
 #' recode_race(v)
-recode_race <- function(v, full_names=F){
-  v0 <- gsub("[[:space:]]| ", "", tolower(v)) %>% gsub("2(\\+|ormore|plus).*", "twoormoreraces", .) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .) %>% gsub("no(n|t)his.*lat.*", "", .)
-  v1 <- recode(v0, "white"="1", "blackorafricanamerican"="2", "hispanicorlatino"="3", "asian"="4", "americanindianoralaskanative"="5", "nativehawaiianorotherpacificislander"="6", "twoormoreraces"="7")
-  
-  if(any(grepl("[[:alpha:]]", v1))){
-    racetext <- c("white|caucasian|irish", "black|africa", "hispan|latino|latinx", "asia(|n)", "am.*ind|nat.*am", "pac.*isl|nat.*hawai|nhopi", "twoormore")
-    v1 <- ifelse(grepl(racetext[7], v1)&!grepl(paste0(setdiff(racetext, racetext[7]), collapse="|"), v1), "7", 
-                 ifelse(grepl(racetext[6], v1)&!grepl(paste0(setdiff(racetext, racetext[6]), collapse="|"), v1), "6", 
-                        ifelse(grepl(racetext[5], v1)&!grepl(paste0(setdiff(racetext, racetext[5]), collapse="|"), v1), "5", 
-                               ifelse(grepl(racetext[4], v1)&!grepl(paste0(setdiff(racetext, racetext[4]), collapse="|"), v1), "4", 
-                                      ifelse(grepl(racetext[3], v1)&!grepl(paste0(setdiff(racetext, racetext[3]), collapse="|"), v1), "3", 
-                                             ifelse(grepl(racetext[2], v1)&!grepl(paste0(setdiff(racetext, racetext[2]), collapse="|"), v1), "2", 
-                                                    ifelse(grepl(racetext[1], v1)&!grepl(paste0(setdiff(racetext, racetext[1]), collapse="|"), v1), "1", 
-                                                           v1)))))))
+recode_race <- function(v, full_names=F, abbrev_names=F, as_factor=F){
+  v_orig <- v
+  # recode_list <- list("1"=c("1", "White", "white"),
+  #                     "2"=c("2", "Black", "black", "Black or African American"),
+  #                     "3"=c("3", "Hispanic", "hispanic", "Hispanic or Latino"),
+  #                     "4"=c("4", "Asian", "asian"),
+  #                     "5"=c("5", "AmInd", "amind", "Nat. Am./AK Nat.", "American Indian or Alaska Native"),
+  #                     "6"=c("6", "NHOPI", "nhopi", "Native Hawaiian or Other Pacific Islander"),
+  #                     "7"=c("7", "TwoPlus", "twoplus", "Two or More Races", "Two or More", "Two Or More Races")
+  #                     
+  # )
+  if(full_names){
+    recode_list <- list("White"=c("1", "white", "White"),
+                        "Black or African American"=c("2", "black", "blackorafricanamerican", "black or african american", "Black", "Black or African American"),
+                        "Hispanic or Latino"=c("3", "hispanic", "hispanicorlatino", "hisp", "hispanic or latino", "Hispanic", "Hispanic or Latino", "Hisp", "hispaniclatino", "hisplat"),
+                        "Asian"=c("4", "asian", "Asian"),
+                        "American Indian or Alaska Native"=c("5", "amind", "nat. am./ak nat.", "natamaknat", "american indian or alaska native", "americanindianoralaskanative", "American Indian or Alaska Native", "AmInd", "Nat. Am./AK Nat.", "Nat. Am.", "natam"),
+                        "Native Hawaiian or Other Pacific Islander"=c("6", "nhopi", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander", "NHOPI", "Native Hawaiian or Other Pacific Islander"),
+                        "Two or More Races"=c("7", "twoplus", "twoormoreraces", "two or more races", "two or more", "twoormore", "Two or More Races", "Two or More", "Two Or More Races", "TwoPlus", "2+", "2 or More Races", "2 or more races", "2ormoreraces", "Two+", "two+", "multirace", "Multi-Racial", "multiracial", "Multi-Race")
+    )
+  } else if(abbrev_names){
+    recode_list <- list("White"=c("1", "White", "white"),
+                        "Black"=c("2", "black", "blackorafricanamerican", "black or african american", "Black", "Black or African American"),
+                        "Hispanic"=c("3", "hispanic", "hispanicorlatino", "hisp", "hispanic or latino", "Hispanic", "Hispanic or Latino", "Hisp", "hispaniclatino", "hisplat"),
+                        "Asian"=c("4", "asian", "Asian"),
+                        "AmInd"=c("5", "amind", "nat. am./ak nat.", "natamaknat", "american indian or alaska native", "americanindianoralaskanative", "American Indian or Alaska Native", "AmInd", "Nat. Am./AK Nat.", "Nat. Am.", "natam"),
+                        "NHOPI"=c("6", "nhopi", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander", "NHOPI", "Native Hawaiian or Other Pacific Islander"),
+                        "TwoPlus"=c("7", "twoplus", "twoormoreraces", "two or more races", "two or more", "twoormore", "Two or More Races", "Two or More", "Two Or More Races", "TwoPlus", "2+", "2 or More Races", "2 or more races", "2ormoreraces", "Two+", "two+", "multirace", "Multi-Racial", "multiracial", "Multi-Race")
+    )
     
+  } else {
+    recode_list <- list("1"=c("1", "white", "White"),
+                        "2"=c("2", "black", "blackorafricanamerican", "black or african american", "Black", "Black or African American"),
+                        "3"=c("3", "hispanic", "hispanicorlatino", "hisp", "hispanic or latino", "Hispanic", "Hispanic or Latino", "Hisp", "hispaniclatino", "hisplat"),
+                        "4"=c("4", "asian", "Asian"),
+                        "5"=c("5", "amind", "nat. am./ak nat.", "natamaknat", "american indian or alaska native", "americanindianoralaskanative", "American Indian or Alaska Native", "AmInd", "Nat. Am./AK Nat.", "Nat. Am.", "natam"),
+                        "6"=c("6", "nhopi", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander", "NHOPI", "Native Hawaiian or Other Pacific Islander"),
+                        "7"=c("7", "twoplus", "twoormoreraces", "two or more races", "two or more", "twoormore", "Two or More Races", "Two or More", "Two Or More Races", "TwoPlus", "2+", "2 or More Races", "2 or more races", "2ormoreraces", "Two+", "two+", "multirace", "Multi-Racial", "multiracial", "Multi-Race")
+    )
+  }
+  
+  if(any(!as.character(v) %in% c(names(recode_list)))){
+    v1 <- recode_from_list(v, recode_list)
+  } else {
+    return(v)
+  }
+  
+  if(any(!as.character(v1) %in% c(names(recode_list)))){
+    recode_list_b <- list("1"=c("1", "white"),
+                          "2"=c("2", "black", "blackorafricanamerican", "black or african american"),
+                          "3"=c("3", "hispanic", "hispanicorlatino", "hisp", "hispanic or latino"),
+                          "4"=c("4", "asian"),
+                          "5"=c("5", "amind", "nat. am./ak nat.", "natamaknat", "american indian or alaska native", "americanindianoralaskanative"),
+                          "6"=c("6", "nhopi", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander"),
+                          "7"=c("7", "twoplus", "twoormoreraces", "two or more races", "two or more", "twoormore")
+    )
+    v1 <- gsub("[[:space:]]| ", "", tolower(v1)) %>% gsub("2(\\+|ormore|plus).*", "twoormoreraces", .) %>% gsub("[[:punct:]]|[[:space:]]|nothispanic(orlatino).*|no(n|t)white.*", "", .) %>% gsub("no(n|t)his.*lat.*", "", .)
+    # v1 <- recode(v1, "white"="1", "blackorafricanamerican"="2", "hispanicorlatino"="3", "asian"="4", "americanindianoralaskanative"="5", "nativehawaiianorotherpacificislander"="6", "twoormoreraces"="7")
+    v1 <- recode_from_list(v1, recode_list_b)
+  } else {
+    return(v1)
+  }
+  
+  if(any(!as.character(v1) %in% c(names(recode_list_b)))){
+    if(any(grepl("[[:alpha:]]", v1))){
+      racetext <- c("white|caucasian|irish", "black|africa", "hispan|latino|latinx", "asia(|n)", "am.*ind|nat.*am", "pac.*isl|nat.*hawai|nhopi", "twoormore")
+      v1 <- ifelse(grepl(racetext[7], v1)&!grepl(paste0(setdiff(racetext, racetext[7]), collapse="|"), v1), "7", 
+                   ifelse(grepl(racetext[6], v1)&!grepl(paste0(setdiff(racetext, racetext[6]), collapse="|"), v1), "6", 
+                          ifelse(grepl(racetext[5], v1)&!grepl(paste0(setdiff(racetext, racetext[5]), collapse="|"), v1), "5", 
+                                 ifelse(grepl(racetext[4], v1)&!grepl(paste0(setdiff(racetext, racetext[4]), collapse="|"), v1), "4", 
+                                        ifelse(grepl(racetext[3], v1)&!grepl(paste0(setdiff(racetext, racetext[3]), collapse="|"), v1), "3", 
+                                               ifelse(grepl(racetext[2], v1)&!grepl(paste0(setdiff(racetext, racetext[2]), collapse="|"), v1), "2", 
+                                                      ifelse(grepl(racetext[1], v1)&!grepl(paste0(setdiff(racetext, racetext[1]), collapse="|"), v1), "1", 
+                                                             v1)))))))
+    }
+  }
+  
+  if(any(!as.character(v1) %in% c(names(recode_list_b)))){
     if(any(grepl("[[:alpha:]]", v1))){
       racetext <- c("wh|nonminority|polish|swed(e|is)|greek|1", "blk|afr|jamaic|egypt|somali|westindi|2", "hisp|lat|mexic|span|venezu|hondur|nicarag|puer.*ric|dominic|cuba|brazil|guatem|colombi|boliv|argenti|argentin|centralamer|salvad|3", "asia(|n)|chin|japa|korea|4", "am.*(ind|nat|alask|ak)|nat.*(am|ind|alask|ak)|ind.*(am|nat|alask|ak)|(alask|ak).*(am|nat)|5", "pac.*isl|nat.*hawai|nhopi|hawai|hopi|nhop|pacif|islander|tagal(a|o)|fil(l|)ipi", "twoormore|twoplus|races|multiple|morethan|twoorm|7")
       v1 <- ifelse(grepl(racetext[7], v1)&!grepl(paste0(setdiff(racetext, racetext[7]), collapse="|"), v1), "7", 
@@ -73,27 +136,59 @@ recode_race <- function(v, full_names=F){
                                                ifelse(grepl(racetext[2], v1)&!grepl(paste0(setdiff(racetext, racetext[2]), collapse="|"), v1), "2", 
                                                       ifelse(grepl(racetext[1], v1)&!grepl(paste0(setdiff(racetext, racetext[1]), collapse="|"), v1), "1", 
                                                              v1)))))))
-      
-      
-      if(any(grepl("[[:alpha:]]", v1))){
-        v1 <- recode(v1, "w"="1", "b"="2", "l"="3", "a"="4", "ai"="5", "hi"="6", "bw"="7", 
-                     "his"="3", "baa"="2", "lat"="3", "hila"="3", "native"="5", "five"="5", "amin"="5", "pac"="6", "six"="6")
-        
-        if(any(grepl("[[:alpha:]]", v1))){
-          v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
-                       ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
-                              ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
-                                     ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
-                              )))
-        }
-      }
     }
   }
   
-  if(full_names){
-    v1 <- recode(v1, "1"="White", "2"="Black or African American", "3"="Hispanic or Latino", "4"="Asian", "5"="American Indian or Alaska Native", "6"="Native Hawaiian or Other Pacific Islander", "7"="Two or More Races")
+  if(any(!as.character(v1) %in% c(names(recode_list_b)))){
+    if(any(grepl("[[:alpha:]]", v1))){
+      v1 <- recode(v1, "w"="1", "b"="2", "l"="3", "a"="4", "ai"="5", "hi"="6", "bw"="7", 
+                   "his"="3", "baa"="2", "lat"="3", "hila"="3", "native"="5", "five"="5", "amin"="5", "pac"="6", "six"="6")
+    }
   }
-  v1
+  if(any(!as.character(v1) %in% c(names(recode_list_b)))){
+    if(any(grepl("[[:alpha:]]", v1))){
+      v1 <- ifelse(grepl('pac.*(isl|haw|nat)|nhopi|nat.*haw|haw.*pac|hawai|philip|polynes|samoa|pacific|tonga|hawpi|aorpi|micrones|fiji|maori|vanuat|tuval|palau|pacif|nauru|fil(l|)ipin|islander|malay|melanes|nhorpi', v1), '6', 
+                   ifelse(grepl('(amer|alask).*(ind|nat)|(nat|ind).*(alask|amer)|(nat|am).*ind|nat.*am|ind.*nat|indigen|alaska|aioan', v1), '5', 
+                          ifelse(grepl('africa|black|westindi|jamaica|blk|somali|morocc|egypt|nigeria', v1), '2', 
+                                 ifelse(grepl('^((f|m|e|d|s|)hisp|latin|hislat|spanis|hipanic|lathis)|costaric|venezu|southam|salvador|mexic|ecua(d|t)or|puertoric|portugs|nicarag|bolivi|peruvi|hispanic|latin|chican|brazil|argentin', v1), '3', v1)
+                          )))
+    }
+  }
+  
+# 
+#   if(full_names){
+#     recode_list <- list("White"=c("1", "White", "white"),
+#                         "Black or African American"=c("2", "Black", "black", "Black or African American", "blackorafricanamerican", "black or african american"),
+#                         "Hispanic or Latino"=c("3", "Hispanic", "hispanic", "Hispanic or Latino", "hispanicorlatino", "hisp", "hispanic or latino"),
+#                         "Asian"=c("4", "Asian", "asian"),
+#                         "American Indian or Alaska Native"=c("5", "AmInd", "amind", "Nat. Am./AK Nat.", "American Indian or Alaska Native", "natamaknat", "american indian or alaska native", "americanindianoralaskanative"),
+#                         "Native Hawaiian or Other Pacific Islander"=c("6", "NHOPI", "nhopi", "Native Hawaiian or Other Pacific Islander", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander"),
+#                         "Two or More Races"=c("7", "TwoPlus", "twoplus", "Two or More Races", "Two or More", "Two Or More Races", "twoormoreraces", "two or more races", "two or more", "twoormore")
+#     )
+#     # v1 <- recode(v1, "1"="White", "2"="Black or African American", "3"="Hispanic or Latino", "4"="Asian", "5"="American Indian or Alaska Native", "6"="Native Hawaiian or Other Pacific Islander", "7"="Two or More Races")
+#     v1 <- recode_from_list(v1, recode_list)
+#   }
+#   if(abbrev_names){
+#     recode_list <- list("White"=c("1", "White", "white"),
+#                         "Black"=c("2", "Black", "black", "Black or African American", "blackorafricanamerican", "black or african american"),
+#                         "Hispanic"=c("3", "Hispanic", "hispanic", "Hispanic or Latino", "hispanicorlatino", "hisp", "hispanic or latino"),
+#                         "Asian"=c("4", "Asian", "asian"),
+#                         "AmInd"=c("5", "AmInd", "amind", "Nat. Am./AK Nat.", "American Indian or Alaska Native", "natamaknat", "american indian or alaska native", "americanindianoralaskanative"),
+#                         "NHOPI"=c("6", "NHOPI", "nhopi", "Native Hawaiian or Other Pacific Islander", "nativehawaiianorotherpacificislander", "native hawaiian or other pacific islander"),
+#                         "TwoPlus"=c("7", "TwoPlus", "twoplus", "Two or More Races", "Two or More", "Two Or More Races", "twoormoreraces", "two or more races", "two or more", "twoormore")
+#     )
+#     # v1 <- recode(v1, "1"="White", "2"="Black", "3"="Hispanic", "4"="Asian", "5"="AmInd", "6"="NHOPI", "7"="TwoPlus")
+#     v1 <- recode_from_list(v1, recode_list)
+#   }
+  v1 <- recode_from_list(v1, recode_list)
+  v_new <- dplyr::if_else(v1 %in% c(names(recode_list)), v1, v_orig)
+  if(as_factor){
+    if(!is.factor(v1)){
+      v1 <- factor(v1, levels=unique(c(names(recode_list), as.character(v1))))
+    }
+  }
+  
+  return(v_new)
 }
 
 
@@ -2071,16 +2166,32 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 #' @export
 #' @examples
 #' trimws_(v, which='both', doublespace=T)
-trimws_ <- function(v, which='both', doublespace=T){
-  if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)} 
-  else if(which=="left"){v <- gsub("^([[:space:]]| ){1,100}", "", v)}
-  else if(which=="right"){v <- gsub("([[:space:]]| )${1,100}", "", v)}
+trimws_ <- function(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F){
+  vlevels <- levels(v)
+  vclass <- class(v)
+  if(which=="both"){v <- gsub("([[:space:]]| )$|^([[:space:]]| )", "", v)
+  } else if(which=="left"){v <- gsub("^([[:space:]]| ){1,100}", "", v)
+  } else if(which=="right"){v <- gsub("([[:space:]]| )${1,100}", "", v)}
   if(doublespace) {
     v <- gsub('(   |  ){1,100}', ' ', v)
     v <- gsub('([[:space:]])[[:space:]]){1,100}', '\\1', v)
+    if(newlineseps){
+      v <- gsub("(\\\r|\\\n|\\\t){1,100}", "\\1", v)
+      if(newlineasspace){
+        v <- gsub("\\\n|\\\r|\\\t", " ", v)
+        v <- gsub("((\\\n|\\\r|\\\t| |[[:space:]])(\\\n|\\\r|\\\t| |[[:space:]])){1,100}", " ", v)
+      }
+      # v <- gsub("(\\\n|\\\r|\\\t| |[[:space:]])(\\\n|\\\r|\\\t| |[[:space:]]){1,100}", "\\1", v)
+      if(which=="both"){v <- gsub("((\\\r|\\\n|\\\t)$|^(\\\r|\\\n|\\\t)){1,100}", "", v)}
+    }
   }
   # if(doublespace) {v <- gsub('(   |  |[[:space:]][[:space:]]){1,100}', ' ', v)}
   v <- trimws(v, which=which)
+  
+  if(!is.null(vlevels)){
+    levels(v) <- vlevels
+    if(vclass=="factor"){v <- as.factor(v)}
+  }
   v
 }
 
@@ -3144,19 +3255,19 @@ get_states <- function(return_which=c('both', 'name', 'abb', 'fips')[1]){
                     "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", 
                     "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", 
                     "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming", 
-                    "District of Columbia", "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "US Virgin Islands"),
+                    "District of Columbia", "American Samoa","Federated States of Micronesia","Guam","Marshall Islands","Northern Mariana Islands","Palau","Puerto Rico","US Minor Outlying Islands","US Virgin Islands"),
     state_abbs = c("AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
                    "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", 
                    "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", 
                    "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", 
                    "UT", "VT", "VA", "WA", "WV", "WI", "WY",
-                   "DC", "AS", "GU",'MP', "PR", "VI"),
+                   "DC", "AS","FM","GU","MH","MP","PW","PR","UM","VI"),
     state_fips = c("01", "02", "04", "05", "06", "08", "09", "10", "12", "13", "15", "16", 
                    "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", 
                    "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", 
                    "39", "40", "41", "42", "44", "45", "46", "47", "48", "49", "50", 
                    "51", "53", "54", "55", "56", 
-                   "11", "60", "66", "69", "72", "78")
+                   "11", "60","64","66","68","69","70","72","74","78")
   )
   if(grepl('both|name.*abb|abb.*name|all|total|every', return_which, ignore.case=T)){
     return(state_names_abbs_df)
@@ -4667,14 +4778,18 @@ system_open <- open_system <- function(paths){
 #' @export
 #' @examples
 #' get_column_letter(v)
-get_column_letter <- function(v){
-  ab <- toupper(letters)
-  st <- as.character(1:length(ab))
-  result <- ab[match(v, st)]
+get_column_letter <- function(v, get_number_from_letter=F){
+  lett <- toupper(letters)
+  numb <- as.character(1:length(lett))
+  if(get_number_from_letter){
+    result <- numb[match(toupper(v), lett)]
+  } else {
+    result <- lett[match(v, numb)]
+  }
   if(is.na(result)){
-    ab <- c(ab, lapply(ab, function(s) paste0(s, ab)) %>% unlist())
-    st <- as.character(1:length(ab))
-    result <- ab[match(v, st)]
+    lett <- c(lett, lapply(lett, function(s) paste0(s, lett)) %>% unlist())
+    numb <- as.character(1:length(lett))
+    result <- lett[match(v, numb)]
   }
   return(result)
 }
@@ -4703,7 +4818,7 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 #' @export
 #' @examples
 #' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
-writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], clean_colnames=F, autofilter=T){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
+writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=11, clean_colnames=F, colnames_toupper=F){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
   # library(openxlsx)
   if(!exists("loadWorkbook")){
     load_unload_openxlsx <- T
@@ -4715,7 +4830,8 @@ writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwid
     filename=tempfile(fileext = ".xlsx")
   }
   if(!file.exists(filename)|is.data.frame(x)|is.list(x)){
-    df <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .))} else {x}
+    df <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .) %>% trimws_())} else {x}
+    df <- if(colnames_toupper){df %>% setNames(names(.) %>% toupper())} else {df}
     writexl::write_xlsx(df, filename)
   }
   sheetnames <- readxl::excel_sheets(filename)
@@ -4732,14 +4848,15 @@ writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwid
       freeze_before_colnum <- grep(freeze_after_col, names(wbdf)) %>% max() %>% {.+1}
     }
     LabelStyle <- #openxlsx::
-      createStyle(halign = "center", border = c("bottom"), borderStyle = "thin", textDecoration = "bold", 
-                  wrapText=T, valign="center"# fgFill = "#2020FF", fontColour = "white"
+      createStyle(halign = "center", border=c("bottom"), borderStyle="thin", textDecoration="bold", 
+                  wrapText=T, valign="center", fontSize=baseFontSize# fgFill = "#2020FF", fontColour = "white"
       )
     if(autofilter){# openxlsx::
       addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
     }
+    addStyle(wb, sheet=sheetname, style=createStyle(fontSize=baseFontSize), rows=1:nrow(wbdf), cols=1:ncol(wbdf), gridExpand=T, stack=T)
     # openxlsx::
-    addStyle(wb, sheet=sheetname, style=LabelStyle, rows=1, cols=1:ncol(wbdf))
+    addStyle(wb, sheet=sheetname, style=LabelStyle, rows=1, cols=1:ncol(wbdf), stack=T)
     # freezePane(wb, 1, firstRow=T, firstCol=T)
     tryCatch({#openxlsx::
       freezePane(wb, sheet=sheetname, firstActiveRow=2, firstActiveCol=freeze_before_colnum)}, error=function(e){#openxlsx::

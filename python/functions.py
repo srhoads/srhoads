@@ -1082,7 +1082,10 @@ def list_select_matches(l, patterns=['9570', '9760'], invert=False, exact=True):
             l_copy = [pattern for pattern in patterns if pattern in l_copy]
     else:
         if invert:
-            None
+            l_copy2 = []
+            for s in l_copy:
+                l_copy2 = l_copy2 + [s for pattern in patterns if not pattern in s]
+            l_copy = l_copy2.copy()
         else:
             l_copy2 = []
             for s in l_copy:
@@ -1364,7 +1367,7 @@ def recode_race_acs_to_jl(pdcolumn): # https://www2.census.gov/programs-surveys/
         ["white", "black", "amerind", "amerind", "hisp", "amerind", "asian", "nhopi", None, "twoplus"])
     return newcolumn
 
-def recode_state(state): # state="Califoria"
+def recode_state(state, to_fips=False): # state="Califoria"
     state = str(state).upper()
     if len(state)>2:
         state = re.sub("NEW", "NEW ", state, flags=re.IGNORECASE)
@@ -1375,6 +1378,13 @@ def recode_state(state): # state="Califoria"
         try:
             from us.states import lookup
             state = lookup(state).abbr
+        except:
+            pass
+    if to_fips:
+        try:
+            from us.states import lookup
+            state = lookup(state).abbr
+            state = lookup(state).fips
         except:
             pass
     return(state)
