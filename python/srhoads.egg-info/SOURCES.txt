@@ -1,0 +1,7 @@
+setup.py
+srhoads/__init__.py
+srhoads/functions.py
+srhoads.egg-info/PKG-INFO
+srhoads.egg-info/SOURCES.txt
+srhoads.egg-info/dependency_links.txt
+srhoads.egg-info/top_level.txt
