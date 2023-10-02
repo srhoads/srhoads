@@ -629,6 +629,279 @@ if(FUNCTIONS_DISPARATEIMPACT<-T){
       
     }
     
+    writexl_open_formatted_aapplan <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=10, clean_colnames=F, colnames_toupper=F){ #{filename="delete_temp.xlsx"; x=res5; open_file=T; maxcolwidth=50; colwidthplus=0; freeze_after_col=c("^(EEID|eeid)$"; 1)[2]; autofilter=T; baseFontSize=10; clean_colnames=F; colnames_toupper=F}
+      # filename <- "../availability_and_utilization_ace.xlsx"
+      # x <- res5
+      # library(openxlsx)
+      if(!exists("loadWorkbook")){
+        load_unload_openxlsx <- T
+        pkg('openxlsx')
+      } else {
+        load_unload_openxlsx <- F
+      }
+      if(is.nanull(filename)){
+        filename=tempfile(fileext = ".xlsx")
+      }
+      if(is.data.frame(x)){
+        writexl::write_xlsx(tibble(d), filename)
+      } else {
+        x %>% lapply(function(d){d %>% as_tibble()}) %>% writexl::write_xlsx(., filename)
+      }
+      # if(!file.exists(filename)|is.data.frame(x)|is.list(x)){
+      #     # df <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .) %>% trimws_())} else {x}
+      #     # df <- if(colnames_toupper){df %>% setNames(names(.) %>% toupper())} else {df}
+      #     writexl::write_xlsx(tibble(), filename)
+      # }
+      sheetnames <- readxl::excel_sheets(filename)
+      wb = #openxlsx::
+        loadWorkbook(filename)
+      modifyBaseFont(wb, fontSize=10)
+      
+      for (sheetname in sheetnames){ #{(sheetname=sheetnames[3])}
+        wbdf = if(!is.data.frame(x)){readxl::read_excel(filename, sheet=sheetname)} else {x}
+        deleteData(wb, sheet=sheetname, cols=0:ncol(wbdf)+1, rows=0:nrow(wbdf)+1, gridExpand = TRUE)
+        # activeSheet(wb) <- sheetname
+        if(is.numeric(freeze_after_col)){
+          freeze_before_colnum <- freeze_after_col + 1
+        } else if(lookslike_number(freeze_after_col)){
+          freeze_before_colnum <- as.numeric(freeze_after_col) + 1
+        } else {
+          freeze_before_colnum <- grep(freeze_after_col, names(wbdf)) %>% max() %>% {.+1}
+        }
+        LabelStyle <- #openxlsx::
+          createStyle(halign="center", border=c("bottom"), borderStyle="thin", textDecoration="bold", 
+                      wrapText=T, valign="center", fontSize=baseFontSize# fgFill = "#2020FF", fontColour = "white"
+          )
+        # if(autofilter){# openxlsx::
+        #     addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
+        # }
+        
+        if(sheetname=="Availability"){
+          
+          # openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c("Krispy Kreme - Availability Analysis" %>% {if(WTD_OCCPS){paste0(., " (WTD OCCPs)")} else {.}}, rep("", 17)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c("Krispy Kreme - Availability Analysis", rep("", 17)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          mergeCells(wb=wb, sheet=sheetname, cols=1:18, rows={1})
+          addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize+8, fontColour="#3b1466", textDecoration="bold", fgFill="#ff4942"), rows=1, cols=1:18, stack=F)
+          setRowHeights(wb, sheet=sheetname, rows=1, heights=25)
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=2, x={c(rep("", 18)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          
+          startCol=1
+          startRow=3
+          wbdf %>% split(., .$analysis_grouping_numbered) %>% lapply(., function(d){ #{(d=x %>% split(., .$analysis_grouping) %>% .[[3]])}
+            ANALYSIS_GROUP <- d$analysis_grouping %>% unique() %>% .[[1]]
+            external_wt <- d %>% filter(source=="external") %>% .$weight %>% replace_na(0) #%>% scales::percent()
+            internal_wt <- d %>% filter(source=="internal_feeder") %>% .$weight %>% replace_na(0)# %>% scales::percent()
+            total_wt <- c({external_wt} + {internal_wt})# %>% scales::percent()
+            
+            external_raw_pcts <- d %>% filter(source=="external") %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            internal_feeder_raw_pcts <- d %>% filter(source=="internal_feeder") %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            
+            external_wtd_pcts <- d %>% filter(source=="external") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0) #%>% scales::percent()
+            internal_wtd_feeder_pcts <- d %>% filter(source=="internal_feeder") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            
+            total_wtd_pcts <- d %>% filter(source=="external_internal_feeder_combined") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0) #%>% scales::percent()
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+0, colNames=F, rowNames=F, x={c("Analysis Group:", ANALYSIS_GROUP, rep("", 16)) %>% as.matrix() %>% t()})
+            addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="#ff4942", fgFill="#ebebeb"), rows=startRow, cols=1, stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize+4, fontColour="#ff4942", fgFill="#ebebeb", textDecoration="bold"), rows=startRow, cols=2:18, stack=T)
+            mergeCells(wb=wb, sheet=sheetname, cols=2:18, rows=startRow+0)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+1, colNames=F, rowNames=F, x={c("Factor", "Raw Availability", rep("", 7), "Weight", "Weighted Availability", rep("", 7)) %>% as.matrix() %>% t()})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="white", fgFill="#3b1466"), rows=startRow+1, cols=c(1, 10), stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+1, fontColour="#3b1466", fgFill="#9D89B2", textDecoration="bold"), rows=startRow+1, cols=c(2:9, 11:18), stack=T)
+            mergeCells(wb=wb, sheet=sheetname, cols=2:9, rows=startRow+1)
+            mergeCells(wb=wb, sheet=sheetname, cols=11:18, rows=startRow+1)
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+2, colNames=F, rowNames=F, x={c("", c("Female", "Minority", "Black", "Hispanic", "Asian", "Am Ind.", "NHOPI", "Two Or More"), "", c("Female", "Minority", "Black", "Hispanic", "Asian", "Am Ind.", "NHOPI", "Two Or More")) %>% as.matrix() %>% t()})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", textDecoration="bold"), rows=startRow+2, cols=c(2:9, 11:18), stack=T)
+            mergeCells(wb=wb, sheet=sheetname, cols=1, rows={(startRow+1):(startRow+2)})
+            mergeCells(wb=wb, sheet=sheetname, cols=10, rows={(startRow+1):(startRow+2)})
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+3, colNames=F, rowNames=F, x={c("External", external_raw_pcts, external_wt, external_wtd_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", numFmt="0.00%"), rows=(startRow+3), cols=c(2:18), stack=T)
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+4, colNames=F, rowNames=F, x={c("Internal", internal_feeder_raw_pcts, internal_wt, internal_wtd_feeder_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", numFmt="0.00%"), rows=(startRow+4), cols=c(2:18), stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", textDecoration="bold"), rows={(startRow+3):(startRow+4)}, cols=c(1), stack=T)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+5, colNames=F, rowNames=F, x={c("Final Availability", rep("", 8), total_wt, total_wtd_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}}) })
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="white", fgFill="#3b1466", textDecoration="bold"), rows=startRow+5, cols=c(1:9), stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="white", fgFill="#3b1466", numFmt="0.00%"), rows=startRow+5, cols=c(10:18), stack=T)
+            mergeCells(wb=wb, sheet=sheetname, cols=1:9, rows=startRow+5)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+6, colNames=F, rowNames=F, x={c(rep("", 18)) %>% as.matrix() %>% t()})
+            
+            
+            # startCol <<- startCol+9
+            startRow <<- startRow+7
+            
+          })
+          
+          setColWidths(wb, sheet=sheetname, cols=c(1, 10), widths=9)
+          setColWidths(wb, sheet=sheetname, cols=c(2:9, 11:18), widths=8)
+          setHeaderFooter(wb, sheet=sheetname, header=NULL, footer=c('&K9D89B2&"Georgia"&9Jackson Lewis PC', '', '&Kb5b3b3&"Georgia"&9Privileged and Confidential'))
+          fitToHeight <- if(length(wb$worksheets[[1]]$`.->sheet_data`$cols)<500){T} else {F}
+          pageSetup(wb, sheet=sheetname, orientation="landscape", left=.5, right=.5, top=.5, bottom=.5, header=0, fitToWidth=T, fitToHeight=fitToHeight)
+          
+        } else if(sheetname=="Utilization"){
+          nCols=11
+          # openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c(("Krispy Kreme - Utilization Analysis" %>% {if(WTD_OCCPS){paste0(., " (WTD OCCPs)")} else {.}}), rep("", 10)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c(("Krispy Kreme - Utilization Analysis"), rep("", 10)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          # openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=2, x={c(rep("", 11)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          mergeCells(wb=wb, sheet=sheetname, cols=1:11, rows={1})
+          addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize+8, fontColour="#3b1466", textDecoration="bold", fgFill="#ff4942"), rows=1, cols=1:11, stack=F)
+          setRowHeights(wb, sheet=sheetname, rows=1, heights=25)
+          
+          table_headers <- c("Analysis Group", "-", "Total", "Female", "Minority", "Black", "Hispanic", "Asian", "Am Ind.", "NHOPI", "Two Or More")
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=2, x={table_headers %>% matrix(., nrow=1)}, colNames=F, rowNames=F)
+          addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+1, fontColour="white", fgFill="#3b1466", textDecoration="bold"), rows=2, cols=1:11, stack=T)
+          
+          startCol=1
+          startRow=3
+          wbdf %>% split(., .$analysis_grouping_numbered) %>% lapply(., function(d){ #{(d=wbdf %>% split(., .$analysis_grouping) %>% .[[3]])}
+            ANALYSIS_GROUP <- d$analysis_grouping %>% unique() %>% .[[1]]
+            external_wt <- d %>% filter(source=="external") %>% .$weight %>% replace_na(0) #%>% scales::percent()
+            internal_wt <- d %>% filter(source=="internal_feeder") %>% .$weight %>% replace_na(0)# %>% scales::percent()
+            total_wt <- c({external_wt} + {internal_wt})# %>% scales::percent()
+            
+            external_ns <- d %>% filter(source=="external") %>% select(one_of("total_n", "female_n", "minority_n", "black_n", "hisp_n", "asian_n", "amind_n", "nhopi_n", "twoplus_n")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            internal_ns <- d %>% filter(source=="internal_raw") %>% select(one_of("total_n", "female_n", "minority_n", "black_n", "hisp_n", "asian_n", "amind_n", "nhopi_n", "twoplus_n")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            
+            external_raw_pcts <- d %>% filter(source=="external") %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            internal_raw_pcts <- d %>% filter(source=="internal_raw") %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            
+            external_wtd_pcts <- d %>% filter(source=="external") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0) #%>% scales::percent()
+            internal_wtd_pcts <- d %>% filter(source=="internal_raw") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)# %>% scales::percent()
+            
+            total_wtd_pcts <- d %>% filter(source=="external_internal_feeder_combined") %>% select(one_of("female_pct_wtd", "minority_pct_wtd", "black_pct_wtd", "hisp_pct_wtd", "asian_pct_wtd", "amind_pct_wtd", "nhopi_pct_wtd", "twoplus_pct_wtd")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0) #%>% scales::percent()
+            
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow, colNames=F, rowNames=F, x={c(ANALYSIS_GROUP, "Workforce Numbers", internal_ns) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+.5, fontColour="black", numFmt="0"), rows=startRow, cols=3:11, stack=T)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+1, colNames=F, rowNames=F, x={c("", "Workforce Percentages", "-", internal_raw_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+.5, fontColour="black", numFmt="0.00%", textDecoration="bold"), rows=startRow+1, cols=3:11, stack=T)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+2, colNames=F, rowNames=F, x={c("", "Availability Percentages", "-", total_wtd_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            mergeCells(wb=wb, sheet=sheetname, cols=1, rows={(startRow):(startRow+2)})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", textDecoration="bold", fgFill="#ebebeb"), rows=startRow:(startRow+2), cols=1, stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="left", fontSize=baseFontSize, fontColour="black"), rows=startRow:(startRow+2), cols=2, stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(border="bottom", borderColour="#CABFD7", borderStyle="thin"), rows=startRow+2, cols=1:nCols, stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+.5, fontColour="black", numFmt="0.00%", textDecoration="bold"), rows=startRow+2, cols=3:11, stack=T)
+            
+            
+            # startCol <<- startCol+9
+            startRow <<- startRow+3
+            
+          })
+          colwidthplus=0; maxcolwidth=20
+          width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
+          width_vec2 <- names(wbdf) %>% sapply(., function(x){
+            xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
+            # xw <- map_chr(strsplit(x, " |[[:space:]]|-|\\."), ~ .[which.max(nchar(.))])
+            xw+1+colwidthplus
+          })
+          width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(maxcolwidth, n, na.rm=T)})
+          # openxlsx::
+          setColWidths(wb, sheet=sheetname, cols=1, widths=15)
+          setColWidths(wb, sheet=sheetname, cols=2, widths=width_vec[2])
+          setColWidths(wb, sheet=sheetname, cols=c(3:11), widths=13.5)
+          setHeaderFooter(wb, sheet=sheetname, header=NULL, footer=c('&K9D89B2&"Georgia"&9Jackson Lewis PC', '', '&Kb5b3b3&"Georgia"&9Privileged and Confidential'))
+          fitToHeight <- if(length(wb$worksheets[[2]]$`.->sheet_data`$cols)<500){T} else {F}
+          pageSetup(wb, sheet=sheetname, orientation="landscape", left=.5, right=.5, top=.5, bottom=.5, header=0, fitToWidth=T, fitToHeight=fitToHeight)
+          
+        } else if(sheetname=="ACS"){
+          nCols=11
+          # openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c(("Krispy Kreme - External Availability" %>% {if(WTD_OCCPS){paste0(., " (WTD OCCPs)")} else {.}}), rep("", 10)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=1, x={c(("Krispy Kreme - External Availability"), rep("", 10)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          mergeCells(wb=wb, sheet=sheetname, cols=1:11, rows={1})
+          addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize+8, fontColour="#3b1466", textDecoration="bold", fgFill="#ff4942"), rows=1, cols=1:nCols, stack=F)
+          setRowHeights(wb, sheet=sheetname, rows=1, heights=25)
+          openxlsx::writeData(wb, sheet=sheetname, startCol=1, startRow=2, x={c(rep("", nCols)) %>% as.matrix() %>% t()}, colNames=F, rowNames=F)
+          
+          startCol=1
+          startRow=3
+          wbdf %>% split(., .$analysis_grouping_numbered) %>% lapply(., function(d){ #{(d=wbdf %>% split(., .$analysis_grouping_numbered) %>% .[[2]])}
+            d <- d %>% filter(source %in% c("external", "external_wtd")) %>% select(-one_of("feeder_grouping", "year"))
+            ANALYSIS_GROUP <- d$analysis_grouping %>% unique() %>% .[[1]]
+            LABOR_AREA <- d$geo %>% na.omit() %>% unique() %>% .[[1]] %>% tools::toTitleCase()
+            if(LABOR_AREA=="State"){
+              LABOR_AREA <- paste0(LABOR_AREA, " (", unique_sep_sort(paste0(toupper(unique(d$state)), collapse="; "), "; "), ")")
+            }
+            
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="#ff4942", fgFill="#c9c9c9"), rows=startRow, cols=1, stack=T)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow, colNames=F, rowNames=F, x={c("Analysis Group:", ANALYSIS_GROUP, rep("", 9)) %>% as.matrix() %>% t()})
+            mergeCells(wb=wb, sheet=sheetname, cols=2:nCols, rows={startRow})
+            addStyle(wb, sheet=sheetname, style=createStyle(fontName="Georgia", wrapText=T, valign="center", halign="center", fontSize=baseFontSize+4, fontColour="#ff4942", fgFill="#c9c9c9", textDecoration="bold"), rows=startRow, cols=2:nCols, stack=T)
+            setRowHeights(wb, sheet=sheetname, rows=(startRow), heights=21)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+1, colNames=F, rowNames=F, x={c("Labor Area:", LABOR_AREA, rep("", 9)) %>% as.matrix() %>% t()})
+            mergeCells(wb=wb, sheet=sheetname, cols=2:nCols, rows={startRow+1})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="left", fontSize=baseFontSize+1, fontColour="white", fgFill="#3b1466", textDecoration="bold"), rows=startRow+1, cols=1:nCols, stack=T)
+            setRowHeights(wb, sheet=sheetname, rows=(startRow+1), heights=21)
+            
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow+2, colNames=F, rowNames=F, x={c("Component Weight", "-", "Total", "Female", "Minority", "Black", "Hispanic", "Asian", "Am Ind.", "NHOPI", "Two Or More") %>% as.matrix() %>% t()})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+1, fontColour="white", fgFill="#3b1466", textDecoration="bold"), rows=startRow+2, cols=1:nCols, stack=T)
+            
+            startCol_b=1
+            startRow_b<<-startRow+3
+            d %>% filter(source=="external") %>%
+              split(., .$occp) %>% lapply(., function(d_b){ #{(d_b <- d %>% filter(source=="external") %>% split(., .$occp) %>% .[[1]])}
+                CENSUS_OCCUPATIONAL_TITLE <- paste0("Census Occupational Title: ", unique(d_b$occp), " - ", unique(d_b$occp_description))
+                COMPONENT_WEIGHT <- d_b$occp_wts
+                external_ns <- d_b %>% select(one_of("total_n", "female_n", "minority_n", "black_n", "hisp_n", "asian_n", "amind_n", "nhopi_n", "twoplus_n")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)
+                external_raw_pcts <- d_b %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct")) %>% slice(1) %>% unlist() %>% as.numeric() %>% replace_na(0)
+                
+                openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow_b+0, colNames=F, rowNames=F, x={c(CENSUS_OCCUPATIONAL_TITLE, rep("", 10)) %>% matrix(nrow=1) %>% as_tibble()  })
+                mergeCells(wb=wb, sheet=sheetname, cols=1:nCols, rows={startRow_b+0})
+                addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="left", fontSize=baseFontSize+1, fontColour="#3b1466", fgFill="#ebebeb", textDecoration=c("bold", "italic")), rows=startRow_b+0, cols=1:nCols, stack=T)
+                setRowHeights(wb, sheet=sheetname, rows=(startRow_b+0), heights=16)
+                
+                openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow_b+1, colNames=F, rowNames=F, x={c(COMPONENT_WEIGHT, "Population", external_ns) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+                addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="bottom", halign="center", fontSize=baseFontSize, fontColour="black", numFmt="0.00%"), rows=(startRow_b+1), cols=c(1), stack=T)
+                addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", numFmt="0"), rows=(startRow_b+1), cols=c(3:nCols), stack=T)
+                mergeCells(wb=wb, sheet=sheetname, cols=1, rows={(startRow_b+1):(startRow_b+2)})
+                
+                openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow_b+2, colNames=F, rowNames=F, x={c("", "Percentage", "-", external_raw_pcts) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+                addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize, fontColour="black", numFmt="0.00%"), rows=(startRow_b+2), cols=c(3:nCols), stack=T)
+                
+                startRow_b <<- startRow_b+3
+              })
+            startRow <<- startRow_b
+            final_external_availability <- d %>% filter(source=="external_wtd") %>% select(one_of("female_pct", "minority_pct", "black_pct", "hisp_pct", "asian_pct", "amind_pct", "nhopi_pct", "twoplus_pct"))
+            openxlsx::writeData(wb, sheet=sheetname, startCol=startCol, startRow=startRow_b, colNames=F, rowNames=F, x={c("Final External Availability", rep("", 2), final_external_availability) %>% matrix(nrow=1) %>% as_tibble() %>% mutate_all(., function(v){if(lookslike_number(v, include_decimal=T)){as.numeric(v)} else {v}})  })
+            mergeCells(wb=wb, sheet=sheetname, cols=1:3, rows={startRow_b})
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+1, fontColour="white", fgFill="#3b1466", textDecoration="bold"), rows=startRow_b, cols=1:3, stack=T)
+            addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T, valign="center", halign="center", fontSize=baseFontSize+1, fontColour="white", fgFill="#3b1466", textDecoration="bold", numFmt="0.00%"), rows=startRow_b, cols=3:nCols, stack=T)
+            
+            startRow <<- startRow+2
+            
+          })
+          
+          colwidthplus=0; maxcolwidth=20
+          width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
+          width_vec2 <- names(wbdf) %>% sapply(., function(x){
+            xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
+            xw+1+colwidthplus
+          })
+          width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(maxcolwidth, n, na.rm=T)})
+          setColWidths(wb, sheet=sheetname, cols=1, widths=19)
+          setColWidths(wb, sheet=sheetname, cols=2, widths=11)
+          setColWidths(wb, sheet=sheetname, cols=c(3:nCols), widths=12.7)
+          setHeaderFooter(wb, sheet=sheetname, header=NULL, footer=c('&K9D89B2&"Georgia"&9Jackson Lewis PC', '', '&Kb5b3b3&"Georgia"&9Privileged and Confidential'))
+          fitToHeight <- if(length(wb$worksheets[[3]]$`.->sheet_data`$cols)<500){T} else {F}
+          pageSetup(wb, sheet=sheetname, orientation="landscape", left=.5, right=.5, top=.5, bottom=.5, header=0, fitToWidth=T, fitToHeight=fitToHeight)
+          
+        }
+      }
+      activeSheet(wb) <- 1
+      # openxlsx::
+      saveWorkbook(wb, filename, overwrite=TRUE)
+      if(open_file){system_open(filename)}
+      if(load_unload_openxlsx){unload_pkg("openxlsx")}
+      # wbdf
+      # x
+    }
+    
     
   }
   

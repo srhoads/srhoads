@@ -1464,13 +1464,11 @@ recode_na_list <- list(
   "NA" = c("NATOEVERYONE", "malefemalerace", "malefemale", "femalemale")
 )
 
-#' A function
+#' A function to turn a vector of values into a list to use in recoding values to NAs
 #' @export
 #' @examples
-#' recode_na_vec()
-recode_na_vec <- function(vec, 
-                          recode_list = recode_na_list, 
-                          extra = NULL, recode_na_getridofstrregex=NULL) {
+#' recode_na_vec(vec, recode_list = recode_na_list, extra = NULL, recode_na_getridofstrregex=NULL)
+recode_na_vec <- function(vec, recode_list = recode_na_list, extra = NULL, recode_na_getridofstrregex=NULL) {
   recode_key <- lapply(
     names(recode_list), 
     function(x) {
@@ -1485,11 +1483,11 @@ recode_na_vec <- function(vec,
   vec
 }
 
-#' A function
+#' A function to recode specified values into NAs
 #' @export
 #' @examples
-#' recode_na(x)
-recode_na <- function(x){
+#' recode_na_old(x)
+recode_na_old <- function(x){
   if(is.data.frame(x) | is.list(x)) x %<>% lapply(., recode_na_vec) %>% data.frame(., stringsAsFactors=F)
   else x %<>% recode_na_vec(x)
   x
@@ -2165,7 +2163,7 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 #' This function allows you to trim whitespace but also remove double spaces
 #' @export
 #' @examples
-#' trimws_(v, which='both', doublespace=T)
+#' trimws_(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F)
 trimws_ <- function(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F){
   vlevels <- levels(v)
   vclass <- class(v)
@@ -2623,7 +2621,10 @@ depth <- function(this,thisdepth=0){
 #' @export
 #' @examples
 #' lookslike_number(v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F)
-lookslike_number <- function (v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F) {
+lookslike_number <- function (v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F) {#{v=c("-1", "2.4", "sfs 242.1", "4.875e-05")}
+  vb <- suppressWarnings(as.numeric(v))
+  v <- ifelse(!is.na(vb), 1, "NOT_A_NUMBER")
+  
   if (include_decimal) {
     v <- gsub("[\\.|[:digit:]]", "", v) %>% na_if(., "")
   } else {
@@ -2656,22 +2657,25 @@ is.upper <- function(v) grepl('[[:upper:]]', v) & !grepl('[[:lower:]]', v)
 #' is.lower()
 is.lower <- function(v) grepl('[[:lower:]]', v) & !grepl('[[:upper:]]', v)
 
-#' A function
+#' A function to determine if a string or vector is of date type
 #' @export
 #' @examples
-#' is_datetype1()
-is_datetype1 <- function(v) ifelse(is.na(lubridate::parse_date_time(v, orders = c("mdy", "dmy"))), F, T)
+#' is_datetype1(v)
+is_datetype1 <- function(v) {ifelse(is.na(lubridate::parse_date_time(v, orders = c("mdy", "dmy"))), F, T)}
 
-#' A function
+#' A function to manipulate a string or vector into date format
 #' @export
 #' @examples
-#' as.date.varioustypes(statevec)
-as.date.varioustypes <- function(v){
-  v %>% unlist() %>%
-    gsub("\\.", " ", .) %>%
+#' as.date.varioustypes(v, include_time=F)
+as.date.varioustypes <- function(v, include_time=F){
+  if(!include_time){
+    v <- v %>% unlist() %>%
+      gsub("\\.", " ", .)
+  } 
+  v %>%
     trimws_() %>%
     ifelse(is_datetype1(.), as.character(lubridate::parse_date_time(., orders = c("mdy", "dmy"))), .) %>%
-    ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.))), .)
+    ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.), include_time=include_time)), .)
 }
 
 #' A function to change state names to abbreviations if there are already abbreviation in the vector, so mixed types
@@ -2747,25 +2751,71 @@ summary_factor <- function(x, maxsum=7){
   })
 }
 
-#' Samantha Rhoads's function to...
+#' Samantha Rhoads's function to summarize an object in R, but in a more meaningful way than the summary() function
 #' @export
 #' @examples
 #' sumry(x, maxsum=7)
-sumry <- function(x, maxsum=7) {
+sumry <- function(x, maxsum=7, maxmin=F) {
   if (is.data.frame(x)) {
     # x[["____________"]] <- paste0("Total Columns Summarized:", ncol(x), "; Total # of Rows")
     x[["____________"]] <- paste0("Total # of Rows")
+    x[["________________"]] <- ncol(x)
     # x <- dplyr::select(x, one_of("____________"), everything())
     if(all(is.na(maxsum))){
       maxsum <- nrow(x)
     }
-    x_sumry <- summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) 
+    # x_sumry <- summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) 
+    x2 <- dplyr::mutate_if(x, is.character, as.factor)
+    if(maxmin){
+      # x2 <- x2 %>% sapply(., function(v){if(is.factor(v)){c( v[v %in% sort(v)[1:ceiling(maxsum/2)]],   v[v %in% rev(sort(v))[1:floor(maxsum/2)]] )} else {v} })
+      # x2 <- x2 %>% mutate_all(., function(v){if(is.factor(v)){c( v[v %in% sort(v)[1:ceiling(maxsum/2)]],   v[v %in% rev(sort(v))[1:floor(maxsum/2)]], v[!v %in% c(sort(v)[1:ceiling(maxsum/2)], rev(sort(v))[1:floor(maxsum/2)])  ] )} else {v} })
+      x2 <- x2 %>% mutate_if(is.factor, function(v){
+        if(length(unique(v))>=maxsum){
+          v0 <- as.character(v)
+          v1 <- as.factor(ifelse(v0 %in% c( v[v %in% sort(unique(v))[1:floor((maxsum-1)/2)]],   v[v %in% rev(sort(unique(v)))[1:floor((maxsum-1)/2)]] ), v0, "~~~other values~~~") )
+        } else {
+          v1 <- v
+        }
+        v1
+      })
+    }
+    
+    x_sumry <- summary(x2, maxsum)
+    
+    x_sumry[[(length(x_sumry)-6)]] <- gsub("Min\\..*\\:", "Total # of Columns:", x_sumry[[(length(x_sumry)-6)]])
+    for(i in c((length(x_sumry)-5):(length(x_sumry)-1))){
+      x_sumry[[i]] <- ""
+    }
+
     x[["____________"]] <- NULL
+    x[["________________"]] <- NULL
     return(x_sumry)
+  } else if(is.vector(x)){
+    
+    v <- {if(is.character(x)) {as.factor(x)} else {x}}
+    if(maxmin){
+      v <- x
+      if(length(unique(v))>=maxsum){
+        v0 <- as.character(v)
+        v1 <- as.factor(ifelse(v0 %in% c( v[v %in% sort(unique(v))[1:floor((maxsum-1)/2)]],   v[v %in% rev(sort(unique(v)))[1:floor((maxsum-1)/2)]] ), v0, "~~~other values~~~") )
+      } else {
+        v1 <- v
+      }
+      
+    } else {
+      v1 <- v
+    }
+    
+    x_sumry <- summary(v1, maxsum)
+    
   } else {
-    summary(if(is.character(x)) as.factor(x) else x, maxsum)
+    x_sumry <- summary(x, maxsum)
   }
+  return(x_sumry)
 }
+
+
+
 
 #' Samantha Rhoads's function to...
 #' @export
@@ -4236,7 +4286,7 @@ select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
 #' @export
 #' @examples x <- as.list(iris); select_matches(x, pat="Petal"); v <- iris$Species; select_matches(v, pat="versi")
 #' select_matches(x, pat=".*", invert=F, ignore.case=F)
-select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F){
+select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F, escape_chars_in_pattern=F){
   pattern <- pat
   `%>%` <- magrittr::`%>%`
   if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
@@ -4287,14 +4337,24 @@ select_matches_everything <- function (x, pat = ".*", invert = F, ignore.case = 
 #' @export
 #' @examples
 #' setdiff_(x, y, printWhichOnly=F)
-setdiff_ <- function(x, y, printWhichOnly=F){
+setdiff_ <- function(x, y, returnWhichOnly=T, printWhichOnly=F, sortItems=F){
   xonly <- setdiff(x, y)
   yonly <- setdiff(y, x)
+  if(sortItems){
+    xonly <- sort(xonly)
+    yonly <- sort(yonly)
+  }
   if(printWhichOnly){
     if(length(xonly>0)) catn("xonly: ", paste0(xonly, collapse="        "))
     if(length(yonly>0)) catn("yonly: ", paste0(yonly, collapse="        "))
   }
-  unique(c(xonly, yonly))
+  if(returnWhichOnly){
+    res <- list(xonly=xonly,
+                yonly=yonly)
+  } else {
+    res <- unique(c(xonly, yonly))
+  }
+  res
 }
 
 
@@ -5225,7 +5285,7 @@ clean_unique_na_sep <- function(v, sep=",", sort_strings=F){
 }
 
 
-#' Samantha Rhoads's function to
+#' A function to recode specified values into NAs
 #' @export
 #' @examples
 #' recode_na(x, ...)
@@ -5282,12 +5342,14 @@ monthYear_to_dateRangeStr <- function(v = c('2020-01, 2020-02, 2020-03', '2020-0
 #' Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep
 #' @export
 #' @examples
-#' unique_sep_sort(v, sep = "; ")
-unique_sep_sort <- unique_sep_sort2 <- function (v, sep = "; ") {
+#' unique_sep_sort(v, sep = "; ", sort_str=T)
+unique_sep_sort <- function (v, sep = "; ", sort_str=T) {
   # splitv <- strsplit(v, sep)
   # uniqv <- lapply(splitv, function(x) sort(unique(x)))
   # lapply(uniqv, function(s) paste0(s, collapse = sep)) %>% dplyr::combine() %>% as.character()
-  splitv <- sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()
+  do_nothing_fxn <- function(x){x}
+  sort_custom_fxn <- if(sort_str==T){sort} else {do_nothing_fxn}
+  splitv <- sapply(v, function(s) {strsplit(s, sep) %>% unlist() %>% unique() %>% sort_custom_fxn() %>% paste0(., collapse=sep)}) %>% as.character()
   splitv
 }
 
@@ -5295,24 +5357,27 @@ unique_sep_sort <- unique_sep_sort2 <- function (v, sep = "; ") {
 #' @export
 #' @examples
 #' paste_unique_sep_sort(v, sep = "; ", collapse=sep)
-paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep) {
+paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep, sort_str=T) {
   v_ <- paste0(v, collapse=collapse)
-  unique_sep_sort(v_, sep=sep)
+  unique_sep_sort(v_, sep=sep, sort_str=sort_str)
 }
 
 #' Samantha Rhoads's function to summarize_all remaining columns in a grouped df by pasting their unique values
 #' @export
 #' @examples
 #' summarize_all_paste0(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F)
-summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
+summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, unique_sep_str=T, sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
   # lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
   # funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
   # summarise(.tbl, !!!funs)
+  do_nothing_fxn <- function(x){x}
+  sort_custom_fxn <- if(sort_str==T){sort} else {do_nothing_fxn}
+  
   d <- dplyr::summarize_all(.tbl, function(v){ 
-    v_ <- paste0(sort(unique(v)), collapse=collapse)
+    v_ <- paste0(sort_custom_fxn(unique(v)), collapse=collapse)
     
     if(unique_sep_sort_str){
-      v_ <- unique_sep_sort(v_, sep=collapse)
+      v_ <- unique_sep_sort(v_, sep=collapse, sort_str=sort_str)
     }
     if(length(recode_na_vals)>0){
       v_ <- recode_na(v_, recode_na_vals)
@@ -5460,6 +5525,126 @@ strip_accents <- function(v, id="Latin-ASCII"){
 bin_range <- function(v, n_groups=10){
   split(v,{cut(v,seq(min(v, na.rm=T)-1,max(v, na.rm=T),length.out=n_groups))})
 }
+
+#' Samantha Rhoads's function to delete a directory and all of its contents
+#' @export
+#' @examples
+#' remove_dir(path)
+remove_dir <- function(path){
+  subfiles_to_remove <- list.files(path, recursive=T, full.names=T)
+  for(filename in subfiles_to_remove){
+    file.remove(filename)
+  }
+  file.remove(path)
+}
+
+#' Samantha Rhoads's function to select columns from a dataframe based on colname match and data contents match
+#' @export
+#' @examples
+#' select_at_if(d, colname_pattern=vars(everything()), data_pattern=function(x){T}, condition=c("or", "and")[1] )
+select_at_if <- function(d, colname_pattern=vars(everything()), data_pattern=function(x){T}, condition=c("or", "and")[1] ){
+  data_selected_at <- d %>% select_at(colname_pattern)
+  data_selected_if <- d %>% select_if(data_pattern)
+  if(tolower(condition) %in% c("and", "&")){
+    data_selected_if <- data_selected_at %>% select_at(colname_pattern)
+  }
+  colnames_union <- union(names(data_selected_at), names(data_selected_if))
+  data_selected <- select(d, any_of(colnames_union))
+  return(data_selected)
+}
+
+#' Samantha Rhoads's function to find the max date appropriately, without getting Inf when there are NAs
+#' @export
+#' @examples
+#' max_date(dates, include_time=T, na.rm=T)
+max_date <- function(dates, include_time=T, na.rm=T){
+  if(include_time){
+    if_else(!all(is.na(lubridate::as_datetime(dates))), max(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+  } else {
+    if_else(!all(is.na(lubridate::as_date(dates))), max(lubridate::as_date(dates), na.rm=na.rm), lubridate::as_date(NA))
+  }
+}
+max_datetime <- function(dates, na.rm=T){
+  if_else(!all(is.na(lubridate::as_datetime(dates))), max(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+}
+
+#' Samantha Rhoads's function to find the min date appropriately, without getting Inf when there are NAs
+#' @export
+#' @examples
+#' min_date(dates, include_time=T, na.rm=T)
+min_date <- function(dates, include_time=T, na.rm=T){
+  if(include_time){
+    if_else(!all(is.na(lubridate::as_datetime(dates))), min(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+  } else {
+    if_else(!all(is.na(lubridate::as_date(dates))), min(lubridate::as_date(dates), na.rm=na.rm), lubridate::as_date(NA))
+  }
+}
+
+min_datetime <- function(dates, na.rm=T){
+  if_else(!all(is.na(lubridate::as_datetime(dates))), min(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+}
+
+#' Samantha Rhoads's function to set names to a specific row and concatenate the contents above into the names
+#' @export
+#' @examples
+#' set_names_skip_rows_until_match_concat(d, example_colname="Employee ID")
+set_names_skip_rows_until_match_concat <- function(d, example_colname="Employee ID"){
+  # example_colname <- "Employee ID"
+  doEvenIfColnameIsAlreadyIt=F; check_n_rows=100; concat_all_prior_rows=T
+  if (!(example_colname %in% names(d))|doEvenIfColnameIsAlreadyIt) {
+    colnames_rownum <- grep_all_df(example_colname, d[1:check_n_rows, ], rownums_only=T)[1]
+    if(concat_all_prior_rows){
+      if(length(colnames_rownum)>0&!is.na(colnames_rownum)){
+        # if(colnames_rownum>0){
+        prior_rows <- 1:(colnames_rownum)
+        dNewNames <- d %>% 
+          slice(prior_rows) %>% 
+          group_by() %>% 
+          summarize_all_paste0(., collapse="__") %>% 
+          ungroup() %>% 
+          unlist() %>%  
+          as.character() %>% 
+          replace_na(., "NA.0") %>% 
+          make.unique()
+        # }
+      }
+    } else {
+      dNewNames <- as.character(d[colnames_rownum, ]) %>% 
+        gsub('^$|\\`', 'UNNAMED', .) %>% 
+        replace_na(., "NA.0") %>% 
+        make.unique()
+    }
+    if ((length(colnames_rownum)>0)&!is.na(colnames_rownum)) {
+      d2 <- d %>% 
+        setNames(dNewNames) %>% 
+        slice(-(1:colnames_rownum))
+    } else {
+      d2 <- d
+    }
+    d2
+  } else {
+    d2 <- d
+  }
+  d2 #%>% janitor::clean_names() 
+}
+
+#' Samantha Rhoads's function to fill in missing values with the value directly above the given cell with an NA in a specific column of a dataframe
+#' @export
+#' @examples
+#' set_names_skip_rows_until_match_concat(d, example_colname="Employee ID")
+recode_lag_while_NAs <- function(x, colname="eeid"){
+  if(is.data.frame(x)){
+    while(any(is.na(x[[colname]]))){
+      x[[colname]] <- if_else(!is.na(x[[colname]]), x[[colname]], lag(x[[colname]]))
+    }
+  } else {
+    while(any(is.na(x))){
+      x <- if_else(!is.na(x), x, lag(x))
+    }
+  }
+  return(x)
+}
+
 
 ###################################################################################################################################################
 
