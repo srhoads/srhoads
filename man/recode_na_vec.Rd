@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{recode_na_vec}
 \alias{recode_na_vec}
-\title{A function}
+\title{A function to turn a vector of values into a list to use in recoding values to NAs}
 \usage{
 recode_na_vec(
   vec,
@@ -12,8 +12,8 @@ recode_na_vec(
 )
 }
 \description{
-A function
+A function to turn a vector of values into a list to use in recoding values to NAs
 }
 \examples{
-recode_na_vec()
+recode_na_vec(vec, recode_list = recode_na_list, extra = NULL, recode_na_getridofstrregex=NULL)
 }

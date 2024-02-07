@@ -748,285 +748,6 @@ def four_split(s):
     return [s[idx:idx + 2] for idx, val in enumerate(s) if idx%2 == 0]
 
 
-def clean_feature_nosplit(x, front=False, end=False):
-    features = []
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature_nosplit(xi))
-    else:
-        x = "".join([ c if (c.isalnum() and (not c.isdigit())) else "" for c in x.lower()])
-        features.append(" ".join(no_split(x)))
-    if front:
-        features = [(feature.split(" ")[-0] + "FRONT!11one!1 ") + feature for feature in features]
-    if end:
-        features = [feature + (" " + feature.split(" ")[-1] + "END!11one!1") for feature in features]    
-    return features
-def clean_feature_1split(x, front=False, end=False):
-    features = []
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature_1split(xi))
-    else:
-        x = "".join([ c if (c.isalnum() and (not c.isdigit())) else "" for c in x.lower()])
-        features.append(" ".join(one_split(x)))
-    if front:
-        features = [(feature.split(" ")[-0] + "FRONT!11one!1 ") + feature for feature in features]
-    if end:
-        features = [feature + (" " + feature.split(" ")[-1] + "END!11one!1") for feature in features]    
-    return features
-def clean_feature_2split(x, front=False, end=False):
-    features = []
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature_2split(xi))
-    else:
-        x = "".join([ c if (c.isalnum() and (not c.isdigit())) else "" for c in x.lower()])
-        features.append(" ".join(two_split(x)))
-    if front:
-        features = [(feature.split(" ")[-0] + "FRONT!11one!1 ") + feature for feature in features]
-    if end:
-        features = [feature + (" " + feature.split(" ")[-1] + "END!11one!1") for feature in features]    
-    return features
-def clean_feature_3split(x, front=False, end=False):
-    features = []
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature_3split(xi))
-    else:
-        x = "".join([ c if (c.isalnum() and (not c.isdigit())) else "" for c in x.lower()])
-        features.append(" ".join(three_split(x)))
-    if front:
-        features = [(feature.split(" ")[-0] + "FRONT!11one!1 ") + feature for feature in features]
-    if end:
-        features = [feature + (" " + feature.split(" ")[-1] + "END!11one!1") for feature in features]    
-    return features
-def clean_feature_4split(x, front=False, end=False):
-    features = []
-    if isinstance(x, list) or isinstance(x, np.ndarray):
-        for xi in x:
-            features.extend(clean_feature_4split(xi))
-    else:
-        x = "".join([ c if (c.isalnum() and (not c.isdigit())) else "" for c in x.lower()])
-        features.append(" ".join(four_split(x)))
-    if front:
-        features = [(feature.split(" ")[-0] + "FRONT!11one!1 ") + feature for feature in features]
-    if end:
-        features = [feature + (" " + feature.split(" ")[-1] + "END!11one!1") for feature in features]    
-    return features
-
-def get_my_x_1122split(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xb + " "
-    x3 = xa + " "
-    x4 = xb + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus4 = list(x3.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_1split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_2split(corpus3, front=front, end=end)
-    corpus_clean4 = clean_feature_2split(corpus4, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_tagged4 = pd.DataFrame([re.sub(" ", "_TAGNUM4!! ", xx) for xx in corpus_clean4])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3, corpus_tagged4], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
- 
-def get_my_x_112233nonosplit(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xb + " "
-    x3 = xa + " "
-    x4 = xb + " "
-    x5 = xa + " "
-    x6 = xb + " "
-    x7 = xa + " "
-    x8 = xb + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus4 = list(x4.values.flatten())
-    corpus5 = list(x5.values.flatten())
-    corpus6 = list(x6.values.flatten())
-    corpus7 = list(x7.values.flatten())
-    corpus8 = list(x8.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_1split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_2split(corpus3, front=front, end=end)
-    corpus_clean4 = clean_feature_2split(corpus4, front=front, end=end)
-    corpus_clean5 = clean_feature_3split(corpus5, front=front, end=end)
-    corpus_clean6 = clean_feature_3split(corpus6, front=front, end=end)
-    corpus_clean7 = clean_feature_nosplit(corpus7, front=front, end=end)
-    corpus_clean8 = clean_feature_nosplit(corpus8, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_tagged4 = pd.DataFrame([re.sub(" ", "_TAGNUM4!! ", xx) for xx in corpus_clean4])
-    corpus_tagged5 = pd.DataFrame([re.sub(" ", "_TAGNUM5!! ", xx) for xx in corpus_clean5])
-    corpus_tagged6 = pd.DataFrame([re.sub(" ", "_TAGNUM6!! ", xx) for xx in corpus_clean6])
-    corpus_tagged7 = pd.DataFrame([re.sub(" ", "_TAGNUM7!! ", xx) for xx in corpus_clean7])
-    corpus_tagged8 = pd.DataFrame([re.sub(" ", "_TAGNUM8!! ", xx) for xx in corpus_clean8])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3, corpus_tagged4, corpus_tagged5, corpus_tagged6, corpus_tagged7, corpus_tagged8], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
-          
- 
-def get_my_x_112233split(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xb + " "
-    x3 = xa + " "
-    x4 = xb + " "
-    x5 = xa + " "
-    x6 = xb + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus4 = list(x4.values.flatten())
-    corpus5 = list(x5.values.flatten())
-    corpus6 = list(x6.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_1split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_2split(corpus3, front=front, end=end)
-    corpus_clean4 = clean_feature_2split(corpus4, front=front, end=end)
-    corpus_clean5 = clean_feature_3split(corpus5, front=front, end=end)
-    corpus_clean6 = clean_feature_3split(corpus6, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_tagged4 = pd.DataFrame([re.sub(" ", "_TAGNUM4!! ", xx) for xx in corpus_clean4])
-    corpus_tagged5 = pd.DataFrame([re.sub(" ", "_TAGNUM5!! ", xx) for xx in corpus_clean5])
-    corpus_tagged6 = pd.DataFrame([re.sub(" ", "_TAGNUM6!! ", xx) for xx in corpus_clean6])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3, corpus_tagged4, corpus_tagged5, corpus_tagged6], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
-          
-def get_my_x_123nosplit(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xa + " "
-    x3 = xa + " "
-    x4 = xa + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus4 = list(x4.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_2split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_3split(corpus3, front=front, end=end)
-    corpus_clean4 = clean_feature_nosplit(corpus4, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_tagged4 = pd.DataFrame([re.sub(" ", "_TAGNUM4!! ", xx) for xx in corpus_clean4])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3, corpus_tagged4], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
-        
-def get_my_x_123split(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xa + " "
-    x3 = xa + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_2split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_3split(corpus3, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
-          
-def get_my_x_1234split(x, front=False, end=False, matrix=True):
-    xa = pd.DataFrame(space_split(x))[0]
-    xb = pd.DataFrame(space_split(x))[1]
-    x1 = xa + " "
-    x2 = xa + " "
-    x3 = xa + " "
-    x4 = xa + " "
-    corpus1 = list(x1.values.flatten())
-    corpus2 = list(x2.values.flatten())
-    corpus3 = list(x3.values.flatten())
-    corpus4 = list(x4.values.flatten())
-    corpus_clean1 = clean_feature_1split(corpus1, front=front, end=end)
-    corpus_clean2 = clean_feature_2split(corpus2, front=front, end=end)
-    corpus_clean3 = clean_feature_3split(corpus3, front=front, end=end)
-    corpus_clean4 = clean_feature_4split(corpus4, front=front, end=end)
-    corpus_tagged1 = pd.DataFrame([re.sub(" ", "_TAGNUM1!! ", xx) for xx in corpus_clean1])
-    corpus_tagged2 = pd.DataFrame([re.sub(" ", "_TAGNUM2!! ", xx) for xx in corpus_clean2])
-    corpus_tagged3 = pd.DataFrame([re.sub(" ", "_TAGNUM3!! ", xx) for xx in corpus_clean3])
-    corpus_tagged4 = pd.DataFrame([re.sub(" ", "_TAGNUM4!! ", xx) for xx in corpus_clean4])
-    corpus_clean = pd.concat([corpus_tagged1, corpus_tagged2, corpus_tagged3, corpus_tagged4], axis = 1).apply(lambda x: ' '.join(x), axis = 1)
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit(corpus_clean)
-    if matrix:
-        return X.transform(corpus_clean).toarray()
-    else:
-        return lambda y: X.transform(clean_feature_2split(y, front=front, end=end)).toarray()
-    
-# nrg4 = nrg = pd.read_csv("/Users/srhoads/GitHub/old/name_race_gender/nrg4.csv",  encoding='latin-1')
-# nrg_nona = nrg4.dropna(subset=["firstname3", "lastname3", "race_binary"])
-      
-# xformer = get_my_x_1122split(nrg_nona['name12_first_space_last'], front=True, end=True, matrix = False)
-def predict_race(x, model, xformer):
-    prediction = float(model.predict(xformer(x)))
-    if prediction == 0.0:
-        return "Minority"
-    elif prediction == 1.0:
-        return "Non-Minority"
-    else:
-        return "Who Knows"    
-
-# nrg4 = nrg = pd.read_csv("/Users/srhoads/Documents/GitHub/name_race_gender/nrg4.csv",  encoding='latin-1')
-# nrg_nona = nrg4.dropna(subset=["firstname3", "gender_num"])
-    
-# xformer = get_my_x_1122split(nrg_nona['name12_first_space_last'], front=True, end=True, matrix = False)
-def predict_gender(x, model, xformer):
-    prediction = float(model.predict(xformer(x)))
-    if prediction == 0.0:
-        return "Female"
-    elif prediction == 1.0:
-        return "Male"
-    else:
-        return "Ambiguous or Androgynous" 
-
-
-
-
-
 
 ################################### HELPER FUNCTIONS (diversity-planning-project) (2021-04-12) ###################################
 
@@ -1245,114 +966,6 @@ def sql_list_colnames(cursor, table_name="clientmanagement_client"):
     colnames = [x[3] for x in colnamesplusdata]
     return colnames
 
-def crosswalk_occp_codes(pdcolumn):
-    # newcolumn = pdcolumn.apply(str).str.replace('^(3850|3860)$', '3870', regex=True)
-    # df = pd.DataFrame({'occp': ['1107', '9520', '0430', '8860', '0010', '8965', '2000', '3860', '2000 3860']}); pdcolumn = df.occp
-    pdcolumn = pd.Series(pdcolumn) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
-    pdcolumn = pd.Series([recode_0s_pad_str(s.strip()) for s in pdcolumn])
-    newcolumn = pdcolumn.replace({
-        '0030':'0010',
-        '0130':'0135, 0136, 0137',
-        '0200':'0205', '0210':'0205',
-        '0320':'4465, 0430',
-        '0400':'0430',
-        '0560':'0565, 3945',
-        '0620':'0630, 0640, 0650',
-        '0720':'0725',
-        '0730':'0735, 0740',
-        '1000':'1005, 1006',#, 1107',
-        '1107':'0705, 1108, 1065, 1022, 1032',
-
-        '1040':'1050','1100':'1105',
-        '1110':'1106, 1007, 1030',
-        '1210':'1240','1230':'1240','1500':'1520','1510':'1530','1810':'0735', '1830':'1860',
-        '1940':'1935', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-        '1950':'1970', #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-        '1960':'1950, 1965',
-        '2020':'2015, 2016, 2025',
-        '2110':'2100','2140':'2145','2150':'2160','2820':'2825',
-        '3130':'3255, 3256, 3258',
-        '3240':'3245','3410':'3420','3530':'3535',
-        '3650':'3645, 3646, 3647, 3648, 3649, 3655',
-        '3830':'3840','3920':'3930', '3950':'3955',
-        '4550':'9050, 9415',
-        '4960':'4965',
-        '5130':'5165',#, 4400', 
-        '5200':'5420',#{fuzzy_match_occps("Gaming/Gamblind Cage Workers",.05); fuzzy_match_occps("Brokerage Clerks",.05)}
-
-        '5210':'5350',
-        '5830':'5940, 5165',
-        '5930':'5940', #???	'Office and Administrative Support Workers, All Other'
-        '6000':'6005','6020':'6050','6350':'6355',
-        '6500':'6220',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-        '6510':'6515',
-        '6750':'6765', '6760':'6765',
-        '6920':'6800','7050':'7100',
-        '7110':'7100',#'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-        '7310':'7315','7520':'7630',
-        '7550':'7640', # ???? 'Manufactured Building and Mobile Home Installers' #'https://www2.census.gov/programs-surveys/demo/guidance/industry-occupation/2006-2010-acs-pums-occupation-conversion-rates.xlsx'
-        '7620':'7630',
-        '7710':'7750',#, 7140', #??? 'Aircraft Structure, Surfaces, Rigging, and Systems Assemblers'
-        '8060':'8100', #??? 'Model Makers and Patternmakers, Metal and Plastic'	
-        '8230':'8256',
-        '8240':'8256, 8255',
-        '8260':'8255','8840':'8990', '8900':'8990','8960':'8990','9330':'9300',#'9340':'9420',
-        # '8965':'7905, 8990',
-
-        'bbbb':'0000',
-
-        '0330':'0335', '0950':'0960', '1060':'1065', '1930':'1935', '2430':'2435', '2540':'2545', 
-        '3535':'3545', '4300':'4330', '4460':'4461', '4610':'3602', '5030':'5040', '5620':'9645', '5800':'1108',
-        '6830':'6835', '6910':'6850', '7900':'7905', #'8840':'8990', 
-        '9000':'9005', '9340':'9430', '9360':'9365', '9500':'9570', '9560':'9570', '9730':'6850',
-
-        '0050':'0051, 0052', '0100':'0101, 0102', '0430':'0335, 0426, 0440, 0705', '0740':'0705, 0750', '0840':'0845, 0960', #':'0705, 1108, 1065, 1022, 1032', 
-        '1020':'1021, 1022', '1030':'1031, 1032', '1300':'1305, 1306', '1540':'1541, 1545', '1550':'1551, 1555', '1740':'1745, 1750', '1820':'1821, 1822, 1825', 
-        '1965':'1935, 1970', '2000':'2001, 2002, 2003, 2004, 2005, 2006', '2010':'2011, 2012, 2013, 2014', '2160':'2170, 2180, 2862', '2200':'2205, 2545',
-        '2340':'2350, 2360', '2550':'2435, 2555', '2630':'2631, 2632, 2633, 2634, 2635, 2636, 2640', '2720':'2721, 2722, 2723', '2750':'2751, 2752', 
-        '2760':'2755, 2770', '2800':'2805, 2865', '2860':'2861, 2865', '2900':'2905, 5040', '2960':'2905, 2970', '3060':'3090, 3100',# 3065, 3070', 
-        '3260':'3261, 3270', 
-        '3320':'3321, 3322, 3323, 3324, 3330', '3400':'3401, 3402', '3420':'3421, 3422, 3423, 3424, 3430, 3545', '3510':'3515, 3550', '3540':'1980, 3550',
-        '3600':'3601, 3603, 3605', '3730':'3725', '3800':'3801, 3802', '3955':'3946, 3960', '4250':'4251, 4252, 4255', '4320':'4330, 9005',
-        '4520':'4521, 4522, 4525', '4620':'4621, 4622', '4650':'4461, 4655', '5520':'5521, 5522', '5700':'5710, 5720, 5730, 5740', '6440':'6441, 6442',
-        '6820':'6825, 6835', '6840':'6850, 6950', '8965':'7905, 8990', '9120':'9121, 9122, 9141', '9140':'9141, 9142', '9200':'9210, 9265', '9420':'9365, 9430',
-        '9520':'9570, 9760, 6850, 6825',#, 6821', 
-        '9820':'1555, 9825',
-
-    }, regex=True)
-    # newcolumn = (newcolumn
-    #     .replace('(3850|3860)', '3870', regex=True).replace('(4050|4060)', '4055', regex=True).replace('(4410|4430)', '4435', regex=True)
-    #     .replace('(6100|6110)', '6115', regex=True).replace('(6300|6310|6320)', '6305', regex=True).replace('(6420|6430)', '6410', regex=True)
-    #     .replace('(6930|6940)', '6950', regex=True).replace('(7600|7630)', '7640', regex=True).replace('(7920|7930|7940)', '7925', regex=True)
-    #     .replace('(7960|8010|8020)', '8025', regex=True).replace('(8120|8150|8160|8200|8210|8220)', '8225', regex=True).replace('(8330|8340)', '8335', regex=True)
-    #     .replace('(8360|8400|8410|8420)', '8365', regex=True).replace('(8430|8440|8460)', '8465', regex=True).replace('(8520|8550)', '8555', regex=True)
-    #     .replace('(8860|8900)', '8990', regex=True).replace('(9230|9260)', '9265', regex=True).replace('(9740|9750)', '9760', regex=True)
-
-    #     .replace('(3730|3735)', '3725', regex=True).replace('(3065|3070)', '3090, 3100', regex=True).replace('(6821|9520)', '9570, 9760, 6850, 6825', regex=True)
-    #     .replace('(0325|0400|0426)', '0440', regex=True)
-    # )
-    newcolumn = (newcolumn
-        .replace({
-            '(3850|3860)':'3870','(4050|4060)':'4055','(4410|4430)':'4435','(6100|6110)':'6115','(6300|6310|6320)':'6305','(6420|6430)':'6410','(6930|6940)':'6950','(7600|7630)':'7640','(7920|7930|7940)':'7925',
-            '(7960|8010|8020)':'8025','(8120|8150|8160|8200|8210|8220)':'8225','(8330|8340)':'8335','(8360|8400|8410|8420)':'8365','(8430|8440|8460)':'8465','(8520|8550)':'8555','(9230|9260)':'9265','(8860|8900)':'8990',
-            '(9740|9750)':'9760','(3730|3735)':'3725','(3065|3070)':'3090, 3100','(6821|9520)':'9570, 9760, 6850, 6825','(0325|0400|0426)':'0440',
-            }, regex=True)
-    )
-    newcolumn = pd.Series([", ".join(unique(split_string_vec(x, by=", "))) for x in newcolumn])
-    return newcolumn
-
-
-# '^(4050|4060)$', '4055',%>% '^(4410|4430)$', '4435',%>% 
-# '^(6100|6110)$', '6115',%>% '^(6300|6310|6320)$', '6305',%>% '^(6420|6430)$', '6410',%>% 
-# '^(6930|6940)$', '6950',%>% '^(7600|7630)$', '7640',%>% '^(7920|7930|7940)$', '7925',%>% 
-# '^(7960|8010|8020)$', '8025',%>% '^(8120|8150|8160|8200|8210|8220)$', '8225',%>% '^(8330|8340)$', '8335',%>% 
-# '^(8360|8400|8410|8420)$', '8365',%>% '^(8430|8440|8460)$', '8465',%>% '^(8520|8550)$', '8555',%>% 
-# '^(8860|8900)$', '8865',%>% '^(9230|9260)$', '9265',%>% '^(9740|9750)$', '9760'
-
-# pdcolumn = pd.Series(['3850', '3860', '0010', '2000', '0010 3850'])
-# crosswalk_occp_codes(crosswalk_occp_codes(pdcolumn))
-# crosswalk_occp_codes(["5130", "3060", "1107", "9520", "3260", "430", "7710", "8860",])
-
 def recode_race_to_jl_word(pdcolumn):
     pdcolumn = pd.Series(pdcolumn.copy()) if type(pdcolumn)==str else pd.Series(pdcolumn) if type(pdcolumn)==list else pdcolumn
     newcolumn = pdcolumn.apply(str).str.replace(" ", "").str.lower().replace(
@@ -1422,7 +1035,43 @@ def extract_color(pdcolumn):
     
 
 
+def round_up(number, decimals=0):
+    """Function for rounding."""
+    multiplier = 10 ** decimals
+    return math.ceil(number * multiplier) / multiplier  if not math.isnan(number) else number
 
+def round_down(number, decimals=0):
+    """Function for rounding."""
+    multiplier = 10 ** decimals
+    return math.floor(number * multiplier) / multiplier if not math.isnan(number) else number
+
+def merge_two_dicts(x_dict, y_dict):
+    """Given two dicts, merge them into a new dict as a shallow copy."""
+    z_dict = x_dict.copy()
+    z_dict.update(y_dict)
+    return z_dict
+
+def select_dict(dictionary, pattern='(e|E)mp.*'):
+    """Selecting elements from a dictionary based on a pattern"""
+    re_obj = re.compile(pattern, re.IGNORECASE)
+    res = dict(filter(lambda item: re_obj.match(item[0]), dictionary.items())) 
+    return res
+
+def pct_str_to_dec(s='10%'):
+    """Turn a number string into a decimal"""
+    s = re.sub('%', '', s)
+    try:
+        s = float(s)/100
+    except:
+        s = float(np.nan)
+    return s
+
+def str_to_float_force(s):
+    try:
+        s = float(s)
+    except:
+        s = float(np.nan)
+    return s
 
 #===================== DUBIOUS INSTRUCTIONAL STUFF ==============================================================================================================================================
 

@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{as.date.varioustypes}
 \alias{as.date.varioustypes}
-\title{A function}
+\title{A function to manipulate a string or vector into date format}
 \usage{
-as.date.varioustypes(v)
+as.date.varioustypes(v, include_time = F)
 }
 \description{
-A function
+A function to manipulate a string or vector into date format
 }
 \examples{
-as.date.varioustypes(statevec)
+as.date.varioustypes(v, include_time=F)
 }

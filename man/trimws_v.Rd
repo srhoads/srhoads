@@ -4,7 +4,13 @@
 \alias{trimws_v}
 \title{This function allows you to}
 \usage{
-trimws_v(v, which = "both", doublespace = T)
+trimws_v(
+  v,
+  which = "both",
+  doublespace = T,
+  newlineseps = T,
+  newlineasspace = F
+)
 }
 \description{
 This function allows you to

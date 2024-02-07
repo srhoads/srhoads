@@ -2,13 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{is_datetype1}
 \alias{is_datetype1}
-\title{A function}
+\title{A function to determine if a string or vector is of date type}
 \usage{
 is_datetype1(v)
 }
 \description{
-A function
+A function to determine if a string or vector is of date type
 }
 \examples{
-is_datetype1()
+is_datetype1(v)
 }

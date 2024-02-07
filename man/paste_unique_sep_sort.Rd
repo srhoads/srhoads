@@ -4,7 +4,7 @@
 \alias{paste_unique_sep_sort}
 \title{Samantha Rhoads's function to}
 \usage{
-paste_unique_sep_sort(v, sep = "; ", collapse = sep)
+paste_unique_sep_sort(v, sep = "; ", collapse = sep, sort_str = T)
 }
 \description{
 Samantha Rhoads's function to

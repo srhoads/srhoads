@@ -11,7 +11,8 @@ df_get_preferred_column(
   fillmissingwith = NA,
   returnNameOnly = F,
   exactEnd = F,
-  exactStart = F
+  exactStart = F,
+  verbose = F
 )
 }
 \description{

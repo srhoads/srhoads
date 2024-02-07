@@ -11,8 +11,12 @@ writexl_open_formatted(
   maxcolwidth = 50,
   colwidthplus = 0,
   freeze_after_col = c("^(EEID|eeid)$", 1)[2],
-  clean_colnames = F,
-  autofilter = T
+  autofilter = T,
+  baseFontSize = 11,
+  clean_colnames = T,
+  colnames_toupper = F,
+  force_as_tempfile = F,
+  sheet_args = list(`1` = list(wrap_headers = T), `2` = list(wrap_all = F))
 )
 }
 \description{

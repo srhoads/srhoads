@@ -4,7 +4,7 @@
 \alias{excelToDateIf5DigitStrAndManyDigitTime}
 \title{Samantha Rhoads's function to take an Excel 5-digit date (or many digit datetime like '43467 381058125') + turn it into a date format}
 \usage{
-excelToDateIf5DigitStrAndManyDigitTime(v)
+excelToDateIf5DigitStrAndManyDigitTime(v, force_include_time = T)
 }
 \description{
 Samantha Rhoads's function to take an Excel 5-digit date (or many digit datetime like '43467 381058125') + turn it into a date format

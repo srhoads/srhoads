@@ -5,13 +5,13 @@
 \title{#' A function to parse an excel dates: this function allows you to parse an excel dates (one of those with 5 digits as a string)
 #' @export
 #' @examples
-#' parse_excel_date(v)}
+#' parse_excel_date(v, include_time=F)}
 \usage{
-parse_excel_date(v)
+parse_excel_date(v, include_time = F)
 }
 \description{
 #' A function to parse an excel dates: this function allows you to parse an excel dates (one of those with 5 digits as a string)
 #' @export
 #' @examples
-#' parse_excel_date(v)
+#' parse_excel_date(v, include_time=F)
 }

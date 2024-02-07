@@ -4,7 +4,13 @@
 \alias{select_matches}
 \title{Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything}
 \usage{
-select_matches(x, pat = ".*", invert = F, ignore.case = F)
+select_matches(
+  x,
+  pat = ".*",
+  invert = F,
+  ignore.case = F,
+  escape_chars_in_pattern = F
+)
 }
 \description{
 Samantha Rhoads's function to extract or keep or select elements of a list, dataframe, or vector with a regular expression. Invert means keep everything other than the pattern. Default pattern is everything

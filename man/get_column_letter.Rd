@@ -4,7 +4,7 @@
 \alias{get_column_letter}
 \title{Samantha Rhoads's function to get the column letter of a number}
 \usage{
-get_column_letter(v)
+get_column_letter(v, get_number_from_letter = F)
 }
 \description{
 Samantha Rhoads's function to get the column letter of a number
