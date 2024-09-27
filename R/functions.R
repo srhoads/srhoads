@@ -4373,11 +4373,7 @@ select_matches_everything <- function (x, pat = ".*", invert = F, ignore.case = 
 #' @export
 #' @examples
 #' setdiff_(x, y, printWhichOnly=F)
-<<<<<<< HEAD
 setdiff_ <- function(x, y, returnWhichOnly=T, printWhichOnly=F, sortItems=F, return_as_tibble=F){
-=======
-setdiff_ <- function(x, y, returnWhichOnly=T, printWhichOnly=F, sortItems=F){
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   xonly <- setdiff(x, y)
   yonly <- setdiff(y, x)
   if(sortItems){
@@ -4394,13 +4390,10 @@ setdiff_ <- function(x, y, returnWhichOnly=T, printWhichOnly=F, sortItems=F){
   } else {
     res <- unique(c(xonly, yonly))
   }
-<<<<<<< HEAD
   
   if(return_as_tibble){
       res <- lapply(res, as_tibble)
   }
-=======
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   res
 }
 
@@ -4761,11 +4754,7 @@ fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqst
 #' @export
 #' @examples
 #' df_get_preferred_column(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F)
-<<<<<<< HEAD
 df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F, verbose=F, choose_non_empty_column=F, outcolname="OUTCOLNAME"){
-=======
-df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F, verbose=F){
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   newcolname <- c()
   for (pattern in patterns){ # {pattern = patterns[1]}
     if (length(newcolname)==0){
@@ -4790,15 +4779,9 @@ df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened')
   } else {
     dfdesiredcolumn <- if(length(newcolname)==0){fillmissingwith} else {df[[newcolname[[1]]]]}  #[fillmissingwith]*len(xls) if len(newcolname)==0 else xls[newcolname[0]]
   }
-<<<<<<< HEAD
 
   if(verbose){
     message(paste0(newcolname[[1]], " ==> ", outcolname))
-=======
-  
-  if(verbose){
-    message(paste0(newcolname[[1]], " ==> ", newcolname))
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   }
   dfdesiredcolumn
 }
@@ -4947,11 +4930,7 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 #' @export
 #' @examples
 #' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
-<<<<<<< HEAD
 writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=10, clean_colnames=T, colnames_toupper=F, force_as_tempfile=F,
-=======
-writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=11, clean_colnames=T, colnames_toupper=F, force_as_tempfile=F,
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
                                    sheet_args=list("1"=list(wrap_headers=T), 
                                                    "2"=list(wrap_all=F)
                                                    )
@@ -5505,18 +5484,13 @@ paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep, sort_str=T) {
 #' @export
 #' @examples
 #' summarize_all_paste0(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F)
-<<<<<<< HEAD
 summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, unique_sep_str=T, sort_str=T, recode_na_vals=c("", "NA", "NaN"), strip_na=T, ungroup=F){
-=======
-summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, unique_sep_str=T, sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   # lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
   # funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
   # summarise(.tbl, !!!funs)
   do_nothing_fxn <- function(x){x}
   sort_custom_fxn <- if(sort_str==T){sort} else {do_nothing_fxn}
   
-<<<<<<< HEAD
   d <- dplyr::summarize_all(.tbl, function(v){
       v_ <- if(strip_na){na.omit(v)}else{(as.character(v))}
       v_ <- paste0(sort_custom_fxn(unique(v_)),  collapse=collapse)
@@ -5527,17 +5501,6 @@ summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sor
       if(length(recode_na_vals)>0){
           v_ <- recode_na(v_, recode_na_vals)
       }
-=======
-  d <- dplyr::summarize_all(.tbl, function(v){ 
-    v_ <- paste0(sort_custom_fxn(unique(v)), collapse=collapse)
-    
-    if(unique_sep_sort_str){
-      v_ <- unique_sep_sort(v_, sep=collapse, sort_str=sort_str)
-    }
-    if(length(recode_na_vals)>0){
-      v_ <- recode_na(v_, recode_na_vals)
-    }
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   })
   if(ungroup){
       d <- ungroup(d)
@@ -5801,7 +5764,6 @@ recode_lag_while_NAs <- function(x, colname="eeid"){
   return(x)
 }
 
-<<<<<<< HEAD
 nword <- function(v, split_by_space_only=F){
   if(split_by_space_only){
     v_ <- v %>% gsub("[^[:alpha:]|[:digit:]|[:space:]|| ]", "", .) %>% trimws_()
@@ -5853,7 +5815,5 @@ round_nearest_minute <- function(v){
 }
 
 
-=======
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
 
 ###################################################################################################################################################
