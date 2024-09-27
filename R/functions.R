@@ -1,4 +1,23 @@
+## HOW TO UPDATE LIBRARY:
+# --------------------------------------------
+### --- R ---
+# redocument=F # redocument=T
+if(redocument <- F){
+  devtools::document() # {roxygen2::roxygenise(clean=T)}
+  system('git add -A && git commit -m "added/edited functions"; git push') ### --- SHELL if you remove system()
+  devtools::install_github('srhoads/srhoads', method="wininet") ## use wininet if you're getting errors without the `method` arg
+}
 
+
+
+docu <- function(fxn=""){
+  cat(eval("
+           #' Samantha Rhoads's function to...
+           #' @export
+           #' @examples
+           #'"), paste0(fxn, "()"))
+}
+# docu(fxn="")
 
 # --------------------------------------------
 
@@ -152,6 +171,10 @@ recode_race <- function(v, full_names=F, abbrev_names=F, as_factor=F){
 }
 
 
+#' Samantha Rhoads's function to recode specific races to minorities
+#' @export
+#' @examples
+#' recode_minority(v="subrace")
 recode_minority <- function(v="subrace"){
   recode_list <- list("POC"=c("POC", "Other POC", "Black", "Hispanic", "Asian", "Nat. Am.", "Nat. Haw.", "Two or More", "Two or More Races", "Canada Visible Minority", "Black or African American", "Native Hawaiian or Other Pacific Islander", "American Indian or Alaska Native", "Hispanic or Latino", "2", "3", "4", "5", "6", "7"),
                       "White"=c("White", "Non-POC", "Caucasian", "Canada White", "W", "1"),
@@ -5764,6 +5787,11 @@ recode_lag_while_NAs <- function(x, colname="eeid"){
   return(x)
 }
 
+
+#' Samantha Rhoads's function to return the number of words in a string
+#' @export
+#' @examples
+#' nword(v, split_by_space_only=F)
 nword <- function(v, split_by_space_only=F){
   if(split_by_space_only){
     v_ <- v %>% gsub("[^[:alpha:]|[:digit:]|[:space:]|| ]", "", .) %>% trimws_()
@@ -5774,6 +5802,11 @@ nword <- function(v, split_by_space_only=F){
   stringi::stri_count_words(v_)
 }
 
+
+#' Samantha Rhoads's function to convert column types automatically, without unncessary console messages, excluding variables named in the exclude_colname argument
+#' @export
+#' @examples
+#' type_convert_exclude(d, exclude_colname="eeid")
 type_convert_exclude <- function(d, exclude_colname="eeid"){
   suppressMessages({d %>% mutate_at(vars(-one_of("eeid")), function(v){readr::type_convert(tibble(v=v))[[1]]})})
 }
@@ -5789,7 +5822,10 @@ is_datetime <- function(x){
 }
 
 
-
+#' Samantha Rhoads's function to convert a Windows-readable-path to a Mac-readable path, or vice-versa
+#' @export
+#' @examples
+#' recode_path(path)
 recode_path <- function(path){
     if(as.character(Sys.info()[["sysname"]])=="Windows"){
         path_new <- path %>% gsub("^\\/Volumes\\/", "//jacksonlewis.net/", .)
@@ -5807,10 +5843,11 @@ recode_path <- function(path){
     return(path_new)
 }
 
-
+#' Samantha Rhoads's function to round a datetime to the nearest minute
+#' @export
+#' @examples
+#' round_nearest_minute(v)
 round_nearest_minute <- function(v){
-    # x <- x %>%
-        # mutate(across(one_of(c("datetime_in", "datetime_out")), ~round_date(., unit = "minute")))
   ~round_date(v, unit = "minute")
 }
 
