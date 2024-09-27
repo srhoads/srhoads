@@ -12,7 +12,11 @@ writexl_open_formatted(
   colwidthplus = 0,
   freeze_after_col = c("^(EEID|eeid)$", 1)[2],
   autofilter = T,
+<<<<<<< HEAD
   baseFontSize = 10,
+=======
+  baseFontSize = 11,
+>>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   clean_colnames = T,
   colnames_toupper = F,
   force_as_tempfile = F,

@@ -12,8 +12,12 @@ summarize_all_paste0(
   unique_sep_sort_str = T,
   unique_sep_str = T,
   sort_str = T,
+<<<<<<< HEAD
   recode_na_vals = c("", "NA", "NaN"),
   strip_na = T,
+=======
+  recode_na_vals = c("", "NA"),
+>>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
   ungroup = F
 )
 }
