@@ -11,7 +11,10 @@ df_get_preferred_column(
   fillmissingwith = NA,
   returnNameOnly = F,
   exactEnd = F,
-  exactStart = F
+  exactStart = F,
+  verbose = F,
+  choose_non_empty_column = F,
+  outcolname = "OUTCOLNAME"
 )
 }
 \description{

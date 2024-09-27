@@ -2,12 +2,12 @@
 % Please edit documentation in R/functions.R
 \name{sumry}
 \alias{sumry}
-\title{Samantha Rhoads's function to...}
+\title{Samantha Rhoads's function to summarize an object in R, but in a more meaningful way than the summary() function}
 \usage{
-sumry(x, maxsum = 7)
+sumry(x, maxsum = 7, maxmin = F)
 }
 \description{
-Samantha Rhoads's function to...
+Samantha Rhoads's function to summarize an object in R, but in a more meaningful way than the summary() function
 }
 \examples{
 sumry(x, maxsum=7)

@@ -1,44 +1,4 @@
 
-## AUTO INSTALL/IMPORT MAJOR DEPENDENCIES;
-# --------------------------------------------
-if(installIfNeeded <- F){
-  tryCatch({
-    PKG="devtools"; if(!PKG %in% installed.packages()){install.packages(PKG)}
-    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
-  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
-  tryCatch({
-    PKG="tidyverse"; if(!PKG %in% installed.packages()){install.packages(PKG)}
-    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
-  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
-  tryCatch({
-    PKG="reticulate"; if(!PKG %in% installed.packages()){cat(paste0("Installing missing package: `", PKG, "`...\n")); install.packages(PKG)}
-    {do.call(library, list(PKG))}; cat(paste0("`", PKG, "` dependency imported\n"))
-  }, error=function(e) {cat(paste0("Couldn't install/import `", PKG, "` package!\n"))})
-}
-# --------------------------------------------
-# if("magrittr" %in% installed.packages()){
-#   `%>%` <- magrittr::`%>%`
-#   `%<>%` <- magrittr::`%<>%`
-# }
-
-## HOW TO UPDATE LIBRARY:
-# --------------------------------------------
-### --- R ---
-# redocument=F # redocument=T
-if(redocument <- F){
-  devtools::document() # {roxygen2::roxygenise(clean=T)}
-  system('git add -A && git commit -m "added/edited functions"; git push') ### --- SHELL if you remove system()
-  devtools::install_github('srhoads/srhoads')
-}
-
-docu <- function(fxn=""){
-  cat(eval("
-           #' Samantha Rhoads's function to...
-           #' @export
-           #' @examples
-           #'"), paste0(fxn, "()"))
-}
-# docu(fxn="")
 
 # --------------------------------------------
 
@@ -217,7 +177,7 @@ recode_gender <- function(v, full_names=F){
       ifelse(grepl(gendertext[3], v1)&!grepl(paste0(setdiff(gendertext, gendertext[3]), collapse="|"), v1), "3", 
              ifelse(grepl(gendertext[2], v1)&!grepl(paste0(setdiff(gendertext, gendertext[2]), collapse="|"), v1), "2", 
                     ifelse(grepl(gendertext[1], v1)&!grepl(paste0(setdiff(gendertext, gendertext[1]), collapse="|"), v1), "1", 
-                           na_if_(v1))))#))))
+                           recode_na_if_(v1))))#))))
     
     if(any(grepl("[[:alpha:]]", v1))){
       gendertext <- c("\\b(m|mal|man|he|amle)|him|dude|mascul|guy|bro|his|ftm|femaletomale|one|boy|01", "fem|f|woman|girl|lady|femal|she|her|gal|wman|weiblich|mtf|maletofemale|frau|two|wmn|02", "non.*bin|three|3|03", "unk")
@@ -1464,13 +1424,11 @@ recode_na_list <- list(
   "NA" = c("NATOEVERYONE", "malefemalerace", "malefemale", "femalemale")
 )
 
-#' A function
+#' A function to turn a vector of values into a list to use in recoding values to NAs
 #' @export
 #' @examples
-#' recode_na_vec()
-recode_na_vec <- function(vec, 
-                          recode_list = recode_na_list, 
-                          extra = NULL, recode_na_getridofstrregex=NULL) {
+#' recode_na_vec(vec, recode_list = recode_na_list, extra = NULL, recode_na_getridofstrregex=NULL)
+recode_na_vec <- function(vec, recode_list = recode_na_list, extra = NULL, recode_na_getridofstrregex=NULL) {
   recode_key <- lapply(
     names(recode_list), 
     function(x) {
@@ -1485,11 +1443,11 @@ recode_na_vec <- function(vec,
   vec
 }
 
-#' A function
+#' A function to recode specified values into NAs
 #' @export
 #' @examples
-#' recode_na(x)
-recode_na <- function(x){
+#' recode_na_old(x)
+recode_na_old <- function(x){
   if(is.data.frame(x) | is.list(x)) x %<>% lapply(., recode_na_vec) %>% data.frame(., stringsAsFactors=F)
   else x %<>% recode_na_vec(x)
   x
@@ -2165,7 +2123,7 @@ dfsampler <- function(which=c('long', 'short')[1], tibble=F){
 #' This function allows you to trim whitespace but also remove double spaces
 #' @export
 #' @examples
-#' trimws_(v, which='both', doublespace=T)
+#' trimws_(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F)
 trimws_ <- function(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F){
   vlevels <- levels(v)
   vclass <- class(v)
@@ -2214,14 +2172,27 @@ trimws_df <- function(x, which='both', doublespace=T) {
 #' A function
 #' @export
 #' @examples
+#' recode_na_if_(x, na_if_Unknown=T)
+recode_na_if_ <- function(x, na_if_Unknown=T){ 
+  x <- recode_na(x, "", "NA", "-", ".", " ", "na", "/", ",", ";", "  ", "Not Available", "not available", "Not Applicable", "not applicable", "No Response", "NULL", "null", "unknown", "N/A", "n/a", "<NA>", "<N/A>", "Na", "character(0)")
+  if(na_if_Unknown){
+    x <- recode_na(x, "Unknown", "UNKNOWN", "unknown")
+  }
+  x
+}
+
+#' A function
+#' @export
+#' @examples
 #' na_if_(x, na_if_Unknown=T)
-na_if_ <- function(x, na_if_Unknown=T){ 
+na_if_OLD <- function(x, na_if_Unknown=T){ 
   x %>% na_if('') %>% na_if('NA') %>% {if(na_if_Unknown) na_if(., 'Unknown') else .} %>% na_if('-') %>% 
     na_if('.') %>% na_if(' ') %>% na_if('na') %>% na_if('/') %>% na_if(',') %>% na_if(';') %>% 
     na_if('  ') %>% na_if('Not Available') %>% na_if('not available') %>% na_if('Not Applicable') %>% na_if('not applicable') %>% na_if('No Response') %>% na_if('NULL') %>% na_if('null') %>% 
     na_if('unknown') %>% na_if('N/A') %>% na_if('n/a') %>% na_if('<NA>') %>% na_if('<N/A>') %>% na_if('Na') %>% na_if('') %>% na_if('') %>% na_if('') %>%
     na_if("character(0)") %>% if(is.vector(.)) tryCatch(gsub("^[[:punct:]]$", NA, .), error=function(e) .) else .
 }
+
 #' A function
 #' @export
 #' @examples
@@ -2436,7 +2407,7 @@ strip_num_trimws <- function(v) trimws_(gsub('[[:digit:]]+', '', v))
 #' clean_na_sep(v, sep='///')
 clean_na_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|///$|^\\///|\\///$', '', trimws_(v), perl=T)) %>% 
   gsub(' ///|/// |//////', '///', ., perl=T) %>% 
-  trimws_() %>% na_if_()
+  trimws_() %>% recode_na_if_()
 
 
 #' This function allows you to 
@@ -2445,7 +2416,7 @@ clean_na_sep <- function(v, sep='///') trimws_(gsub('///NA|NA///|^///|///$|^///|
 #' clean_na_sep_comma(v, sep=', ')
 clean_na_sep_comma <- function(v, sep=', ') trimws_(gsub(', NA|NA, |^, |, $|^, |, $|^\\, |\\, $', '', trimws_(v), perl=T)) %>% 
   gsub(' , |,  |, , ', ', ', ., perl=T) %>% 
-  trimws_() %>% na_if_()
+  trimws_() %>% recode_na_if_()
 
 
 #' This function allows you to 
@@ -2459,7 +2430,7 @@ clean_unique_sep <- function(v, sep='///'){
   trim_sep_str <- paste0('^', sep, '|', sep, '$', '|', sep, sep)
   v_ <- gsub(trim_sep_str, '', v_, perl=T)
   trimws_(v_) %>% 
-    unique_sep(., sep=sep) %>% na_if_()
+    unique_sep(., sep=sep) %>% recode_na_if_()
 }
 
 
@@ -2563,14 +2534,14 @@ read_excels <- function(filelist, bindsheets = F, bindrows = F, simplif = F, col
 #' #' A function to parse an excel dates: this function allows you to parse an excel dates (one of those with 5 digits as a string)
 #' #' @export
 #' #' @examples
-#' #' parse_excel_date(v)
-parse_excel_date <- function(v){
+#' #' parse_excel_date(v, include_time=F)
+parse_excel_date <- function(v, include_time=F){
   if(!lubridate::is.Date(v)){
     tryCatch(v %>% as.character() %>% as.numeric() %>% as.Date(., origin = "1899-12-30"),
              error=function(e){
-               tryCatch(parse_date(v),
+               tryCatch(janitor::excel_numeric_to_date(as.numeric(v), include_time=include_time),
                         error=function(e){
-                          tryCatch(as.date.varioustypes(v),
+                          tryCatch(as.date.varioustypes(v, include_time=include_time),
                                    error=function(e){
                                      cat("\nCAN'T PARSE EXCEL DATE... LEAVING AS IS....\n")
                                      v
@@ -2581,24 +2552,55 @@ parse_excel_date <- function(v){
 }
 
 
-
+# read_excel_somesheets <- function(fns=NULL;keepshtvec=NULL;na=c("NA", "None", "N/A", "-", "");col_types="text";skip=0;col_names=T;range=NULL;trim_ws=T;n_max=Inf;guess_max=min(1000, n_max);progress=readxl::readxl_progress();.name_repair="unique") {
+    
 #' A function to read multiple excel files and either all or selective sheets from them.
 #' @export
 #' @examples
 #' read_excel_somesheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique")
 read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique") {
-  if (is.null(fns)) {(fns <- list.files(pattern = "\\.xlsx", recursive = T, full.names = T))}
-  if (is.null(keepshtvec)) {keepshtvec <- lapply(fns, function(v) readxl::excel_sheets(v)) %>% unlist() %>% unique()}
-  fnshtlst <- lapply(fns, function(s) readxl::excel_sheets(s)) %>% setNames(fns)
-  if(is.numeric(keepshtvec)){
-    keepshts <- as.list(fns) %>% setNames(fns) %>% lapply(., function(x) {keepshtvec})
-  } else {
-    (keepshts <- lapply(fnshtlst, function(v) {v[(v %in% keepshtvec) == T]}))
-  }
+  if (is.null(fns)) {(fns <- list.files(pattern = "\\.(xlsx|csv)", recursive = T, full.names = T))}
+    
+    keepshtvec <- if(is.null(keepshtvec)) {
+        lapply(fns, function(v) {
+            tryCatch({
+                readxl::excel_sheets(v)
+            }, error=function(e){
+                "1"
+            })
+        }) %>% unlist() %>% unique()
+    } else {
+        keepshtvec
+    }
+    
+    fnshtlst <- lapply(fns, function(s) {
+        tryCatch({
+            readxl::excel_sheets(s)
+        }, error=function(e){
+            "1"
+        })
+        }) %>% setNames(fns)
+    if(is.numeric(keepshtvec)){
+        keepshts <- as.list(fns) %>% setNames(fns) %>% lapply(., function(x) {keepshtvec})
+    } else {
+        (keepshts <- lapply(fnshtlst, function(v) {v[(v %in% keepshtvec) == T]}))
+    }
+    keepshts
+    
+    
+    
+    
+ 
   lapply(1:length(keepshts), function(i) {
     f <- names(keepshts[i])
     shts <- keepshts[[i]]
-    (d <- lapply(shts, function(sht) {readxl::read_excel(f, sheet=sht, skip=skip, na=na, col_types=col_types, col_names=col_names, range=range, trim_ws=trim_ws, n_max=n_max, guess_max=guess_max, .name_repair=.name_repair, progress=progress)}) %>% setNames(shts))
+    d <- tryCatch({
+        (d <- lapply(shts, function(sht) {readxl::read_excel(f, sheet=sht, skip=skip, na=na, col_types=col_types, col_names=col_names, range=range, trim_ws=trim_ws, n_max=n_max, guess_max=guess_max, .name_repair=.name_repair, progress=progress)}) %>% setNames(shts))
+    },
+    error=function(e){
+        lapply(f, function(sht){readr::read_csv(sht, col_types="c")}) %>% setNames("csv")
+    })
+    d
   }) %>% setNames(fns)
 }
 
@@ -2623,7 +2625,10 @@ depth <- function(this,thisdepth=0){
 #' @export
 #' @examples
 #' lookslike_number(v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F)
-lookslike_number <- function (v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F) {
+lookslike_number <- function (v, include_decimal=F, include_comma=F, include_dash=F, include_space=F, include_all_punct=F) {#{v=c("-1", "2.4", "sfs 242.1", "4.875e-05")}
+  vb <- suppressWarnings(as.numeric(v))
+  v <- ifelse(!is.na(vb), 1, "NOT_A_NUMBER")
+  
   if (include_decimal) {
     v <- gsub("[\\.|[:digit:]]", "", v) %>% na_if(., "")
   } else {
@@ -2656,22 +2661,25 @@ is.upper <- function(v) grepl('[[:upper:]]', v) & !grepl('[[:lower:]]', v)
 #' is.lower()
 is.lower <- function(v) grepl('[[:lower:]]', v) & !grepl('[[:upper:]]', v)
 
-#' A function
+#' A function to determine if a string or vector is of date type
 #' @export
 #' @examples
-#' is_datetype1()
-is_datetype1 <- function(v) ifelse(is.na(lubridate::parse_date_time(v, orders = c("mdy", "dmy"))), F, T)
+#' is_datetype1(v)
+is_datetype1 <- function(v) {ifelse(is.na(lubridate::parse_date_time(v, orders = c("mdy", "dmy"))), F, T)}
 
-#' A function
+#' A function to manipulate a string or vector into date format
 #' @export
 #' @examples
-#' as.date.varioustypes(statevec)
-as.date.varioustypes <- function(v){
-  v %>% unlist() %>%
-    gsub("\\.", " ", .) %>%
+#' as.date.varioustypes(v, include_time=F)
+as.date.varioustypes <- function(v, include_time=F){
+  if(!include_time){
+    v <- v %>% unlist() %>%
+      gsub("\\..*", " ", .)
+  } 
+  v %>%
     trimws_() %>%
     ifelse(is_datetype1(.), as.character(lubridate::parse_date_time(., orders = c("mdy", "dmy"))), .) %>%
-    ifelse(lookslike_number(.), as.character(parse_excel_date(as.numeric(.))), .)
+    ifelse(lookslike_number(.), as.character(janitor::excel_numeric_to_date(as.numeric(.), include_time=include_time)), .)
 }
 
 #' A function to change state names to abbreviations if there are already abbreviation in the vector, so mixed types
@@ -2747,25 +2755,71 @@ summary_factor <- function(x, maxsum=7){
   })
 }
 
-#' Samantha Rhoads's function to...
+#' Samantha Rhoads's function to summarize an object in R, but in a more meaningful way than the summary() function
 #' @export
 #' @examples
 #' sumry(x, maxsum=7)
-sumry <- function(x, maxsum=7) {
+sumry <- function(x, maxsum=7, maxmin=F) {
   if (is.data.frame(x)) {
     # x[["____________"]] <- paste0("Total Columns Summarized:", ncol(x), "; Total # of Rows")
     x[["____________"]] <- paste0("Total # of Rows")
+    x[["________________"]] <- ncol(x)
     # x <- dplyr::select(x, one_of("____________"), everything())
     if(all(is.na(maxsum))){
       maxsum <- nrow(x)
     }
-    x_sumry <- summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) 
+    # x_sumry <- summary(dplyr::mutate_if(x, is.character, as.factor), maxsum) 
+    x2 <- dplyr::mutate_if(x, is.character, as.factor)
+    if(maxmin){
+      # x2 <- x2 %>% sapply(., function(v){if(is.factor(v)){c( v[v %in% sort(v)[1:ceiling(maxsum/2)]],   v[v %in% rev(sort(v))[1:floor(maxsum/2)]] )} else {v} })
+      # x2 <- x2 %>% mutate_all(., function(v){if(is.factor(v)){c( v[v %in% sort(v)[1:ceiling(maxsum/2)]],   v[v %in% rev(sort(v))[1:floor(maxsum/2)]], v[!v %in% c(sort(v)[1:ceiling(maxsum/2)], rev(sort(v))[1:floor(maxsum/2)])  ] )} else {v} })
+      x2 <- x2 %>% mutate_if(is.factor, function(v){
+        if(length(unique(v))>=maxsum){
+          v0 <- as.character(v)
+          v1 <- as.factor(ifelse(v0 %in% c( v[v %in% sort(unique(v))[1:floor((maxsum-1)/2)]],   v[v %in% rev(sort(unique(v)))[1:floor((maxsum-1)/2)]] ), v0, "~~~other values~~~") )
+        } else {
+          v1 <- v
+        }
+        v1
+      })
+    }
+    
+    x_sumry <- summary(x2, maxsum)
+    
+    x_sumry[[(length(x_sumry)-6)]] <- gsub("Min\\..*\\:", "Total # of Columns:", x_sumry[[(length(x_sumry)-6)]])
+    for(i in c((length(x_sumry)-5):(length(x_sumry)-1))){
+      x_sumry[[i]] <- ""
+    }
+
     x[["____________"]] <- NULL
+    x[["________________"]] <- NULL
     return(x_sumry)
+  } else if(is.vector(x)){
+    
+    v <- {if(is.character(x)) {as.factor(x)} else {x}}
+    if(maxmin){
+      v <- x
+      if(length(unique(v))>=maxsum){
+        v0 <- as.character(v)
+        v1 <- as.factor(ifelse(v0 %in% c( v[v %in% sort(unique(v))[1:floor((maxsum-1)/2)]],   v[v %in% rev(sort(unique(v)))[1:floor((maxsum-1)/2)]] ), v0, "~~~other values~~~") )
+      } else {
+        v1 <- v
+      }
+      
+    } else {
+      v1 <- v
+    }
+    
+    x_sumry <- summary(v1, maxsum)
+    
   } else {
-    summary(if(is.character(x)) as.factor(x) else x, maxsum)
+    x_sumry <- summary(x, maxsum)
   }
+  return(x_sumry)
 }
+
+
+
 
 #' Samantha Rhoads's function to...
 #' @export
@@ -3009,7 +3063,7 @@ clean_str_strip_NAs_1 <- function(v, sep=", "){
   (sep1 <- gsub(" ", "", sep))
   (getrid <- paste0("^NA", sep1, "|", sep1, "NA$", "|", sep1, "NA", sep1, "|", sep, "NA", sep, "|", " NA$|^NA "))
   v %>% gsub(sep, sep1, .) %>% gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0(sep1, "$", "|", "^", sep1), "", .) %>% trimws_() %>%
-    gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0("^", sep, "|^", sep1), "", .) %>% trimws_() %>% na_if_()
+    gsub(getrid, sep, .) %>% trimws_() %>% gsub(paste0("^", sep, "|^", sep1), "", .) %>% trimws_() %>% recode_na_if_()
 }
 
 #' Srhoads wrote this to allow you to...
@@ -3057,7 +3111,7 @@ unite_all <- function(d, clean=T, remove=F, newcol="unite_all_column", onlynewco
                       clean_str_strip_NAs(., ";") %>% 
                       clean_str() %>% 
                       strip_punct(., onlyends=T, replacewithspace=F) %>% 
-                      na_if_() %>%
+                      recode_na_if_() %>%
                       gsub(trimws_(sep), paste0(sep, " "), .) %>% 
                       trimws_())
   d <- d %>% setNames(gsub("^unite_all_column$", newcol, names(.)))
@@ -3204,7 +3258,7 @@ geocode_by_cell <- function(v, replacewith=NULL) lapply(v, function(s){
   # {install.packages("https://cran.r-project.org/src/contrib/Archive/ggmap/ggmap_2.6.1.tar.gz", type="source", repos=NULL); .rs.restartR(); library(ggmap)}
   if(is.null(replacewith)) replacewith <- s
   # tryCatch(geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_str_strip_NAs() %>% gsub(",", ", ", .) %>% trimws_(), error=function(e) s)
-  tryCatch(ggmap::geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_unique_sep(., ", ") %>% na_if_(), error=function(e) {cat('\n#geocode_by_cell() ERROR:\n'); print(e); replacewith})
+  tryCatch(ggmap::geocode(s, source="dsk") %>% unlist() %>% paste0(., collapse=", ") %>% clean_unique_sep(., ", ") %>% recode_na_if_(), error=function(e) {cat('\n#geocode_by_cell() ERROR:\n'); print(e); replacewith})
 }) %>% unlist()
 
 
@@ -3454,7 +3508,7 @@ str_extract_money <- function(v) v %>%
   gsub("K", "e3", .) %>% 
   gsub("M", "e6", .) %>% 
   gsub(",|\\$", "", .) %>% 
-  na_if_() %>% 
+  recode_na_if_() %>% 
   as.numeric()
 
 
@@ -3789,12 +3843,25 @@ sysdateMDY <- function(){format(Sys.Date(), format="%m%d%Y")}
 getMostRecentFiles <- function(path=".", desc=T, verbose=F, pattern=NULL, all.files=F, full.names=T, recursive=T, ignore.case=F, include.dirs=F, no..=F, printfilenames=F){
   fns <- list.files(path=path, pattern=pattern, all.files=all.files, full.names=full.names, recursive=recursive, ignore.case=ignore.case, include.dirs=include.dirs, no..=no..)
   if(printfilenames){print(fns)}
+  fninfo <- fns %>% file.info() %>% data.frame(basename=basename(fns), ., name=fns)
   if(desc) {
-    fninfo <- fns %>% file.info() %>% data.frame(name=fns, .) %>% dplyr::arrange(desc(mtime))
+    fninfo <- fninfo %>% dplyr::arrange(desc(mtime))
   } else {
-    fninfo <- fns %>% file.info() %>% data.frame(name=fns, .)  %>% dplyr::arrange(mtime)
+    fninfo <- fninfo %>% dplyr::arrange(mtime)
   }
   if(verbose){
+      
+      fninfo <- tryCatch({
+          fninfo %>% dplyr::as_tibble()
+      },
+      error=function(e){
+          fninfo
+      })
+      
+      # colnames_orig <- setdiff(colnames(fninfo), c("name"))
+      # fninfo$basename <- basename(fninfo$name)  
+      # fninfo <- fninfo[, c("basename", colnames_orig), "name"]
+      
     return(fninfo)
   } else {
     return(fninfo %>% .$name %>% as.character())
@@ -3835,28 +3902,43 @@ excelToDateIf5DigitStr <- function(v){
 #' @export
 #' @examples
 #' excelToDateIf5DigitStrAndManyDigitTime(v)
-excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"...or... "43467 402791006942"
+excelToDateIf5DigitStrAndManyDigitTime <- function(v, force_include_time=T){  #ie: {v="43467 381058125"}...or... {v="43467 402791006942"}...or... {v="43798.999305555597"}
+  # if(stringi::stri_count_words(v)==2&!grepl("[[:alpha:]]", v)){
+  #   v <- v %>% gsub(" ", ".", .) %>% trimws_()
+  # }
+  v2 <- ifelse((stringi::stri_count_words(v)==2&!grepl("[[:alpha:]]", v))&!is.Date(v), {v %>% gsub(" ", ".", .) %>% trimws_()}, as.character(v))
+  
   if(
     all(
       unique(nchar(na.omit(
-        v %>% word(1) %>% gsub("[^[:digit:]]", "", .)
+        v2 %>% word(1) %>% gsub("[^[:digit:]]", "", .)
       )))==5
     ) & all(
       unique(nchar(na.omit(
-        v %>% word(2) %>% gsub("[[:digit:]]", "", .)
+        v2 %>% word(2) %>% gsub("[[:digit:]]", "", .)
       )))==0
     )
   ){
-    v <- word(v, 1)
-    v <- lubridate::date(janitor::excel_numeric_to_date(as.numeric(v)))
+        v2 <- word(v2, 1)
+    v2 <- lubridate::as_datetime(janitor::excel_numeric_to_date(as.numeric(v2), include_time=force_include_time))
   } else {
-    if(any(grepl("\\.", v))&!is.Date.class(v)){
-      v <- gsub("\\.", " ", v)
-      v <- word(v, 1)
-      v <- tryCatch(lubridate::date(janitor::excel_numeric_to_date(as.numeric(v))), error=function(e) v)
+    if(any(grepl("\\.", v2))&!is.Date.class(v2)){
+      # v2 <- gsub("\\.", " ", v2)
+      v2 <- word(v2, 1)
+      v2 <- tryCatch({lubridate::as_datetime(janitor::excel_numeric_to_date(as.numeric(v2), include_time=force_include_time))}, error=function(e) v2)
     }
   }
-  return(v)
+  v2 <- tryCatch({
+    if(force_include_time){
+      v2 <- lubridate::as_datetime(v2)
+    } else if(nchar(v<=5)) {
+      v2 <- lubridate::date(v2)
+    }
+  },
+  error=function(e){
+    v2
+  })
+  return(v2)
 }
 
 
@@ -3866,6 +3948,9 @@ excelToDateIf5DigitStrAndManyDigitTime <- function(v){ # ie: "43467 381058125"..
 #' extract_date(v)
 extract_date <- function(v) {
   datepats <- c(
+    # datepat000=' ?(0|1)?([0-9]{2})\\/(?(0|1|2|3)?([0-9]{2}))\\/',
+    # datepat000=' ?(0|1)?([0-9]{2})\\/(\\d{1,2})\\/(\\d{4})',
+    # datepat000='(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})',
     datepat00=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{2,4})?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
     datepat0=' ?(0|1)?([0-9]{4}|[0-9]{1,2})-([0-9]{1,2})-([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]-([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})/([0-9]{1,2})/([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]/([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})\\.([0-9]{1,2})\\.([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]\\.([0-9]{1,2}|[0-9]{4}) ?',
     datepat14=' ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[1-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?| ?(0|1)?([0-9]{4}|[0-9]{1,2})([0-9]{1,2})([0-9]{4}|[0-9]{1,2}) ?| ?(0|1)?[0-9]([0-9]{1,2}|[0-9]{4}) ?',
@@ -3889,6 +3974,7 @@ extract_date <- function(v) {
   v %>% stringr::str_extract_all(., patternstr)
 }
 
+if(F){v %>% stringr::str_extract_all(., datepats[1])}
 
 #' Samantha Rhoads's function to extract the 4-digit year from a string, and stores it as a character!
 #' @export
@@ -3898,46 +3984,46 @@ extract_year <- function(v){
   v %>% as.character() %>% gsub(".*(\\d{4}).*", "\\1", .) %>% select_matches("\\d{4}")
 }
 
-#' Srhoads wrote this to allow you to...
-#' @export
-#' @examples
-#' fillr(df, ID='ID')
-fillr <- function(df, ID='ID'){
-  cat("fillr()\n")
-  df <- na_if_(df)
-  df[['var']] <- df[[ID]]
-  df %<>% dplyr::group_by(var) %>%
-    na_if_() %>%
-    tidyr::fill(-var) %>%
-    na_if_() %>%
-    tidyr::fill(-var, .direction='up') %>%
-    na_if_() %>%
-    dplyr::distinct()
-  # df %>% select(-matches('^var$'))
-  df <- df[, -ncol(df)]
-  print(paste0('fillr: ', ID))
-  df
-  # dplyr::distinct(df)
-}
+#' #' Srhoads wrote this to allow you to...
+#' #' @export
+#' #' @examples
+#' #' fillr(df, ID='ID')
+#' fillr <- function(df, ID='ID'){
+#'   cat("fillr()\n")
+#'   df <- na_if_(df)
+#'   df[['var']] <- df[[ID]]
+#'   df %<>% dplyr::group_by(var) %>%
+#'     na_if_() %>%
+#'     tidyr::fill(-var) %>%
+#'     na_if_() %>%
+#'     tidyr::fill(-var, .direction='up') %>%
+#'     na_if_() %>%
+#'     dplyr::distinct()
+#'   # df %>% select(-matches('^var$'))
+#'   df <- df[, -ncol(df)]
+#'   print(paste0('fillr: ', ID))
+#'   df
+#'   # dplyr::distinct(df)
+#' }
 
 
-#' Samantha Rhoads's function fillr2
-#' @export
-#' @examples
-#' fillr2(df, ID='ID')
-fillr2 <- function(df, ID='ID'){
-  DATE_COLUMN_NAMES <- df %>% select_if(is.Date.class) %>% names()
-  df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), as.character)
-  df <- na_if_(df)
-  df[['var']] <- df[[ID]]
-  df %<>% dplyr::group_by(var) %>%
-    tidyr::fill(-var) %>%
-    tidyr::fill(-var, .direction='up')
-  df <- df[, -ncol(df)]
-  cat(paste0('fillr3: ', ID))
-  df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
-  df
-}
+#' #' Samantha Rhoads's function fillr2
+#' #' @export
+#' #' @examples
+#' #' fillr2(df, ID='ID')
+#' fillr2 <- function(df, ID='ID'){
+#'   DATE_COLUMN_NAMES <- df %>% select_if(is.Date.class) %>% names()
+#'   df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), as.character)
+#'   df <- na_if_(df)
+#'   df[['var']] <- df[[ID]]
+#'   df %<>% dplyr::group_by(var) %>%
+#'     tidyr::fill(-var) %>%
+#'     tidyr::fill(-var, .direction='up')
+#'   df <- df[, -ncol(df)]
+#'   cat(paste0('fillr3: ', ID))
+#'   df %<>% mutate_at(vars(one_of(DATE_COLUMN_NAMES)), lubridate::date)
+#'   df
+#' }
 
 
 #' Srhoads wrote this to allow you to...
@@ -4236,7 +4322,7 @@ select_vec2 <- function(v, pattern=".*", ignore.case=T, everything=F, invert=F){
 #' @export
 #' @examples x <- as.list(iris); select_matches(x, pat="Petal"); v <- iris$Species; select_matches(v, pat="versi")
 #' select_matches(x, pat=".*", invert=F, ignore.case=F)
-select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F){
+select_matches <- select_list_or_other <- function(x, pat=".*", invert=F, ignore.case=F, escape_chars_in_pattern=F){
   pattern <- pat
   `%>%` <- magrittr::`%>%`
   if(invert) {yesornot <- `!`; plusorminus <- `-`} else {yesornot <- function(x) x; plusorminus <- function(x) x}
@@ -4287,14 +4373,28 @@ select_matches_everything <- function (x, pat = ".*", invert = F, ignore.case = 
 #' @export
 #' @examples
 #' setdiff_(x, y, printWhichOnly=F)
-setdiff_ <- function(x, y, printWhichOnly=F){
+setdiff_ <- function(x, y, returnWhichOnly=T, printWhichOnly=F, sortItems=F, return_as_tibble=F){
   xonly <- setdiff(x, y)
   yonly <- setdiff(y, x)
+  if(sortItems){
+    xonly <- sort(xonly)
+    yonly <- sort(yonly)
+  }
   if(printWhichOnly){
     if(length(xonly>0)) catn("xonly: ", paste0(xonly, collapse="        "))
     if(length(yonly>0)) catn("yonly: ", paste0(yonly, collapse="        "))
   }
-  unique(c(xonly, yonly))
+  if(returnWhichOnly){
+    res <- list(xonly=xonly,
+                yonly=yonly)
+  } else {
+    res <- unique(c(xonly, yonly))
+  }
+  
+  if(return_as_tibble){
+      res <- lapply(res, as_tibble)
+  }
+  res
 }
 
 
@@ -4574,8 +4674,9 @@ set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", ch
 #' set_names_skip_rows_until_match_loop(d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F)
 set_names_skip_rows_until_match_loop <- function (d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F) {
   for (PATTERN in patterns){ # {PATTERN = patterns[1]}
-    if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) & (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
-      colnames_rownum <- grep_all_df(PATTERN, d[1:check_n_rows, ], rownums_only = T, exact=exact)[1]
+    # if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) & (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
+    if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) | (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
+        colnames_rownum <- grep_all_df(PATTERN, d[1:check_n_rows, ], rownums_only = T, exact=exact)[1]
       dNewNames <- make.unique(as.character(d[colnames_rownum, ])) %>% replace_na(., "NA.0")
       if ((length(colnames_rownum) > 0)&!is.na(colnames_rownum)) {
         d <- d %>% setNames(dNewNames) %>% slice(-(1:colnames_rownum))
@@ -4653,7 +4754,7 @@ fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqst
 #' @export
 #' @examples
 #' df_get_preferred_column(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F)
-df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F){
+df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F, verbose=F, choose_non_empty_column=F, outcolname="OUTCOLNAME"){
   newcolname <- c()
   for (pattern in patterns){ # {pattern = patterns[1]}
     if (length(newcolname)==0){
@@ -4663,13 +4764,24 @@ df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened')
       if(exactStart){
         pattern <- paste0("^", pattern)
       }
-      newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
+        dfcolumnmatch <- select(df, matches(pattern, ignore.case=ignore.case))
+        if(choose_non_empty_column){
+            if(!all(is.na(select(df, matches(pattern, ignore.case=ignore.case))))){
+                newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
+            }
+        } else {
+          newcolname <- names(select(df, matches(pattern, ignore.case=ignore.case)))
+        }
     }
   }
   if(returnNameOnly){
     dfdesiredcolumn <- newcolname[[1]]
   } else {
     dfdesiredcolumn <- if(length(newcolname)==0){fillmissingwith} else {df[[newcolname[[1]]]]}  #[fillmissingwith]*len(xls) if len(newcolname)==0 else xls[newcolname[0]]
+  }
+
+  if(verbose){
+    message(paste0(newcolname[[1]], " ==> ", outcolname))
   }
   dfdesiredcolumn
 }
@@ -4818,28 +4930,63 @@ writexl_open <- function(x, path=tempfile(fileext=".xlsx"), col_names=T, format_
 #' @export
 #' @examples
 #' writexl_open_formatted(df=NULL, filename, open_file=T, max_colwidth=50, colwidthplus=0)
-writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=11, clean_colnames=F, colnames_toupper=F){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
+writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwidth=50, colwidthplus=0, freeze_after_col=c("^(EEID|eeid)$", 1)[2], autofilter=T, baseFontSize=10, clean_colnames=T, colnames_toupper=F, force_as_tempfile=F,
+                                   sheet_args=list("1"=list(wrap_headers=T), 
+                                                   "2"=list(wrap_all=F)
+                                                   )
+                                   ){ #{filename="Notes & Annotations/jackson_lewis_people-20220509-temp.xlsx"; df=jackson_lewis_people}
   # library(openxlsx)
+  
   if(!exists("loadWorkbook")){
     load_unload_openxlsx <- T
     pkg('openxlsx')
   } else {
     load_unload_openxlsx <- F
   }
+  
+  if(!is.nanull(filename)){
+    if(!grepl("xlsx$", filename, ignore.case=T)){
+      filename <- paste0(filename, ".xlsx")
+    }
+  }
+  
   if(is.nanull(filename)){
     filename=tempfile(fileext = ".xlsx")
+  } else if(force_as_tempfile) {
+    dirname_temp=dirname(tempfile(fileext = ".xlsx"))
+    filename <- paste0(dirname_temp, "/", filename)
   }
+  
+  
   if(!file.exists(filename)|is.data.frame(x)|is.list(x)){
-    df <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .) %>% trimws_())} else {x}
-    df <- if(colnames_toupper){df %>% setNames(names(.) %>% toupper())} else {df}
-    writexl::write_xlsx(df, filename)
+    if(is.list(x)&!is.data.frame(x)){
+      x1 <- lapply(x, function(d){
+        d <- if(clean_colnames){d %>% setNames(names(.) %>% gsub("_", " ", .) %>% trimws_())} else {d}
+        d <- if(colnames_toupper){d %>% setNames(names(.) %>% toupper())} else {d}
+        d
+      })
+    } else {
+      x1 <- if(clean_colnames){x %>% setNames(names(.) %>% gsub("_", " ", .) %>% trimws_())} else {x}
+      x1 <- if(colnames_toupper){x1 %>% setNames(names(.) %>% toupper())} else {x1}
+    }
+
+    writexl::write_xlsx(x1, filename)
   }
   sheetnames <- readxl::excel_sheets(filename)
+  sheetindex <- 1:length(sheetnames)
   wb = #openxlsx::
     loadWorkbook(filename)
-  for (sheetname in sheetnames){
-    wbdf = if(!is.data.frame(x)){readxl::read_excel(filename, sheet=sheetname)} else {x}
-    # activeSheet(wb) <- sheetname
+  for (sheet_id in sheetindex){
+    sheetname <- sheetnames[sheet_id]
+    if(length(sheetindex)>1&!is.data.frame(x)){
+      wbdf <- x[[sheet_id]]
+    } else if(!is.data.frame(x)){
+      wbdf <- x[[1]]
+    } else {
+      wbdf <- x
+    }
+    # wbdf = if(!is.data.frame(x)){readxl::read_excel(filename, sheet=sheetname)} else {x}
+    ## activeSheet(wb) <- sheetname
     if(is.numeric(freeze_after_col)){
       freeze_before_colnum <- freeze_after_col + 1
     } else if(lookslike_number(freeze_after_col)){
@@ -4854,7 +5001,7 @@ writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwid
     if(autofilter){# openxlsx::
       addFilter(wb, sheet=sheetname, row=1, cols=1:ncol(wbdf))
     }
-    addStyle(wb, sheet=sheetname, style=createStyle(fontSize=baseFontSize), rows=1:nrow(wbdf), cols=1:ncol(wbdf), gridExpand=T, stack=T)
+    addStyle(wb, sheet=sheetname, style=createStyle(fontSize=baseFontSize), rows=(1:nrow(wbdf)+1), cols=1:ncol(wbdf), gridExpand=T, stack=T)
     # openxlsx::
     addStyle(wb, sheet=sheetname, style=LabelStyle, rows=1, cols=1:ncol(wbdf), stack=T)
     # freezePane(wb, 1, firstRow=T, firstCol=T)
@@ -4862,15 +5009,30 @@ writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwid
       freezePane(wb, sheet=sheetname, firstActiveRow=2, firstActiveCol=freeze_before_colnum)}, error=function(e){#openxlsx::
         freezePane(wb, sheet=sheetname, firstActiveRow=2, firstActiveCol=1)})
     
+    if(clean_colnames){
+      sheet_colnames <- colnames(wbdf) %>% gsub("_", " ", .) %>% trimws_()
+    } else {
+      sheet_colnames <- colnames(wbdf) 
+    }
     width_vec1 <- apply(wbdf, 2, function(x){max(nchar(as.character(x))+1+colwidthplus, na.rm = TRUE)})
-    width_vec2 <- names(wbdf) %>% sapply(., function(x){
-      xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>%unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
+    width_vec2 <- sheet_colnames %>% sapply(., function(x){
+      xw <- strsplit(x, split=" |[[:space:]]|-|\\.") %>% unlist() %>% trimws_() %>% as.list() %>% setNames(names(.)<-.) %>% nchar() %>% max()
       # xw <- map_chr(strsplit(x, " |[[:space:]]|-|\\."), ~ .[which.max(nchar(.))])
       xw+1+colwidthplus
     })
     width_vec <- tibble(width_vec1, width_vec2) %>% rowwise() %>% mutate(width_vec = max(width_vec1, width_vec2)) %>% .$width_vec %>% sapply(., function(n){min(maxcolwidth, n, na.rm=T)})
     # openxlsx::
     setColWidths(wb, sheet=sheetname, cols=1:ncol(wbdf), widths=width_vec)
+    
+    tryCatch({
+      addl_args <- sheet_args[[sheet_id]]
+      if(addl_args$wrap_all==T){
+        addStyle(wb, sheet=sheetname, style=createStyle(wrapText=T), rows=(1:nrow(wbdf)+1), cols=1:ncol(wbdf), gridExpand=T, stack=T)
+      }
+    },
+    error=function(e){
+      NULL
+    })
     
   }
   # openxlsx::
@@ -4887,21 +5049,37 @@ writexl_open_formatted <- function(x=NULL, filename=NULL, open_file=T, maxcolwid
 #' @examples
 #' writexl_with_formulas(x, path = tempfile(fileext = ".xlsx"), formula="=total - white", newcol="minority", col_names = T, format_headers = T, use_zip64 = F, write=F)
 writexl_with_formulas <- function(x, path = tempfile(fileext = ".xlsx"), formula="=total - white", newcol="minority", col_names = T, format_headers = T, use_zip64 = F, write=F){
-  formula_matched_names <- stringr::str_extract_all(formula, paste0("\\b", names(x), "\\b", collapse="|")) %>% unlist()
-  excel_ref_df <- dplyr::tibble("cols"=formula_matched_names) %>%
-    dplyr::rowwise() %>% dplyr::mutate(col_num = which(colnames(x)==cols), col_letter = get_column_letter(col_num)) %>% dplyr::ungroup() %>%
-    split(., .$cols)
-  new_formula <- formula
-  for (each in excel_ref_df){
-    new_formula %<>% gsub(each$cols, each$col_letter, .)
-  }
-  if(!grepl("^\\=", new_formula)){new_formula <- paste0("=", new_formula)}
-  # excel_formula <- hi
-  x[[newcol]] <- x %>% dplyr::mutate(row_num = (1:nrow(.))+1) %>% dplyr::rowwise() %>% dplyr::mutate(newcol = gsub("(\\b[[:upper:]]{1,2})(\\b)", paste0("\\1", row_num, "\\2"), new_formula) %>% writexl::xl_formula()) %>% .$newcol
-  if(write){
-    writexl_open(x, path)
-  }
-  x
+    formula_matched_names <- stringr::str_extract_all(formula, paste0("\\b", names(x), "\\b", collapse="|")) %>% unlist()
+    excel_ref_df <- dplyr::tibble("cols"=formula_matched_names) %>%
+        dplyr::rowwise() %>% dplyr::mutate(col_num = which(colnames(x)==cols), col_letter = get_column_letter(col_num)) %>% dplyr::ungroup() %>%
+        split(., .$cols)
+    new_formula <- formula
+    for (each in excel_ref_df){
+        new_formula %<>% gsub(each$cols, each$col_letter, .)
+    }
+    if(!grepl("^\\=", new_formula)){new_formula <- paste0("=", new_formula)}
+    # excel_formula <- hi
+    x[[newcol]] <- x %>% dplyr::mutate(row_num = (1:nrow(.))+1) %>% dplyr::rowwise() %>% dplyr::mutate(newcol = gsub("(\\b[[:upper:]]{1,2})(\\b)", paste0("\\1", row_num, "\\2"), new_formula) %>% writexl::xl_formula()) %>% .$newcol
+    if(write){
+        writexl_open(x, path)
+    }
+    x
+}
+
+
+recode_xl_formula <- function(d, formula="=total - white"){
+    formula_matched_names <- stringr::str_extract_all(formula, paste0("\\b", names(d), "\\b", collapse="|")) %>% unlist()
+    excel_ref_df <- dplyr::tibble("cols"=formula_matched_names) %>%
+        dplyr::rowwise() %>% dplyr::mutate(col_num = which(colnames(d)==cols), col_letter = get_column_letter(col_num)) %>% dplyr::ungroup() %>%
+        split(., .$cols)
+    new_formula <- formula
+    for (each in excel_ref_df){
+        new_formula %<>% gsub(each$cols, each$col_letter, .)
+    }
+    if(!grepl("^\\=", new_formula)){new_formula <- paste0("=", new_formula)}
+    # excel_formula <- hi
+    newcol_vec <- d %>% dplyr::mutate(row_num = (1:nrow(.))+1) %>% dplyr::rowwise() %>% dplyr::mutate(newcol = gsub("(\\b[[:upper:]]{1,2})(\\b)", paste0("\\1", row_num, "\\2"), new_formula) %>% writexl::xl_formula()) %>% .$newcol
+    newcol_vec
 }
 
 
@@ -5225,7 +5403,7 @@ clean_unique_na_sep <- function(v, sep=",", sort_strings=F){
 }
 
 
-#' Samantha Rhoads's function to
+#' A function to recode specified values into NAs
 #' @export
 #' @examples
 #' recode_na(x, ...)
@@ -5282,12 +5460,14 @@ monthYear_to_dateRangeStr <- function(v = c('2020-01, 2020-02, 2020-03', '2020-0
 #' Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep
 #' @export
 #' @examples
-#' unique_sep_sort(v, sep = "; ")
-unique_sep_sort <- unique_sep_sort2 <- function (v, sep = "; ") {
+#' unique_sep_sort(v, sep = "; ", sort_str=T)
+unique_sep_sort <- function (v, sep = "; ", sort_str=T) {
   # splitv <- strsplit(v, sep)
   # uniqv <- lapply(splitv, function(x) sort(unique(x)))
   # lapply(uniqv, function(s) paste0(s, collapse = sep)) %>% dplyr::combine() %>% as.character()
-  splitv <- sapply(v, function(s) strsplit(s, sep) %>% unlist() %>% unique() %>% sort() %>% paste0(., collapse=sep)) %>% as.character()
+  do_nothing_fxn <- function(x){x}
+  sort_custom_fxn <- if(sort_str==T){sort} else {do_nothing_fxn}
+  splitv <- sapply(v, function(s) {strsplit(s, sep) %>% unlist() %>% unique() %>% sort_custom_fxn() %>% paste0(., collapse=sep)}) %>% as.character()
   splitv
 }
 
@@ -5295,31 +5475,35 @@ unique_sep_sort <- unique_sep_sort2 <- function (v, sep = "; ") {
 #' @export
 #' @examples
 #' paste_unique_sep_sort(v, sep = "; ", collapse=sep)
-paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep) {
+paste_unique_sep_sort <- function (v, sep = "; ", collapse=sep, sort_str=T) {
   v_ <- paste0(v, collapse=collapse)
-  unique_sep_sort(v_, sep=sep)
+  unique_sep_sort(v_, sep=sep, sort_str=sort_str)
 }
 
 #' Samantha Rhoads's function to summarize_all remaining columns in a grouped df by pasting their unique values
 #' @export
 #' @examples
 #' summarize_all_paste0(.tbl, .funs, ..., collapse=", ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F)
-summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, recode_na_vals=c("", "NA"), ungroup=F){
+summarize_all_paste0 <- function(.tbl, .funs, ..., collapse="; ", unique_sep_sort_str=T, unique_sep_str=T, sort_str=T, recode_na_vals=c("", "NA", "NaN"), strip_na=T, ungroup=F){
   # lifecycle#:#:signal_superseded("1.0.0", "summarise_all()", "across()")
   # funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ..., .caller = "summarise_all")
   # summarise(.tbl, !!!funs)
-  d <- dplyr::summarize_all(.tbl, function(v){ 
-    v_ <- paste0(sort(unique(v)), collapse=collapse)
-    
-    if(unique_sep_sort_str){
-      v_ <- unique_sep_sort(v_, sep=collapse)
-    }
-    if(length(recode_na_vals)>0){
-      v_ <- recode_na(v_, recode_na_vals)
-    }
+  do_nothing_fxn <- function(x){x}
+  sort_custom_fxn <- if(sort_str==T){sort} else {do_nothing_fxn}
+  
+  d <- dplyr::summarize_all(.tbl, function(v){
+      v_ <- if(strip_na){na.omit(v)}else{(as.character(v))}
+      v_ <- paste0(sort_custom_fxn(unique(v_)),  collapse=collapse)
+      
+      if(unique_sep_sort_str){
+          v_ <- unique_sep_sort(v_, sep=collapse, sort_str=sort_str)
+      }
+      if(length(recode_na_vals)>0){
+          v_ <- recode_na(v_, recode_na_vals)
+      }
   })
   if(ungroup){
-    d <- ungroup(d)
+      d <- ungroup(d)
   }
   return(d)
 }
@@ -5461,35 +5645,175 @@ bin_range <- function(v, n_groups=10){
   split(v,{cut(v,seq(min(v, na.rm=T)-1,max(v, na.rm=T),length.out=n_groups))})
 }
 
+#' Samantha Rhoads's function to delete a directory and all of its contents
+#' @export
+#' @examples
+#' remove_dir(path)
+remove_dir <- function(path){
+  subfiles_to_remove <- list.files(path, recursive=T, full.names=T)
+  for(filename in subfiles_to_remove){
+    file.remove(filename)
+  }
+  file.remove(path)
+}
+
+#' Samantha Rhoads's function to select columns from a dataframe based on colname match and data contents match
+#' @export
+#' @examples
+#' select_at_if(d, colname_pattern=vars(everything()), data_pattern=function(x){T}, condition=c("or", "and")[1] )
+select_at_if <- function(d, colname_pattern=vars(everything()), data_pattern=function(x){T}, condition=c("or", "and")[1] ){
+  data_selected_at <- d %>% select_at(colname_pattern)
+  data_selected_if <- d %>% select_if(data_pattern)
+  if(tolower(condition) %in% c("and", "&")){
+    data_selected_if <- data_selected_at %>% select_at(colname_pattern)
+  }
+  colnames_union <- union(names(data_selected_at), names(data_selected_if))
+  data_selected <- select(d, any_of(colnames_union))
+  return(data_selected)
+}
+
+#' Samantha Rhoads's function to find the max date appropriately, without getting Inf when there are NAs
+#' @export
+#' @examples
+#' max_date(dates, include_time=T, na.rm=T)
+max_date <- function(dates, include_time=T, na.rm=T){
+  if(include_time){
+    if_else(!all(is.na(lubridate::as_datetime(dates))), max(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+  } else {
+    if_else(!all(is.na(lubridate::as_date(dates))), max(lubridate::as_date(dates), na.rm=na.rm), lubridate::as_date(NA))
+  }
+}
+max_datetime <- function(dates, na.rm=T){
+  if_else(!all(is.na(lubridate::as_datetime(dates))), max(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+}
+
+#' Samantha Rhoads's function to find the min date appropriately, without getting Inf when there are NAs
+#' @export
+#' @examples
+#' min_date(dates, include_time=T, na.rm=T)
+min_date <- function(dates, include_time=T, na.rm=T){
+  if(include_time){
+    if_else(!all(is.na(lubridate::as_datetime(dates))), min(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+  } else {
+    if_else(!all(is.na(lubridate::as_date(dates))), min(lubridate::as_date(dates), na.rm=na.rm), lubridate::as_date(NA))
+  }
+}
+
+min_datetime <- function(dates, na.rm=T){
+  if_else(!all(is.na(lubridate::as_datetime(dates))), min(lubridate::as_datetime(dates), na.rm=na.rm), lubridate::as_datetime(NA))
+}
+
+#' Samantha Rhoads's function to set names to a specific row and concatenate the contents above into the names
+#' @export
+#' @examples
+#' set_names_skip_rows_until_match_concat(d, example_colname="Employee ID")
+set_names_skip_rows_until_match_concat <- function(d, example_colname="Employee ID"){
+  # example_colname <- "Employee ID"
+  doEvenIfColnameIsAlreadyIt=F; check_n_rows=100; concat_all_prior_rows=T
+  if (!(example_colname %in% names(d))|doEvenIfColnameIsAlreadyIt) {
+    colnames_rownum <- grep_all_df(example_colname, d[1:check_n_rows, ], rownums_only=T)[1]
+    if(concat_all_prior_rows){
+      if(length(colnames_rownum)>0&!is.na(colnames_rownum)){
+        # if(colnames_rownum>0){
+        prior_rows <- 1:(colnames_rownum)
+        dNewNames <- d %>% 
+          slice(prior_rows) %>% 
+          group_by() %>% 
+          summarize_all_paste0(., collapse="__") %>% 
+          ungroup() %>% 
+          unlist() %>%  
+          as.character() %>% 
+          replace_na(., "NA.0") %>% 
+          make.unique()
+        # }
+      }
+    } else {
+      dNewNames <- as.character(d[colnames_rownum, ]) %>% 
+        gsub('^$|\\`', 'UNNAMED', .) %>% 
+        replace_na(., "NA.0") %>% 
+        make.unique()
+    }
+    if ((length(colnames_rownum)>0)&!is.na(colnames_rownum)) {
+      d2 <- d %>% 
+        setNames(dNewNames) %>% 
+        slice(-(1:colnames_rownum))
+    } else {
+      d2 <- d
+    }
+    d2
+  } else {
+    d2 <- d
+  }
+  d2 #%>% janitor::clean_names() 
+}
+
+#' Samantha Rhoads's function to fill in missing values with the value directly above the given cell with an NA in a specific column of a dataframe
+#' @export
+#' @examples
+#' recode_lag_while_NAs(x, colname="eeid")
+recode_lag_while_NAs <- function(x, colname="eeid"){
+  if(is.data.frame(x)){
+    while(any(is.na(x[[colname]]))){
+      x[[colname]] <- if_else(!is.na(x[[colname]]), x[[colname]], lag(x[[colname]]))
+    }
+  } else {
+    while(any(is.na(x))){
+      x <- if_else(!is.na(x), x, lag(x))
+    }
+  }
+  return(x)
+}
+
+nword <- function(v, split_by_space_only=F){
+  if(split_by_space_only){
+    v_ <- v %>% gsub("[^[:alpha:]|[:digit:]|[:space:]|| ]", "", .) %>% trimws_()
+    
+  } else {
+    v_ <- v
+  }
+  stringi::stri_count_words(v_)
+}
+
+type_convert_exclude <- function(d, exclude_colname="eeid"){
+  suppressMessages({d %>% mutate_at(vars(-one_of("eeid")), function(v){readr::type_convert(tibble(v=v))[[1]]})})
+}
+
+is_datetime <- function(x){
+  verdict <- F
+  if(is.timepoint(x)){
+    if(all(class(x) %in% c("POSIXct", "POSIXt"))){
+      verdict <- T
+    }
+  }
+  verdict
+}
+
+
+
+recode_path <- function(path){
+    if(as.character(Sys.info()[["sysname"]])=="Windows"){
+        path_new <- path %>% gsub("^\\/Volumes\\/", "//jacksonlewis.net/", .)
+    } else {
+        path_new <- path %>%
+            gsub("\\\\", "/", .) %>%
+            gsub("\\/\\/", "/", .) %>%
+            gsub("^\\/(jacksonlewis.net)\\/", "/Volumes/", .)
+        
+        if(grepl("^(|\\/)\\Y\\:\\/(Denver|Long Island|Sacramento|)\\/", path_new, ignore.case=T)){
+            path_new <- path_new %>% 
+                gsub("^(|\\/)\\/Y\\:\\/|Y\\:\\/", "/Volumes/aap/Data/", .)
+        }
+    }
+    return(path_new)
+}
+
+
+round_nearest_minute <- function(v){
+    # x <- x %>%
+        # mutate(across(one_of(c("datetime_in", "datetime_out")), ~round_date(., unit = "minute")))
+  ~round_date(v, unit = "minute")
+}
+
+
+
 ###################################################################################################################################################
-
-
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
-###################################################################################################################################################
-
-
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
-###################################################################################################################################################
-
-
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
-###################################################################################################################################################
-
-
-# MM DD, YYYY (YYYYMMDD) ##########################################################################################################################
-###################################################################################################################################################
-
-
-
-
-
-########################################################################################################################
-
-#  #######################################################################################################################
-
-########################################################################################################################
-
-
-cat("\nyey u loaded sam's fxns!\n")
-
-

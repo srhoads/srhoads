@@ -4,11 +4,11 @@
 \alias{unique_sep_sort}
 \title{Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep}
 \usage{
-unique_sep_sort(v, sep = "; ")
+unique_sep_sort(v, sep = "; ", sort_str = T)
 }
 \description{
 Samantha Rhoads's function to take a vector of strings, split each by a separator (arg sep), keep only unique items in each split string, sort those unique items in each split string, then re-paste/collapse the items of each split string back into strings separated by what the user originally defined as sep
 }
 \examples{
-unique_sep_sort(v, sep = "; ")
+unique_sep_sort(v, sep = "; ", sort_str=T)
 }

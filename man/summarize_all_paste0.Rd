@@ -10,7 +10,10 @@ summarize_all_paste0(
   ...,
   collapse = "; ",
   unique_sep_sort_str = T,
-  recode_na_vals = c("", "NA"),
+  unique_sep_str = T,
+  sort_str = T,
+  recode_na_vals = c("", "NA", "NaN"),
+  strip_na = T,
   ungroup = F
 )
 }

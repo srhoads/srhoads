@@ -4,11 +4,17 @@
 \alias{trimws_}
 \title{This function allows you to trim whitespace but also remove double spaces}
 \usage{
-trimws_(v, which = "both", doublespace = T)
+trimws_(
+  v,
+  which = "both",
+  doublespace = T,
+  newlineseps = T,
+  newlineasspace = F
+)
 }
 \description{
 This function allows you to trim whitespace but also remove double spaces
 }
 \examples{
-trimws_(v, which='both', doublespace=T)
+trimws_(v, which='both', doublespace=T, newlineseps=T, newlineasspace=F)
 }

@@ -5,8 +5,8 @@
 \title{Samantha Rhoads's function to convert a windows path to a MAC path (specifically for the Y drive aapdata Volume mount)}
 \usage{
 windows2macPath(
- 
-    path = "Y:\\\\AA_Secured\\\\CVS\\\\2020\\\\2020 Plan Prep\\\\Aetna\\\\PDF Files for Sam\\\\Narrative Information"
+  path =
+    "Y:\\\\AA_Secured\\\\CVS\\\\2020\\\\2020 Plan Prep\\\\Aetna\\\\PDF Files for Sam\\\\Narrative Information"
 )
 }
 \description{

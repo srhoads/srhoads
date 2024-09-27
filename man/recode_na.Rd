@@ -2,18 +2,13 @@
 % Please edit documentation in R/functions.R
 \name{recode_na}
 \alias{recode_na}
-\title{A function}
+\title{A function to recode specified values into NAs}
 \usage{
-recode_na(x, ...)
-
 recode_na(x, ...)
 }
 \description{
-A function
-
-Samantha Rhoads's function to
+A function to recode specified values into NAs
 }
 \examples{
-recode_na(x)
 recode_na(x, ...)
 }
