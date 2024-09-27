@@ -4,7 +4,6 @@
 \alias{setdiff_}
 \title{Samantha Rhoads's function to do `setdiff()` from both sides and print which input the different strings come from}
 \usage{
-<<<<<<< HEAD
 setdiff_(
   x,
   y,
@@ -13,9 +12,6 @@ setdiff_(
   sortItems = F,
   return_as_tibble = F
 )
-=======
-setdiff_(x, y, returnWhichOnly = T, printWhichOnly = F, sortItems = F)
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
 }
 \description{
 Samantha Rhoads's function to do `setdiff()` from both sides and print which input the different strings come from

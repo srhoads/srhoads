@@ -12,13 +12,9 @@ df_get_preferred_column(
   returnNameOnly = F,
   exactEnd = F,
   exactStart = F,
-<<<<<<< HEAD
   verbose = F,
   choose_non_empty_column = F,
   outcolname = "OUTCOLNAME"
-=======
-  verbose = F
->>>>>>> f405f1a7877bb7e35081dff4731c8a0360ba368e
 )
 }
 \description{
