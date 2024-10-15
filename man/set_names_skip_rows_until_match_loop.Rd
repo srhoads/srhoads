@@ -9,7 +9,8 @@ set_names_skip_rows_until_match_loop(
   patterns = c("census_code", "census_title", "occp_code"),
   exact = F,
   check_n_rows = 30,
-  doEvenIfColnameIsAlreadyIt = F
+  doEvenIfColnameIsAlreadyIt = F,
+  verbose = F
 )
 }
 \description{

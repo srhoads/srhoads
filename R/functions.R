@@ -2627,6 +2627,109 @@ read_excel_somesheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", 
   }) %>% setNames(fns)
 }
 
+
+
+#' A function to read multiple Excel or CSV (including XLSB) files and either all or selective sheets from them.
+#' @export
+#' @examples
+#' read_files_allsheets(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique")
+read_files_allsheets <- function(fns=NULL, keepshtvec=NULL, na=c("NA", "None", "N/A", "-", ""), col_types="text", skip=0, col_names=T, range=NULL, trim_ws=T, n_max=Inf, guess_max=min(1000, n_max), progress=readxl::readxl_progress(), .name_repair="unique", xlsb_sheets=NULL) {
+  if (is.null(fns)) {(fns <- list.files(pattern = "\\.(xlsx|csv)", recursive = T, full.names = T))}
+  
+  fns_xlsx_xls <- grep("(xls|xlsx)$", fns, ignore.case=T, value=T)
+  fns_csv <- grep("(csv)$", fns, ignore.case=T, value=T)
+  fns_xlsb <- grep("(xlsb)$", fns, ignore.case=T, value=T)
+  
+  if(length(fns_xlsx_xls)>0){
+    keepshtvec <- if(is.null(keepshtvec)) {
+      lapply(fns_xlsx_xls, function(v) {
+        tryCatch({
+          readxl::excel_sheets(v)
+        }, error=function(e){
+          "1"
+        })
+      }) %>% unlist() %>% unique()
+    } else {
+      keepshtvec
+    }
+    
+    fnshtlst <- lapply(fns_xlsx_xls, function(s) {
+      tryCatch({
+        readxl::excel_sheets(s)
+      }, error=function(e){
+        "1"
+      })
+    }) %>% setNames(fns_xlsx_xls)
+    if(is.numeric(keepshtvec)){
+      keepshts <- as.list(fns_xlsx_xls) %>% setNames(fns_xlsx_xls) %>% lapply(., function(x) {keepshtvec})
+    } else {
+      (keepshts <- lapply(fnshtlst, function(v) {v[(v %in% keepshtvec) == T]}))
+    }
+    keepshts
+    
+    data_xlsx_xls <- lapply(1:length(keepshts), function(i) {
+      f <- names(keepshts[i])
+      shts <- keepshts[[i]]
+      d <- tryCatch({
+        (d <- lapply(shts, function(sht) {readxl::read_excel(f, sheet=sht, skip=skip, na=na, col_types=col_types, col_names=col_names, range=range, trim_ws=trim_ws, n_max=n_max, guess_max=guess_max, .name_repair=.name_repair, progress=progress)}) %>% setNames(shts))
+      },
+      error=function(e){
+        lapply(f, function(sht){readr::read_csv(sht, col_types="c")}) %>% setNames("csv")
+      })
+      d
+    }) %>% setNames(fns_xlsx_xls)
+  } else {
+    data_xlsx_xls <- NULL
+  }
+  
+  if(length(fns_csv)>0){
+    data_csv <- fns_csv %>%
+      lapply(., function(fn){
+        list("csv" = readr::read_csv(fn, col_types={if(col_types=="text"){"c"}else{NULL}}))
+      })
+  } else {
+    data_csv <- NULL
+  }
+  
+  if(length(fns_xlsb)>0){
+    
+    data_xlsb <- fns_xlsb %>%
+      lapply(., function(fn){
+        sample_xlsb <- readxlsb::read_xlsb(
+          fn,
+          sheet = 1,    # got 1st worksheet, e.g.
+          debug = TRUE
+        )
+        sheets <- sample_xlsb$env$sheets
+        
+        xlsb_lod <- sheets$Name %>%
+          lapply(., function(sheet_name){
+            if(any(sheet_name %in% c(xlsb_sheets))){
+              message("Reading xlsb sheet: ", sheet_name)
+              df <- readxlsb::read_xlsb(
+                fn,
+                sheet = sheet_name,
+                debug = F
+              ) %>% 
+                as_tibble()
+              df
+            }
+          }) %>%
+          setNames(sheets$Name)# %>%
+        # drop_empty()
+      }) %>%
+      setNames(fns_xlsb)
+  } else {
+    data_xlsb <- NULL
+  }
+  
+  
+  res <- c(data_xlsx_xls, data_csv, data_xlsb)
+  
+}
+
+
+
 #' A function
 #' @export
 #' @examples
@@ -4695,17 +4798,17 @@ set_names_skip_rows_until_match <- function(d, example_colname="Employee ID", ch
 #' @export
 #' @examples
 #' set_names_skip_rows_until_match_loop(d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F)
-set_names_skip_rows_until_match_loop <- function (d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F) {
+set_names_skip_rows_until_match_loop <- function (d, patterns=c('census_code','census_title', 'occp_code'), exact=F, check_n_rows=30, doEvenIfColnameIsAlreadyIt=F, verbose=F) {
   for (PATTERN in patterns){ # {PATTERN = patterns[1]}
     # if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) & (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
     if ((all(grepl("^(x|na_|NA\\.)[[:digit:]]|^\\.\\.\\.|^NA\\b", names(d)))) | (!(tolower(PATTERN) %in% tolower(names(d)))|doEvenIfColnameIsAlreadyIt)) {
-        colnames_rownum <- grep_all_df(PATTERN, d[1:check_n_rows, ], rownums_only = T, exact=exact)[1]
-      dNewNames <- make.unique(as.character(d[colnames_rownum, ])) %>% replace_na(., "NA.0")
+      colnames_rownum <- grep_all_df(PATTERN, d[1:check_n_rows, ], rownums_only = T, exact=exact)[1]
+      dNewNames <- make.unique(as.character(d[colnames_rownum, ]) %>% na_if("")) %>% replace_na(., "NA.0")
       if ((length(colnames_rownum) > 0)&!is.na(colnames_rownum)) {
         d <- d %>% setNames(dNewNames) %>% slice(-(1:colnames_rownum))
-        catn("set_names_skip_rows_until_match_loop() names changed to: c(", paste0("'", names(d), "'", collapse=","), ")")
+        if(verbose){catn("set_names_skip_rows_until_match_loop() names changed to: c(", paste0("'", names(d), "'", collapse=","), ")")}
       } else{
-        cat("\nset_names_skip_rows_until_match_loop() no match for... PATTERN = '", PATTERN, "'", sep="")
+        if(verbose){cat("\nset_names_skip_rows_until_match_loop() no match for... PATTERN = '", PATTERN, "'", sep="")}
       }
     }
   }
@@ -4777,7 +4880,7 @@ fuzzy_match_rank <- function(s="Data Scientist", strictest_max_distance=0, seqst
 #' @export
 #' @examples
 #' df_get_preferred_column(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F)
-df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F, verbose=F, choose_non_empty_column=F, outcolname="OUTCOLNAME"){
+df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened'), ignore.case=T, fillmissingwith=NA, returnNameOnly=F, exactEnd=F, exactStart=F, verbose=F, choose_non_empty_column=F, null_if_all_na=F, outcolname="OUTCOLNAME"){
   newcolname <- c()
   for (pattern in patterns){ # {pattern = patterns[1]}
     if (length(newcolname)==0){
@@ -4805,6 +4908,12 @@ df_get_preferred_column <- function(df, patterns=c('DateOpened', 'Date.*Opened')
 
   if(verbose){
     message(paste0(newcolname[[1]], " ==> ", outcolname))
+  }
+  
+  if(null_if_all_na){
+    if(all(is.na(dfdesiredcolumn))){
+      dfdesiredcolumn <- NULL
+    }
   }
   dfdesiredcolumn
 }

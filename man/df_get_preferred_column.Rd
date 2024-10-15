@@ -14,6 +14,7 @@ df_get_preferred_column(
   exactStart = F,
   verbose = F,
   choose_non_empty_column = F,
+  null_if_all_na = F,
   outcolname = "OUTCOLNAME"
 )
 }
