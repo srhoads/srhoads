@@ -5916,8 +5916,8 @@ nword <- function(v, split_by_space_only=F){
 #' @export
 #' @examples
 #' type_convert_exclude(d, exclude_colname="eeid")
-type_convert_exclude <- function(d, exclude_colname="eeid"){
-  suppressMessages({d %>% mutate_at(vars(-one_of("eeid")), function(v){readr::type_convert(tibble(v=v))[[1]]})})
+type_convert_exclude <- function(d, exclude_colnames=c("eeid")){
+  suppressMessages({d %>% mutate_at(vars(-one_of(exclude_colnames)), function(v){readr::type_convert(tibble(v=v))[[1]]})})
 }
 
 is_datetime <- function(x){
